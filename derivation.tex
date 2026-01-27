@@ -46,6 +46,8 @@
 \newcommand{\xb}{{\bf x}}
 \newcommand{\br}{{\bf r}}
 \newcommand{\kb}{{\bf k}}
+\newcommand{\bxi}{{\boldsymbol{\xi}}}
+\newcommand{\ub}{{\bf u}}
 \newcommand{\tf}{\tilde{f}}
 
 
@@ -81,65 +83,148 @@ Derivation of the equations used in the literature.
 \maketitle
 
 \section{GOGOBERIDZE 2007}
-Starting with all the definitions form the eq. 23-26 of \cite{2007Gogoberidze}
+
+\subsection{Fourier conventions}
+We adopt the spatial Fourier pair
 \begin{align}
-R_{ij} (\xb,\tau) =& \int d^3k ~ e^{i\kb \xb} F_{ij}(\kb,\tau)\\
-=&\int d^3k ~ e^{i\kb \xb} A(k) P_{ij}(\khat) f(\eta_k,\tau)\\
-=&\int d^3k ~ e^{i\kb \xb} A(k) P_{ij}(\khat) \int d\omega e^{-i\omega \tau}\tf(\eta_k,\omega) 
+R_{ij}(\br,\tau) &= \int \frac{d^3k}{(2\pi)^3} e^{i\kb \cdot \br} F_{ij}(\kb,\tau), &
+F_{ij}(\kb,\tau) &= \int d^3r \, e^{-i\kb \cdot \br} R_{ij}(\br,\tau),
+\end{align}
+and the temporal Fourier pair
+\begin{align}
+f(\eta_k,\tau) &= \int \frac{d\omega}{2\pi} e^{-i\omega \tau} \tilde f(\eta_k,\omega), &
+\tilde f(\eta_k,\omega) &= \int d\tau \, e^{i\omega \tau} f(\eta_k,\tau).
 \end{align}
 
-Here $A(k) = C_k \epsilon^{2/3}k^{-11/3} /4\pi$, $P_{ij}(\khat) = \left( \delta_{ij}- \frac{k_{i}k_{j}}{k^{2}} \right)$, $f(\eta_k, \tau)= \exp(-\frac{\pi}{4}\eta_k^2 \tau^2) $, $ \eta_k = \frac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3}$
+Starting with all the definitions from Eqs.~23--26 of \cite{2007Gogoberidze},
+\begin{align}
+R_{ij}(\br,\tau) &= \int \frac{d^3k}{(2\pi)^3} e^{i\kb \cdot \br} F_{ij}(\kb,\tau) \nonumber\\
+&= \int \frac{d^3k}{(2\pi)^3} e^{i\kb \cdot \br} A(k) P_{ij}(\khat) f(\eta_k,\tau) \nonumber\\
+&= \int \frac{d^3k}{(2\pi)^3} e^{i\kb \cdot \br} A(k) P_{ij}(\khat)
+\int \frac{d\omega}{2\pi} e^{-i\omega \tau}\tf(\eta_k,\omega).
+\end{align}
 
-Eq.28 of \cite{2007Gogoberidze} gives:
+Here $A(k) = C_k \epsilon^{2/3}k^{-11/3} /4\pi$, $P_{ij}(\khat) = \left( \delta_{ij}- \frac{k_{i}k_{j}}{k^{2}} \right)$, $f(\eta_k, \tau)= \exp(-\frac{\pi}{4}\eta_k^2 \tau^2)$, and $ \eta_k = \frac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3}$.
+
+Equation~28 of \cite{2007Gogoberidze} gives
 \begin{equation}
-    R_{ijij} (\xb',\xb'+ \br,\tau)=  R_{ii}(\br,\tau)R_{jj}(\br,\tau)+ \frac{1}{3}R_{ij}(\br,\tau)R_{ij}(\br,\tau)
+    R_{ijij} (\xb',\xb'+ \br,\tau)=  R_{ii}(\br,\tau)R_{jj}(\br,\tau)+ \frac{1}{3}R_{ij}(\br,\tau)R_{ij}(\br,\tau).
 \end{equation}
 
 \begin{equation}
-    H_{ijkl}(\xb',\kb,\omega) = \frac{1}{(2\pi)^{4}}\int d \tau d^3 {\bf \xi} e^{ i\omega \tau } e^{-i\kb {\bf \xi}} R_{ijkl}(\xi,\tau)
+    H_{ijkl}(\xb',\kb,\omega) = \frac{1}{(2\pi)^{4}}\int d \tau d^3 \bxi \, e^{ i\omega \tau } e^{-i\kb \cdot \bxi} R_{ijkl}(\bxi,\tau).
 \end{equation}
-
 
 \begin{equation}
 \label{eq: main}
-    H_{ijij}(\xb',\kb,\omega) = \frac{1}{(2\pi)^{4}}\int d \tau d\xb e^{ i\omega \tau } e^{-i\kb \xb}
-    \left( 
-    \underbrace{ R_{ii}(\xb,\tau)R_{jj}(\xb,\tau) }_{ \text{1} }+ \underbrace{ \frac{1}{3}R_{ij}(\xb,\tau)R_{ij}(\xb,\tau) }_{ 2 }
-    \right )
+    H_{ijij}(\xb',\kb,\omega) = \frac{1}{(2\pi)^{4}}\int d \tau d^3 \br \, e^{ i\omega \tau } e^{-i\kb \cdot \br}
+    \left(
+    R_{ii}(\br,\tau)R_{jj}(\br,\tau)+ \frac{1}{3}R_{ij}(\br,\tau)R_{ij}(\br,\tau)
+    \right ).
 \end{equation}
 
-Now we can Fourier transform term 1 and 2 separately 
-
+We substitute the inverse spatial transforms for each product explicitly:
 \begin{align}
-\label{eq: simplifiation}
-    1 \Rightarrow &\int d^{3}k_{1}d^{3}k_{2}  e^{ i \xb (\kb_{1}+\kb_{2}) } 
-    A(k_{1})A(k_{2}) 
-    \underbrace{P_{ii}(\hat{k}_{1})P_{jj}(\hat{k}_{2})}_{=4}
-    \int d\omega_{1}d\omega_{2}e^{ -i\tau(\omega_{1}+\omega_{2}) } \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k_{2}},\omega_{2})\\
-    2 \Rightarrow&\frac{1}{3}\int d^{3}k_{1}d^{3}k_{2}  e^{ i \xb (\kb_{1}+\kb_{2}) } 
-    A(k_{1})A(k_{2}) 
-    \underbrace{P_{ij}(\hat{k}_{1})P_{ij}(\hat{k}_{2})}_{=\left( 1 + (\khat_1\khat_2)^2\right)}
-    \int d\omega_{1}d\omega_{2}e^{ -i\tau(\omega_{1}+\omega_{2}) } \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k_{2}},\omega_{2})
+R_{ii}(\br,\tau)R_{jj}(\br,\tau)
+&= \int \frac{d^3q}{(2\pi)^3} \frac{d^3p}{(2\pi)^3}
+e^{i(\bq+\bp)\cdot \br} F_{ii}(\bq,\tau) F_{jj}(\bp,\tau), \label{eq: Rijij-term1} \\
+R_{ij}(\br,\tau)R_{ij}(\br,\tau)
+&= \int \frac{d^3q}{(2\pi)^3} \frac{d^3p}{(2\pi)^3}
+e^{i(\bq+\bp)\cdot \br} F_{ij}(\bq,\tau) F_{ij}(\bp,\tau). \label{eq: Rijij-term2}
 \end{align}
-plugging \ref{eq: simplifiation} into \ref{eq: main} we get the following: 
-
+Inserting Eqs.~\eqref{eq: Rijij-term1}--\eqref{eq: Rijij-term2} into Eq.~\eqref{eq: main} yields
 \begin{align}
-    H_{ijij}(\xb',\kb,\omega) =& \frac{1}{(2\pi)^{4}}\int d \tau d\xb e^{ i\omega \tau -i\kb \xb} 
-    \left(
-    \int d^{3}k_{1}d^{3}k_{2}  e^{ i \xb (\kb_{1}+\kb_{2}) } 
-    A(k_{1})A(k_{2}) 
-    \int d\omega_{1}d\omega_{2}e^{ -i\tau(\omega_{1}+\omega_{2}) } \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k_{2}},\omega_{2})
-    \right)\\
-    \times& \left(4 + \frac{1}{3}\left( 1 + (\khat_1\khat_2)^2\right)\right)
+H_{ijij}(\xb',\kb,\omega)
+&= \frac{1}{(2\pi)^{4}}\int d \tau d^3 \br \, e^{ i\omega \tau } e^{-i\kb \cdot \br}
+\int \frac{d^3q}{(2\pi)^3} \frac{d^3p}{(2\pi)^3}
+e^{i(\bq+\bp)\cdot \br} \nonumber\\
+&\quad \times \left[ F_{ii}(\bq,\tau) F_{jj}(\bp,\tau)
++ \frac{1}{3} F_{ij}(\bq,\tau) F_{ij}(\bp,\tau) \right]. \label{eq: H-before-r}
 \end{align}
-The integration over $\xb$ and $\tau$  is trivial and introduces $(2\pi)^3\delta^{(3)}(k_2 -(k-k_1))$ and $2\pi\delta (\omega_2 - (\omega-\omega_1))$ respectively.
+The $\br$ integral gives
+\begin{equation}
+\int d^3r \, e^{-i\kb\cdot\br} e^{i(\bq+\bp)\cdot\br}
+ = (2\pi)^3 \delta^{(3)}(\kb-\bq-\bp),
+\end{equation}
+so integrating over $\bp$ and renaming $\bq \to \kb_1$, $\ub = \kb-\kb_1$ with $u = |\ub|$, we obtain
+\begin{align}
+H_{ijij}(\xb',\kb,\omega)
+&= \frac{1}{(2\pi)^{7}}\int d \tau \, e^{ i\omega \tau }
+\int d^3k_{1} \left[ F_{ii}(\kb_1,\tau) F_{jj}(\ub,\tau)
++ \frac{1}{3} F_{ij}(\kb_1,\tau) F_{ij}(\ub,\tau) \right]. \label{eq: H-after-r}
+\end{align}
 
+Next insert the temporal Fourier representation
+\begin{equation}
+F_{ab}(\kb,\tau) = \int \frac{d\omega}{2\pi} e^{-i\omega \tau} \tilde F_{ab}(\kb,\omega),
+\end{equation}
+which gives
+\begin{align}
+H_{ijij}(\xb',\kb,\omega)
+&= \frac{1}{(2\pi)^{7}}\int d^3k_{1}
+\int d\tau \, e^{ i\omega \tau }
+\int \frac{d\omega_{1}}{2\pi}\frac{d\omega_{2}}{2\pi}
+e^{-i(\omega_{1}+\omega_{2})\tau} \nonumber\\
+&\quad \times \left[ \tilde F_{ii}(\kb_1,\omega_{1}) \tilde F_{jj}(\ub,\omega_{2})
++ \frac{1}{3} \tilde F_{ij}(\kb_1,\omega_{1}) \tilde F_{ij}(\ub,\omega_{2}) \right]. \label{eq: H-before-omega}
+\end{align}
+The $\tau$ integral is
+\begin{equation}
+\int d\tau \, e^{i\omega \tau} e^{-i(\omega_{1}+\omega_{2})\tau}
+= 2\pi \delta(\omega-\omega_{1}-\omega_{2}),
+\end{equation}
+so integrating over $\omega_{2}$ with $\omega_{2}=\omega-\omega_{1}$ yields the convolution form
+\begin{align}
+H_{ijij}(\xb',\kb,\omega)
+&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
+\left[ \tilde F_{ii}(\kb_1,\omega_{1}) \tilde F_{jj}(\ub,\omega-\omega_{1})
++ \frac{1}{3} \tilde F_{ij}(\kb_1,\omega_{1}) \tilde F_{ij}(\ub,\omega-\omega_{1}) \right]. \label{eq: H-convolution}
+\end{align}
+
+Now substitute the isotropic incompressible model
+\begin{equation}
+F_{ij}(\kb,\tau) = A(k) P_{ij}(\khat) f(\eta_k,\tau),
+\qquad
+\tilde F_{ij}(\kb,\omega) = A(k) P_{ij}(\khat) \tilde f(\eta_k,\omega),
+\end{equation}
+and evaluate the index contractions explicitly. First,
+\begin{align}
+P_{ii}(\khat) &= \delta_{ii} - \khat_i \khat_i
+= 3 - 1 = 2. \label{eq: Pii}
+\end{align}
+Second,
+\begin{align}
+P_{ij}(\khat_1) P_{ij}(\uhat)
+&= (\delta_{ij}-\khat_{1i}\khat_{1j})(\delta_{ij}-\uhat_i \uhat_j) \nonumber\\
+&= \delta_{ij}\delta_{ij} - \delta_{ij}\uhat_i\uhat_j - \khat_{1i}\khat_{1j}\delta_{ij}
++ \khat_{1i}\khat_{1j}\uhat_i\uhat_j \nonumber\\
+&= 3 - 1 - 1 + (\khat_1\cdot\uhat)^2
+= 1 + (\khat_1\cdot\uhat)^2. \label{eq: PijPij}
+\end{align}
+Using Eqs.~\eqref{eq: Pii}--\eqref{eq: PijPij} in Eq.~\eqref{eq: H-convolution} gives
+\begin{align}
+H_{ijij}(\xb',\kb,\omega)
+&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
+A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber\\
+&\quad \times \left[ 4 + \frac{1}{3}\left(1+(\khat_{1}\cdot\uhat)^2\right) \right]. \label{eq: H-with-P}
+\end{align}
+Finally, using $\kb=\kb_1+\ub$ so that
+\begin{equation}
+k^2 = k_1^2 + u^2 + 2 k_1 u (\khat_1\cdot\uhat)
+\quad \Rightarrow \quad
+\khat_1\cdot\uhat = \frac{k^2-k_1^2-u^2}{2 k_1 u},
+\end{equation}
+we obtain the geometric bracket form
 \begin{align}
     H_{ijij}(\xb',\kb,\omega) =& 
     \int d^{3}k_{1}d\omega_1
     A(k_{1})A(k-k_1) 
     \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k-k_1},\omega-\omega_1)
     \times \left(4 + \frac{1}{3}\left( 1 + (\khat_1\cdot\widehat{k-k_1})^2\right)\right)
+H_{ijij}(\xb',\kb,\omega)
+&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
+A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber\\
+&\quad \times \left[ 4 + \frac{1}{3}\left(1+\left(\frac{k^2-k_1^2-u^2}{2 k_1 u}\right)^2\right) \right]. \label{eq: H-geometric}
 \end{align}
 
 \bibliography{bib}
