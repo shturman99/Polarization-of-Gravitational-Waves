@@ -1,0 +1,146 @@
+\documentclass[prd,aps,psfig,nobibnotes,superscriptaddress,preprintnumbers,times]{revtex4}
+
+\bibliographystyle{apsrev4-1} 
+\setlength{\topmargin}{-14mm}
+\usepackage{graphicx,bm,color,braket,amsmath}
+\usepackage{hyperref}
+\def\red{\textcolor{red}}
+\def\blue{\textcolor{blue}}
+\usepackage{subcaption}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{xfrac}
+\usepackage{mathrsfs}
+\usepackage{bm}
+\usepackage{cancel}
+
+\usepackage{xcolor}
+\usepackage{comment}
+
+\def \ul{\underline}
+\def \vp{\varphi}
+
+\def \ds{\displaystyle}
+\def \pa{\partial}
+\def \tcr{\textcolor{red}}
+\def \tcb{\textcolor{blue}}
+
+\newcommand{\rb}{\rho_{\rm B}}
+\newcommand{\extra}{\rho_{\rm extra}}
+
+\newcommand{\ep}{e_{ij}^+}
+\newcommand{\ec}{e_{ij}^\times}
+\newcommand{\khat}{\hat{k}}
+
+\newcommand{\Omgw}{\Omega_{\rm GW}}
+\newcommand{\Agw}{\mathcal{A}_{\rm GW}}
+\newcommand{\n}{\hat{n}}
+\newcommand{\vhat}{\hat{v}}
+\newcommand{\p}{\hat{p}}
+\newcommand{\z}{\hat{z}}
+\newcommand{\x}{\hat{x}}
+\newcommand{\y}{\hat{y}}
+\newcommand{\that}{\hat{\theta}}
+\newcommand{\ph}{\hat{\phi}}
+\newcommand{\rhat}{\hat{r}}
+\newcommand{\xb}{{\bf x}}
+\newcommand{\br}{{\bf r}}
+\newcommand{\kb}{{\bf k}}
+\newcommand{\tf}{\tilde{f}}
+
+
+\newcommand{\mg}[1]{{\textcolor{red}{{[MG: #1]}}}}
+\newcommand{\tb}[1]{{\textcolor{teal}{{[TB: #1]}}}}
+
+\begin{document}
+\title{Polarization of Gravitational Waves From Turbulence: 
+       Tension Between Simulation and Analytic Approaches}
+\date{\today}
+
+\author{Titus Brock}
+\email{tbrock@andrew.cmu.edu}
+\affiliation{McWilliams Center for Cosmology and Department of Physics,
+Carnegie Mellon University, Pittsburgh, PA 15213, USA}
+
+\author{Murman Gurgenidze}
+\email{mgurgeni@andrew.cmu.edu}
+\affiliation{McWilliams Center for Cosmology and Department of Physics,
+Carnegie Mellon University, Pittsburgh, PA 15213, USA}
+
+\author{Tina Kahniashvili}
+\email{tinatin@andrew.cmu.edu}
+\affiliation{McWilliams Center for Cosmology and Department of Physics,
+Carnegie Mellon University, Pittsburgh, PA 15213, USA}
+\affiliation{School of Natural Sciences and Medicine, Ilia State University, 0194 Tbilisi, Georgia}
+\affiliation{Abastumani Astrophysical Observatory, Tbilisi, GE-0179, Georgia}
+
+\begin{abstract}
+Derivation of the equations used in the literature.
+\end{abstract}
+
+\maketitle
+
+\section{GOGOBERIDZE 2007}
+Starting with all the definitions form the eq. 23-26 of \cite{2007Gogoberidze}
+\begin{align}
+R_{ij} (\xb,\tau) =& \int d^3k ~ e^{i\kb \xb} F_{ij}(\kb,\tau)\\
+=&\int d^3k ~ e^{i\kb \xb} A(k) P_{ij}(\khat) f(\eta_k,\tau)\\
+=&\int d^3k ~ e^{i\kb \xb} A(k) P_{ij}(\khat) \int d\omega e^{-i\omega \tau}\tf(\eta_k,\omega) 
+\end{align}
+
+Here $A(k) = C_k \epsilon^{2/3}k^{-11/3} /4\pi$, $P_{ij}(\khat) = \left( \delta_{ij}- \frac{k_{i}k_{j}}{k^{2}} \right)$, $f(\eta_k, \tau)= \exp(-\frac{\pi}{4}\eta_k^2 \tau^2) $, $ \eta_k = \frac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3}$
+
+Eq.28 of \cite{2007Gogoberidze} gives:
+\begin{equation}
+    R_{ijij} (\xb',\xb'+ \br,\tau)=  R_{ii}(\br,\tau)R_{jj}(\br,\tau)+ \frac{1}{3}R_{ij}(\br,\tau)R_{ij}(\br,\tau)
+\end{equation}
+
+\begin{equation}
+    H_{ijkl}(\xb',\kb,\omega) = \frac{1}{(2\pi)^{4}}\int d \tau d^3 {\bf \xi} e^{ i\omega \tau } e^{-i\kb {\bf \xi}} R_{ijkl}(\xi,\tau)
+\end{equation}
+
+
+\begin{equation}
+\label{eq: main}
+    H_{ijij}(\xb',\kb,\omega) = \frac{1}{(2\pi)^{4}}\int d \tau d\xb e^{ i\omega \tau } e^{-i\kb \xb}
+    \left( 
+    \underbrace{ R_{ii}(\xb,\tau)R_{jj}(\xb,\tau) }_{ \text{1} }+ \underbrace{ \frac{1}{3}R_{ij}(\xb,\tau)R_{ij}(\xb,\tau) }_{ 2 }
+    \right )
+\end{equation}
+
+Now we can Fourier transform term 1 and 2 separately 
+
+\begin{align}
+\label{eq: simplifiation}
+    1 \Rightarrow &\int d^{3}k_{1}d^{3}k_{2}  e^{ i \xb (\kb_{1}+\kb_{2}) } 
+    A(k_{1})A(k_{2}) 
+    \underbrace{P_{ii}(\hat{k}_{1})P_{jj}(\hat{k}_{2})}_{=4}
+    \int d\omega_{1}d\omega_{2}e^{ -i\tau(\omega_{1}+\omega_{2}) } \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k_{2}},\omega_{2})\\
+    2 \Rightarrow&\frac{1}{3}\int d^{3}k_{1}d^{3}k_{2}  e^{ i \xb (\kb_{1}+\kb_{2}) } 
+    A(k_{1})A(k_{2}) 
+    \underbrace{P_{ij}(\hat{k}_{1})P_{ij}(\hat{k}_{2})}_{=\left( 1 + (\khat_1\khat_2)^2\right)}
+    \int d\omega_{1}d\omega_{2}e^{ -i\tau(\omega_{1}+\omega_{2}) } \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k_{2}},\omega_{2})
+\end{align}
+plugging \ref{eq: simplifiation} into \ref{eq: main} we get the following: 
+
+\begin{align}
+    H_{ijij}(\xb',\kb,\omega) =& \frac{1}{(2\pi)^{4}}\int d \tau d\xb e^{ i\omega \tau -i\kb \xb} 
+    \left(
+    \int d^{3}k_{1}d^{3}k_{2}  e^{ i \xb (\kb_{1}+\kb_{2}) } 
+    A(k_{1})A(k_{2}) 
+    \int d\omega_{1}d\omega_{2}e^{ -i\tau(\omega_{1}+\omega_{2}) } \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k_{2}},\omega_{2})
+    \right)\\
+    \times& \left(4 + \frac{1}{3}\left( 1 + (\khat_1\khat_2)^2\right)\right)
+\end{align}
+The integration over $\xb$ and $\tau$  is trivial and introduces $(2\pi)^3\delta^{(3)}(k_2 -(k-k_1))$ and $2\pi\delta (\omega_2 - (\omega-\omega_1))$ respectively.
+
+\begin{align}
+    H_{ijij}(\xb',\kb,\omega) =& 
+    \int d^{3}k_{1}d\omega_1
+    A(k_{1})A(k-k_1) 
+    \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k-k_1},\omega-\omega_1)
+    \times \left(4 + \frac{1}{3}\left( 1 + (\khat_1\cdot\hat{k-k_1})^2\right)\right)
+\end{align}
+
+\bibliography{bib}
+\end{document}
