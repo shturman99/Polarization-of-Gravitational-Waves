@@ -242,5 +242,23 @@ Combining all the factors together we arrive at the (almost) E. 29 form \cite{20
     \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k-k_1},\omega-\omega_1)\times
     \\\times&\left[\frac{27}{6} + \frac{k^4}{12k_1^2u^2} + \frac{k_1^2}{12u^2} +\frac{u^2}{12k_1^2} - \frac{k^2}{6u^2}-\frac{k^2}{6k_1^2} \right]
 \end{align}
+
+Now we can calcucate the temporal fourier transfrom of $f$ which gives us : 
+\begin{equation}
+    \tf(\eta_k,\omega) = \frac{\pi}{2} \eta_k \exp\left(-\frac{\omega^2}{4\pi \eta^2_k}\right)
+\end{equation}
+
+\mg{Setting this function to one will be impossible because we need sufficiently fast decay at infinity.}
+Using definitions made in accordance with \cite{2007Gogoberidze} $ A(k) = C_k\epsilon^{2/3}k^{-11/3}/4\pi$ and $ \eta_k = \frac{1}{\sqrt{2\pi}  }\epsilon^{1/3}k^{2/3}$
+
+\begin{align}
+    H_{ijij}(\xb',\kb,\omega) =& 
+    \frac{1}{(2\pi)^9}\int d^{3}k_{1}d\omega_1
+    C_kC_{k-k_1}\epsilon^2k^{-3}(k-k_1)^{-3}
+    \exp\left(-\frac{\omega_1^2}{4\pi\eta_{k_1}}\right)
+    \exp\left(-\frac{(\omega-\omega_1)^2}{4\pi\eta_{k-k_1}}\right)
+    \\\times&\frac{1}{4\cdot6}\left[27 + \frac{k^4}{2k_1^2u^2} + \frac{k_1^2}{2u^2} +\frac{u^2}{2k_1^2} - \frac{k^2}{u^2}-\frac{k^2}{k_1^2} \right]
+\end{align}
+
 \bibliography{bib}
 \end{document}
