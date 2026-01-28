@@ -248,7 +248,7 @@ Combining all the factors together we arrive at the (almost) E. 29 form \cite{20
 
 Now we can calcucate the temporal fourier transfrom of $f$ which gives us : 
 \begin{equation}
-    \tf(\eta_k,\omega) = \frac{\pi}{2} \eta_k \exp\left(-\frac{\omega^2}{4\pi \eta^2_k}\right)
+    \tf(\eta_k,\omega) = \frac{2}{\eta_k}  \exp\left(-\frac{\omega^2}{\pi \eta^2_k}\right)
 \end{equation}
 \codex{Check the Gaussian Fourier transform against the stated convention $f(\tau)=\int \frac{d\omega}{2\pi}e^{-i\omega\tau}\tilde f(\omega)$, $\tilde f(\omega)=\int d\tau e^{i\omega\tau}f(\tau)$. For $f(\tau)=\exp[-(\pi/4)\eta_k^2\tau^2]$, the integral gives $\tilde f(\omega)=(2/\eta_k)\exp[-\omega^2/(\pi\eta_k^2)]$, so the prefactor and exponent denominator here appear to be off by factors of $2$ and $\pi$.}
 
@@ -257,13 +257,71 @@ Using definitions made in accordance with \cite{2007Gogoberidze} $ A(k) = C_k\ep
 
 \begin{align}
     H_{ijij}(\xb',\kb,\omega) =& 
-    \frac{1}{(2\pi)^9}\int d^{3}k_{1}d\omega_1
-    C_kC_{k-k_1}\epsilon^2k^{-3}(k-k_1)^{-3}
-    \exp\left(-\frac{\omega_1^2}{4\pi\eta_{k_1}}\right)
-    \exp\left(-\frac{(\omega-\omega_1)^2}{4\pi\eta_{k-k_1}}\right)
-    \\\times&\frac{1}{4\cdot6}\left[27 + \frac{k^4}{2k_1^2u^2} + \frac{k_1^2}{2u^2} +\frac{u^2}{2k_1^2} - \frac{k^2}{u^2}-\frac{k^2}{k_1^2} \right]
+    \frac{1}{(2\pi)^8}\int d^{3}k_{1}d\omega_1
+    \underbrace{A(k_{1}) \tf(\eta_{k_{1}},\omega_{1})}_{\frac{E_k 2}{k^2\eta_k}\exp
+    \left(\frac{-\omega^2}{\pi\eta_k^2}\right)\equiv g(k_1,\omega_1)
+    } 
+    \underbrace{A(k-k_1)\tf(\eta_{k-k_1},\omega-\omega_1)}_{\textbf{simular}}\times
+    \\\times&\left[\frac{27}{6} + \frac{k^4}{12k_1^2u^2} + \frac{k_1^2}{12u^2} +\frac{u^2}{12k_1^2} - \frac{k^2}{6u^2}-\frac{k^2}{6k_1^2} \right]
 \end{align}
-\codex{If the Fourier-transform prefactor stays $(2\pi)^{-8}$, this line should not introduce an extra $(2\pi)^{-1}$. Also re-check the $k$- and $\epsilon$-powers: $A(k)\propto \epsilon^{2/3}k^{-11/3}$ and $\tilde f$ contributes additional $k$-dependence via $\eta_k$; the final $k^{-3}$ scaling shown here seems inconsistent unless the (currently incorrect) $\tilde f$ formula is used.}
+% \begin{align}
+%     H_{ijij}(\xb',\kb,\omega) =& 
+%     \frac{1}{(2\pi)^9}\int d^{3}k_{1}d\omega_1
+%     C_kC_{k-k_1}\epsilon^2k^{-3}(k-k_1)^{-3}
+%     \exp\left(-\frac{\omega_1^2}{4\pi\eta_{k_1}}\right)
+%     \exp\left(-\frac{(\omega-\omega_1)^2}{4\pi\eta_{k-k_1}}\right)
+%     \\\times&\frac{1}{4\cdot6}\left[27 + \frac{k^4}{2k_1^2u^2} + \frac{k_1^2}{2u^2} +\frac{u^2}{2k_1^2} - \frac{k^2}{u^2}-\frac{k^2}{k_1^2} \right] \quad \textbf{WRONG ATTEMPT!}
+% \end{align}
+\mg{The underbraced parts look similar to \cite{2007Gogoberidze} eq 30 with $\frac{1}{2\pi^2}$ factor off.} Explicitly introducing integration bounds and using the kernel substitution we arrive at the following expression:
+\begin{align}
+    H_{ijij}(\xb',\kb,\omega) =& 
+    \frac{1}{(2\pi)^8}\int_{R^4} d^{3}k_{1}d\omega_1
+    g(k_1,\omega_1) g(k-k_1,\omega-\omega_1)
+    \\\times&\left[\frac{27}{6} + \frac{k^4}{12k_1^2u^2} + \frac{k_1^2}{12u^2} +\frac{u^2}{12k_1^2} - \frac{k^2}{6u^2}-\frac{k^2}{6k_1^2} \right]
+\end{align}
+%\codex{If the Fourier-transform prefactor stays $(2\pi)^{-8}$, this line should not introduce an extra $(2\pi)^{-1}$. Also re-check the $k$- and $\epsilon$-powers: $A(k)\propto \epsilon^{2/3}k^{-11/3}$ and $\tilde f$ contributes additional $k$-dependence via $\eta_k$; the final $k^{-3}$ scaling shown here seems inconsistent unless the (currently incorrect) $\tilde f$ formula is used.}
+Moving $k_1$ integral to spherical coordinators and noting that all the  terms  except $\kb - \kb_1$ are angle independent we can call cosine of angle between $k_1$ and $k$  $\mu$ and the v
+\mg{at this point I think I would be fair to set $C_k$ coefficients to 1}
+
+\begin{align}
+d^{3}k_{1}=k_{1}^{2}\,dk_{1}\,d\Omega_{1}
+= k_{1}^{2}\,dk_{1}\,d\phi\,d\mu,
+\qquad
+\mu\equiv \hat{\kb}\!\cdot\!\hat{\kb}_{1}\in[-1,1],\ \phi\in[0,2\pi),
+\end{align}
+\begin{align}
+u \equiv |\kb-\kb_{1}|
+= \sqrt{k^{2}+k_{1}^{2}-2kk_{1}\mu}.
+\end{align}
+\begin{align}
+H_{ijij}(\xb',\kb,\omega)
+&=\frac{1}{(2\pi)^{8}}
+\int_{0}^{\infty} dk_{1}\,k_{1}^{2}
+\int_{-1}^{1} d\mu
+\int_{0}^{2\pi} d\phi
+\int_{-\infty}^{\infty} d\omega_{1}\;
+g(k_{1},\omega_{1})\,g\!\left(u,\omega-\omega_{1}\right)\,
+\mathcal{K}(k,k_{1},u)\nonumber\\
+&=\frac{1}{(2\pi)^{7}}
+\int_{0}^{\infty} dk_{1}\,k_{1}^{2}
+\int_{-1}^{1} d\mu
+\int_{-\infty}^{\infty} d\omega_{1}\;
+g(k_{1},\omega_{1})\,g\!\left(u,\omega-\omega_{1}\right)\,
+\mathcal{K}(k,k_{1},u),
+\end{align}
+\begin{align}
+\mathcal{K}(k,k_{1},u)\equiv
+\left[\frac{27}{6}
++\frac{k^{4}}{12k_{1}^{2}u^{2}}
++\frac{k_{1}^{2}}{12u^{2}}
++\frac{u^{2}}{12k_{1}^{2}}
+-\frac{k^{2}}{6u^{2}}
+-\frac{k^{2}}{6k_{1}^{2}}
+\right].
+\end{align}
+
+$\frac{E_k 2}{k^2\eta_k}\exp \left(\frac{-\omega^2}{\pi\eta_k^2}\right)\equiv g(k_1,\omega_1)$,  $ \eta_k = \frac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3}$ and $E_k =C_k \epsilon^{2/3}k^{-5/3}$
 
 \bibliography{bib}
+
 \end{document}
