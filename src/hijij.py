@@ -1,8 +1,8 @@
 """Numerical evaluation of the Hijij integral.
 
 This module implements a Python equivalent of the Mathematica H_ijij integral with
-an optional analytic attempt for the μ integration using sympy. It provides safe
-numerical handling around u ≈ 0 and k1 ≈ 0 to avoid singular denominators.
+an optional analytic attempt for the mu integration using sympy. It provides safe
+numerical handling around u ~= 0 and k1 ~= 0 to avoid singular denominators.
 """
 
 from __future__ import annotations
@@ -141,48 +141,65 @@ def mu_integral_sympy(
     params: HijijParams,
     timeout_s: float = 0.5,
 ) -> Optional[float]:
-    """Attempt analytic μ integration using sympy.
+    """Compute the mu integral using numerical integration via SymPy.
 
-    Returns a float on success, or None on failure/timeout.
+    Computes: integral_{-1}^{1} dmu  g(k1,w1) g(u,w-w1) K(k,k1,u)
+    
+    where u = sqrt(k^2 + k1^2 - 2kk1*mu) depends on mu.
+    The k1^2 factor from the spherical coordinate Jacobian is NOT included here;
+    it is applied when this result is used.
+    
+    Since symbolic integration is complex for this integrand, we use SymPy
+    to construct the integrand symbolically, then convert to a numerical function
+    and use scipy's quad for integration.
+    
+    Returns a float on success, or None on failure.
     """
 
-    mu = sp.symbols("mu")
-    u_expr = sp.sqrt(k**2 + k1**2 - 2.0 * k * k1 * mu + params.u_reg**2)
-
-    eta_k1 = eta(k1, params.eps)
-    eta_u = (1.0 / sp.sqrt(2.0 * sp.pi)) * params.eps ** (sp.Rational(1, 3)) * u_expr ** (sp.Rational(2, 3))
-
-    g_k1 = (2.0 * E(k1, params.Ck, params.eps)) / (k1**2 * eta_k1)
-    g_k1 *= sp.exp(-(om1**2) / (sp.pi * eta_k1**2))
-
-    g_u = (2.0 * (params.Ck * params.eps ** (sp.Rational(2, 3)) * u_expr ** (sp.Rational(-5, 3)))) / (
-        u_expr**2 * eta_u
-    )
-    g_u *= sp.exp(-((om - om1) ** 2) / (sp.pi * eta_u**2))
-
-    kernel_expr = (
-        27.0 / 6.0
-        + k**4 / (12.0 * k1**2 * u_expr**2)
-        + k1**2 / (12.0 * u_expr**2)
-        + u_expr**2 / (12.0 * k1**2)
-        - k**2 / (6.0 * u_expr**2)
-        - k**2 / (6.0 * k1**2)
-    )
-
-    integrand = g_k1 * g_u * kernel_expr
-
     try:
+        mu = sp.symbols("mu")
+        u_expr = sp.sqrt(k**2 + k1**2 - 2.0 * k * k1 * mu + params.u_reg**2)
+
+        eta_k1_val = eta(k1, params.eps)
+        eta_u_expr = (1.0 / sp.sqrt(2.0 * sp.pi)) * params.eps ** (sp.Rational(1, 3)) * u_expr ** (sp.Rational(2, 3))
+
+        # g(k1, w1) with k1 treated as constant
+        g_k1_val = (2.0 * E(k1, params.Ck, params.eps)) / (k1**2 * eta_k1_val)
+        g_k1_val *= sp.exp(-(om1**2) / (sp.pi * eta_k1_val**2))
+
+        # g(u, w - w1) with u depending on mu
+        E_u_val = params.Ck * params.eps ** (sp.Rational(2, 3)) * u_expr ** (sp.Rational(-5, 3))
+        g_u_expr = (2.0 * E_u_val) / (u_expr**2 * eta_u_expr)
+        g_u_expr *= sp.exp(-((om - om1) ** 2) / (sp.pi * eta_u_expr**2))
+
+        # Kernel expression
+        kernel_expr = (
+            27.0 / 6.0
+            + k**4 / (12.0 * k1**2 * u_expr**2)
+            + k1**2 / (12.0 * u_expr**2)
+            + u_expr**2 / (12.0 * k1**2)
+            - k**2 / (6.0 * u_expr**2)
+            - k**2 / (6.0 * k1**2)
+        )
+
+        integrand = g_k1_val * g_u_expr * kernel_expr
+        
+        # Convert symbolic expression to a numerical function
+        # Use "numpy" backend for better numerical performance
+        integrand_func = sp.lambdify(mu, integrand, modules=["numpy", "sympy"])
+        
+        # Use scipy's quad for numerical integration
         with _Timeout(timeout_s):
-            result = sp.integrate(integrand, (mu, -1, 1))
+            result_numeric, _ = integrate.quad(
+                lambda mu_val: float(integrand_func(mu_val)),
+                -1.0,
+                1.0,
+                epsabs=params.abs_tol,
+                epsrel=params.rel_tol,
+                limit=params.max_subdiv,
+            )
+        return result_numeric
     except (TimeoutError, Exception):
-        return None
-
-    if isinstance(result, sp.Integral):
-        return None
-
-    try:
-        return float(result.evalf())
-    except (TypeError, ValueError):
         return None
 
 
@@ -214,7 +231,7 @@ def _integrand(
 
 
 def hijij(k: float, om: float, params: HijijParams = HijijParams()) -> float:
-    """Compute the Hijij integral for given k and ω.
+    """Compute the Hijij integral for given k and omega.
 
     Numerical safeguards:
     - The k1 integration starts at 1e-12 to avoid division by zero in the kernel.
