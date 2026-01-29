@@ -1,414 +1,113 @@
-(* Content-type: application/vnd.wolfram.mathematica *)
+(* H_ijij integral evaluation (Mathematica/Wolfram Language) *)
 
-(*** Wolfram Notebook File ***)
-(* http://www.wolfram.com/nb *)
+(* === Definitions matching LaTeX draft === *)
+ClearAll[eta, ESpec, gSpec, uSpec, kernelK, muIntClosedForm, Hijij];
 
-(* CreatedBy='Mathematica 13.1' *)
+(* Options and defaults for the main integral *)
+Options[Hijij] = {
+  Ck -> 1,
+  eps -> 1,
+  k1Max -> 20,
+  om1Max -> 20,
+  uReg -> 0,
+  wp -> 40,
+  ag -> 8,
+  pg -> 8,
+  mr -> 15,
+  useAnalyticMu -> True
+};
 
-(*CacheID: 234*)
-(* Internal cache information:
-NotebookFileLineBreakTest
-NotebookFileLineBreakTest
-NotebookDataPosition[       158,          7]
-NotebookDataLength[     13622,        406]
-NotebookOptionsPosition[     13145,        389]
-NotebookOutlinePosition[     13538,        405]
-CellTagsIndexPosition[     13495,        402]
-WindowFrame->Normal*)
+(* eta(k) and E(k) from the draft *)
+eta[k_, eps_] := (1/Sqrt[2*Pi]) * eps^(1/3) * k^(2/3);
+ESpec[k_, Ck_, eps_] := Ck * eps^(2/3) * k^(-5/3);
 
-(* Beginning of Notebook Content *)
-Notebook[{
+(* g(k, ω) from the draft (evaluated at (k1, ω1) and (u, ω-ω1)) *)
+gSpec[k_, om_, Ck_, eps_] := (2*ESpec[k, Ck, eps])/(k^2*eta[k, eps]) * Exp[-om^2/(Pi*eta[k, eps]^2)];
 
-Cell[CellGroupData[{
-Cell[BoxData[
- RowBox[{
-  RowBox[{"(*", " ", 
-   RowBox[{
-   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
-     "===", "===", "===", "===", "==="}], "*)"}], "\[IndentingNewLine]", 
-  RowBox[{"(*", 
-   RowBox[{
-    RowBox[{"H_ijij", ":", 
-     RowBox[{
-      RowBox[{"do", " ", "\[Mu]"}], "-", 
-      RowBox[{"integral", " ", "analytically"}]}]}], ",", 
-    RowBox[{"rest", " ", "numeric"}]}], "*)"}], "\[IndentingNewLine]", 
-  RowBox[{"(*", " ", 
-   RowBox[{
-   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
-     "===", "===", "===", "===", "==="}], "*)"}], "\[IndentingNewLine]", 
-  "\[IndentingNewLine]", 
-  RowBox[{
-   RowBox[{
-    RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{
-      RowBox[{"--", 
-       RowBox[{"-", "assumptions"}]}], " ", "for", " ", "symbolic", " ", 
-      RowBox[{"work", "--"}]}], "-"}], "*)"}], "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"$Assumptions", "=", 
-     RowBox[{
-      RowBox[{"k", ">", "0"}], "&&", 
-      RowBox[{"k1", ">", "0"}], "&&", 
-      RowBox[{"Element", "[", 
-       RowBox[{
-        RowBox[{"{", 
-         RowBox[{"\[Omega]", ",", "\[Omega]1", ",", "\[Mu]"}], "}"}], ",", 
-        "Reals"}], "]"}], "&&", 
-      RowBox[{
-       RowBox[{"-", "1"}], "<=", "\[Mu]", "<=", "1"}]}]}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{
-      RowBox[{
-       RowBox[{"--", 
-        RowBox[{"-", "parameter"}]}], "/", "\"\<set unknowns to 1\>\""}], " ",
-       "rules", " ", 
-      RowBox[{
-       RowBox[{"(", 
-        RowBox[{"easy", " ", "to", " ", "change", " ", "later"}], ")"}], 
-       "--"}]}], "-"}], "*)"}], "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"rules", "=", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"Ck", "->", "1"}], ",", 
-       RowBox[{"\[CurlyEpsilon]", "->", "1"}]}], "}"}]}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{"--", 
-      RowBox[{"-", 
-       RowBox[{"definitions", "--"}]}]}], "-"}], "*)"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"\[Eta]", "[", "x_", "]"}], ":=", 
-     RowBox[{
-      RowBox[{"(", 
-       RowBox[{"1", "/", 
-        RowBox[{"Sqrt", "[", 
-         RowBox[{"2", " ", "Pi"}], "]"}]}], ")"}], "*", 
-      RowBox[{"\[CurlyEpsilon]", "^", 
-       RowBox[{"(", 
-        RowBox[{"1", "/", "3"}], ")"}]}], "*", 
-      RowBox[{"x", "^", 
-       RowBox[{"(", 
-        RowBox[{"2", "/", "3"}], ")"}]}]}]}], ";"}], "\n", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"Ek", "[", "x_", "]"}], ":=", 
-     RowBox[{"Ck", "*", 
-      RowBox[{"\[CurlyEpsilon]", "^", 
-       RowBox[{"(", 
-        RowBox[{"2", "/", "3"}], ")"}]}], "*", 
-      RowBox[{"x", "^", 
-       RowBox[{"(", 
-        RowBox[{
-         RowBox[{"-", "5"}], "/", "3"}], ")"}]}]}]}], ";"}], "\n", 
-   "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"g", "[", 
-      RowBox[{"x_", ",", "\[Nu]_"}], "]"}], ":=", 
-     RowBox[{
-      RowBox[{
-       RowBox[{"(", 
-        RowBox[{"2", " ", 
-         RowBox[{"Ek", "[", "x", "]"}]}], ")"}], "/", 
-       RowBox[{"(", 
-        RowBox[{
-         RowBox[{"x", "^", "2"}], " ", 
-         RowBox[{"\[Eta]", "[", "x", "]"}]}], ")"}]}], "*", 
-      RowBox[{"Exp", "[", 
-       RowBox[{
-        RowBox[{"-", 
-         RowBox[{"\[Nu]", "^", "2"}]}], "/", 
-        RowBox[{"(", 
-         RowBox[{"Pi", " ", 
-          RowBox[{
-           RowBox[{"\[Eta]", "[", "x", "]"}], "^", "2"}]}], ")"}]}], 
-       "]"}]}]}], ";"}], "\n", "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"u", "[", 
-      RowBox[{"k_", ",", "k1_", ",", "\[Mu]_"}], "]"}], ":=", 
-     RowBox[{"Sqrt", "[", 
-      RowBox[{
-       RowBox[{"k", "^", "2"}], "+", 
-       RowBox[{"k1", "^", "2"}], "-", 
-       RowBox[{"2", " ", "k", " ", "k1", " ", "\[Mu]"}]}], "]"}]}], ";"}], 
-   "\n", "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"Kern", "[", 
-      RowBox[{"k_", ",", "k1_", ",", "uu_"}], "]"}], ":=", 
-     RowBox[{"(", 
-      RowBox[{
-       RowBox[{"27", "/", "6"}], "+", 
-       RowBox[{
-        RowBox[{"k", "^", "4"}], "/", 
-        RowBox[{"(", 
-         RowBox[{"12", " ", 
-          RowBox[{"k1", "^", "2"}], " ", 
-          RowBox[{"uu", "^", "2"}]}], ")"}]}], "+", 
-       RowBox[{
-        RowBox[{"k1", "^", "2"}], "/", 
-        RowBox[{"(", 
-         RowBox[{"12", " ", 
-          RowBox[{"uu", "^", "2"}]}], ")"}]}], "+", 
-       RowBox[{
-        RowBox[{"uu", "^", "2"}], "/", 
-        RowBox[{"(", 
-         RowBox[{"12", " ", 
-          RowBox[{"k1", "^", "2"}]}], ")"}]}], "-", 
-       RowBox[{
-        RowBox[{"k", "^", "2"}], "/", 
-        RowBox[{"(", 
-         RowBox[{"6", " ", 
-          RowBox[{"uu", "^", "2"}]}], ")"}]}], "-", 
-       RowBox[{
-        RowBox[{"k", "^", "2"}], "/", 
-        RowBox[{"(", 
-         RowBox[{"6", " ", 
-          RowBox[{"k1", "^", "2"}]}], ")"}]}]}], ")"}]}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{
-      RowBox[{"--", 
-       RowBox[{"-", "integrand"}]}], " ", 
-      RowBox[{
-       RowBox[{"(", 
-        RowBox[{
-         RowBox[{"after", " ", "\[CurlyPhi]", " ", "integration"}], "=", 
-         RowBox[{">", 
-          RowBox[{"prefactor", " ", 
-           RowBox[{
-            RowBox[{"(", 
-             RowBox[{"2", "\[Pi]"}], ")"}], "^", 
-            RowBox[{"(", 
-             RowBox[{"-", "7"}], ")"}]}]}]}]}], ")"}], "--"}]}], "-"}], 
-    "*)"}], "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{"pref", "=", 
-     RowBox[{"1", "/", 
-      RowBox[{
-       RowBox[{"(", 
-        RowBox[{"2", " ", "Pi"}], ")"}], "^", "7"}]}]}], ";"}], "\n", 
-   "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"integrandMu", "[", 
-      RowBox[{
-      "k_", ",", "k1_", ",", "\[Omega]_", ",", "\[Omega]1_", ",", "\[Mu]_"}], 
-      "]"}], ":=", 
-     RowBox[{
-      RowBox[{"k1", "^", "2"}], "*", 
-      RowBox[{"g", "[", 
-       RowBox[{"k1", ",", "\[Omega]1"}], "]"}], "*", 
-      RowBox[{"g", "[", 
-       RowBox[{
-        RowBox[{"u", "[", 
-         RowBox[{"k", ",", "k1", ",", "\[Mu]"}], "]"}], ",", 
-        RowBox[{"\[Omega]", "-", "\[Omega]1"}]}], "]"}], "*", 
-      RowBox[{"Kern", "[", 
-       RowBox[{"k", ",", "k1", ",", 
-        RowBox[{"u", "[", 
-         RowBox[{"k", ",", "k1", ",", "\[Mu]"}], "]"}]}], "]"}]}]}], ";"}], 
-   "\n", "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"integrandMu1", "[", 
-      RowBox[{
-      "k_", ",", "k1_", ",", "\[Omega]_", ",", "\[Omega]1_", ",", "\[Mu]_"}], 
-      "]"}], ":=", 
-     RowBox[{"Simplify", "[", 
-      RowBox[{
-       RowBox[{
-        RowBox[{"integrandMu", "[", 
-         RowBox[{
-         "k", ",", "k1", ",", "\[Omega]", ",", "\[Omega]1", ",", "\[Mu]"}], 
-         "]"}], "/.", " ", "rules"}], ",", "$Assumptions"}], "]"}]}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{
-      RowBox[{"--", 
-       RowBox[{"-", "attempt"}]}], " ", "analytic", " ", "\[Mu]", " ", 
-      RowBox[{"integration", "--"}]}], "-"}], "*)"}], "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"muIntAnalytic", "[", 
-      RowBox[{"k_", ",", "k1_", ",", "\[Omega]_", ",", "\[Omega]1_"}], "]"}], 
-     ":=", 
-     RowBox[{"Assuming", "[", 
-      RowBox[{"$Assumptions", ",", 
-       RowBox[{"Integrate", "[", 
-        RowBox[{
-         RowBox[{"integrandMu1", "[", 
-          RowBox[{
-          "k", ",", "k1", ",", "\[Omega]", ",", "\[Omega]1", ",", "\[Mu]"}], 
-          "]"}], ",", 
-         RowBox[{"{", 
-          RowBox[{"\[Mu]", ",", 
-           RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
-         RowBox[{"GenerateConditions", "->", "False"}], ",", 
-         RowBox[{"PrincipalValue", "->", "False"}]}], "]"}]}], "]"}]}], ";"}],
-    "\n", "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"muIntReadyQ", "[", "expr_", "]"}], ":=", 
-     RowBox[{"FreeQ", "[", 
-      RowBox[{"expr", ",", "Integrate"}], "]"}]}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{
-      RowBox[{"--", 
-       RowBox[{"-", "fallback"}]}], " ", "numeric", " ", "\[Mu]", " ", 
-      "integration", " ", 
-      RowBox[{
-       RowBox[{"(", 
-        RowBox[{
-        "only", " ", "used", " ", "if", " ", "Integrate", " ", "fails"}], 
-        ")"}], "--"}]}], "-"}], "*)"}], "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"muIntNumeric", "[", 
-      RowBox[{
-       RowBox[{"k_", "?", "NumericQ"}], ",", 
-       RowBox[{"k1_", "?", "NumericQ"}], ",", 
-       RowBox[{"\[Omega]_", "?", "NumericQ"}], ",", 
-       RowBox[{"\[Omega]1_", "?", "NumericQ"}]}], "]"}], ":=", 
-     RowBox[{"NIntegrate", "[", 
-      RowBox[{
-       RowBox[{"Evaluate", "[", 
-        RowBox[{"integrandMu1", "[", 
-         RowBox[{
-         "k", ",", "k1", ",", "\[Omega]", ",", "\[Omega]1", ",", "\[Mu]"}], 
-         "]"}], "]"}], ",", 
-       RowBox[{"{", 
-        RowBox[{"\[Mu]", ",", 
-         RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
-       RowBox[{"Method", "->", 
-        RowBox[{"{", 
-         RowBox[{"\"\<GlobalAdaptive\>\"", ",", 
-          RowBox[{"\"\<SymbolicProcessing\>\"", "->", "0"}]}], "}"}]}], ",", 
-       RowBox[{"WorkingPrecision", "->", "40"}], ",", 
-       RowBox[{"AccuracyGoal", "->", "10"}], ",", 
-       RowBox[{"PrecisionGoal", "->", "10"}], ",", 
-       RowBox[{"MaxRecursion", "->", "20"}]}], "]"}]}], ";"}], "\n", 
-   "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"muInt", "[", 
-      RowBox[{"k_", ",", "k1_", ",", "\[Omega]_", ",", "\[Omega]1_"}], "]"}], 
-     ":=", 
-     RowBox[{"Module", "[", 
-      RowBox[{
-       RowBox[{"{", 
-        RowBox[{"res", "=", 
-         RowBox[{"muIntAnalytic", "[", 
-          RowBox[{"k", ",", "k1", ",", "\[Omega]", ",", "\[Omega]1"}], 
-          "]"}]}], "}"}], ",", 
-       RowBox[{"If", "[", 
-        RowBox[{
-         RowBox[{"muIntReadyQ", "[", "res", "]"}], ",", "res", ",", 
-         RowBox[{"muIntNumeric", "[", 
-          RowBox[{"k", ",", "k1", ",", "\[Omega]", ",", "\[Omega]1"}], 
-          "]"}]}], "]"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{
-      RowBox[{"--", 
-       RowBox[{"-", "full"}]}], " ", "H", 
-      RowBox[{"(", 
-       RowBox[{"k", ",", "\[Omega]"}], ")"}]}], ":", 
-     RowBox[{
-      RowBox[{
-      "integrate", " ", "over", " ", "k1", " ", "and", " ", "\[Omega]1", " ", 
-       
-       RowBox[{"numerically", "--"}]}], "-"}]}], "*)"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"Hijij", "[", 
-      RowBox[{
-       RowBox[{"k_", "?", "NumericQ"}], ",", 
-       RowBox[{"\[Omega]_", "?", "NumericQ"}], ",", 
-       RowBox[{"k1Max_", ":", "Infinity"}], ",", 
-       RowBox[{"\[Omega]1Max_", ":", "Infinity"}]}], "]"}], ":=", 
-     RowBox[{"pref", "*", 
-      RowBox[{"NIntegrate", "[", 
-       RowBox[{
-        RowBox[{"Evaluate", "[", 
-         RowBox[{"muInt", "[", 
-          RowBox[{"k", ",", "k1", ",", "\[Omega]", ",", "\[Omega]1"}], "]"}], 
-         "]"}], ",", 
-        RowBox[{"{", 
-         RowBox[{"k1", ",", "0", ",", "k1Max"}], "}"}], ",", 
-        RowBox[{"{", 
-         RowBox[{"\[Omega]1", ",", 
-          RowBox[{"-", "\[Omega]1Max"}], ",", "\[Omega]1Max"}], "}"}], ",", 
-        RowBox[{"Method", "->", 
-         RowBox[{"{", 
-          RowBox[{"\"\<GlobalAdaptive\>\"", ",", 
-           RowBox[{"\"\<SymbolicProcessing\>\"", "->", "0"}]}], "}"}]}], ",", 
-        
-        RowBox[{"WorkingPrecision", "->", "40"}], ",", 
-        RowBox[{"AccuracyGoal", "->", "8"}], ",", 
-        RowBox[{"PrecisionGoal", "->", "8"}], ",", 
-        RowBox[{"MaxRecursion", "->", "15"}]}], "]"}]}]}], ";"}], 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   RowBox[{"(*", 
-    RowBox[{
-     RowBox[{
-      RowBox[{"--", 
-       RowBox[{"-", "quick"}]}], " ", "sanity", " ", "test", " ", "with", " ",
-       "finite", " ", 
-      RowBox[{"cutoffs", "--"}]}], "-"}], "*)"}], "\n", 
-   RowBox[{"(*", 
-    RowBox[{"Hijij", "[", 
-     RowBox[{"1.0", ",", "0.5", ",", "10", ",", "10"}], "]"}], 
-    "*)"}]}]}]], "Input",
- CellChangeTimes->{{3.978633403985333*^9, 3.978633403985527*^9}, {
-  3.978633463585093*^9, 3.9786335000793877`*^9}, {3.978633533459898*^9, 
-  3.978633557176592*^9}},
- CellLabel->"In[5]:=",ExpressionUUID->"f33d75bb-40bf-48d7-9906-c0b44d085fef"],
+(* u(k,k1,μ) from the draft, with optional regularization uReg *)
+uSpec[k_, k1_, mu_, uReg_] := Sqrt[k^2 + k1^2 - 2*k*k1*mu + uReg^2];
 
-Cell[BoxData[
- SuperscriptBox["Null", "16"]], "Output",
- CellChangeTimes->{3.97863357022234*^9},
- CellLabel->"Out[5]=",ExpressionUUID->"f37afda4-a45e-4028-a66b-345ed11cf6d0"]
-}, Open  ]]
-},
-WindowSize->{1440., 848.25},
-WindowMargins->{{0, Automatic}, {0, Automatic}},
-FrontEndVersion->"13.1 for Linux x86 (64-bit) (June 16, 2022)",
-StyleDefinitions->"Default.nb",
-ExpressionUUID->"8c38c725-5e17-46c6-b1a8-05412a7f15c2"
-]
-(* End of Notebook Content *)
+(* Kernel K(k,k1,u) from the draft *)
+kernelK[k_, k1_, u_] := 27/6 + k^4/(12*k1^2*u^2) + k1^2/(12*u^2) + u^2/(12*k1^2)
+  - k^2/(6*u^2) - k^2/(6*k1^2);
 
-(* Internal cache information *)
-(*CellTagsOutline
-CellTagsIndex->{}
-*)
-(*CellTagsIndex
-CellTagsIndex->{}
-*)
-(*NotebookFileOutline
-Notebook[{
-Cell[CellGroupData[{
-Cell[580, 22, 12372, 359, 1039, "Input",ExpressionUUID->"f33d75bb-40bf-48d7-9906-c0b44d085fef"],
-Cell[12955, 383, 174, 3, 56, "Output",ExpressionUUID->"f37afda4-a45e-4028-a66b-345ed11cf6d0"]
-}, Open  ]]
-}
-]
-*)
+(* Analytic μ-integral helper (for inspection only). Does not force use inside NIntegrate. *)
+muIntClosedForm[k_, k1_, om_, om1_, opts : OptionsPattern[Hijij]] := Module[
+  {CkVal = OptionValue[Ck], epsVal = OptionValue[eps], uRegVal = OptionValue[uReg], mu},
+  Integrate[
+    kernelK[k, k1, uSpec[k, k1, mu, uRegVal]]
+      * gSpec[k1, om1, CkVal, epsVal]
+      * gSpec[uSpec[k, k1, mu, uRegVal], om - om1, CkVal, epsVal],
+    {mu, -1, 1}
+  ]
+];
 
+(* === Main callable: H_ijij === *)
+Hijij[k_?NumericQ, om_?NumericQ, opts : OptionsPattern[]] := Module[
+  {
+    CkVal = OptionValue[Ck],
+    epsVal = OptionValue[eps],
+    k1MaxVal = OptionValue[k1Max],
+    om1MaxVal = OptionValue[om1Max],
+    uRegVal = OptionValue[uReg],
+    wpVal = OptionValue[wp],
+    agVal = OptionValue[ag],
+    pgVal = OptionValue[pg],
+    mrVal = OptionValue[mr],
+    useAnalyticMuVal = OptionValue[useAnalyticMu],
+    pref, muClosed, k1, mu, om1, nintOpts, k1Range, om1Range, muIntegrand
+  },
+
+  (* Post-phi prefactor: ∫ dφ = 2π *)
+  pref = 1/(2*Pi)^7;
+
+  (* Integration ranges for k1 and ω1 (finite cutoffs by default) *)
+  k1Range = {k1, 0, k1MaxVal};
+  om1Range = {om1, -om1MaxVal, om1MaxVal};
+
+  (* NIntegrate configuration for stability *)
+  nintOpts = {
+    Method -> {"GlobalAdaptive", "SymbolicProcessing" -> 0},
+    WorkingPrecision -> wpVal,
+    AccuracyGoal -> agVal,
+    PrecisionGoal -> pgVal,
+    MaxRecursion -> mrVal,
+    Exclusions -> {k^2 + k1^2 - 2*k*k1*mu == 0}
+  };
+
+  (* μ integrand with measure factor k1^2, matching the draft *)
+  muIntegrand[k1_?NumericQ, mu_?NumericQ, om1_?NumericQ] := Module[
+    {uVal = uSpec[k, k1, mu, uRegVal]},
+    pref * k1^2 * kernelK[k, k1, uVal]
+      * gSpec[k1, om1, CkVal, epsVal]
+      * gSpec[uVal, om - om1, CkVal, epsVal]
+  ];
+
+  (* Try analytic μ integral if requested and closed-form is found *)
+  If[TrueQ[useAnalyticMuVal],
+    muClosed = muIntClosedForm[k, k1, om, om1, Ck -> CkVal, eps -> epsVal, uReg -> uRegVal];
+    If[FreeQ[muClosed, Integrate],
+      Return[
+        NIntegrate[
+          pref * k1^2 * muClosed,
+          k1Range,
+          om1Range,
+          Evaluate[Sequence @@ nintOpts]
+        ]
+      ];
+    ];
+  ];
+
+  (* Full numeric integral over k1, μ, ω1 if analytic μ is unavailable *)
+  NIntegrate[
+    muIntegrand[k1, mu, om1],
+    k1Range,
+    {mu, -1, 1},
+    om1Range,
+    Evaluate[Sequence @@ nintOpts]
+  ]
+];
+
+(* === Smoke tests === *)
+Print[Hijij[1., 0.5]];
+Print[Hijij[1., 0.5, k1Max -> 10, om1Max -> 10]];
