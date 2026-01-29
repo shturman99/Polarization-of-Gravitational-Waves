@@ -210,7 +210,9 @@ H_{ijij}(\xb',\kb,\omega)
 A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber\\
 &\quad \times \left[ 4 + \frac{1}{3}\left(1+(\khat_{1}\cdot\hat{u})^2\right) \right]. \label{eq: H-with-P}
 \end{align}
-Finally, using $\kb=\kb_1+\ub$ so that
+This is form of the Fourier  transform valid for all values of $k$ in, from now we will treat $\kb=0$ and $\kb\ne0$ separately
+\subsection{k not 0}
+Using $\kb=\kb_1+\ub$ so that
 \begin{equation}
 k^2 = k_1^2 + u^2 + 2 k_1 u (\khat_1\cdot\hat{u})
 \quad \Rightarrow \quad
@@ -456,7 +458,75 @@ q^{-13/3}s^{-13/3}
 In this form, all integrals are manifestly dimensionless, and the dependence
 on the turbulent energy injection rate $\epsilon$ and the wavenumber $k$ is
 fully contained in the overall prefactor $C_k^{2}\epsilon k^{-5}$.
+\subsection{case k=0}
+\mg{WRONG DERIVATION THE ENERGY SPECTRUM NEEDS TO CHANGE FOR THE K TO GO TO 0 CONSISTENTLY }\\
+We need to separately evaluate case $\kb =0$ since in deriving previous form we have divided with $\kb$. We would start from equation \ref{eq: H-with-P}
 
+\begin{align}
+H_{ijij}(\xb',\kb,\omega)
+&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
+A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber\\
+&\quad \times \left[ 4 + \frac{1}{3}\left(1+(\khat_{1}\cdot\hat{u})^2\right) \right].
+\end{align}
+
+$k_1 = u$ so this eqaution take following form:
+
+\begin{align}
+    H_{ijij}(\xb',\kb=0,\omega)
+&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
+g(k_1,\omega)g(k_1,\omega-\omega_1)   \times \left[ \frac{14}{3} \right].
+\end{align}
+
+Using the definition
+\begin{equation}
+g(k,\omega)
+= \frac{2E_k}{k^2\eta_k}
+\exp\!\left(-\frac{\omega^2}{\pi\eta_k^2}\right)
+= 2\sqrt{2\pi}\,C_k\,\epsilon^{1/3}\,k^{-13/3}
+\exp\!\left(-2\Omega^2\right),
+\qquad
+\Omega \equiv \frac{\omega}{\epsilon^{1/3}k^{2/3}},
+\end{equation}
+we introduce the dimensionless variables
+\begin{equation}
+q \equiv \frac{k_1}{k}, 
+\qquad 
+\Omega_1 \equiv \frac{\omega_1}{\epsilon^{1/3}k^{2/3}},
+\end{equation}
+so that
+\begin{equation}
+d^3k_1 = k^3 q^2\,dq\,d\Omega_1,
+\qquad
+d\omega_1 = \epsilon^{1/3}k^{2/3}\,d\Omega_1 .
+\end{equation}
+
+Substituting into
+\begin{equation}
+H_{ijij}(\xb',\kb=0,\omega)
+= \frac{14}{3(2\pi)^8}
+\int d^3k_1 \int d\omega_1\;
+g(k_1,\omega_1)\,g(k_1,\omega-\omega_1),
+\end{equation}
+and collecting all dimensional factors, we obtain
+\begin{equation}
+H_{ijij}(\xb',\kb=0,\omega)
+= \frac{14}{3}\,
+\frac{C_k^2\,\epsilon}{16\pi^6}\,k^{-5}\,
+\mathfrak{H}_0(\Omega),
+\end{equation}
+where the dimensionless function $\mathfrak{H}_0$ is given by
+\begin{equation}
+\mathfrak{H}_0(\Omega)
+=
+\int_{0}^{\infty} dq\; q^{-7/3}
+\int_{-\infty}^{\infty} d\Omega_1\;
+\exp\!\left(-2\Omega_1^2 q^{-4/3}\right)
+\exp\!\left(-2(\Omega-\Omega_1)^2 q^{-4/3}\right).
+\end{equation}
+
+In this form the integral is manifestly dimensionless, and all dependence on
+the physical scales $\epsilon$ and $k$ is contained in the overall prefactor
+$C_k^2\,\epsilon\,k^{-5}$.
 
 \bibliography{bib}
 
