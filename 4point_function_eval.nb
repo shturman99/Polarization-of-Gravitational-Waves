@@ -1,113 +1,91 @@
-(* H_ijij integral evaluation (Mathematica/Wolfram Language) *)
+In[38]:= 
+(* =========================================================*)
+(*H_ijij integral evaluation (Wolfram Language)*)
+(*Modular+interactive diagnostics*)(*Matches LaTeX draft:prefactor (2\[Pi])^(-7),measure k1^2*)
+(* =========================================================*)
+ClearAll["Global`*"];
+In[39]:= 
+(*----------Option declarations----------*)
+Options[Hijij]={Ck->1,eps->1,k1Max->20,om1Max->20,uReg->0,wp->40,ag->8,pg->8,mr->15,useAnalyticMu->True,diagnostics->False,(*print progress info*)progressMonitor->True    
+(*show NIntegrate progress panel*)};
+In[40]:= (*----------Physics definitions (pure functions)----------*)
+eta[k_,eps_]:=(1/Sqrt[2 Pi]) eps^(1/3) k^(2/3);
+ESpec[k_,Ck_,eps_]:=Ck eps^(2/3) k^(-5/3);
 
-(* === Definitions matching LaTeX draft === *)
-ClearAll[eta, ESpec, gSpec, uSpec, kernelK, muIntClosedForm, Hijij];
+gSpec[k_,om_,Ck_,eps_]:=(2 ESpec[k,Ck,eps])/(k^2 eta[k,eps])*Exp[-om^2/(Pi eta[k,eps]^2)];
 
-(* Options and defaults for the main integral *)
-Options[Hijij] = {
-  Ck -> 1,
-  eps -> 1,
-  k1Max -> 20,
-  om1Max -> 20,
-  uReg -> 0,
-  wp -> 40,
-  ag -> 8,
-  pg -> 8,
-  mr -> 15,
-  useAnalyticMu -> True
-};
+uSpec[k_,k1_,mu_,uReg_]:=Sqrt[k^2+k1^2-2 k k1 mu+uReg^2];
 
-(* eta(k) and E(k) from the draft *)
-eta[k_, eps_] := (1/Sqrt[2*Pi]) * eps^(1/3) * k^(2/3);
-ESpec[k_, Ck_, eps_] := Ck * eps^(2/3) * k^(-5/3);
+kernelK[k_,k1_,u_]:=27/6+k^4/(12 k1^2 u^2)+k1^2/(12 u^2)+u^2/(12 k1^2)-k^2/(6 u^2)-k^2/(6 k1^2);
 
-(* g(k, ω) from the draft (evaluated at (k1, ω1) and (u, ω-ω1)) *)
-gSpec[k_, om_, Ck_, eps_] := (2*ESpec[k, Ck, eps])/(k^2*eta[k, eps]) * Exp[-om^2/(Pi*eta[k, eps]^2)];
+prefactor[]:=1/(2 Pi)^7;
+In[46]:= (*----------Core building blocks----------*)
 
-(* u(k,k1,μ) from the draft, with optional regularization uReg *)
-uSpec[k_, k1_, mu_, uReg_] := Sqrt[k^2 + k1^2 - 2*k*k1*mu + uReg^2];
+(*Construct \[Mu]-integrand WITH measure factor k1^2 and overall prefactor (2\[Pi])^(-7)*)
+muIntegrandBuilder[k_?NumericQ,om_?NumericQ,CkVal_?NumericQ,epsVal_?NumericQ,uRegVal_?NumericQ]:=Function[{k1,mu,om1},Module[{uVal=uSpec[k,k1,mu,uRegVal]},prefactor[]*k1^2*kernelK[k,k1,uVal]*gSpec[k1,om1,CkVal,epsVal]*gSpec[uVal,om-om1,CkVal,epsVal]]];
 
-(* Kernel K(k,k1,u) from the draft *)
-kernelK[k_, k1_, u_] := 27/6 + k^4/(12*k1^2*u^2) + k1^2/(12*u^2) + u^2/(12*k1^2)
-  - k^2/(6*u^2) - k^2/(6*k1^2);
+(*Analytic \[Mu] integral for inspection only;do not auto-force it into numerics unless it truly closes*)
+muIntClosedForm[k_,k1_,om_,om1_,CkVal_,epsVal_,uRegVal_]:=Module[{mu},Integrate[kernelK[k,k1,uSpec[k,k1,mu,uRegVal]]*gSpec[k1,om1,CkVal,epsVal]*gSpec[uSpec[k,k1,mu,uRegVal],om-om1,CkVal,epsVal],{mu,-1,1},GenerateConditions->False]];
 
-(* Analytic μ-integral helper (for inspection only). Does not force use inside NIntegrate. *)
-muIntClosedForm[k_, k1_, om_, om1_, opts : OptionsPattern[Hijij]] := Module[
-  {CkVal = OptionValue[Ck], epsVal = OptionValue[eps], uRegVal = OptionValue[uReg], mu},
-  Integrate[
-    kernelK[k, k1, uSpec[k, k1, mu, uRegVal]]
-      * gSpec[k1, om1, CkVal, epsVal]
-      * gSpec[uSpec[k, k1, mu, uRegVal], om - om1, CkVal, epsVal],
-    {mu, -1, 1}
-  ]
-];
+muClosedReadyQ[expr_]:=FreeQ[expr,Integrate]&&FreeQ[expr,ConditionalExpression];
+In[49]:= (*NIntegrate options (centralized)*)
+nintOptions[wpVal_,agVal_,pgVal_,mrVal_,excl_]:={Method->{"GlobalAdaptive","SymbolicProcessing"->0},WorkingPrecision->wpVal,AccuracyGoal->agVal,PrecisionGoal->pgVal,MaxRecursion->mrVal,Exclusions->excl};
+In[50]:= (*----------Diagnostics helpers----------*)
 
-(* === Main callable: H_ijij === *)
-Hijij[k_?NumericQ, om_?NumericQ, opts : OptionsPattern[]] := Module[
-  {
-    CkVal = OptionValue[Ck],
-    epsVal = OptionValue[eps],
-    k1MaxVal = OptionValue[k1Max],
-    om1MaxVal = OptionValue[om1Max],
-    uRegVal = OptionValue[uReg],
-    wpVal = OptionValue[wp],
-    agVal = OptionValue[ag],
-    pgVal = OptionValue[pg],
-    mrVal = OptionValue[mr],
-    useAnalyticMuVal = OptionValue[useAnalyticMu],
-    pref, muClosed, k1, mu, om1, nintOpts, k1Range, om1Range, muIntegrand
-  },
+sampleReport[k_?NumericQ,om_?NumericQ,CkVal_?NumericQ,epsVal_?NumericQ,uRegVal_?NumericQ,k1MaxVal_?NumericQ,om1MaxVal_?NumericQ]:=Module[{f,pts,rows},f=muIntegrandBuilder[k,om,CkVal,epsVal,uRegVal];
+pts={{k1MaxVal*0.1,-0.9,0.0},{k1MaxVal*0.3,0.0,0.0},{k1MaxVal*0.7,0.5,0.2 om1MaxVal},{k,0.99,0.0},(*near potentially sharp region*){k,1.0,0.0}           (*uReg protects this*)};
+rows=Table[With[{k1=pts[[i,1]],mu=pts[[i,2]],om1=pts[[i,3]]},{i,k1,mu,om1,N[uSpec[k,k1,mu,uRegVal]],Quiet@Check[N[f[k1,mu,om1]],Indeterminate]}],{i,Length[pts]}];
+Grid[Prepend[rows,{"#","k1","mu","om1","u(k,k1,mu)","integrand"}],Frame->All]];
+(*Progress UI for NIntegrate (optional)*)
+progressPanel[progressVar_]:=Panel@Column[{"NIntegrate progress snapshot (updates during evaluation):",Dynamic@progressVar}];
+(*----------Main callable----------*)
 
-  (* Post-phi prefactor: ∫ dφ = 2π *)
-  pref = 1/(2*Pi)^7;
+Hijij[k_?NumericQ,om_?NumericQ,opts:OptionsPattern[]]:=Module[{CkVal=OptionValue[Ck],epsVal=OptionValue[eps],k1MaxVal=OptionValue[k1Max],om1MaxVal=OptionValue[om1Max],uRegVal=OptionValue[uReg],wpVal=OptionValue[wp],agVal=OptionValue[ag],pgVal=OptionValue[pg],mrVal=OptionValue[mr],useAnalyticMuVal=OptionValue[useAnalyticMu],diagQ=TrueQ[OptionValue[diagnostics]],monitorQ=TrueQ[OptionValue[progressMonitor]],fMu,excl,nopts,res,muClosed,progress=""},(*Build \[Mu]-integrand*)fMu=muIntegrandBuilder[k,om,CkVal,epsVal,uRegVal];
+(*Exclude the unregularized singular surface (u=0) if uReg==0*)excl=If[uRegVal==0,{k^2+k1^2-2 k k1 mu==0},{}];
+nopts=nintOptions[wpVal,agVal,pgVal,mrVal,excl];
+If[diagQ,Print["--- Hijij diagnostics ---"];
+Print[Row[{"k=",k,", om=",om,", Ck=",CkVal,", eps=",epsVal,", uReg=",uRegVal}]];
+Print[Row[{"k1Max=",k1MaxVal,", om1Max=",om1MaxVal,", pref=",prefactor[]}]];
+Print["Sample integrand values:"];
+Print[sampleReport[k,om,CkVal,epsVal,uRegVal,k1MaxVal,om1MaxVal]];];
+(*Attempt analytic \[Mu] integration for inspection;only use if really closed*)If[useAnalyticMuVal,muClosed=muIntClosedForm[k,k1,om,om1,CkVal,epsVal,uRegVal];
+If[diagQ,Print["Analytic \[Mu] integral closed form? ",muClosedReadyQ[muClosed]]];
+If[muClosedReadyQ[muClosed],(*NOTE:muClosed here is a function of symbolic k1,om1;integrate numerically over k1,om1*)If[monitorQ,res=Monitor[NIntegrate[Evaluate[prefactor[]*k1^2*muClosed],{k1,0,k1MaxVal},{om1,-om1MaxVal,om1MaxVal},Evaluate[Sequence@@nopts]],progressPanel[progress]],res=NIntegrate[Evaluate[prefactor[]*k1^2*muClosed],{k1,0,k1MaxVal},{om1,-om1MaxVal,om1MaxVal},Evaluate[Sequence@@nopts]]];
+Return[res];];];
+(*Otherwise do the full numeric triple integral*)If[monitorQ,res=Monitor[NIntegrate[Evaluate[fMu[k1,mu,om1]],{k1,0,k1MaxVal},{mu,-1,1},{om1,-om1MaxVal,om1MaxVal},Evaluate[Sequence@@nopts],EvaluationMonitor:>(progress=Row[{"k1=",NumberForm[k1,{6,3}],"  mu=",NumberForm[mu,{5,3}],"  om1=",NumberForm[om1,{6,3}],"  u=",NumberForm[uSpec[k,k1,mu,uRegVal],{6,3}]}])],progressPanel[progress]],res=NIntegrate[Evaluate[fMu[k1,mu,om1]],{k1,0,k1MaxVal},{mu,-1,1},{om1,-om1MaxVal,om1MaxVal},Evaluate[Sequence@@nopts]]];
+If[diagQ,Print["Result: ",res]];
+res];
+In[56]:= 
+(*----------Interactive exploration UI----------*)
 
-  (* Integration ranges for k1 and ω1 (finite cutoffs by default) *)
-  k1Range = {k1, 0, k1MaxVal};
-  om1Range = {om1, -om1MaxVal, om1MaxVal};
+HijijExplorer[]:=Manipulate[Module[{val},val=Hijij[k,om,Ck->Ck,eps->eps,k1Max->k1Max,om1Max->om1Max,uReg->uReg,wp->wp,ag->ag,pg->pg,mr->mr,useAnalyticMu->useAnalyticMu,diagnostics->diagnostics,progressMonitor->progressMonitor];
+Column[{Style["H_ijij(k, \[Omega]) evaluation",14,Bold],Row[{"H = ",val}],If[showSample,sampleReport[k,om,Ck,eps,uReg,k1Max,om1Max],Nothing]}]],{{k,1.0,"k"},0.1,5.0,0.1,Appearance->"Labeled"},{{om,0.5,"\[Omega]"},-5.0,5.0,0.1,Appearance->"Labeled"},Delimiter,{{Ck,1.0,"Ck"},0.1,5.0,0.1,Appearance->"Labeled"},{{eps,1.0,"\[CurlyEpsilon]"},0.1,5.0,0.1,Appearance->"Labeled"},{{uReg,0.0,"uReg"},0.0,1.0,0.01,Appearance->"Labeled"},Delimiter,{{k1Max,20.0,"k1 cutoff"},2.0,60.0,1.0,Appearance->"Labeled"},{{om1Max,20.0,"\[Omega]1 cutoff"},2.0,60.0,1.0,Appearance->"Labeled"},Delimiter,{{wp,40,"WorkingPrecision"},{20,30,40,50}},{{ag,8,"AccuracyGoal"},{4,6,8,10,12}},{{pg,8,"PrecisionGoal"},{4,6,8,10,12}},{{mr,15,"MaxRecursion"},{8,10,12,15,20}},Delimiter,{{useAnalyticMu,False,"try analytic \[Mu]?"},{False,True}},{{diagnostics,False,"print diagnostics?"},{False,True}},{{progressMonitor,True,"show progress monitor?"},{True,False}},{{showSample,True,"show sample integrand table?"},{True,False}},TrackedSymbols:>{k,om,Ck,eps,uReg,k1Max,om1Max,wp,ag,pg,mr,useAnalyticMu,diagnostics,progressMonitor,showSample}];
+In[60]:= (*----------Smoke tests----------*)
+Print["Smoke test 1 (fast settings):"];
+Print[Hijij[1.,0.5,k1Max->10,om1Max->10,wp->30,ag->6,pg->6,mr->10,uReg->0.01,progressMonitor->True]];
 
-  (* NIntegrate configuration for stability *)
-  nintOpts = {
-    Method -> {"GlobalAdaptive", "SymbolicProcessing" -> 0},
-    WorkingPrecision -> wpVal,
-    AccuracyGoal -> agVal,
-    PrecisionGoal -> pgVal,
-    MaxRecursion -> mrVal,
-    Exclusions -> {k^2 + k1^2 - 2*k*k1*mu == 0}
-  };
-
-  (* μ integrand with measure factor k1^2, matching the draft *)
-  muIntegrand[k1_?NumericQ, mu_?NumericQ, om1_?NumericQ] := Module[
-    {uVal = uSpec[k, k1, mu, uRegVal]},
-    pref * k1^2 * kernelK[k, k1, uVal]
-      * gSpec[k1, om1, CkVal, epsVal]
-      * gSpec[uVal, om - om1, CkVal, epsVal]
-  ];
-
-  (* Try analytic μ integral if requested and closed-form is found *)
-  If[TrueQ[useAnalyticMuVal],
-    muClosed = muIntClosedForm[k, k1, om, om1, Ck -> CkVal, eps -> epsVal, uReg -> uRegVal];
-    If[FreeQ[muClosed, Integrate],
-      Return[
-        NIntegrate[
-          pref * k1^2 * muClosed,
-          k1Range,
-          om1Range,
-          Evaluate[Sequence @@ nintOpts]
-        ]
-      ];
-    ];
-  ];
-
-  (* Full numeric integral over k1, μ, ω1 if analytic μ is unavailable *)
-  NIntegrate[
-    muIntegrand[k1, mu, om1],
-    k1Range,
-    {mu, -1, 1},
-    om1Range,
-    Evaluate[Sequence @@ nintOpts]
-  ]
-];
-
-(* === Smoke tests === *)
-Print[Hijij[1., 0.5]];
-Print[Hijij[1., 0.5, k1Max -> 10, om1Max -> 10]];
+In[57]:= (*To open interactive UI,evaluate:*)
+HijijExplorer[]
+Out[57]= Manipulate[Module[{val$}, val$ = Hijij[k, om, Ck -> Ck, eps -> eps, 
+      k1Max -> k1Max, om1Max -> om1Max, uReg -> uReg, wp -> wp, ag -> ag, 
+      pg -> pg, mr -> mr, useAnalyticMu -> useAnalyticMu, 
+      diagnostics -> diagnostics, progressMonitor -> progressMonitor]; 
+    Column[{Style["H_ijij(k, \[Omega]) evaluation", 14, Bold], Row[{"H = ", val$}], 
+      If[showSample, sampleReport[k, om, Ck, eps, uReg, k1Max, om1Max], 
+       Nothing]}]], {{k, 2.5000000000000004, "k"}, 0.1, 5., 0.1, 
+   Appearance -> "Labeled"}, {{om, 0.5, "\[Omega]"}, -5., 5., 0.1, 
+   Appearance -> "Labeled"}, Delimiter, {{Ck, 1., "Ck"}, 0.1, 5., 0.1, 
+   Appearance -> "Labeled"}, {{eps, 1., "\[CurlyEpsilon]"}, 0.1, 5., 0.1, 
+   Appearance -> "Labeled"}, {{uReg, 0., "uReg"}, 0., 1., 0.01, 
+   Appearance -> "Labeled"}, Delimiter, {{k1Max, 20., "k1 cutoff"}, 2., 60., 
+   1., Appearance -> "Labeled"}, {{om1Max, 20., "\[Omega]1 cutoff"}, 2., 60., 1., 
+   Appearance -> "Labeled"}, Delimiter, {{wp, 30, "WorkingPrecision"}, 
+   {20, 30, 40, 50}}, {{ag, 8, "AccuracyGoal"}, {4, 6, 8, 10, 12}}, 
+  {{pg, 8, "PrecisionGoal"}, {4, 6, 8, 10, 12}}, 
+  {{mr, 15, "MaxRecursion"}, {8, 10, 12, 15, 20}}, Delimiter, 
+  {{useAnalyticMu, True, "try analytic \[Mu]?"}, {False, True}}, 
+  {{diagnostics, False, "print diagnostics?"}, {False, True}}, 
+  {{progressMonitor, True, "show progress monitor?"}, {True, False}}, 
+  {{showSample, True, "show sample integrand table?"}, {True, False}}, 
+  TrackedSymbols :> {k, om, Ck, eps, uReg, k1Max, om1Max, wp, ag, pg, mr, 
+    useAnalyticMu, diagnostics, progressMonitor, showSample}]
