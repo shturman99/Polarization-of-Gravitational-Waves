@@ -459,6 +459,167 @@ In this form, all integrals are manifestly dimensionless, and the dependence
 on the turbulent energy injection rate $\epsilon$ and the wavenumber $k$ is
 fully contained in the overall prefactor $C_k^{2}\epsilon k^{-5}$.
 \subsection{Repeatring derivation of the Gogoberidze 2007 appendix A}
+Eq A.1  and reproduced in code 
+\begin{equation}
+    \int_0^{\infty}dy ~ \exp \left(-Ay^2\right)~\exp \left(-A(y-x)^2\right) =  \left( \frac{\pi}{4(A+B)} \right)^{1/2} \exp \left( \frac{-ABx^2}{A+B}\right){\rm erfc}  \left(\frac{-Bx}{\sqrt{A+B}}\right).
+\end{equation}
+\begin{align}
+H_{i j i j}(k, \omega)&=\frac{\varepsilon}{24 \pi(2 \pi)^{3 / 2} k} \int_{k_0}^{k_d} d k_1 k_1^{-10 / 3} \int_{{\rm max}(|k_1-k|,k_0)}^{{\rm min}(k_1+k,k_d)} d u u^{-10 / 3}\left(k_1^{-4 / 3}+u^{-4 / 3}\right)^{-1 / 2}\left[27-\frac{k^2}{k_1^2}-\frac{k^2}{u^2}+\frac{k^4}{2 k_1^2 u^2}+\frac{k_1^2}{2 u^2}+\frac{u^2}{2 k_1^2}\right] \nonumber \\
+& \times \exp \left(-\frac{2 \varepsilon^{-2 / 3} \omega^2}{k_1^{4 / 3}+u^{4 / 3}}\right) \operatorname{erfc}\left(-\frac{2^{1 / 2} \varepsilon^{-1 / 3} \omega}{\left(k_1^{-4 / 3}+u^{-4 / 3}\right)^{1 / 2}}\right) .
+\end{align}
+Remainder $k_0$ is largest scale of the turbulence and $k_d$ is energy damping scale. The nonlinear boundaries in the integral would follow form the finite support of the $E_k$.  
+
+{\bf CLAIM  :}  This integral is not divergent as $k$ goes to zero.
+We define the dimensionless parameters
+\begin{equation}
+\frac{\varepsilon}{k_0} = M^3,
+\qquad
+\frac{k_d}{k_0} = R^{3/4},
+\qquad
+p = \frac{k}{k_0},
+\qquad
+q = \frac{\omega}{k_0}.
+\end{equation}
+
+\begin{equation}
+x = \left(\frac{k_1}{k_0}\right)^{-4/3},
+\qquad
+y = \left(\frac{u}{k_0}\right)^{-4/3},
+\end{equation}
+\begin{equation}
+k_1 = k_0 x^{-3/4},
+\qquad
+u = k_0 y^{-3/4}.
+\end{equation}
+
+\begin{equation}
+dk_1 = -\frac{3}{4} k_0 x^{-7/4} dx,
+\qquad
+du = -\frac{3}{4} k_0 y^{-7/4} dy.
+\end{equation}
+
+\begin{equation}
+k_1^{-10/3} = k_0^{-10/3} x^{5/2},
+\qquad
+u^{-10/3} = k_0^{-10/3} y^{5/2},
+\end{equation}
+\begin{equation}
+dk_1\, k_1^{-10/3}
+=
+-\frac{3}{4} k_0^{-7/3} x^{3/4} dx,
+\qquad
+du\, u^{-10/3}
+=
+-\frac{3}{4} k_0^{-7/3} y^{3/4} dy.
+\end{equation}
+
+\begin{equation}
+k_1^{-4/3} + u^{-4/3}
+=
+k_0^{-4/3} (x + y),
+\qquad
+\left(k_1^{-4/3} + u^{-4/3}\right)^{-1/2}
+=
+k_0^{2/3} (x+y)^{-1/2}.
+\end{equation}
+
+\begin{equation}
+k_1 \in [k_0, k_d]
+\quad \Longrightarrow \quad
+x \in [R^{-1}, 1].
+\end{equation}
+
+\begin{equation}
+\tilde{k}_1 = \frac{k_1}{k_0} = x^{-3/4},
+\qquad
+\tilde{u} = \frac{u}{k_0} = y^{-3/4},
+\end{equation}
+\begin{equation}
+\tilde{u}_{\min} = \max(|\tilde{k}_1 - p|, 1),
+\qquad
+\tilde{u}_{\max} = \min(\tilde{k}_1 + p, R^{3/4}),
+\end{equation}
+\begin{equation}
+y_{\min} = \tilde{u}_{\max}^{-4/3},
+\qquad
+y_{\max} = \tilde{u}_{\min}^{-4/3}.
+\end{equation}
+
+\begin{align}
+27 - \frac{k^2}{k_1^2} - \frac{k^2}{u^2}
++ \frac{k^4}{2 k_1^2 u^2}
++ \frac{k_1^2}{2 u^2}
++ \frac{u^2}{2 k_1^2}
+=
+27
+- p^2 x^{3/2}
+- p^2 y^{3/2}
++ \frac{p^4}{2} x^{3/2} y^{3/2}
++ \frac{1}{2} x^{-3/2} y^{3/2}
++ \frac{1}{2} y^{-3/2} x^{3/2}.
+\end{align}
+
+\begin{equation}
+\exp\!\left(
+-\frac{2 \varepsilon^{-2/3} \omega^2}
+{k_1^{4/3} + u^{4/3}}
+\right)
+=
+\exp\!\left(
+-\frac{2xy}{x+y}
+\frac{q^2}{M^2}
+\right),
+\end{equation}
+\begin{equation}
+\operatorname{erfc}\!\left(
+-\frac{2^{1/2}\varepsilon^{-1/3}\omega}
+{(k_1^{-4/3}+u^{-4/3})^{1/2}}
+\right)
+=
+\operatorname{erfc}\!\left(
+-\frac{\sqrt{2}\, q}
+{M \sqrt{x+y}}
+\right).
+\end{equation}
+
+\begin{align}
+H_{ijij}(p,q)
+&=
+\frac{3 M^3 k_0^{-4}}
+{256 (2\pi)^{3/2} p}
+\int_{R^{-1}}^{1} dx\, x^{3/4}
+\int_{y_{\min}(x)}^{y_{\max}(x)} dy\, y^{3/4}
+(x+y)^{-1/2}
+\nonumber\\
+&\quad\times
+\left[
+27
+- p^2 x^{3/2}
+- p^2 y^{3/2}
++ \frac{p^4}{2} x^{3/2} y^{3/2}
++ \frac{1}{2} x^{-3/2} y^{3/2}
++ \frac{1}{2} y^{-3/2} x^{3/2}
+\right]
+\nonumber\\
+&\quad\times
+\exp\!\left(
+-\frac{2xy}{x+y}
+\frac{q^2}{M^2}
+\right)
+\operatorname{erfc}\!\left(
+-\frac{\sqrt{2}\, q}
+{M \sqrt{x+y}}
+\right).
+\end{align}
+
+\mg{ Factor of 2 of in kernel and different and my derivation doesn't have additional factor of $y$  in erfc }
+
+\begin{equation}
+y_{\max} = \min(|x^{-3/4} - p|^{-4/3}, 1),
+\qquad
+y_{\min} = \max((x^{-3/4} + p)^{-4/3}, R^{-1}),
+\end{equation}
+
 
 \subsection{  $\kb \leq \kb_0$ }
 %\mg{WRONG DERIVATION THE ENERGY SPECTRUM NEEDS TO CHANGE FOR THE K TO GO TO 0 CONSISTENTLY }\\
