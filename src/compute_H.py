@@ -12,6 +12,21 @@ import numpy as np
 from scipy import integrate, special
 import matplotlib.pyplot as plt
 
+
+def _sanitize_param_for_fname(val):
+    """Serialize numeric parameter into a filename-safe string."""
+    try:
+        s = format(float(val), '.6g')
+    except Exception:
+        s = str(val)
+    s = s.replace('.', 'p').replace('-', 'm')
+    return s
+
+
+def _append_suffix_to_path(path, suffix):
+    base, ext = os.path.splitext(path)
+    return f"{base}{suffix}{ext}"
+
 def kernel_bracket(p, x, y):
     xp32 = x**1.5
     yp32 = y**1.5
@@ -80,7 +95,15 @@ def example_scan_and_plot(out_png="outputs/H_pq.png", out_npy="outputs/Hgrid.npy
             except Exception:
                 Hgrid[i, j] = np.nan
 
-    os.makedirs(os.path.dirname(out_png), exist_ok=True)
+    # include M and R in output filenames for traceability
+    mstr = _sanitize_param_for_fname(M)
+    rstr = _sanitize_param_for_fname(R)
+    suffix = f"_M{mstr}_R{rstr}"
+    os.makedirs(os.path.dirname(out_npy), exist_ok=True)
+    out_npy = _append_suffix_to_path(out_npy, suffix)
+    out_png = _append_suffix_to_path(out_png, suffix)
+
+    # save as a numpy file containing a dict for easy loading
     np.save(out_npy, {"ps": ps, "qs": qs, "H": Hgrid})
     plt.figure(figsize=(7,5))
     plt.pcolormesh(ps, qs, Hgrid, shading='auto', cmap='viridis')
@@ -88,7 +111,7 @@ def example_scan_and_plot(out_png="outputs/H_pq.png", out_npy="outputs/Hgrid.npy
     plt.yscale('log')
     plt.xlabel('p = k/k0')
     plt.ylabel('q = ω/k0')
-    plt.title('H(p,q) (dimensionful prefactor included)')
+    plt.title('H(p,q) ')
     plt.colorbar(label='H')
     plt.tight_layout()
     plt.savefig(out_png, dpi=200)
@@ -147,7 +170,11 @@ def plot_spectra_M(M_list, qmin=1e-3, qmax=10.0, nq=200, out_png='outputs/H_spec
     plt.ylabel('h_c (analytic p->0 scaling)')
     plt.title('Spectra for various Mach numbers (p->0 analytic)')
     plt.legend()
+    # include M list in filename
+    mlist_str = '-'.join([_sanitize_param_for_fname(M) for M in M_list])
+    suffix = f"_Ms{mlist_str}"
     os.makedirs(os.path.dirname(out_png), exist_ok=True)
+    out_png = _append_suffix_to_path(out_png, suffix)
     plt.tight_layout()
     plt.savefig(out_png, dpi=200)
     plt.close()
@@ -168,7 +195,12 @@ def plot_spectra_M_analytic(M_list, qmin=1e-4, qmax=1e1, nq=300, out_png='output
     plt.legend(fontsize=10)
     # no grid per request
     plt.tight_layout()
+    # include M list and R in filename
+    mlist_str = '-'.join([_sanitize_param_for_fname(M) for M in M_list])
+    rstr = _sanitize_param_for_fname(R)
+    suffix = f"_Ms{mlist_str}_R{rstr}"
     os.makedirs(os.path.dirname(out_png), exist_ok=True)
+    out_png = _append_suffix_to_path(out_png, suffix)
     plt.savefig(out_png, dpi=200)
     plt.close()
     print(f'Wrote {out_png}')
