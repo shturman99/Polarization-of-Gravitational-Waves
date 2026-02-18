@@ -142,9 +142,9 @@ def plot_spectra_M(M_list, qmin=1e-3, qmax=10.0, nq=200, out_png='outputs/H_spec
     plt.figure(figsize=(6,4))
     for M in M_list:
         Hvals = H_k0_analytic(qs, M=M)
-        plt.loglog(qs, Hvals, label=f'M={M}')
+        plt.loglog(qs, (qs * Hvals)**(0.5), label=f'M={M}')
     plt.xlabel('q = ω/k0')
-    plt.ylabel('H (analytic p->0 scaling)')
+    plt.ylabel('h_c (analytic p->0 scaling)')
     plt.title('Spectra for various Mach numbers (p->0 analytic)')
     plt.legend()
     os.makedirs(os.path.dirname(out_png), exist_ok=True)
@@ -160,7 +160,7 @@ def plot_spectra_M_analytic(M_list, qmin=1e-4, qmax=1e1, nq=300, out_png='output
     plt.figure(figsize=(8, 6))
     for M in M_list:
         Hvals = np.array([H_k0_analytic(q, M=M, k0=1.0, R=R) for q in qs])
-        plt.loglog(qs, Hvals, label=f'M={M}', linewidth=2)
+        plt.loglog(qs,(qs * Hvals) ** (0.5), label=f'M={M}', linewidth=2)
     plt.xlabel('q = ω/k0', fontsize=12)
     plt.ylabel('H(0, q)', fontsize=12)
     plt.title('Analytic p→0 spectra for various Mach numbers', fontsize=12)
@@ -186,7 +186,7 @@ if __name__ == "__main__":
     # Option 1: Plot the correct analytic p->0 formula
     print("\n[1] Generating analytic p→0 spectra...")
     plot_spectra_M_analytic(M_values, qmin=1e-4, qmax=1e1, nq=300,
-                            out_png='outputs/H_spectra_analytic.png', R=1e6)
+                            out_png='outputs/H_spectra_analytic.png', R=1e4)
     
     # Option 2: Optional—can uncomment to run full 2D scans (slower)
     # print("[2] Generating 2D H(p,q) scan...")
