@@ -211,7 +211,7 @@ A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1
 &\quad \times \left[ 4 + \frac{1}{3}\left(1+(\khat_{1}\cdot\hat{u})^2\right) \right]. \label{eq: H-with-P}
 \end{align}
 This is form of the Fourier  transform valid for all values of $k$ in, from now we will treat $\kb=0$ and $\kb\ne0$ separately
-\subsection{k not 0}
+\subsection{ $\kb>\kb_0$}
 Using $\kb=\kb_1+\ub$ so that
 \begin{equation}
 k^2 = k_1^2 + u^2 + 2 k_1 u (\khat_1\cdot\hat{u})
@@ -230,7 +230,7 @@ H_{ijij}(\xb',\kb,\omega)
 A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber
 \times \left[ 4 + \frac{1}{3}\left(1+\left(\frac{k^2-k_1^2-u^2}{2 k_1 u}\right)^2\right) \right]. \label{eq: H-geometric}
 \end{align}
-\codex{If you proceed to evaluate the $d^3k_1$ integral using spherical symmetry, note that $d^3k_1 = k_1^2\,dk_1\,d\mu\,d\phi$ with $\mu=\hat{k}\cdot\hat{k}_1$, and $u=|\kb-\kb_1|=\sqrt{k^2+k_1^2-2kk_1\mu}$. Do not treat $u$ as independent; the angular integral is over $\mu\in[-1,1]$ and the azimuth gives $2\pi$.}
+%\codex{If you proceed to evaluate the $d^3k_1$ integral using spherical symmetry, note that $d^3k_1 = k_1^2\,dk_1\,d\mu\,d\phi$ with $\mu=\hat{k}\cdot\hat{k}_1$, and $u=|\kb-\kb_1|=\sqrt{k^2+k_1^2-2kk_1\mu}$. Do not treat $u$ as independent; the angular integral is over $\mu\in[-1,1]$ and the azimuth gives $2\pi$.}
 Now if we focus our attention on the term in brackets and massage it a bit we would get the following result:
 \begin{align}
  \left[ 4 + \frac{1}{3}\left(1+\left(\frac{k^2-k_1^2-u^2}{2 k_1 u}\right)^2\right) \right] &=
@@ -238,7 +238,7 @@ Now if we focus our attention on the term in brackets and massage it a bit we wo
  &=\left[\frac{27}{6} + \frac{k^4}{12k_1^2u^2} + \frac{k_1^2}{12u^2} +\frac{u^2}{12k_1^2} - \frac{k^2}{6u^2}-\frac{k^2}{6k_1^2} \right]
 \end{align}
 \mg{Factor of $\frac{1}{(2\pi)^8}$ still floating around I need to redo my calculations to see if it gets canceled somewhere and I forgot}
-\codex{With the stated Fourier conventions, the overall factor after the $\br$ and $\tau$ integrals should be $(2\pi)^{-8}$ as in Eq.~\eqref{eq: H-convolution}. There is no additional $(2\pi)$ from $A(k)$ or $\tilde f$, so this factor should remain unless a different convention is adopted.}
+%\codex{With the stated Fourier conventions, the overall factor after the $\br$ and $\tau$ integrals should be $(2\pi)^{-8}$ as in Eq.~\eqref{eq: H-convolution}. There is no additional $(2\pi)$ from $A(k)$ or $\tilde f$, so this factor should remain unless a different convention is adopted.}
 Combining all the factors together we arrive at the (almost) E. 29 form \cite{2007Gogoberidze}
 \begin{align}
     H_{ijij}(\xb',\kb,\omega) =& 
@@ -252,7 +252,7 @@ Now we can calcucate the temporal fourier transfrom of $f$ which gives us :
 \begin{equation}
     \tf(\eta_k,\omega) = \frac{2}{\eta_k}  \exp\left(-\frac{\omega^2}{\pi \eta^2_k}\right)
 \end{equation}
-\codex{Check the Gaussian Fourier transform against the stated convention $f(\tau)=\int \frac{d\omega}{2\pi}e^{-i\omega\tau}\tilde f(\omega)$, $\tilde f(\omega)=\int d\tau e^{i\omega\tau}f(\tau)$. For $f(\tau)=\exp[-(\pi/4)\eta_k^2\tau^2]$, the integral gives $\tilde f(\omega)=(2/\eta_k)\exp[-\omega^2/(\pi\eta_k^2)]$, so the prefactor and exponent denominator here appear to be off by factors of $2$ and $\pi$.}
+%\codex{Check the Gaussian Fourier transform against the stated convention $f(\tau)=\int \frac{d\omega}{2\pi}e^{-i\omega\tau}\tilde f(\omega)$, $\tilde f(\omega)=\int d\tau e^{i\omega\tau}f(\tau)$. For $f(\tau)=\exp[-(\pi/4)\eta_k^2\tau^2]$, the integral gives $\tilde f(\omega)=(2/\eta_k)\exp[-\omega^2/(\pi\eta_k^2)]$, so the prefactor and exponent denominator here appear to be off by factors of $2$ and $\pi$.}
 
 \mg{Setting this function to one will be impossible because we need sufficiently fast decay at infinity.}
 Using definitions made in accordance with \cite{2007Gogoberidze} $ A(k) = C_k\epsilon^{2/3}k^{-11/3}/4\pi$ and $ \eta_k = \frac{1}{\sqrt{2\pi}  }\epsilon^{1/3}k^{2/3}$
@@ -458,9 +458,12 @@ q^{-13/3}s^{-13/3}
 In this form, all integrals are manifestly dimensionless, and the dependence
 on the turbulent energy injection rate $\epsilon$ and the wavenumber $k$ is
 fully contained in the overall prefactor $C_k^{2}\epsilon k^{-5}$.
-\subsection{case k=0}
-\mg{WRONG DERIVATION THE ENERGY SPECTRUM NEEDS TO CHANGE FOR THE K TO GO TO 0 CONSISTENTLY }\\
-We need to separately evaluate case $\kb =0$ since in deriving previous form we have divided with $\kb$. We would start from equation \ref{eq: H-with-P}
+\subsection{Repeatring derivation of the Gogoberidze 2007 appendix A}
+
+\subsection{  $\kb \leq \kb_0$ }
+%\mg{WRONG DERIVATION THE ENERGY SPECTRUM NEEDS TO CHANGE FOR THE K TO GO TO 0 CONSISTENTLY }\\
+\mg{to account for case $k=0$ you can plug in the case of $k^2$ or $k^4$ depending on the structure of the flow}
+We need to separately evaluate case $\kb \leq 0$ since in deriving previous form we have divided with $\kb$. We would start from equation \ref{eq: H-with-P}
 
 \begin{align}
 H_{ijij}(\xb',\kb,\omega)
