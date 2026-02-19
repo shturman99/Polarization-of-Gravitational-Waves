@@ -12,21 +12,6 @@ import numpy as np
 from scipy import integrate, special
 import matplotlib.pyplot as plt
 
-
-def _sanitize_param_for_fname(val):
-    """Serialize numeric parameter into a filename-safe string."""
-    try:
-        s = format(float(val), '.6g')
-    except Exception:
-        s = str(val)
-    s = s.replace('.', 'p').replace('-', 'm')
-    return s
-
-
-def _append_suffix_to_path(path, suffix):
-    base, ext = os.path.splitext(path)
-    return f"{base}{suffix}{ext}"
-
 def kernel_bracket(p, x, y):
     xp32 = x**1.5
     yp32 = y**1.5
@@ -95,14 +80,15 @@ def example_scan_and_plot(out_png="outputs/H_pq.png", out_npy="outputs/Hgrid.npy
             except Exception:
                 Hgrid[i, j] = np.nan
 
-    # include M and R in output filenames for traceability
-    mstr = _sanitize_param_for_fname(M)
-    rstr = _sanitize_param_for_fname(R)
-    suffix = f"_M{mstr}_R{rstr}"
+    # include M and R in output filenames for traceability (2-digit scientific notation)
+    mstr = f"{M:.2e}".replace('+', 'p').replace('-', 'm')
+    rstr = f"{R:.2e}".replace('+', 'p').replace('-', 'm')
+    out_npy_base, out_npy_ext = os.path.splitext(out_npy)
+    out_png_base, out_png_ext = os.path.splitext(out_png)
+    out_npy = f"{out_npy_base}_M{mstr}_R{rstr}{out_npy_ext}"
+    out_png = f"{out_png_base}_M{mstr}_R{rstr}{out_png_ext}"
+    
     os.makedirs(os.path.dirname(out_npy), exist_ok=True)
-    out_npy = _append_suffix_to_path(out_npy, suffix)
-    out_png = _append_suffix_to_path(out_png, suffix)
-
     # save as a numpy file containing a dict for easy loading
     np.save(out_npy, {"ps": ps, "qs": qs, "H": Hgrid})
     plt.figure(figsize=(7,5))
@@ -119,7 +105,7 @@ def example_scan_and_plot(out_png="outputs/H_pq.png", out_npy="outputs/Hgrid.npy
     print(f"Wrote {out_png} and {out_npy}")
 
 
-def H_k0_analytic(q, M=1.0, k0=1.0, R=1e6):
+def H_k0_analytic(q, M=1.0, k0=1.0, R=1e4):
     """Analytic p->0 limit: H_ijij(0, q) from derivation.
     
     H_ijij(0, q) ≃ (7 M^3 k0^{-4}) / (16 π^{3/2})
@@ -170,11 +156,11 @@ def plot_spectra_M(M_list, qmin=1e-3, qmax=10.0, nq=200, out_png='outputs/H_spec
     plt.ylabel('h_c (analytic p->0 scaling)')
     plt.title('Spectra for various Mach numbers (p->0 analytic)')
     plt.legend()
-    # include M list in filename
-    mlist_str = '-'.join([_sanitize_param_for_fname(M) for M in M_list])
-    suffix = f"_Ms{mlist_str}"
+    # include M list in filename (2-digit scientific notation)
+    mlist_str = '-'.join([f"{M:.2e}".replace('+', 'p').replace('-', 'm') for M in M_list])
+    out_png_base, out_png_ext = os.path.splitext(out_png)
+    out_png = f"{out_png_base}_Ms{mlist_str}{out_png_ext}"
     os.makedirs(os.path.dirname(out_png), exist_ok=True)
-    out_png = _append_suffix_to_path(out_png, suffix)
     plt.tight_layout()
     plt.savefig(out_png, dpi=200)
     plt.close()
@@ -195,12 +181,12 @@ def plot_spectra_M_analytic(M_list, qmin=1e-4, qmax=1e1, nq=300, out_png='output
     plt.legend(fontsize=10)
     # no grid per request
     plt.tight_layout()
-    # include M list and R in filename
-    mlist_str = '-'.join([_sanitize_param_for_fname(M) for M in M_list])
-    rstr = _sanitize_param_for_fname(R)
-    suffix = f"_Ms{mlist_str}_R{rstr}"
+    # include M list and R in filename (2-digit scientific notation)
+    mlist_str = '-'.join([f"{M:.2e}".replace('+', 'p').replace('-', 'm') for M in M_list])
+    rstr = f"{R:.2e}".replace('+', 'p').replace('-', 'm')
+    out_png_base, out_png_ext = os.path.splitext(out_png)
+    out_png = f"{out_png_base}_Ms{mlist_str}_R{rstr}{out_png_ext}"
     os.makedirs(os.path.dirname(out_png), exist_ok=True)
-    out_png = _append_suffix_to_path(out_png, suffix)
     plt.savefig(out_png, dpi=200)
     plt.close()
     print(f'Wrote {out_png}')
