@@ -158,11 +158,14 @@ gravitational lensing that is not intrinsically present.
 %TK since this is fast developing area there is a need of the recent works like PLANCK-BICEP
 Contrary to difficulties of the early universe parity violation detection through its traces on the CMB, the stochastic GW background (SGWB) retains information of intrinsic parity violation because of almost free propagation 
 %TK maybe highlight free propagation earlier
-of GWs throughout of the universe expansion.   
+of GWs throughout the universe expansion.   
+%TK Reference
 %TK this statement can go as a footnote when discussiong CMB 
 %TK Nevertheless, reference\cite{2022Diego-Palazuelos} provides a measurement of cosmic birefringence $\beta = 0.33^{\circ} \pm 0.11^{\circ} $ using Planck data. This birefringence is intrinsic and could be caused by helical turbulence in the early universe or another parity violating effect. Additionally, Planck data sets bounds of roughly 0.4 nanogauss on the magnitude of the primordial magnetic field.\cite{2022Paoletti}
 
-In this paper, we will consider analytic and simulation-based approaches to studying the polarization of GWs from helical (parity violating) primordial turbulence. Our models assume that turbulence has been generated in the early Universe but are agnostic to the source of turbulence. 
+In this paper, we will consider analytic and simulation-based approaches to studying the polarization of GWs from helical (parity violating) primordial turbulence possibly present in the early universe. Our models assume that turbulence has been generated in the early Universe but are agnostic to the source of turbulence. To keep our description as general as possible, we will consider different models of turbulence (such as helical and non-helical, stationary and decaying, etc). 
+
+%TK 
 %We will assume that the turbulence is stationary and isotropic. 
 
 \begin{comment}
@@ -208,7 +211,7 @@ The function $F_{ij}(\bm{k},\tau)$ can be expressed: \tb{Note to self: this will
 Because the spatial part of $F_{ij}(\bm{k},\tau)$ is already in wave-number space, by transforming the temporal component of $F_{ij}(\bm{k},\tau)$ from time to frequency, and using the convolution theorem, we find:
 
 \begin{align*}
-    H_{ijij}(\bm{k},\omega) =& \frac{1}{6}\infint d\bm{k_1} d\omega_1 g(\bm{k_1},\omega_1)g(\bm{k}-\bm{k_1},\omega-\omega_1)
+    H_{ijij}(\bm{k},\omega) =& \frac{1}{6}\infint d^3k_1 d\omega_1 g(\bm{k_1},\omega_1)g(\bm{k}-\bm{k_1},\omega-\omega_1)
     \\
     &\cdot \left[27-\frac{k^2}{k_1^2}+\frac{k^4}{2k_1^2u^2}+\frac{k_1^2}{2u^2}-\frac{k^2}{u^2}+\frac{u^2}{2k_1^2}\right]
 \end{align*}
@@ -225,7 +228,7 @@ In the case of decaying turbulence, we can set $E_k$ to zero for $\tau<0$, and f
 Additionally, setting $f(\eta_k,\tau)=1$, \tb{is this physically valid or just for comparison?} we evaluate:
 
 \begin{equation}
-    g(\bm{k},\omega) = \frac{\text{w}v_1^2}{8\pi k^2} \tau^2e^{i\omega\tau_1}(-i\omega\tau_1)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-i\omega\tau_1\right)
+    g(\bm{k},\omega) = \frac{\text{w}v_1^2}{8\pi k^2} \tau_1^2e^{i\omega\tau_1}(-i\omega\tau_1)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-i\omega\tau_1\right)
 \end{equation}
 
 If we use the spectrum:

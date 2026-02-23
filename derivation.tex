@@ -464,7 +464,8 @@ Eq A.1  and reproduced in code
     \int_0^{\infty}dy ~ \exp \left(-Ay^2\right)~\exp \left(-A(y-x)^2\right) =  \left( \frac{\pi}{4(A+B)} \right)^{1/2} \exp \left( \frac{-ABx^2}{A+B}\right){\rm erfc}  \left(\frac{-Bx}{\sqrt{A+B}}\right).
 \end{equation}
 \begin{align}
-H_{i j i j}(k, \omega)&=\frac{\varepsilon}{24 \pi(2 \pi)^{3 / 2} k} \int_{k_0}^{k_d} d k_1 k_1^{-10 / 3} \int_{{\rm max}(|k_1-k|,k_0)}^{{\rm min}(k_1+k,k_d)} d u u^{-10 / 3}\left(k_1^{-4 / 3}+u^{-4 / 3}\right)^{-1 / 2}\left[27-\frac{k^2}{k_1^2}-\frac{k^2}{u^2}+\frac{k^4}{2 k_1^2 u^2}+\frac{k_1^2}{2 u^2}+\frac{u^2}{2 k_1^2}\right] \nonumber \\
+H_{i j i j}(k, \omega)&=\frac{\varepsilon}{24 \pi(2 \pi)^{3 / 2} k} \int_{k_0}^{k_d} d k_1 k_1^{-10 / 3} \int_{{\rm max}(|k_1-k|,k_0)}^{{\rm min}(k_1+k,k_d)} d u u^{-10 / 3}\left(k_1^{-4 / 3}+u^{-4 / 3}\right)^{-1 / 2}\nonumber
+\\&\times\left[27-\frac{k^2}{k_1^2}-\frac{k^2}{u^2}+\frac{k^4}{2 k_1^2 u^2}+\frac{k_1^2}{2 u^2}+\frac{u^2}{2 k_1^2}\right] \nonumber \\
 & \times \exp \left(-\frac{2 \varepsilon^{-2 / 3} \omega^2}{k_1^{4 / 3}+u^{4 / 3}}\right) \operatorname{erfc}\left(-\frac{2^{1 / 2} \varepsilon^{-1 / 3} \omega}{\left(k_1^{-4 / 3}+u^{-4 / 3}\right)^{1 / 2}}\right) .
 \end{align}
 Remainder $k_0$ is largest scale of the turbulence and $k_d$ is energy damping scale. The nonlinear boundaries in the integral would follow form the finite support of the $E_k$.  
@@ -691,6 +692,113 @@ where the dimensionless function $\mathfrak{H}_0$ is given by
 In this form the integral is manifestly dimensionless, and all dependence on
 the physical scales $\epsilon$ and $k$ is contained in the overall prefactor
 $C_k^2\,\epsilon\,k^{-5}$.
+
+\section{Making Decaying Spectrum Dimensionless Murman + Titus}
+Our integral begins as
+
+\begin{equation}
+    H_{ijij}(\bm{k},\omega) =
+    \frac{1}{6}\int d^3k_1d\omega_1 g(\bm{k_1},w_1)g(\bm{k}-\bm{k_1},\omega -\omega_1) \mathfrak{K}
+\end{equation}
+
+where 
+
+\begin{equation}
+    \mathfrak{K}=\left[ 27-\frac{k^2}{k_1^2}+\frac{k^4}{2k^2_1u^2}+\frac{k_1^2}{2u^2}-\frac{k^2}{u^2}+\frac{u^2}{2k^2_1} \right] 
+\end{equation}
+
+with $u=|\bm{k}-\bm{k_1}|$ and 
+
+\begin{equation}
+    g(\bm{k},\omega) = \frac{\text{w}v_1^2}{8\pi k^2} \tau_1^2e^{i\omega\tau_1}(-i\omega\tau_1)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-i\omega\tau_1\right)
+\end{equation}
+
+Let's begin by separating the $k$ dependence from the $\omega$ dependence. 
+\begin{equation}
+    g(\bm{k},\omega) = \frac{\text{w}v_1^2}{8\pi k^2} \tau_1^2 g(\omega)
+\end{equation}
+ where 
+ \begin{equation}
+     g(\omega)=e^{i\omega\tau_1}(-i\omega\tau_1)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-i\omega\tau_1\right)
+ \end{equation}
+
+If we substitute $q=\omega \tau_1$ (and likewise $q_1=\omega_1 \tau_1$ and $dq=\tau_1d\omega$) then 
+
+ \begin{equation}
+     g(q)=e^{iq}(-iq)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-iq\right)
+ \end{equation}
+
+Using these substitutions:
+
+\begin{equation}
+    H_{ijij}(\bm{k},q) =
+    \frac{1}{6}\int d^3k_1dq_1 \frac{1}{\tau_1}\frac{\text{w}v_1^2\tau_1^2}{8\pi k^2_1} \frac{\text{w}v_1^2\tau_1^2}{8\pi u^2} g(q_1)g(q -q_1) \mathfrak{K}
+\end{equation}
+
+Letting $A=\frac{\text{w}^2v_1^4\tau_1^3}{384\pi^2}$
+\begin{equation}
+    H_{ijij}(\bm{k},q) =
+    A \int^\infty_0dk_1 \int^{2\pi}_0d\phi_1 \int^\pi_0d\theta_1 k_1^2\sin{\theta_1} \int_0^\infty dq_1 
+     \frac{1}{k_1^2u^2}\cdot\mathfrak{K}
+     \cdot g(q_1)g(q-q_1)
+\end{equation}
+
+
+Because we are assuming isotropic turbulence,  we can set the $\theta_1=0$ axis with to align with $\bm{k}$. When we do, we find that the integral over $\phi_1$ is simply $2\pi$. We also can relate $u$ to $k_1$, $\theta_1$ and $k$ using the cosine law.
+
+\begin{equation}
+    u = \sqrt{k_1^2+k^2-2k_1k \cos{\theta_1}}
+\end{equation}
+
+Therefore 
+ \begin{equation}
+    du = \frac{k_1k}{u}\sin{\theta_1}d\theta_1
+\end{equation}
+
+and the bounds are $\theta_1=0 \rightarrow |k_1-k|$, and $\theta_1=\pi \rightarrow k_1+k$.
+
+\begin{equation}
+    H_{ijij}(k,q) =
+    2\pi A \int^\infty_0dk_1  \int^{k+k_1}_{|k-k_1|}du \frac{\mathfrak{K}}{kk_1u}\int_0^\infty dq_1 
+      g(q_1)g(q-q_1)
+\end{equation}
+
+At this point, all of the integrals except the integral over $q$ (which is dimensionless) can be analyzed analytically. However, we will go ahead and make the integral fully dimensionless. We also wish to ensure that we integrate only over the correct inertial range from $k_0$ to $k_d$. We will define the following dimensionless variables: 
+\begin{equation}
+    R^\frac{3}{4}=\frac{k_d}{k_0}, \ \frac{u}{k_0}=y, \ \frac{k_1}{k_0} = z, \ \frac{k}{k_0} = p, \ \frac{\omega}{k_0}=\omega \tau_1 =q
+\end{equation}
+
+Using these new variables
+
+\begin{equation}
+    \mathfrak{K}=\left[ 
+    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
+    \frac{z^2}{2y^2} 
+    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
+    \right]
+\end{equation}
+
+\begin{equation}
+    dk_1 = k_0dz,\  du = k_0dy
+\end{equation}
+
+We also need to find the bounds for the y integral.
+
+\begin{equation}
+    \max(k_1+k,k_d) \rightarrow \max(R^\frac{3}{4},p+z), \ \min(k_0,\bm{k_1}+\bm{k}) \rightarrow \min(1,|p-z|) 
+\end{equation}
+
+Finally we find:
+
+\begin{equation}
+    H_{ijij}(p,q) =
+    2\pi Ak_0 \int^{k_d/k_0}_1dz  \int^{\max(R^\frac{3}{4},p+z)}_{\min(1,|p-z|)}dy \frac{1}{pyz}\left[ 
+    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
+    \frac{z^2}{2y^2} 
+    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
+    \right]\int_0^\infty dq_1 
+      g(q_1)g(q-q_1)
+\end{equation}
 
 \bibliography{bib}
 
