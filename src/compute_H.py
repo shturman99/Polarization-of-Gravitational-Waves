@@ -3,7 +3,7 @@
 Numerical evaluator for H(p,q) from derivation.tex.
 
 Usage:
-  python src/compute_H.py        # runs an example scan and writes outputs/H_pq.png and outputs/Hgrid.npy
+  python src/compute_H.py        
 Functions:
   H_pq(p, q, M=1.0, R=1e6, k0=1.0, epsabs=1e-8, epsrel=1e-6)
 """
@@ -26,7 +26,7 @@ def integrand_y(y, x, p, q, M):
     s = x + y
     if s <= 0:
         return 0.0
-    pref = x**0.75 * y**0.75 * s**(-0.5)
+    pref = y**0.75 * s**(-0.5) * x**(3/4)
     br = kernel_bracket(p, x, y)
     expo = np.exp(-2.0 * x * y / s * (q**2) / (M**2))
     er = special.erfc(-np.sqrt(2.0) * q / (M * np.sqrt(s)))
@@ -49,14 +49,14 @@ def inner_integral(x, p, q, M, R, epsabs, epsrel):
 
 def H_pq(p, q, M=1.0, R=1e6, k0=1.0, epsabs=1e-8, epsrel=1e-6):
     """
-    Compute H(p,q) (dimensionful overall prefactor included as in derivation).
-    - p: dimensionless wavenumber p = k/k0 (must be > 0; very small p handled by a floor)
+    Compute H(p,q)
+    - p: dimensionless wavenumber p = k/k0 
     - q: dimensionless frequency q = omega/k0
-    - M, R, k0: parameters from derivation (defaults mimic a wide inertial range)
+    - M, R, k0: parameters from derivation 
     Returns: float H(p,q)
     Note: For extremely small p we use a small floor to avoid division by zero.
     """
-    p_floor = max(p, 1e-8)
+    p_floor = max(p, 1e-10)
     x_lo = R**(-1)
     x_hi = 1.0
 
@@ -104,9 +104,9 @@ def example_scan_and_plot(out_png="outputs/H_pq.png", out_npy="outputs/Hgrid.npy
     plt.close()
     print(f"Wrote {out_png} and {out_npy}")
 
-
 def H_k0_analytic(q, M=1.0, k0=1.0, R=1e4):
-    """Analytic p->0 limit: H_ijij(0, q) from derivation.
+    """
+    Analytic p->0 limit: H_ijij(0, q) from derivation.
     
     H_ijij(0, q) ≃ (7 M^3 k0^{-4}) / (16 π^{3/2})
                    * ∫_1^R^{-1} dx x^{11/4} exp(-q̄² x) erfc(-q̄ x^{1/2})
@@ -145,7 +145,6 @@ def H_k0_analytic(q, M=1.0, k0=1.0, R=1e4):
         return out[0]
     return out
 
-
 def plot_spectra_M(M_list, qmin=1e-3, qmax=10.0, nq=200, out_png='outputs/H_spectra_M.png'):
     qs = np.logspace(qmin, qmax, nq)
     plt.figure(figsize=(6,4))
@@ -166,7 +165,6 @@ def plot_spectra_M(M_list, qmin=1e-3, qmax=10.0, nq=200, out_png='outputs/H_spec
     plt.close()
     print(f'Wrote {out_png}')
 
-
 def plot_spectra_M_analytic(M_list, qmin=1e-4, qmax=1e1, nq=300, out_png='outputs/H_spectra_analytic.png', R=1e6):
     """Plot the correct analytic p->0 spectra (no grid, log-log)."""
     qs = np.logspace(np.log10(qmin), np.log10(qmax), nq)
@@ -176,7 +174,7 @@ def plot_spectra_M_analytic(M_list, qmin=1e-4, qmax=1e1, nq=300, out_png='output
         plt.loglog(qs,(qs * Hvals) ** (0.5), label=f'M={M}', linewidth=2)
     plt.xlabel('q = ω/k0', fontsize=12)
     plt.ylabel('H(0, q)', fontsize=12)
-    plt.title('Analytic p→0 spectra for various Mach numbers', fontsize=12)
+    plt.title('Analytic p->0 spectra for various Mach numbers', fontsize=12)
     plt.ylim(bottom=1e-21)
     plt.legend(fontsize=10)
     # no grid per request
@@ -202,7 +200,7 @@ if __name__ == "__main__":
     M_values = [0.001, 0.01, 0.1, 1.0]
     
     # Option 1: Plot the correct analytic p->0 formula
-    print("\n[1] Generating analytic p→0 spectra...")
+    print("\n[1] Generating analytic p->0 spectra...")
     plot_spectra_M_analytic(M_values, qmin=1e-4, qmax=1e1, nq=300,
                             out_png='outputs/H_spectra_analytic.png', R=1e4)
     
