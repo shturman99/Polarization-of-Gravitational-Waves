@@ -11,3 +11,11 @@ __pycache__/
 *.md
 
 src/__pycache__/
+
+# generated numeric/plot artifacts
+outputs/*.png
+outputs/*.npy
+outputs/*.npz
+src/outputs/*.png
+src/outputs/*.npy
+src/outputs/*.npz
