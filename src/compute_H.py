@@ -11,6 +11,7 @@ import os
 import numpy as np
 from scipy import integrate, special
 import matplotlib.pyplot as plt
+import mpmath as mp
 
 def kernel_bracket(p, x, y):
     xp32 = x**1.5
@@ -39,10 +40,16 @@ def g_decaying(z):
     Accepts complex or real `z` and returns complex values.
     """
     z = np.asarray(z, dtype=complex)
-    arg = -1j * z
-    # upper incomplete gamma: Gamma(a, x) = gammaincc(a, x) * gamma(a)
-    Gam_up = special.gammaincc(1.0/3.0, arg) * special.gamma(1.0/3.0)
-    return np.exp(1j * z) * (-1j * z) ** (-5.0/3.0) * Gam_up
+
+    def _g_scalar(zz):
+        arg = -1j * zz
+        # upper incomplete gamma for complex argument via mpmath
+        gam_up = mp.gammainc(1.0 / 3.0, arg, mp.inf)
+        return complex(mp.e ** (1j * zz) * ((-1j * zz) ** (-5.0 / 3.0)) * gam_up)
+
+    if z.ndim == 0:
+        return _g_scalar(complex(z))
+    return np.vectorize(_g_scalar, otypes=[complex])(z)
 
 
 def integrand_y_decaying(y, x, p, q, M, epsabs=1e-6, epsrel=1e-4):
