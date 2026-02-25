@@ -1,7 +1,7 @@
-Formula,Location in derivation.tex,Status (Verified/Not),Numerical Result,Comparison with compute_H.py
+Formula,Location in derivation.tex,Status,Numerical Result,Comparison with compute_H.py
 P_{ii},~165,Verified,2.0,—
-Kernel bracket,~190,Verified,exact symbolic + numeric spot checks,—
-mathfrak{H}(Omega) stationary,~420,Numerically evaluated,integral grid evaluated,compares with compute_H.py direct form
-mathfrak{H}_0(Omega),~595,Verified structure,near p->0 computed,—
-Gogoberidze form,~450,Numerically evaluated,implemented quadrature in notebook,compared at sample points
-"Decaying H(p,q)",~750,Numerically evaluated,computed via H_pq_decaying path,uses compute_H.py
+Kernel bracket,~190,Verified,exact symbolic + numeric,—
+mathfrak{H}(Omega) stationary,~420,Numerically evaluated,computed in compute_detailed,matches trend
+mathfrak{H}_0(Omega),~595,Verified structure,near p->0 checks,—
+Gogoberidze form,~450,Numerically evaluated,quadrature value generated,compared
+"Decaying H(p,q)",~750,Numerically evaluated,grid generated,uses H_pq_decaying
