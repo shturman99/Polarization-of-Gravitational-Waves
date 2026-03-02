@@ -1,14 +1,12 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+.ipynb_checkpoints/
 
 # docs and outputs
 
 # Python packaging
 *.egg-info/
-
-# Ignore markdown build or temporary files
-*.md
 
 src/__pycache__/
 
@@ -16,6 +14,7 @@ src/__pycache__/
 outputs/*.png
 outputs/*.npy
 outputs/*.npz
+outputs/*.csv
 src/outputs/*.png
 src/outputs/*.npy
 src/outputs/*.npz
