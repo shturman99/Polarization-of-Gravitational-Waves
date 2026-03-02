@@ -6,11 +6,12 @@ Run:
 """
 
 import unittest
+
 import numpy as np
 import sympy as sp
 from scipy import integrate, special
 
-from compute_H import g_decaying
+from src.gw_turbulence import g_decaying
 
 
 class TestDerivationIdentities(unittest.TestCase):
