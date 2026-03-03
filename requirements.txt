@@ -5,3 +5,4 @@ mpmath
 sympy
 pandas
 nbformat
+mpi4py

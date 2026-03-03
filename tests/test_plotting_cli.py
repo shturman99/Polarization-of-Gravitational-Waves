@@ -16,7 +16,7 @@ class TestPlottingHelpers(unittest.TestCase):
         ps = np.array([0.1, 0.2])
         qs = np.array([0.3, 0.4])
         with (
-            mock.patch("src.gw_turbulence.plotting.np.save") as save_mock,
+            mock.patch("src.gw_turbulence.plotting.np.savez") as save_mock,
             mock.patch("src.gw_turbulence.plotting.plt.savefig") as savefig_mock,
             mock.patch("src.gw_turbulence.plotting.plt.figure"),
             mock.patch("src.gw_turbulence.plotting.plt.pcolormesh"),
@@ -39,11 +39,10 @@ class TestPlottingHelpers(unittest.TestCase):
                 out_npy="tmp/scan.npy",
             )
 
-        save_path, payload = save_mock.call_args.args
-        self.assertEqual(save_path, "tmp/scan_M5.00em01_R1.00ep01.npy")
-        self.assertTrue(np.array_equal(payload["ps"], ps))
-        self.assertTrue(np.array_equal(payload["qs"], qs))
-        self.assertTrue(np.allclose(payload["H"], [[0.4, 0.5], [0.5, 0.6]]))
+        self.assertEqual(save_mock.call_args.args[0], "tmp/scan_M5.00em01_R1.00ep01.npz")
+        self.assertTrue(np.array_equal(save_mock.call_args.kwargs["ps"], ps))
+        self.assertTrue(np.array_equal(save_mock.call_args.kwargs["qs"], qs))
+        self.assertTrue(np.allclose(save_mock.call_args.kwargs["H"], [[0.4, 0.5], [0.5, 0.6]]))
         self.assertEqual(savefig_mock.call_args.args[0], "tmp/scan_M5.00em01_R1.00ep01.png")
 
     def test_plot_p0_spectra_params_writes_expected_file_name(self):
