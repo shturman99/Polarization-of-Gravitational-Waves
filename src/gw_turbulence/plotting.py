@@ -64,7 +64,7 @@ def scan_and_plot_grid(
     k0: float = 1.0,
     ps=None,
     qs=None,
-    out_png: str = "outputs/H_pq_scan.png",
+    out_png: str = "outputs/H_pq_scan.pdf",
     out_npy: str = "outputs/Hgrid.npz",
     **hfunc_kwargs,
 ):
@@ -133,7 +133,7 @@ def plot_scans_for_M_list(
             k0=k0,
             ps=ps,
             qs=qs,
-            out_png="outputs/H_pq_stationary.png",
+            out_png="outputs/H_pq_stationary.pdf",
             out_npy="outputs/Hgrid_stationary.npz",
         )
         scan_and_plot_grid(
@@ -143,7 +143,7 @@ def plot_scans_for_M_list(
             k0=k0,
             ps=ps,
             qs=qs,
-            out_png="outputs/H_pq_decaying.png",
+            out_png="outputs/H_pq_decaying.pdf",
             out_npy="outputs/Hgrid_decaying.npz",
             **decaying_kwargs,
         )
@@ -156,7 +156,7 @@ def plot_Hqq_decaying(
     nq: int = 80,
     R: float = 1e4,
     k0: float = 1.0,
-    out_png: str = "outputs/Hqq_decaying.png",
+    out_png: str = "outputs/Hqq_decaying.pdf",
     convolution_method: str = "trapz",
     convolution_points: int = 160,
     status=None,
@@ -203,7 +203,7 @@ def plot_Hqq_decaying(
 
 
 def example_scan_and_plot(
-    out_png: str = "outputs/H_pq.png",
+    out_png: str = "outputs/H_pq.pdf",
     out_npy: str = "outputs/Hgrid.npz",
     M: float = 1.0,
     R: float = 1e4,
@@ -221,7 +221,7 @@ def plot_p0_spectra_params(
     nq: int = 200,
     R: float = 1e4,
     k0: float = 1.0,
-    out_png: str = "outputs/H_p0_params.png",
+    out_png: str = "outputs/H_p0_params.pdf",
 ):
     qs = np.logspace(np.log10(qmin), np.log10(qmax), nq)
     tagged = "-".join(_parameter_tag(M) for M in M_list)
@@ -244,7 +244,7 @@ def plot_spectra_M(
     qmin: float = 1e-3,
     qmax: float = 10.0,
     nq: int = 200,
-    out_png: str = "outputs/H_spectra_M.png",
+    out_png: str = "outputs/H_spectra_M.pdf",
 ):
     qs = np.logspace(np.log10(qmin), np.log10(qmax), nq)
     tagged = "-".join(_parameter_tag(M) for M in M_list)
@@ -267,7 +267,7 @@ def plot_spectra_M_analytic(
     qmin: float = 1e-4,
     qmax: float = 1e1,
     nq: int = 300,
-    out_png: str = "outputs/H_spectra_analytic.png",
+    out_png: str = "outputs/H_spectra_analytic.pdf",
     R: float = 1e6,
 ):
     qs = np.logspace(np.log10(qmin), np.log10(qmax), nq)
@@ -294,7 +294,7 @@ def plot_gogoberidze_2007_figure1(
     nq: int = 60,
     R: float = 1e4,
     k0: float = 1.0,
-    out_png: str = "outputs/gogoberidze_2007_figure1.png",
+    out_png: str = "outputs/gogoberidze_2007_figure1.pdf",
     epsabs: float = 1e-4,
     epsrel: float = 1e-3,
 ):

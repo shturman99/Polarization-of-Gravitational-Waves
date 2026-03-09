@@ -53,13 +53,16 @@ class LiveStatusLogger:
 def kernel_bracket(p: float, x: float, y: float) -> float:
     xp32 = x**1.5
     yp32 = y**1.5
+    # Match Gogoberidze et al. (2007) Appendix A normalization:
+    # Eq. (A4) uses the kernel with an overall factor 2 relative to the
+    # reduced form that would start with 27.
     return (
-        27.0
-        - p**2 * xp32
-        - p**2 * yp32
-        + 0.5 * p**4 * xp32 * yp32
-        + 0.5 * x**(-1.5) * yp32
-        + 0.5 * y**(-1.5) * xp32
+        54.0
+        - 2.0 * p**2 * xp32
+        - 2.0 * p**2 * yp32
+        + p**4 * xp32 * yp32
+        + x**(-1.5) * yp32
+        + y**(-1.5) * xp32
     )
 
 

@@ -73,7 +73,7 @@ def main(argv=None) -> int:
         nq=200,
         R=args.R,
         k0=args.k0,
-        out_png="outputs/H_p0_params.png",
+        out_png="outputs/H_p0_params.pdf",
     )
 
     if not args.skip_scans:
@@ -111,7 +111,7 @@ def main(argv=None) -> int:
             nq=60,
             R=args.R,
             k0=args.k0,
-            out_png="outputs/Hqq_decaying.png",
+            out_png="outputs/Hqq_decaying.pdf",
             convolution_method="trapz",
             convolution_points=args.convolution_points,
             integration_method="sampled",
