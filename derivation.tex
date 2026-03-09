@@ -785,14 +785,16 @@ Using these new variables
 We also need to find the bounds for the y integral.
 
 \begin{equation}
-    \max(k_1+k,k_d) \rightarrow \max(R^\frac{3}{4},p+z), \ \min(k_0,\bm{k_1}+\bm{k}) \rightarrow \min(1,|p-z|) 
+    \min(k_1+k,k_d) \rightarrow \min(R^\frac{3}{4},p+z), \ \max(k_0,\bm{k_1}+\bm{k}) \rightarrow \max(1,|p-z|) 
 \end{equation}
+
+\tb{Not sure about bounds-- need to double check}
 
 Finally we find:
 
 \begin{equation}
     H_{ijij}(p,q) =
-    2\pi Ak_0 \int^{k_d/k_0}_1dz  \int^{\max(R^\frac{3}{4},p+z)}_{\min(1,|p-z|)}dy \frac{1}{pyz}\left[ 
+    2\pi Ak_0 \int^{k_d/k_0}_1dz  \int^{\min(R^\frac{3}{4},p+z)}_{\max(1,|p-z|)}dy \frac{1}{pyz}\left[ 
     27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
     \frac{z^2}{2y^2} 
     - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
