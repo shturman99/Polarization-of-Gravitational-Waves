@@ -802,6 +802,250 @@ Finally we find:
       g(q_1)g(q-q_1)
 \end{equation}
 
+\section{Monochromatic and White-Noise Spectra}
+
+We now consider two alternative models for the turbulence power spectrum and carry out the same GW-kernel derivation in each case. The first model replaces the Kolmogorov spectrum by a monochromatic (delta-function) distribution in wavenumber; the second takes the real-space two-point function to be spatially uncorrelated (delta function in $\br$), which corresponds to a flat (white-noise) spectrum in $k$-space. For each spatial model we work out both the Kraichnan stationary decorrelation and the decaying-turbulence temporal model, giving four cases in total.
+
+The derivation follows the same sequence of steps as in Sec.~1: (i) write $H_{ijij}$ as a double convolution in both $\kb$ and $\omega$, (ii) insert the spectral model, (iii) perform the tensor contractions to get $\mathcal{K}$, (iv) switch to spherical coordinates and the variable $u=|\kb-\kb_1|$, (v) evaluate or simplify the temporal integral, and (vi) introduce dimensionless variables.
+
+\subsection{Monochromatic energy spectrum $E(k)=E_0\delta(k-k_0)$}
+
+We set
+\begin{equation}
+  E(k) = E_0\,\delta(k-k_0),
+  \qquad
+  A(k) = \frac{E(k)}{4\pi k^2} = \frac{E_0}{4\pi k^2}\,\delta(k-k_0),
+  \label{eq:Adelta}
+\end{equation}
+so the spectral tensor is
+\begin{equation}
+  F_{ij}(\kb,\tau) = \frac{E_0\,\delta(k-k_0)}{4\pi k^2}\,P_{ij}(\khat)\,f(\tau),
+  \qquad
+  \tilde{F}_{ij}(\kb,\omega) = \frac{E_0\,\delta(k-k_0)}{4\pi k^2}\,P_{ij}(\khat)\,\tilde{f}(\omega),
+\end{equation}
+where $f(\tau)$ (and its Fourier transform $\tilde{f}(\omega)$) carries the temporal decorrelation, to be specified below. The total kinetic energy density is $\int_0^\infty E(k)\,dk=E_0$.
+
+Starting from Eq.~\eqref{eq: H-with-P} and writing $d^3k_1 = k_1^2\,dk_1\,d\phi\,d\mu$ with $\mu\equiv\hat{\kb}\cdot\hat{\kb}_1$, the radial $k_1$ integral immediately yields
+\begin{equation}
+  \int_0^\infty k_1^2\,dk_1\,A(k_1) = \int_0^\infty dk_1\,\frac{E_0\,\delta(k_1-k_0)}{4\pi} = \frac{E_0}{4\pi}.
+  \label{eq:k1-delta}
+\end{equation}
+With $k_1$ fixed to $k_0$, the second spectral factor evaluates on $u\equiv|\kb-\kb_1|=\sqrt{k^2+k_0^2-2kk_0\mu}$:
+\begin{equation}
+  A(u) = \frac{E_0\,\delta(u-k_0)}{4\pi u^2}.
+  \label{eq:Au-delta}
+\end{equation}
+We change the angular variable from $\mu$ to $u$ using Eq.~\eqref{eq: conversion}, i.e.\ $u\,du = kk_0\,|d\mu|$, and perform the azimuthal integral ($\int_0^{2\pi}d\phi = 2\pi$):
+\begin{align}
+  2\pi\int_{-1}^{1}d\mu\,\frac{E_0\,\delta(u(\mu)-k_0)}{4\pi u(\mu)^2}
+  &= \frac{E_0}{2}\int_{|k-k_0|}^{k+k_0}\frac{du}{kk_0}\,\frac{\delta(u-k_0)}{u}
+   = \frac{E_0}{2kk_0^2}\;\Theta(2k_0-k).
+  \label{eq:angular-delta}
+\end{align}
+The Heaviside factor $\Theta(2k_0-k)$ enforces the triangle inequality: the root $u=k_0$ lies in the range $[|k-k_0|,k+k_0]$ only when $k\le 2k_0$, i.e.\ $p\le 2$ with $p\equiv k/k_0$.
+
+The geometric kernel at $k_1=u=k_0$ evaluates as (using $p=k/k_0$)
+\begin{equation}
+  \mathcal{K}(k,k_0,k_0)
+  = \frac{27}{6}+\frac{k^4}{12k_0^4}+\frac{k_0^2}{12k_0^2}+\frac{k_0^2}{12k_0^2}
+    -\frac{k^2}{6k_0^2}-\frac{k^2}{6k_0^2}
+  = \frac{14}{3} - \frac{p^2}{3} + \frac{p^4}{12}
+  \equiv \mathcal{K}_0(p).
+  \label{eq:K0}
+\end{equation}
+Collecting Eqs.~\eqref{eq:k1-delta}--\eqref{eq:K0} in Eq.~\eqref{eq: H-with-P},
+\begin{equation}
+  H_{ijij}(\kb,\omega)
+  = \frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,kk_0^2}\;
+    \mathcal{K}_0(p)\,
+    \underbrace{\int_{-\infty}^{\infty}d\omega_1\,
+    \tilde{f}(\omega_1)\,\tilde{f}(\omega-\omega_1)}_{I_\omega(\omega)}.
+  \label{eq:H-delta-k}
+\end{equation}
+All spatial structure has been reduced to the explicit prefactor; the remaining task is to evaluate the temporal convolution $I_\omega$.
+
+\subsubsection{Kraichnan decorrelation}
+
+The Kraichnan model gives $\tilde{f}(\omega)=(2/\eta_0)\exp(-\omega^2/\pi\eta_0^2)$ with the fixed rate $\eta_0\equiv\eta_{k_0}$. The convolution of two identical Gaussians is itself Gaussian:
+\begin{align}
+  I_\omega(\omega)
+  &= \frac{4}{\eta_0^2}\int_{-\infty}^{\infty}d\omega_1\,
+     \exp\!\left(-\frac{\omega_1^2+(\omega-\omega_1)^2}{\pi\eta_0^2}\right) \nonumber\\
+  &= \frac{4}{\eta_0^2}\,e^{-\omega^2/(2\pi\eta_0^2)}
+     \int_{-\infty}^{\infty}d\omega_1\,
+     \exp\!\left(-\frac{2(\omega_1-\omega/2)^2}{\pi\eta_0^2}\right) \nonumber\\
+  &= \frac{2\sqrt{2}\pi}{\eta_0}\,\exp\!\left(-\frac{\omega^2}{2\pi\eta_0^2}\right).
+  \label{eq:Iomega-Kraichnan}
+\end{align}
+Defining the dimensionless frequency $\Omega\equiv\omega/\eta_0$ and substituting into Eq.~\eqref{eq:H-delta-k},
+\begin{equation}
+  H_{ijij}(\kb,\omega)
+  = \frac{\sqrt{2}\,E_0^2}{(2\pi)^7\,kk_0^2\,\eta_0}\,
+    \mathcal{K}_0(p)\,\Theta(2-p)\,
+    e^{-\Omega^2/(2\pi)}.
+  \label{eq:H-delta-Kraichnan}
+\end{equation}
+Writing $k=pk_0$, the entire result separates into a dimensional prefactor times a dimensionless expression:
+\begin{equation}
+  \boxed{
+  \mathfrak{H}^{(\delta k)}_{\rm Kraichnan}(p,\Omega)
+  = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,e^{-\Omega^2/(2\pi)},
+  }
+  \label{eq:dimless-delta-Kraichnan}
+\end{equation}
+with $\mathcal{K}_0(p) = \frac{14}{3} - \frac{p^2}{3} + \frac{p^4}{12}$ from Eq.~\eqref{eq:K0}. There is no remaining integral: both delta functions have been evaluated in closed form.
+
+\subsubsection{Decay model}
+
+For the decaying-turbulence model the temporal kernel is
+\begin{equation}
+  \tilde{f}(\omega) = g(\omega\tau_1),
+  \qquad
+  g(q) = e^{iq}(-iq)^{-5/3}\Gamma\!\left(\tfrac{1}{3},-iq\right),
+\end{equation}
+where $\tau_1$ is the characteristic decay time at scale $k_0$. Substituting into Eq.~\eqref{eq:H-delta-k} and defining $q=\omega\tau_1$, $q_1=\omega_1\tau_1$, so that $d\omega_1=dq_1/\tau_1$:
+\begin{equation}
+  I_\omega(\omega)
+  = \int_{-\infty}^{\infty}d\omega_1\,g(\omega_1\tau_1)\,g((\omega-\omega_1)\tau_1)
+  = \frac{1}{\tau_1}\int_{-\infty}^{\infty}dq_1\,g(q_1)\,g(q-q_1).
+  \label{eq:Iomega-decay}
+\end{equation}
+Because $g$ has no closed-form convolution, this one-dimensional integral must be retained. Inserting Eq.~\eqref{eq:Iomega-decay} into Eq.~\eqref{eq:H-delta-k},
+\begin{equation}
+  H_{ijij}(\kb,\omega)
+  = \frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,kk_0^2\,\tau_1}\,
+    \mathcal{K}_0(p)\,
+    \int_{-\infty}^{\infty}dq_1\,g(q_1)\,g(q-q_1).
+\end{equation}
+The dimensionless result is
+\begin{equation}
+  \boxed{
+  \mathfrak{H}^{(\delta k)}_{\rm decay}(p,q)
+  = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,
+    \int_{-\infty}^{\infty}dq_1\,g(q_1)\,g(q-q_1).
+  }
+  \label{eq:dimless-delta-decay}
+\end{equation}
+The spatial integration is again fully resolved by the two delta functions; only a single one-dimensional frequency integral remains.
+
+\subsection{Real-space delta-function correlations}
+
+We now consider a model in which the spatial part of the two-point velocity correlation is a delta function in $\br$:
+\begin{equation}
+  R_{ij}(\br,\tau) = v_0^2\,\delta^{(3)}(\br)\,P_{ij}\,T(\tau),
+  \label{eq:R-white}
+\end{equation}
+where $v_0^2$ is the velocity variance and $T(\tau)$ is the (to-be-specified) temporal decorrelation function. Taking the spatial Fourier transform,
+\begin{equation}
+  F_{ij}(\kb,\tau) = v_0^2\,P_{ij}(\khat)\,T(\tau),
+  \qquad
+  \tilde{F}_{ij}(\kb,\omega) = v_0^2\,P_{ij}(\khat)\,\widetilde{T}(\omega),
+  \label{eq:Fwhite}
+\end{equation}
+so the spectral amplitude is $k$-independent: $A(k)=v_0^2$. This corresponds to an energy spectrum $E(k)\propto k^2$ (blue, ultraviolet-dominated), and in practice the integrals must be cut off between the outer scale $k_0$ and a dissipation scale $k_d$.
+
+The tensor contractions proceed identically to Sec.~1 and yield the same kernel $\mathcal{K}(k,k_1,u)$. With $A(k_1)=A(u)=v_0^2$ and the temporal factor $\widetilde{T}(\omega)$ independent of $k$, Eq.~\eqref{eq: H-after-r} becomes
+\begin{equation}
+  H_{ijij}(\kb,\omega)
+  = \frac{v_0^4}{(2\pi)^7}
+    \underbrace{\int_{-\infty}^{\infty}d\omega_1\,\widetilde{T}(\omega_1)\,\widetilde{T}(\omega-\omega_1)}_{J(\omega)}
+    \int_{k_0}^{k_d}\frac{k_1}{k}\,dk_1
+    \int_{\max(|k-k_1|,k_0)}^{\min(k+k_1,k_d)}u\,du\;
+    \mathcal{K}(k,k_1,u).
+  \label{eq:H-white}
+\end{equation}
+The temporal convolution $J(\omega)$ and the double spatial integral are fully decoupled because $\widetilde{T}$ does not depend on $k_1$ or $u$. Introducing dimensionless integration variables
+\begin{equation}
+  z \equiv \frac{k_1}{k_0},\quad y \equiv \frac{u}{k_0},\quad p \equiv \frac{k}{k_0},\quad R^{3/4}\equiv\frac{k_d}{k_0},
+\end{equation}
+so $dk_1=k_0\,dz$, $du=k_0\,dy$, the spatial integral becomes
+\begin{equation}
+  k_0^2\int_{1}^{R^{3/4}}\frac{z}{p}\,dz
+  \int_{\max(|p-z|,1)}^{\min(p+z,\,R^{3/4})}y\,dy\;
+  \widetilde{\mathcal{K}}(p,z,y),
+  \label{eq:spatial-white}
+\end{equation}
+where $\widetilde{\mathcal{K}}(p,z,y)$ is the geometric kernel of Eq.~\eqref{eq: H-geometric} written in units of $k_0$:
+\begin{equation}
+  \widetilde{\mathcal{K}}(p,z,y)
+  = \left[\frac{27}{6}+\frac{p^4}{12z^2y^2}+\frac{z^2}{12y^2}+\frac{y^2}{12z^2}
+    -\frac{p^2}{6y^2}-\frac{p^2}{6z^2}\right].
+\end{equation}
+
+\subsubsection{Kraichnan decorrelation}
+
+For a spatially uncorrelated field there is no scale-dependent sweeping rate; we adopt a fixed decorrelation rate $\eta_0$ and set $\widetilde{T}(\omega)=(2/\eta_0)\exp(-\omega^2/\pi\eta_0^2)$. The temporal convolution is identical in form to Eq.~\eqref{eq:Iomega-Kraichnan}:
+\begin{equation}
+  J_{\rm Kraichnan}(\omega)
+  = \frac{2\sqrt{2}\pi}{\eta_0}\,\exp\!\left(-\frac{\omega^2}{2\pi\eta_0^2}\right),
+  \label{eq:J-Kraichnan}
+\end{equation}
+which is now a $k$-independent closed form. Substituting Eqs.~\eqref{eq:J-Kraichnan} and \eqref{eq:spatial-white} into Eq.~\eqref{eq:H-white} and defining $\Omega\equiv\omega/\eta_0$:
+\begin{equation}
+  H_{ijij}(\kb,\omega)
+  = \frac{\sqrt{2}\,v_0^4\,k_0^2}{(2\pi)^6\,\eta_0}\,
+    e^{-\Omega^2/(2\pi)}\,
+    k_0^2\int_{1}^{R^{3/4}}\frac{z}{p}\,dz
+    \int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}y\,dy\;
+    \widetilde{\mathcal{K}}(p,z,y).
+\end{equation}
+The dimensionless integral is
+\begin{equation}
+  \boxed{
+  \mathfrak{H}^{(\delta r)}_{\rm Kraichnan}(p,\Omega)
+  = e^{-\Omega^2/(2\pi)}\,
+    \int_{1}^{R^{3/4}}\frac{z}{p}\,dz
+    \int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}y\,dy\;
+    \widetilde{\mathcal{K}}(p,z,y).
+  }
+  \label{eq:dimless-white-Kraichnan}
+\end{equation}
+The frequency dependence is an explicit Gaussian factor, while the shape in $p$ is determined by the two-dimensional wavenumber integral.
+
+\subsubsection{Decay model}
+
+For the decaying-turbulence model, $\widetilde{T}(\omega)=g(\omega\tau_1)$ with the same $g$ as in Sec.~3.1.2. The temporal convolution is again a one-dimensional integral with no closed form:
+\begin{equation}
+  J_{\rm decay}(\omega)
+  = \int_{-\infty}^{\infty}d\omega_1\,g(\omega_1\tau_1)\,g((\omega-\omega_1)\tau_1)
+  = \frac{1}{\tau_1}\int_{-\infty}^{\infty}dq_1\,g(q_1)\,g(q-q_1),
+  \qquad q\equiv\omega\tau_1.
+  \label{eq:J-decay}
+\end{equation}
+Substituting into Eq.~\eqref{eq:H-white},
+\begin{equation}
+  H_{ijij}(\kb,\omega)
+  = \frac{v_0^4\,k_0^2}{(2\pi)^7\,\tau_1}\,
+    \mathfrak{H}^{(\delta r)}_{\rm decay}(p,q),
+\end{equation}
+where the fully dimensionless expression is now genuinely three-dimensional:
+\begin{equation}
+  \boxed{
+  \mathfrak{H}^{(\delta r)}_{\rm decay}(p,q)
+  = \int_{1}^{R^{3/4}}\frac{z}{p}\,dz
+    \int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}y\,dy\;
+    \widetilde{\mathcal{K}}(p,z,y)
+    \int_{-\infty}^{\infty}dq_1\,g(q_1)\,g(q-q_1).
+  }
+  \label{eq:dimless-white-decay}
+\end{equation}
+Because $J_{\rm decay}$ is independent of $z$ and $y$ (since $\widetilde{T}$ carries no $k$-dependence), the three integrals are separable: the double wavevector integral and the frequency convolution may be computed independently.
+
+\subsection*{Summary of the four dimensionless integrals}
+
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Spectrum & Decorrelation & Dimensionless integral \\
+\hline
+$E_0\delta(k-k_0)$ & Kraichnan & Eq.~\eqref{eq:dimless-delta-Kraichnan}: closed form, no integral \\
+$E_0\delta(k-k_0)$ & Decay & Eq.~\eqref{eq:dimless-delta-decay}: 1D frequency integral \\
+$\delta^{(3)}(\br)$ & Kraichnan & Eq.~\eqref{eq:dimless-white-Kraichnan}: 2D wavevector integral \\
+$\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector $\times$ 1D frequency \\
+\hline
+\end{tabular}
+\end{center}
+
 \bibliography{bib}
 
 \end{document}
