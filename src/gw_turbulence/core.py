@@ -547,3 +547,266 @@ def H_k0_analytic(q, M: float = 1.0, k0: float = 1.0, R: float = 1e4):
     if np.isscalar(q):
         return output[0]
     return output
+
+
+# ── Delta-k (monochromatic E = E0 * delta(k - k0)) models ──────────────────
+
+
+def K0_p(p: float) -> float:
+    """Geometric kernel evaluated at k1 = u = k0 for the monochromatic spectrum.
+
+    K0(p) = 14/3 - p^2/3 + p^4/12,  p = k/k0.
+
+    Derived by setting k1 = u = k0 in the full kernel K(k, k1, u).  The
+    triangle inequality forces p <= 2 for the result to be nonzero.
+    """
+    return 14.0 / 3.0 - p**2 / 3.0 + p**4 / 12.0
+
+
+def H_delta_k_kraichnan(p, Omega):
+    """Dimensionless GW kernel for E = E0*delta(k-k0) with Kraichnan decorrelation.
+
+    Fully closed-form (no numerical integration required):
+
+        H(p, Omega) = K0(p)/p * Theta(2-p) * exp(-Omega^2 / (2*pi))
+
+    where p = k/k0 and Omega = omega/eta0.  The Heaviside Theta(2-p) reflects
+    the triangle-inequality constraint k <= 2*k0.
+
+    Parameters
+    ----------
+    p, Omega : scalar or array-like
+    """
+    p = np.asarray(p, dtype=float)
+    Omega = np.asarray(Omega, dtype=float)
+    result = np.where(
+        (p > 0) & (p <= 2.0),
+        K0_p(p) / np.maximum(p, 1e-30) * np.exp(-Omega**2 / (2.0 * np.pi)),
+        0.0,
+    )
+    return float(result) if result.ndim == 0 else result
+
+
+def _temporal_conv_decay(
+    q: float,
+    q_upper: float | None = None,
+    split_width: float | None = None,
+    n_points: int = 200,
+) -> float:
+    """1-D convolution  int dq1 g(q1) * g(q - q1)  for the decay temporal model.
+
+    g is the dimensionless decay kernel from g_decaying.  This is the pure
+    temporal factor shared by H_delta_k_decay and H_white_decay.
+    """
+    if q_upper is None:
+        q_upper = max(q + 20.0, 30.0)
+    if split_width is None:
+        split_width = max(1e-8, 1e-6 * max(1.0, abs(q)))
+    conv_val = 0.0
+    for lower, upper in _conv_intervals(q, q_upper, split_width):
+        if lower >= upper:
+            continue
+        q1_vals = _cosine_grid(lower, upper, max(n_points, 32))
+        vals = (g_decaying(q1_vals) * g_decaying(q - q1_vals)).real
+        conv_val += np.trapz(vals, q1_vals)
+    return conv_val
+
+
+def H_delta_k_decay(
+    p: float,
+    q: float,
+    n_points: int = 200,
+) -> float:
+    """Dimensionless GW kernel for E = E0*delta(k-k0) with decay temporal model.
+
+        H(p, q) = K0(p)/p * Theta(2-p) * int dq1 g(q1)*g(q-q1)
+
+    where q = omega*tau1 and g is the decay kernel (g_decaying).
+
+    The spatial delta functions collapse k1 and u to k0, leaving only the
+    1-D temporal convolution as a numerical task.
+    """
+    if p <= 0 or p > 2.0:
+        return 0.0
+    return K0_p(p) / p * _temporal_conv_decay(q, n_points=n_points)
+
+
+# ── White-noise (R_ij ∝ delta^3(r)) models ─────────────────────────────────
+
+
+def kernel_bracket_zy(p: float, z: float, y: float) -> float:
+    """Geometric kernel in (z = k1/k0, y = u/k0, p = k/k0) variables.
+
+    Identical in value to kernel_bracket but using direct (z,y) variables
+    instead of the Gogoberidze (x,y) substitution.  Returns 12*K(k,k1,u).
+    """
+    return (
+        54.0
+        - 2.0 * p**2 / z**2
+        - 2.0 * p**2 / y**2
+        + p**4 / (z**2 * y**2)
+        + z**2 / y**2
+        + y**2 / z**2
+    )
+
+
+def _white_spatial_integral(
+    p: float,
+    R: float,
+    epsabs: float = 1e-4,
+    epsrel: float = 1e-3,
+) -> float:
+    """2-D wavevector integral for the white-noise spatial model.
+
+    S(p, R) = int_1^{R^{3/4}} (z/p) dz  int_{max(|p-z|,1)}^{min(p+z,R^{3/4})} y dy  K_zy(p,z,y)
+
+    This spatial factor is independent of frequency and is shared by both
+    H_white_kraichnan (multiplied by a Gaussian) and H_white_decay (multiplied
+    by the temporal convolution).
+    """
+    Rd34 = R**0.75
+    p_floor = max(p, 1e-10)
+
+    def inner_y(y: float, z: float) -> float:
+        if y <= 0 or z <= 0:
+            return 0.0
+        return y * kernel_bracket_zy(p_floor, z, y)
+
+    def outer_z(z: float) -> float:
+        y_lo = max(abs(p_floor - z), 1.0)
+        y_hi = min(p_floor + z, Rd34)
+        if y_lo >= y_hi:
+            return 0.0
+        val, _ = integrate.quad(
+            inner_y, y_lo, y_hi, args=(z,), epsabs=epsabs, epsrel=epsrel, limit=200
+        )
+        return z / p_floor * val
+
+    result, _ = integrate.quad(outer_z, 1.0, Rd34, epsabs=epsabs, epsrel=epsrel, limit=200)
+    return result
+
+
+def H_white_kraichnan(
+    p: float,
+    Omega: float,
+    R: float = 1e6,
+    epsabs: float = 1e-4,
+    epsrel: float = 1e-3,
+) -> float:
+    """Dimensionless GW kernel for delta^3(r) spatial correlations + Kraichnan decorrelation.
+
+        H(p, Omega) = exp(-Omega^2/(2*pi)) * S(p, R)
+
+    where S(p,R) is the 2-D spatial integral (independent of Omega) and
+    Omega = omega/eta0.  The temporal factor is Gaussian and fully analytic.
+    """
+    spatial = _white_spatial_integral(p, R, epsabs=epsabs, epsrel=epsrel)
+    return float(np.exp(-Omega**2 / (2.0 * np.pi))) * spatial
+
+
+def H_white_decay(
+    p: float,
+    q: float,
+    R: float = 1e6,
+    epsabs: float = 1e-4,
+    epsrel: float = 1e-3,
+    n_points: int = 200,
+) -> float:
+    """Dimensionless GW kernel for delta^3(r) spatial correlations + decay temporal model.
+
+        H(p, q) = S(p, R) * int dq1 g(q1)*g(q-q1)
+
+    The two factors are independent and computed separately, so either can be
+    cached when sweeping the other variable.
+    """
+    spatial = _white_spatial_integral(p, R, epsabs=epsabs, epsrel=epsrel)
+    temporal = _temporal_conv_decay(q, n_points=n_points)
+    return spatial * temporal
+
+
+# ── Grid helpers for new models ─────────────────────────────────────────────
+
+
+def H_delta_k_kraichnan_grid(ps, Omegas) -> np.ndarray:
+    """2-D grid of H_delta_k_kraichnan(p, Omega).
+
+    Fully vectorised (no loops): returns array of shape (len(Omegas), len(ps)).
+    """
+    ps = np.atleast_1d(np.asarray(ps, dtype=float))
+    Omegas = np.atleast_1d(np.asarray(Omegas, dtype=float))
+    PP, OO = np.meshgrid(ps, Omegas)
+    return H_delta_k_kraichnan(PP, OO)
+
+
+def H_delta_k_decay_grid(
+    ps,
+    qs,
+    n_points: int = 200,
+    status=None,
+) -> np.ndarray:
+    """2-D grid of H_delta_k_decay(p, q).
+
+    Computes the temporal convolution once per q value, then broadcasts over p.
+    Returns array of shape (len(qs), len(ps)).
+    """
+    ps = np.atleast_1d(np.asarray(ps, dtype=float))
+    qs = np.atleast_1d(np.asarray(qs, dtype=float))
+    grid = np.zeros((len(qs), len(ps)))
+    for i, q in enumerate(qs):
+        _emit_status(status, f"H_delta_k_decay_grid q={q:.4e} ({i+1}/{len(qs)})", force=True)
+        conv = _temporal_conv_decay(q, n_points=n_points)
+        for j, p in enumerate(ps):
+            grid[i, j] = 0.0 if (p <= 0 or p > 2.0) else K0_p(p) / p * conv
+    return grid
+
+
+def H_white_kraichnan_grid(
+    ps,
+    Omegas,
+    R: float = 1e6,
+    epsabs: float = 1e-4,
+    epsrel: float = 1e-3,
+    status=None,
+) -> np.ndarray:
+    """2-D grid of H_white_kraichnan(p, Omega).
+
+    Precomputes S(p) for each p once, then multiplies by the Gaussian factor.
+    Returns array of shape (len(Omegas), len(ps)).
+    """
+    ps = np.atleast_1d(np.asarray(ps, dtype=float))
+    Omegas = np.atleast_1d(np.asarray(Omegas, dtype=float))
+    spatial = np.zeros(len(ps))
+    for j, p in enumerate(ps):
+        _emit_status(status, f"H_white_kraichnan_grid p={p:.4e} ({j+1}/{len(ps)})", force=True)
+        spatial[j] = _white_spatial_integral(p, R, epsabs=epsabs, epsrel=epsrel)
+    OO = Omegas[:, np.newaxis]
+    return np.exp(-OO**2 / (2.0 * np.pi)) * spatial[np.newaxis, :]
+
+
+def H_white_decay_grid(
+    ps,
+    qs,
+    R: float = 1e6,
+    epsabs: float = 1e-4,
+    epsrel: float = 1e-3,
+    n_points: int = 200,
+    status=None,
+) -> np.ndarray:
+    """2-D grid of H_white_decay(p, q).
+
+    Precomputes S(p) and the temporal convolution conv(q) independently, then
+    forms the outer product.  Returns array of shape (len(qs), len(ps)).
+    """
+    ps = np.atleast_1d(np.asarray(ps, dtype=float))
+    qs = np.atleast_1d(np.asarray(qs, dtype=float))
+    spatial = np.zeros(len(ps))
+    for j, p in enumerate(ps):
+        _emit_status(status, f"H_white_decay_grid spatial p={p:.4e} ({j+1}/{len(ps)})", force=True)
+        spatial[j] = _white_spatial_integral(p, R, epsabs=epsabs, epsrel=epsrel)
+    temporal = np.zeros(len(qs))
+    for i, q in enumerate(qs):
+        _emit_status(
+            status, f"H_white_decay_grid temporal q={q:.4e} ({i+1}/{len(qs)})", force=True
+        )
+        temporal[i] = _temporal_conv_decay(q, n_points=n_points)
+    return temporal[:, np.newaxis] * spatial[np.newaxis, :]
