@@ -1046,6 +1046,241 @@ $\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector 
 \end{tabular}
 \end{center}
 
+\section{Analytic k dependent decaying Energy Spectra}
+
+We need to find a spectrum that when the k dependence is integrating out is of the form
+
+\begin{equation}
+    E_0 \left( 1-\frac{\tau}{\tau_0}\right) ^{-\frac{2}{3}}
+    \label{2/3 Energy Spectrum}
+\end{equation}
+
+and where the spectrum decays according to the Kolmogorov spectrum for $k > k_0$
+
+There are many possibilities, but here are two simple possibilities. 
+
+\begin{equation}
+    E_k(\tau,k)=\frac{2}{3}\tau E_0(1+k\tau)^{-\frac{5}{3}}
+    \label{Decaying k_0 to infty}
+\end{equation}
+
+\begin{equation}
+    E_k(\tau,k)=\frac{2}{3}\frac{1}{k_0} E_0\left(1+\frac{\tau}{\tau_0}+\frac{k}{k_0} \right)^{-\frac{5}{3}}
+    \label{Decaying 0 to infty}
+\end{equation}
+
+For these spectrum, we will assume $\tau_0=\frac{1}{k_0}$. If Eq. \eqref{Decaying k_0 to infty} is integrated from $k_0$ to infinity it will recover Eq. \eqref{2/3 Energy Spectrum}, and if Eq. \eqref{Decaying 0 to infty} is integrated from 0 to infinity it will also recover Eq. \eqref{2/3 Energy Spectrum}.
+
+\begin{equation}
+    F_{ij}(k,\tau) = \frac{E_k(k,\tau)}{4\pi k^2}P_{ij}(\hat{k})
+\end{equation}
+
+\begin{equation}
+    \tilde{F}_{ij}(k,\omega) = \frac{\tilde{E}_k(k,\omega)}{4\pi k^2}P_{ij}(\hat{k})
+\end{equation}
+
+For Eq. \eqref{Decaying k_0 to infty} 
+
+\begin{align}
+    \tilde{F}_{ij}(k,\omega)
+    &= \frac{P_{ij}(\hat{k})}{4\pi k^2}\int^\infty_{\tau_0}
+    d\tau e^{-i\omega\tau} \frac{2}{3}\tau E_0
+    (1+k\tau)^{-\frac{5}{3}}\\
+    &= \frac{P_{ij}(\hat{k}) E_0}{6\pi k^4}
+    e^{-i\frac{\omega}{k}} \int^\infty_{1+k\tau_0}
+    e^{-i\omega \alpha/k}
+    (\alpha^{-\frac{2}{3}}-\alpha^{-\frac{5}{3}})\\
+    &= \frac{P_{ij}(\hat{k}) E_0 }{6\pi k^4}
+    e^{-i\frac{\omega}{k}}\left(\frac{i\omega}{k}\right)
+    \left[\left(-\frac{ik}{\omega}\right)^{-\frac{2}{3}}
+    \Gamma \left( \frac{1}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
+    -\left(-\frac{ik}{\omega}\right)^{-\frac{5}{3}}
+    \Gamma \left( -\frac{2}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
+    \right]
+\end{align}
+
+For Eq. \eqref{Decaying 0 to infty}
+
+\begin{align}
+    \tilde{F}_{ij}(k,\omega)
+    &= \frac{P_{ij}(\hat{k})}{4\pi k^2}\int^\infty_{0}
+    d\tau e^{-i\omega\tau} \frac{2}{3k_0} E_0
+    \left(1+\frac{\tau}{\tau_0}+\frac{k}{k_0}\right)^{-\frac{5}{3}}\\ 
+    &= \frac{P_{ij}(\hat{k})E_0}{8\pi k^2k_0^2} e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)}
+    \int^\infty_{1+\frac{k}{k_0}} d\alpha
+    e^{- \omega \alpha / k_0} \alpha^{-\frac{5}{3}} \\
+    &= \frac{P_{ij}(\hat{k})E_0}{8\pi k^2k_0^2} e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)} 
+    \Gamma \left(-\frac{2}{3},
+    i\frac{\omega}{k_0}+ i\frac{\omega k}{k_0^2}\right)
+\end{align}
+
+Now we put out integrals into the form
+
+\begin{equation}
+    H_{ijij}(\bm{k},\omega) =
+    \frac{1}{6}\int d^3k_1d\omega_1 g(\bm{k_1},w_1)g(\bm{k}-\bm{k_1},\omega -\omega_1) \mathfrak{K}
+\end{equation}
+
+using the convolution theorem, where 
+
+\begin{equation}
+    \mathfrak{K}=\left[ 27-\frac{k^2}{k_1^2}+\frac{k^4}{2k^2_1u^2}+\frac{k_1^2}{2u^2}-\frac{k^2}{u^2}+\frac{u^2}{2k^2_1} \right] .
+\end{equation}
+
+
+and $g(\bm{k},\omega)$ takes on different forms in the two cases. Let 
+
+\begin{equation}
+g_1(\bm{k},\omega) = \frac{E_0 }{6\pi k^4}
+    e^{-i\frac{\omega}{k}}\left(\frac{i\omega}{k}\right)
+    \left[\left(-\frac{ik}{\omega}\right)^{-\frac{2}{3}}
+    \Gamma \left( \frac{1}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
+    -\left(-\frac{ik}{\omega}\right)^{-\frac{5}{3}}
+    \Gamma \left( -\frac{2}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
+    \right]
+\end{equation}
+
+and
+
+\begin{equation}
+g_2(\bm{k},\omega) = \frac{E_0}{8\pi k^2k_0^2} e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)} 
+    \Gamma \left(-\frac{2}{3},
+    i\frac{\omega}{k_0}+ i\frac{\omega k}{k_0^2}\right)
+\end{equation}
+
+Lets expand
+
+\begin{equation}
+    H_{ijij}(\bm{k},\omega) =
+    \frac{1}{6}\int^{k_d}_{k_0} dk_1
+    \int^{2\pi}_0 d\phi_1
+    \int^{\pi}_0 d\theta_1 k_1^2\sin(\theta_1)
+    \int^\infty_0 d\omega_1 
+    g(\bm{k_1},w_1)g(\bm{k}-\bm{k_1},\omega -\omega_1) \mathfrak{K}
+\end{equation}
+
+Because we are assuming isotropic turbulence,  we can set the $\theta_1=0$ axis with to align with $\bm{k}$. When we do, we find that the integral over $\phi_1$ is simply $2\pi$. We also can relate $u$ to $k_1$, $\theta_1$ and $k$ using the cosine law.
+
+\begin{equation}
+    u = \sqrt{k_1^2+k^2-2k_1k \cos{\theta_1}}
+\end{equation}
+
+Therefore 
+ \begin{equation}
+    du = \frac{k_1k}{u}\sin{\theta_1}d\theta_1
+\end{equation}
+
+and the bounds are $\theta_1=0 \rightarrow |k_1-k|$, and $\theta_1=\pi \rightarrow k_1+k$. Thus
+
+\begin{equation}
+    H_{ijij}(\bm{k},\omega) =
+    \frac{\pi}{3}\int^{k_d}_{k_0} dk_1
+    \int^{k_1+k}_{|k_1-k|} du \frac{uk_1}{k}
+    \int^\infty_0 d\omega_1 
+    g(k_1,w_1)g(u,\omega -\omega_1) \mathfrak{K}
+\end{equation}
+
+
+We need top make these integrals dimensionless. We will define the following dimensionless variables: 
+\begin{equation}
+    R^\frac{3}{4}=\frac{k_d}{k_0}, \ \frac{u}{k_0}=y, \ \frac{k_1}{k_0} = z, \ \frac{k}{k_0} = p, \ \frac{\omega}{k_0}=\omega \tau_1 =q,
+    \frac{\omega_1}{k_0}=\omega_1 \tau_1 =q_1
+\end{equation}
+
+Using these new variables
+
+\begin{equation}
+    \mathfrak{K}=\left[ 
+    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
+    \frac{z^2}{2y^2} 
+    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
+    \right]
+\end{equation}
+
+\begin{equation}
+    dk_1 = k_0dz,\  du = k_0dy
+\end{equation}
+
+We also need to find the bounds for the integrals.
+
+\begin{equation}
+    k_1+k \rightarrow p+z, \ |k_1-k\ \rightarrow |p-z|, 
+    k_d \rightarrow R^{\frac{3}{4}}, k_0 \rightarrow 1
+\end{equation}
+
+\begin{equation}
+    H_{ijij}(p,q) =
+    \frac{\pi k_0^4}{3p}\int^{R^\frac{3}{4}}_{1} dz z
+    \int^{p+z}_{|p-z|} dy y
+    \int^\infty_0 dq_1 
+    g(z,q_1)g(y,q-q_1) \mathfrak{K}
+\end{equation}
+
+Now we need to find $g_1(p,q)$ and $g_2(p,q)$
+
+\begin{equation}
+    g_1(p,q) = \frac{E_0 }{6\pi k_0^4 p^4}
+    e^{-i\frac{q}{p}}\left(\frac{iq}{p}\right)
+    \left[\left(-\frac{ip}{q}\right)^{-\frac{2}{3}}
+    \Gamma \left( \frac{1}{3}, iq+i\frac{q}{p}\right)
+    -\left(-\frac{ip}{q}\right)^{-\frac{5}{3}}
+    \Gamma \left( -\frac{2}{3}, iq+i\frac{q}{p}\right)
+    \right]
+\end{equation}
+
+\begin{equation}
+    g_1(z,q_1) = \frac{E_0 }{6\pi k_0^4 z^4}
+    e^{-i\frac{q_1}{z}}\left(\frac{iq_1}{z}\right)
+    \left[\left(-\frac{iz}{q_1}\right)^{-\frac{2}{3}}
+    \Gamma \left( \frac{1}{3}, iq_1+i\frac{q_1}{z}\right)
+    -\left(-\frac{iz}{q_1}\right)^{-\frac{5}{3}}
+    \Gamma \left( -\frac{2}{3}, iq_1+i\frac{q_1}{z}\right)
+    \right]
+\end{equation}
+
+\begin{align*}
+    g_1(y,q-q_1) &= \frac{E_0 }{6\pi k_0^4 y^4}
+    e^{-i\frac{q-q_1}{z}}\left(\frac{i(q-q_1)}{z}\right)\\
+    &\times \left[\left(-\frac{iz}{q-q_1}\right)^{-\frac{2}{3}}
+    \Gamma \left( \frac{1}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
+    -\left(-\frac{iz}{q-q_1}\right)^{-\frac{5}{3}}
+    \Gamma \left( -\frac{2}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
+    \right]
+\end{align*}
+
+Finally we find that for Eq. 
+\eqref{Decaying k_0 to infty} we find an overall dimensionless integral
+
+\begin{align*}
+    H_{ijij}(p,q) 
+    &=
+    \frac{\pi E_0^2 }{108 \pi p k_0^4}\int^{R^\frac{3}{4}}_{1} dz \frac{1}{z^3}
+    \int^{p+z}_{|p-z|} dy \frac{1}{y^3}
+    \int^\infty_0 dq_1 
+    e^{-i\frac{q}{z}}\left(\frac{i(q-q_1)}{z}\right)\times \\
+    &\left[
+        \left(-\frac{iz}{q_1}\right)^{-\frac{2}{3}}
+        \Gamma \left( \frac{1}{3}, iq_1+i\frac{q_1}{z}\right)
+        -\left(-\frac{iz}{q_1}\right)^{-\frac{5}{3}}
+        \Gamma \left( -\frac{2}{3}, iq_1+i\frac{q_1}{z}\right)
+    \right] \times \\
+    &\left[
+        \left(-\frac{iz}{q-q_1}\right)^{-\frac{2}{3}}
+        \Gamma \left( \frac{1}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
+        -\left(-\frac{iz}{q-q_1}\right)^{-\frac{5}{3}}
+        \Gamma \left( -\frac{2}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
+    \right] \times \\
+    & \left[ 
+    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
+    \frac{z^2}{2y^2} 
+    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
+    \right]
+\end{align*}
+
+
+
+
+
 \bibliography{bib}
 
 \end{document}
