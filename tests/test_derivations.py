@@ -3,11 +3,13 @@
 
 import unittest
 
+import mpmath as mp
 import numpy as np
 import sympy as sp
 from scipy import integrate, special
 
 from src.gw_turbulence import g_decaying
+from src.gw_turbulence.core import _conv_intervals, _cosine_grid, _temporal_conv_decay
 
 
 class TestDerivationIdentities(unittest.TestCase):
@@ -67,6 +69,36 @@ class TestDerivationIdentities(unittest.TestCase):
 
 
 class TestDecayingExtensionKernel(unittest.TestCase):
+    def test_decaying_kernel_matches_derivation_formula(self):
+        q_values = np.array([0.2, 1.0, 4.0])
+        expected = np.array(
+            [
+                complex(
+                    mp.e ** (1j * q)
+                    * ((-1j * q) ** (-5.0 / 3.0))
+                    * mp.gammainc(1.0 / 3.0, -1j * q)
+                )
+                for q in q_values
+            ]
+        )
+        actual = g_decaying(q_values)
+        self.assertTrue(np.allclose(actual, expected, rtol=1e-10, atol=1e-10))
+
+    def test_decaying_temporal_convolution_covers_negative_q1(self):
+        intervals = _conv_intervals(q=1.0, q_bound=5.0, split_width=0.01)
+        self.assertEqual(intervals[0], (-5.0, -0.01))
+        self.assertIn((0.01, 0.99), intervals)
+        self.assertIn((1.01, 5.0), intervals)
+
+    def test_decaying_temporal_convolution_uses_negative_q1_interval(self):
+        q = 1.0
+        positive_only = 0.0
+        for lower, upper in ((0.01, 0.99), (1.01, 5.0)):
+            grid = _cosine_grid(lower, upper, 200)
+            positive_only += np.trapz((g_decaying(grid) * g_decaying(q - grid)).real, grid)
+        full_line = _temporal_conv_decay(q, q_bound=5.0, split_width=0.01, n_points=200)
+        self.assertGreater(abs(full_line - positive_only), 1e-2)
+
     def test_decaying_kernel_is_finite_and_conjugate_symmetric(self):
         zgrid = np.r_[np.linspace(-8, -1e-3, 20), np.linspace(1e-3, 8, 20)]
         values = g_decaying(zgrid)

@@ -91,10 +91,12 @@ def g_decaying(z):
 @lru_cache(maxsize=1024)
 def _g_decaying_scalar(z: complex) -> complex:
     # For E(t) ∝ (1 + t/tau_1)^(-2/3) with t >= 0 and Fourier convention
-    # exp(-i omega t), the temporal kernel scales as q^(-1/3) Gamma(1/3, i q).
-    arg = 1j * z
-    gamma_upper = mp.gammainc(1.0 / 3.0, arg, mp.inf)
-    return complex(mp.e ** (1j * z) * ((1j * z) ** (-1.0 / 3.0)) * gamma_upper)
+    # exp(-i omega t), derivation.tex gives
+    # g(q) = exp(i q) * (-i q)^(-5/3) * Gamma(1/3, -i q),
+    # where Gamma(1/3, -i q) is the lower incomplete gamma.
+    arg = -1j * z
+    gamma_lower = mp.gammainc(1.0 / 3.0, arg)
+    return complex(mp.e ** (1j * z) * (arg ** (-5.0 / 3.0)) * gamma_lower)
 
 
 def _cosine_grid(lower: float, upper: float, count: int) -> np.ndarray:
@@ -104,17 +106,32 @@ def _cosine_grid(lower: float, upper: float, count: int) -> np.ndarray:
 
 
 def _conv_intervals(
-    q: float, q_upper: float, split_width: float
+    q: float, q_bound: float, split_width: float
 ) -> list[tuple[float, float]]:
-    """Sub-intervals for convolution integral, split around singularities at q1=0 and q1=q."""
+    """Sub-intervals for the truncated convolution on [-q_bound, q_bound]."""
+    lower = -q_bound
+    upper = q_bound
+    singular_windows = []
+    for point in sorted((0.0, q)):
+        window_lo = max(lower, point - split_width)
+        window_hi = min(upper, point + split_width)
+        if window_lo < window_hi:
+            singular_windows.append((window_lo, window_hi))
+
     pieces = []
-    if q > split_width:
-        pieces.append((split_width, q - split_width))
-    if q_upper > q + split_width:
-        pieces.append((q + split_width, q_upper))
-    if not pieces:
-        pieces.append((split_width, q_upper))
-    return pieces
+    cursor = lower
+    for window_lo, window_hi in singular_windows:
+        if window_lo > cursor:
+            pieces.append((cursor, window_lo))
+        cursor = max(cursor, window_hi)
+    if cursor < upper:
+        pieces.append((cursor, upper))
+
+    deduped = []
+    for left, right in pieces:
+        if right - left > 0:
+            deduped.append((left, right))
+    return deduped
 
 
 def integrand_y_decaying(
@@ -137,7 +154,7 @@ def integrand_y_decaying(
         return 0.0
 
     scale = np.sqrt(x * y) / M if M > 0 else 1.0
-    q_upper = max(q + 10.0 * scale, 20.0)
+    q_bound = max(abs(q) + 10.0 * scale, 20.0)
     split_width = max(1e-8, 1e-6 * max(1.0, abs(q)))
 
     def conv_integrand(q1: float) -> float:
@@ -154,7 +171,7 @@ def integrand_y_decaying(
     try:
         conv_val = 0.0
         if convolution_method == "trapz":
-            for lower, upper in _conv_intervals(q, q_upper, split_width):
+            for lower, upper in _conv_intervals(q, q_bound, split_width):
                 if lower >= upper:
                     continue
                 q1_values = _cosine_grid(lower, upper, max(convolution_points, 32))
@@ -163,7 +180,7 @@ def integrand_y_decaying(
                 values = (g_decaying(z1) * g_decaying(z2)).real
                 conv_val += np.trapz(values, q1_values)
         elif convolution_method == "quad":
-            for lower, upper in _conv_intervals(q, q_upper, split_width):
+            for lower, upper in _conv_intervals(q, q_bound, split_width):
                 if lower >= upper:
                     continue
                 part, _ = integrate.quad(
@@ -589,7 +606,7 @@ def H_delta_k_kraichnan(p, Omega):
 
 def _temporal_conv_decay(
     q: float,
-    q_upper: float | None = None,
+    q_bound: float | None = None,
     split_width: float | None = None,
     n_points: int = 200,
 ) -> float:
@@ -598,12 +615,12 @@ def _temporal_conv_decay(
     g is the dimensionless decay kernel from g_decaying.  This is the pure
     temporal factor shared by H_delta_k_decay and H_white_decay.
     """
-    if q_upper is None:
-        q_upper = max(q + 20.0, 30.0)
+    if q_bound is None:
+        q_bound = max(abs(q) + 20.0, 30.0)
     if split_width is None:
         split_width = max(1e-8, 1e-6 * max(1.0, abs(q)))
     conv_val = 0.0
-    for lower, upper in _conv_intervals(q, q_upper, split_width):
+    for lower, upper in _conv_intervals(q, q_bound, split_width):
         if lower >= upper:
             continue
         q1_vals = _cosine_grid(lower, upper, max(n_points, 32))

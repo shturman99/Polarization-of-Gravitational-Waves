@@ -64,18 +64,22 @@ class TestCoreHelpers(unittest.TestCase):
         self.assertTrue(np.all(np.diff(grid) > 0))
 
     def test_conv_intervals_splits_around_singularities(self):
-        intervals = _conv_intervals(q=1.0, q_upper=5.0, split_width=0.01)
-        self.assertEqual(len(intervals), 2)
-        self.assertAlmostEqual(intervals[0][0], 0.01)
-        self.assertAlmostEqual(intervals[0][1], 0.99)
-        self.assertAlmostEqual(intervals[1][0], 1.01)
-        self.assertAlmostEqual(intervals[1][1], 5.0)
+        intervals = _conv_intervals(q=1.0, q_bound=5.0, split_width=0.01)
+        self.assertEqual(len(intervals), 3)
+        self.assertAlmostEqual(intervals[0][0], -5.0)
+        self.assertAlmostEqual(intervals[0][1], -0.01)
+        self.assertAlmostEqual(intervals[1][0], 0.01)
+        self.assertAlmostEqual(intervals[1][1], 0.99)
+        self.assertAlmostEqual(intervals[2][0], 1.01)
+        self.assertAlmostEqual(intervals[2][1], 5.0)
 
     def test_conv_intervals_fallback_for_small_q(self):
-        intervals = _conv_intervals(q=0.001, q_upper=5.0, split_width=0.01)
-        self.assertEqual(len(intervals), 1)
-        self.assertAlmostEqual(intervals[0][0], 0.011)
-        self.assertAlmostEqual(intervals[0][1], 5.0)
+        intervals = _conv_intervals(q=0.001, q_bound=5.0, split_width=0.01)
+        self.assertEqual(len(intervals), 2)
+        self.assertAlmostEqual(intervals[0][0], -5.0)
+        self.assertAlmostEqual(intervals[0][1], -0.01)
+        self.assertAlmostEqual(intervals[1][0], 0.011)
+        self.assertAlmostEqual(intervals[1][1], 5.0)
 
 
 class TestDecayingGrid(unittest.TestCase):
