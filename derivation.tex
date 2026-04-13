@@ -1,17 +1,13 @@
 \documentclass[prd,aps,psfig,nobibnotes,superscriptaddress,preprintnumbers,times]{revtex4}
 
-\bibliographystyle{apsrev4-1} 
+\bibliographystyle{apsrev4-1}
 \setlength{\topmargin}{-14mm}
 \usepackage{graphicx,bm,color,braket,amsmath}
 \usepackage{hyperref}
-\def\red{\textcolor{red}}
-\def\blue{\textcolor{blue}}
 \usepackage{subcaption}
 \usepackage{amssymb}
-\usepackage{amsmath}
 \usepackage{xfrac}
 \usepackage{mathrsfs}
-\usepackage{bm}
 \usepackage{cancel}
 \usepackage{booktabs}
 \usepackage{xcolor}
@@ -23,21 +19,17 @@
   citecolor=blue!60!black,
   urlcolor=blue!60!black
 }
+
 \def \ul{\underline}
 \def \vp{\varphi}
-
 \def \ds{\displaystyle}
 \def \pa{\partial}
-\def \tcr{\textcolor{red}}
-\def \tcb{\textcolor{blue}}
 
 \newcommand{\rb}{\rho_{\rm B}}
 \newcommand{\extra}{\rho_{\rm extra}}
-
 \newcommand{\ep}{e_{ij}^+}
 \newcommand{\ec}{e_{ij}^\times}
 \newcommand{\khat}{\hat{k}}
-
 \newcommand{\Omgw}{\Omega_{\rm GW}}
 \newcommand{\Agw}{\mathcal{A}_{\rm GW}}
 \newcommand{\n}{\hat{n}}
@@ -58,13 +50,8 @@
 \newcommand{\ub}{{\bf u}}
 \newcommand{\tf}{\tilde{f}}
 
-
-\newcommand{\mg}[1]{{\textcolor{red}{{[MG: #1]}}}}
-\newcommand{\tb}[1]{{\textcolor{teal}{{[TB: #1]}}}}
-\newcommand{\codex}[1]{{\textcolor{purple}{{[CODEX: #1]}}}}
-
 \begin{document}
-\title{Polarization of Gravitational Waves From Turbulence: 
+\title{Polarization of Gravitational Waves From Turbulence:
        Tension Between Simulation and Analytic Approaches}
 \date{\today}
 
@@ -93,7 +80,7 @@ Derivation of the equations used in the literature.
 
 \tableofcontents
 
-\section{GOGOBERIDZE 2007}
+\section{Gogoberidze (2007)}
 
 We adopt the spatial Fourier pair
 \begin{align}
@@ -218,81 +205,67 @@ H_{ijij}(\xb',\kb,\omega)
 A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber\\
 &\quad \times \left[ 4 + \frac{1}{3}\left(1+(\khat_{1}\cdot\hat{u})^2\right) \right]. \label{eq: H-with-P}
 \end{align}
-This is form of the Fourier  transform valid for all values of $k$ in, from now we will treat $\kb=0$ and $\kb\ne0$ separately
-\subsection{ $\kb>\kb_0$}
-Using $\kb=\kb_1+\ub$ so that
+This is the Fourier transform valid for all $k$; we treat $\kb > \kb_0$ and $\kb \leq \kb_0$ separately below.
+
+\subsection{$\kb > \kb_0$}
+
+Using $\kb = \kb_1 + \ub$ so that
 \begin{equation}
 k^2 = k_1^2 + u^2 + 2 k_1 u (\khat_1\cdot\hat{u})
 \quad \Rightarrow \quad
 \khat_1\cdot\hat{u} = \frac{k^2-k_1^2-u^2}{2 k_1 u},
 \end{equation}
-we obtain the geometric bracket form
+Eq.~\eqref{eq: H-with-P} becomes
 \begin{align}
-    H_{ijij}(\xb',\kb,\omega) =& 
-    \frac{1}{(2\pi)^8}\int d^{3}k_{1}d\omega_1
-    A(k_{1})A(k-k_1) 
-    \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k-k_1},\omega-\omega_1)
-    \times \left(4 + \frac{1}{3}\left( 1 + (\khat_1\cdot\widehat{k-k_1})^2\right)\right)\\
 H_{ijij}(\xb',\kb,\omega)
-=& \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
-A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber
-\times \left[ 4 + \frac{1}{3}\left(1+\left(\frac{k^2-k_1^2-u^2}{2 k_1 u}\right)^2\right) \right]. \label{eq: H-geometric}
+&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
+A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber\\
+&\quad \times \left[ 4 + \frac{1}{3}\left(1+\left(\frac{k^2-k_1^2-u^2}{2 k_1 u}\right)^2\right) \right]. \label{eq: H-geometric}
 \end{align}
-%\codex{If you proceed to evaluate the $d^3k_1$ integral using spherical symmetry, note that $d^3k_1 = k_1^2\,dk_1\,d\mu\,d\phi$ with $\mu=\hat{k}\cdot\hat{k}_1$, and $u=|\kb-\kb_1|=\sqrt{k^2+k_1^2-2kk_1\mu}$. Do not treat $u$ as independent; the angular integral is over $\mu\in[-1,1]$ and the azimuth gives $2\pi$.}
-Now if we focus our attention on the term in brackets and massage it a bit we would get the following result:
+Expanding the bracket,
 \begin{align}
- \left[ 4 + \frac{1}{3}\left(1+\left(\frac{k^2-k_1^2-u^2}{2 k_1 u}\right)^2\right) \right] &=
- \left[ 4 + \frac{1}{3}+\left(\frac{1}{12k_1^2u^2}\left(k^4 +k_1^4+u^4-2k_1^2k^2-2k^2u^2+2k_1^2u^2\right)\right) \right]\\
- &=\left[\frac{27}{6} + \frac{k^4}{12k_1^2u^2} + \frac{k_1^2}{12u^2} +\frac{u^2}{12k_1^2} - \frac{k^2}{6u^2}-\frac{k^2}{6k_1^2} \right]
+ \left[ 4 + \frac{1}{3}\left(1+\left(\frac{k^2-k_1^2-u^2}{2 k_1 u}\right)^2\right) \right]
+ &= \left[ 4 + \frac{1}{3}+\frac{1}{12k_1^2u^2}\left(k^4 +k_1^4+u^4-2k_1^2k^2-2k^2u^2+2k_1^2u^2\right) \right] \nonumber\\
+ &=\left[\frac{27}{6} + \frac{k^4}{12k_1^2u^2} + \frac{k_1^2}{12u^2} +\frac{u^2}{12k_1^2} - \frac{k^2}{6u^2}-\frac{k^2}{6k_1^2} \right].
 \end{align}
-\mg{Factor of $\frac{1}{(2\pi)^8}$ still floating around I need to redo my calculations to see if it gets canceled somewhere and I forgot}
-%\codex{With the stated Fourier conventions, the overall factor after the $\br$ and $\tau$ integrals should be $(2\pi)^{-8}$ as in Eq.~\eqref{eq: H-convolution}. There is no additional $(2\pi)$ from $A(k)$ or $\tilde f$, so this factor should remain unless a different convention is adopted.}
-Combining all the factors together we arrive at the (almost) E. 29 form \cite{2007Gogoberidze}
+Combining, we arrive at (cf.\ Eq.~(29) of \cite{2007Gogoberidze})
 \begin{align}
-    H_{ijij}(\xb',\kb,\omega) =& 
-    \frac{1}{(2\pi)^8}\int d^{3}k_{1}d\omega_1
-    A(k_{1})A(k-k_1) 
-    \tf(\eta_{k_{1}},\omega_{1}) \tf(\eta_{k-k_1},\omega-\omega_1)\times
-    \\\times&\left[\frac{27}{6} + \frac{k^4}{12k_1^2u^2} + \frac{k_1^2}{12u^2} +\frac{u^2}{12k_1^2} - \frac{k^2}{6u^2}-\frac{k^2}{6k_1^2} \right]
+    H_{ijij}(\xb',\kb,\omega) =
+    \frac{1}{(2\pi)^8}\int d^{3}k_{1}\,d\omega_1\;
+    A(k_{1})A(u)\,
+    \tf(\eta_{k_{1}},\omega_{1})\, \tf(\eta_{u},\omega-\omega_1)
+    \times \mathcal{K}(k,k_1,u),
 \end{align}
-
-Now we can calcucate the temporal fourier transfrom of $f$ which gives us : 
+where we define the geometric kernel
 \begin{equation}
-    \tf(\eta_k,\omega) = \frac{2}{\eta_k}  \exp\left(-\frac{\omega^2}{\pi \eta^2_k}\right)
+\mathcal{K}(k,k_{1},u)\equiv
+\left[\frac{27}{6}
++\frac{k^{4}}{12k_{1}^{2}u^{2}}
++\frac{k_{1}^{2}}{12u^{2}}
++\frac{u^{2}}{12k_{1}^{2}}
+-\frac{k^{2}}{6u^{2}}
+-\frac{k^{2}}{6k_{1}^{2}}
+\right].
 \end{equation}
-%\codex{Check the Gaussian Fourier transform against the stated convention $f(\tau)=\int \frac{d\omega}{2\pi}e^{-i\omega\tau}\tilde f(\omega)$, $\tilde f(\omega)=\int d\tau e^{i\omega\tau}f(\tau)$. For $f(\tau)=\exp[-(\pi/4)\eta_k^2\tau^2]$, the integral gives $\tilde f(\omega)=(2/\eta_k)\exp[-\omega^2/(\pi\eta_k^2)]$, so the prefactor and exponent denominator here appear to be off by factors of $2$ and $\pi$.}
 
-\mg{Setting this function to one will be impossible because we need sufficiently fast decay at infinity.}
-Using definitions made in accordance with \cite{2007Gogoberidze} $ A(k) = C_k\epsilon^{2/3}k^{-11/3}/4\pi$ and $ \eta_k = \frac{1}{\sqrt{2\pi}  }\epsilon^{1/3}k^{2/3}$
-
+The temporal Fourier transform of $f(\eta_k,\tau) = \exp(-\frac{\pi}{4}\eta_k^2\tau^2)$ is
+\begin{equation}
+    \tf(\eta_k,\omega) = \frac{2}{\eta_k}  \exp\left(-\frac{\omega^2}{\pi \eta^2_k}\right).
+\end{equation}
+Using $A(k) = C_k\epsilon^{2/3}k^{-11/3}/4\pi$ and $\eta_k = \frac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3}$ from \cite{2007Gogoberidze}, the combined factor is
+\begin{equation}
+g(k,\omega) \equiv A(k)\,\tf(\eta_k,\omega)
+= \frac{2E_k}{k^2\eta_k}\exp\!\left(-\frac{\omega^2}{\pi\eta_k^2}\right),
+\end{equation}
+where $E_k = C_k\epsilon^{2/3}k^{-5/3}$. Explicitly introducing integration bounds:
 \begin{align}
-    H_{ijij}(\xb',\kb,\omega) =& 
-    \frac{1}{(2\pi)^8}\int d^{3}k_{1}d\omega_1
-    \underbrace{A(k_{1}) \tf(\eta_{k_{1}},\omega_{1})}_{\frac{E_k 2}{k^2\eta_k}\exp
-    \left(\frac{-\omega^2}{\pi\eta_k^2}\right)\equiv g(k_1,\omega_1)
-    } 
-    \underbrace{A(k-k_1)\tf(\eta_{k-k_1},\omega-\omega_1)}_{\textbf{simular}}\times
-    \\\times&\left[\frac{27}{6} + \frac{k^4}{12k_1^2u^2} + \frac{k_1^2}{12u^2} +\frac{u^2}{12k_1^2} - \frac{k^2}{6u^2}-\frac{k^2}{6k_1^2} \right]
+    H_{ijij}(\xb',\kb,\omega) =
+    \frac{1}{(2\pi)^8}\int_{\mathbb{R}^4} d^{3}k_{1}\,d\omega_1\;
+    g(k_1,\omega_1)\, g(u,\omega-\omega_1)\,
+    \mathcal{K}(k,k_{1},u).
 \end{align}
-% \begin{align}
-%     H_{ijij}(\xb',\kb,\omega) =& 
-%     \frac{1}{(2\pi)^9}\int d^{3}k_{1}d\omega_1
-%     C_kC_{k-k_1}\epsilon^2k^{-3}(k-k_1)^{-3}
-%     \exp\left(-\frac{\omega_1^2}{4\pi\eta_{k_1}}\right)
-%     \exp\left(-\frac{(\omega-\omega_1)^2}{4\pi\eta_{k-k_1}}\right)
-%     \\\times&\frac{1}{4\cdot6}\left[27 + \frac{k^4}{2k_1^2u^2} + \frac{k_1^2}{2u^2} +\frac{u^2}{2k_1^2} - \frac{k^2}{u^2}-\frac{k^2}{k_1^2} \right] \quad \textbf{WRONG ATTEMPT!}
-% \end{align}
-\mg{The underbraced parts look similar to \cite{2007Gogoberidze} eq 30 with $\frac{1}{2\pi^2}$ factor off.} Explicitly introducing integration bounds and using the kernel substitution we arrive at the following expression:
-\begin{align}
-    H_{ijij}(\xb',\kb,\omega) =& 
-    \frac{1}{(2\pi)^8}\int_{R^4} d^{3}k_{1}d\omega_1
-    g(k_1,\omega_1) g(k-k_1,\omega-\omega_1)
-    \\\times&\left[\frac{27}{6} + \frac{k^4}{12k_1^2u^2} + \frac{k_1^2}{12u^2} +\frac{u^2}{12k_1^2} - \frac{k^2}{6u^2}-\frac{k^2}{6k_1^2} \right]
-\end{align}
-%\codex{If the Fourier-transform prefactor stays $(2\pi)^{-8}$, this line should not introduce an extra $(2\pi)^{-1}$. Also re-check the $k$- and $\epsilon$-powers: $A(k)\propto \epsilon^{2/3}k^{-11/3}$ and $\tilde f$ contributes additional $k$-dependence via $\eta_k$; the final $k^{-3}$ scaling shown here seems inconsistent unless the (currently incorrect) $\tilde f$ formula is used.}
-Moving $k_1$ integral to spherical coordinators and noting that all the  terms  except $\kb - \kb_1$ are angle independent we can call cosine of angle between $k_1$ and $k$  $\mu$ and the v
-\mg{at this point I think I would be fair to set $C_k$ coefficients to 1}
 
+Moving the $k_1$ integral to spherical coordinates, with $\mu\equiv\hat{\kb}\cdot\hat{\kb}_1$ the cosine of the angle between $\kb_1$ and $\kb$:
 \begin{align}
 d^{3}k_{1}=k_{1}^{2}\,dk_{1}\,d\Omega_{1}
 = k_{1}^{2}\,dk_{1}\,d\phi\,d\mu,
@@ -304,65 +277,52 @@ u \equiv |\kb-\kb_{1}|
 = \sqrt{k^{2}+k_{1}^{2}-2kk_{1}\mu}.
 \label{eq: conversion}
 \end{align}
+After integrating over the azimuthal angle ($\int_0^{2\pi}d\phi = 2\pi$):
 \begin{align}
 H_{ijij}(\xb',\kb,\omega)
-&=\frac{1}{(2\pi)^{8}}
-\int_{0}^{\infty} dk_{1}\,k_{1}^{2}
-\int_{1}^{-1} d\mu
-\int_{0}^{2\pi} d\phi
-\int_{-\infty}^{\infty} d\omega_{1}\;
-g(k_{1},\omega_{1})\,g\!\left(u,\omega-\omega_{1}\right)\,
-\mathcal{K}(k,k_{1},u)\nonumber\\
 &=\frac{1}{(2\pi)^{7}}
 \int_{0}^{\infty} dk_{1}\,k_{1}^{2}
-\int_{1}^{-1} d\mu
+\int_{-1}^{1} d\mu
 \int_{-\infty}^{\infty} d\omega_{1}\;
 g(k_{1},\omega_{1})\,g\!\left(u,\omega-\omega_{1}\right)\,
-\mathcal{K}(k,k_{1},u),
+\mathcal{K}(k,k_{1},u).
 \end{align}
-\begin{align}
-\mathcal{K}(k,k_{1},u)\equiv
-\left[\frac{27}{6}
-+\frac{k^{4}}{12k_{1}^{2}u^{2}}
-+\frac{k_{1}^{2}}{12u^{2}}
-+\frac{u^{2}}{12k_{1}^{2}}
--\frac{k^{2}}{6u^{2}}
--\frac{k^{2}}{6k_{1}^{2}}
-\right].
-\end{align}
-
-$\frac{E_k 2}{k^2\eta_k}\exp \left(\frac{-\omega^2}{\pi\eta_k^2}\right)\equiv g(k_1,\omega_1)$,  $ \eta_k = \frac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3}$ and $E_k =C_k \epsilon^{2/3}k^{-5/3}$  and using the relationship \ref{eq: conversion} we can substituent the integration over $\mu$  to integration over $u$ 
+Changing the angular variable from $\mu$ to $u$ using Eq.~\eqref{eq: conversion},
 \begin{equation}
-    du = \frac{1}{2} \frac{2kk_1}{u}d\mu \rightarrow
-    d\mu = \frac{udu}{kk_1}
+d\mu = \frac{u\,du}{k\,k_1},
 \end{equation}
-And integration bounds change to $|k-k_1|$ to $k + k_1$
-
+with bounds $u \in [|k-k_1|, k+k_1]$:
 \begin{align}
 H_{ijij}(\xb',\kb,\omega)
 &=\frac{1}{(2\pi)^{7}}
 \int_{0}^{\infty} dk_{1}\,\frac{k_1}{k}
+\int_{|k-k_1|}^{k+k_1} du\; u
 \int_{-\infty}^{\infty} d\omega_{1}\;
-\int_{|k-k_1|}^{k+k_1} du~u
 g(k_{1},\omega_{1})\,g\!\left(u,\omega-\omega_{1}\right)\,
-\mathcal{K}(k,k_{1},u),\\
+\mathcal{K}(k,k_{1},u).
+\end{align}
+
+Splitting $\mathcal{K}$ into parts with different powers of $u$ to separate the $u$-integrals:
+\begin{align}
+H_{ijij}(\xb',\kb,\omega)
 &=\frac{1}{(2\pi)^{7}}
 \int_{0}^{\infty} dk_{1}\,\frac{k_1}{k}
-\int_{-\infty}^{\infty} d\omega_{1}\;g(k_1,\omega_1)\times 
-\left(\frac{27}{6}-\frac{k^2}{6k_1^2}\right) 
-\int_{|k-k_1|}^{k+k_1}du~u g(u,\omega-\omega_1)+\\
+\int_{-\infty}^{\infty} d\omega_{1}\;g(k_1,\omega_1)\times
+\left(\frac{27}{6}-\frac{k^2}{6k_1^2}\right)
+\int_{|k-k_1|}^{k+k_1}du\;u\; g(u,\omega-\omega_1) \nonumber\\
 &+\frac{1}{(2\pi)^{7}}
 \int_{0}^{\infty} dk_{1}\,\frac{k_1}{k}
 \int_{-\infty}^{\infty} d\omega_{1}\;g(k_1,\omega_1)\times
 \left(\frac{k^4}{12k_1^2} + \frac{k_1^2}{12} -\frac{k^2}{6}\right)
-\int_{|k-k_1|}^{k+k_1}du~\frac{1}{u} g(u,\omega-\omega_1)\\
+\int_{|k-k_1|}^{k+k_1}du\;\frac{1}{u}\; g(u,\omega-\omega_1) \nonumber\\
 &+\frac{1}{(2\pi)^{7}}
 \int_{0}^{\infty} dk_{1}\,\frac{k_1}{k}
 \int_{-\infty}^{\infty} d\omega_{1}\;g(k_1,\omega_1)\times
-\left( \frac{1}{12k_1^2}\right) 
-\int_{|k-k_1|}^{k+k_1}du~u^3 g(u,\omega-\omega_1)
+\frac{1}{12k_1^2}
+\int_{|k-k_1|}^{k+k_1}du\;u^3\; g(u,\omega-\omega_1).
 \end{align}
-This has same structure as eq (31) form \cite{2007Gogoberidze} \mg{with difference appearing in only overall normalization factor}.
+This has the same structure as Eq.~(31) of \cite{2007Gogoberidze}.
+
 Introducing the dimensionless variables
 \begin{equation}
 q \equiv \frac{k_{1}}{k}, \qquad
@@ -376,7 +336,7 @@ dk_{1} = k\,dq, \qquad
 du = k\,ds, \qquad
 d\omega_{1} = \epsilon^{1/3}k^{2/3}\,d\Omega_{1},
 \end{equation}
-and the $u$--integration bounds become
+and the $u$-integration bounds become
 \begin{equation}
 u \in \bigl[|k-k_{1}|,\,k+k_{1}\bigr]
 \quad \longrightarrow \quad
@@ -427,7 +387,7 @@ I_{-1}(q,\Omega,\Omega_{1})
 +\frac{1}{12q^{2}}\,I_{+3}(q,\Omega,\Omega_{1})
 \Bigg],
 \end{align}
-with the dimensionless $s$--integrals
+with the dimensionless $s$-integrals
 \begin{align}
 I_{+1}(q,\Omega,\Omega_{1})
 &\equiv \int_{|1-q|}^{1+q} ds\;
@@ -443,7 +403,7 @@ s^{-4/3}
 \exp\!\left(-2(\Omega-\Omega_{1})^{2}s^{-4/3}\right).
 \end{align}
 
-Equivalently, without splitting the kernel, one may write
+Equivalently, without splitting the kernel,
 \begin{equation}
 \mathfrak{H}(\Omega)
 =
@@ -466,8 +426,10 @@ q^{-13/3}s^{-13/3}
 In this form, all integrals are manifestly dimensionless, and the dependence
 on the turbulent energy injection rate $\epsilon$ and the wavenumber $k$ is
 fully contained in the overall prefactor $C_k^{2}\epsilon k^{-5}$.
-\subsection{Repeatring derivation of the Gogoberidze 2007 appendix A}
-Eq A.1  and reproduced in code 
+
+\subsection{Repeating the Derivation of Gogoberidze (2007) Appendix~A}
+
+Eq.~A.1 of \cite{2007Gogoberidze}:
 \begin{equation}
     \int_0^{\infty}dy ~ \exp \left(-Ay^2\right)~\exp \left(-A(y-x)^2\right) =  \left( \frac{\pi}{4(A+B)} \right)^{1/2} \exp \left( \frac{-ABx^2}{A+B}\right){\rm erfc}  \left(\frac{-Bx}{\sqrt{A+B}}\right).
 \end{equation}
@@ -476,9 +438,10 @@ H_{i j i j}(k, \omega)&=\frac{\varepsilon}{24 \pi(2 \pi)^{3 / 2} k} \int_{k_0}^{
 \\&\times\left[27-\frac{k^2}{k_1^2}-\frac{k^2}{u^2}+\frac{k^4}{2 k_1^2 u^2}+\frac{k_1^2}{2 u^2}+\frac{u^2}{2 k_1^2}\right] \nonumber \\
 & \times \exp \left(-\frac{2 \varepsilon^{-2 / 3} \omega^2}{k_1^{4 / 3}+u^{4 / 3}}\right) \operatorname{erfc}\left(-\frac{2^{1 / 2} \varepsilon^{-1 / 3} \omega}{\left(k_1^{-4 / 3}+u^{-4 / 3}\right)^{1 / 2}}\right) .
 \end{align}
-Remainder $k_0$ is largest scale of the turbulence and $k_d$ is energy damping scale. The nonlinear boundaries in the integral would follow form the finite support of the $E_k$.  
+Here $k_0$ is the largest scale of the turbulence and $k_d$ is the energy damping scale; the nonlinear integration bounds follow from the finite support of $E_k$.
 
-{\bf CLAIM  :}  This integral is not divergent as $k$ goes to zero.
+\textbf{Claim:} This integral is not divergent as $k \to 0$.
+
 We define the dimensionless parameters
 \begin{equation}
 \frac{\varepsilon}{k_0} = M^3,
@@ -621,33 +584,23 @@ H_{ijij}(p,q)
 \right).
 \end{align}
 
-\mg{ Factor of 2 of in kernel and different and my derivation doesn't have additional factor of $y$  in erfc }
-
 \begin{equation}
 y_{\max} = \min(|x^{-3/4} - p|^{-4/3}, 1),
 \qquad
-y_{\min} = \max((x^{-3/4} + p)^{-4/3}, R^{-1}),
+y_{\min} = \max((x^{-3/4} + p)^{-4/3}, R^{-1}).
 \end{equation}
 
 
-\subsection{  $\kb \leq \kb_0$ }
-%\mg{WRONG DERIVATION THE ENERGY SPECTRUM NEEDS TO CHANGE FOR THE K TO GO TO 0 CONSISTENTLY }\\
-\mg{to account for case $k=0$ you can plug in the case of $k^2$ or $k^4$ depending on the structure of the flow}
-We need to separately evaluate case $\kb \leq 0$ since in deriving previous form we have divided with $\kb$. We would start from equation \ref{eq: H-with-P}
+\subsection{$\kb \leq \kb_0$}
 
-\begin{align}
-H_{ijij}(\xb',\kb,\omega)
-&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
-A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber\\
-&\quad \times \left[ 4 + \frac{1}{3}\left(1+(\khat_{1}\cdot\hat{u})^2\right) \right].
-\end{align}
+To account for the case $k = 0$, one substitutes the appropriate infrared spectrum ($E \propto k^2$ or $E \propto k^4$ depending on the flow structure). We start from Eq.~\eqref{eq: H-with-P}.
 
-$k_1 = u$ so this eqaution take following form:
+At $k = 0$ we have $k_1 = u$, so the equation takes the form:
 
 \begin{align}
     H_{ijij}(\xb',\kb=0,\omega)
 &= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
-g(k_1,\omega)g(k_1,\omega-\omega_1)   \times \left[ \frac{14}{3} \right].
+g(k_1,\omega_1)\,g(k_1,\omega-\omega_1) \times \left[ \frac{14}{3} \right].
 \end{align}
 
 Using the definition
@@ -662,15 +615,15 @@ g(k,\omega)
 \end{equation}
 we introduce the dimensionless variables
 \begin{equation}
-q \equiv \frac{k_1}{k}, 
-\qquad 
+q \equiv \frac{k_1}{k},
+\qquad
 \Omega_1 \equiv \frac{\omega_1}{\epsilon^{1/3}k^{2/3}},
 \end{equation}
 so that
 \begin{equation}
 d^3k_1 = k^3 q^2\,dq\,d\Omega_1,
 \qquad
-d\omega_1 = \epsilon^{1/3}k^{2/3}\,d\Omega_1 .
+d\omega_1 = \epsilon^{1/3}k^{2/3}\,d\Omega_1.
 \end{equation}
 
 Substituting into
@@ -701,113 +654,93 @@ In this form the integral is manifestly dimensionless, and all dependence on
 the physical scales $\epsilon$ and $k$ is contained in the overall prefactor
 $C_k^2\,\epsilon\,k^{-5}$.
 
-\section{Making Decaying Spectrum Dimensionless Murman + Titus}
+\section{Dimensionless Form of the Decaying Spectrum}
+
 Our integral begins as
 
 \begin{equation}
     H_{ijij}(\bm{k},\omega) =
-    \frac{1}{6}\int d^3k_1d\omega_1 g(\bm{k_1},w_1)g(\bm{k}-\bm{k_1},\omega -\omega_1) \mathfrak{K}
+    \frac{1}{6}\int d^3k_1\,d\omega_1\; g(\bm{k_1},\omega_1)\,g(\bm{k}-\bm{k_1},\omega -\omega_1)\, \mathfrak{K},
 \end{equation}
 
-where 
-
+where
 \begin{equation}
-    \mathfrak{K}=\left[ 27-\frac{k^2}{k_1^2}+\frac{k^4}{2k^2_1u^2}+\frac{k_1^2}{2u^2}-\frac{k^2}{u^2}+\frac{u^2}{2k^2_1} \right] 
+    \mathfrak{K}=\left[ 27-\frac{k^2}{k_1^2}+\frac{k^4}{2k^2_1u^2}+\frac{k_1^2}{2u^2}-\frac{k^2}{u^2}+\frac{u^2}{2k^2_1} \right]
 \end{equation}
 
-with $u=|\bm{k}-\bm{k_1}|$ and 
-
+with $u=|\bm{k}-\bm{k_1}|$ and
 \begin{equation}
-    g(\bm{k},\omega) = \frac{\text{w}v_1^2}{8\pi k^2} \tau_1^2e^{i\omega\tau_1}(-i\omega\tau_1)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-i\omega\tau_1\right)
+    g(\bm{k},\omega) = \frac{\text{w}v_1^2}{8\pi k^2} \tau_1^2e^{i\omega\tau_1}(-i\omega\tau_1)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-i\omega\tau_1\right).
 \end{equation}
 
-Let's begin by separating the $k$ dependence from the $\omega$ dependence. 
+Separating the $k$ dependence from the $\omega$ dependence:
 \begin{equation}
-    g(\bm{k},\omega) = \frac{\text{w}v_1^2}{8\pi k^2} \tau_1^2 g(\omega)
+    g(\bm{k},\omega) = \frac{\text{w}v_1^2}{8\pi k^2} \tau_1^2\, \hat{g}(\omega),
+    \qquad
+    \hat{g}(\omega)=e^{i\omega\tau_1}(-i\omega\tau_1)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-i\omega\tau_1\right).
 \end{equation}
- where 
- \begin{equation}
-     g(\omega)=e^{i\omega\tau_1}(-i\omega\tau_1)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-i\omega\tau_1\right)
- \end{equation}
-
-If we substitute $q=\omega \tau_1$ (and likewise $q_1=\omega_1 \tau_1$ and $dq=\tau_1d\omega$) then 
-
- \begin{equation}
-     g(q)=e^{iq}(-iq)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-iq\right)
- \end{equation}
+Substituting $q=\omega \tau_1$ (and $q_1=\omega_1 \tau_1$, $dq=\tau_1\,d\omega$):
+\begin{equation}
+     \hat{g}(q)=e^{iq}(-iq)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-iq\right).
+\end{equation}
 
 Using these substitutions:
-
 \begin{equation}
     H_{ijij}(\bm{k},q) =
-    \frac{1}{6}\int d^3k_1dq_1 \frac{1}{\tau_1}\frac{\text{w}v_1^2\tau_1^2}{8\pi k^2_1} \frac{\text{w}v_1^2\tau_1^2}{8\pi u^2} g(q_1)g(q -q_1) \mathfrak{K}
+    \frac{1}{6}\int d^3k_1\,dq_1 \frac{1}{\tau_1}\frac{\text{w}v_1^2\tau_1^2}{8\pi k^2_1} \frac{\text{w}v_1^2\tau_1^2}{8\pi u^2}\, \hat{g}(q_1)\,\hat{g}(q -q_1)\, \mathfrak{K}.
 \end{equation}
 
-Letting $A=\frac{\text{w}^2v_1^4\tau_1^3}{384\pi^2}$
+Letting $A=\frac{\text{w}^2v_1^4\tau_1^3}{384\pi^2}$:
 \begin{equation}
     H_{ijij}(\bm{k},q) =
-    A \int^\infty_0dk_1 \int^{2\pi}_0d\phi_1 \int^\pi_0d\theta_1 k_1^2\sin{\theta_1} \int_0^\infty dq_1 
-     \frac{1}{k_1^2u^2}\cdot\mathfrak{K}
-     \cdot g(q_1)g(q-q_1)
+    A \int^\infty_0dk_1 \int^{2\pi}_0d\phi_1 \int^\pi_0d\theta_1\, k_1^2\sin{\theta_1} \int_0^\infty dq_1\,
+     \frac{\mathfrak{K}}{k_1^2u^2}
+     \cdot \hat{g}(q_1)\,\hat{g}(q-q_1).
 \end{equation}
 
-
-Because we are assuming isotropic turbulence,  we can set the $\theta_1=0$ axis with to align with $\bm{k}$. When we do, we find that the integral over $\phi_1$ is simply $2\pi$. We also can relate $u$ to $k_1$, $\theta_1$ and $k$ using the cosine law.
-
+Assuming isotropic turbulence, we align the $\theta_1=0$ axis with $\bm{k}$, so the $\phi_1$ integral gives $2\pi$. Using the cosine law $u = \sqrt{k_1^2+k^2-2k_1k \cos{\theta_1}}$ and changing variables to $u$:
 \begin{equation}
-    u = \sqrt{k_1^2+k^2-2k_1k \cos{\theta_1}}
+    du = \frac{k_1k}{u}\sin{\theta_1}\,d\theta_1,
 \end{equation}
-
-Therefore 
- \begin{equation}
-    du = \frac{k_1k}{u}\sin{\theta_1}d\theta_1
-\end{equation}
-
-and the bounds are $\theta_1=0 \rightarrow |k_1-k|$, and $\theta_1=\pi \rightarrow k_1+k$.
-
+with bounds $\theta_1=0 \to |k_1-k|$ and $\theta_1=\pi \to k_1+k$:
 \begin{equation}
     H_{ijij}(k,q) =
-    2\pi A \int^\infty_0dk_1  \int^{k+k_1}_{|k-k_1|}du \frac{\mathfrak{K}}{kk_1u}\int_0^\infty dq_1 
-      g(q_1)g(q-q_1)
+    2\pi A \int^\infty_0dk_1  \int^{k+k_1}_{|k-k_1|}du\, \frac{\mathfrak{K}}{kk_1u}\int_0^\infty dq_1\,
+      \hat{g}(q_1)\,\hat{g}(q-q_1).
 \end{equation}
 
-At this point, all of the integrals except the integral over $q$ (which is dimensionless) can be analyzed analytically. However, we will go ahead and make the integral fully dimensionless. We also wish to ensure that we integrate only over the correct inertial range from $k_0$ to $k_d$. We will define the following dimensionless variables: 
+We introduce the following dimensionless variables:
 \begin{equation}
-    R^\frac{3}{4}=\frac{k_d}{k_0}, \ \frac{u}{k_0}=y, \ \frac{k_1}{k_0} = z, \ \frac{k}{k_0} = p, \ \frac{\omega}{k_0}=\omega \tau_1 =q
+    R^\frac{3}{4}=\frac{k_d}{k_0}, \quad \frac{u}{k_0}=y, \quad \frac{k_1}{k_0} = z, \quad \frac{k}{k_0} = p, \quad \frac{\omega}{k_0}=\omega \tau_1 =q, \quad
+    \frac{\omega_1}{k_0}=\omega_1 \tau_1 =q_1.
 \end{equation}
 
-Using these new variables
-
+In these variables,
 \begin{equation}
-    \mathfrak{K}=\left[ 
-    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
-    \frac{z^2}{2y^2} 
+    \mathfrak{K}=\left[
+    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} +
+    \frac{z^2}{2y^2}
     - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
-    \right]
+    \right],
 \end{equation}
-
 \begin{equation}
-    dk_1 = k_0dz,\  du = k_0dy
+    dk_1 = k_0\,dz, \quad du = k_0\,dy,
 \end{equation}
-
-We also need to find the bounds for the y integral.
-
+and the integration bounds transform as
 \begin{equation}
-    \min(k_1+k,k_d) \rightarrow \min(R^\frac{3}{4},p+z), \ \max(k_0,\bm{k_1}+\bm{k}) \rightarrow \max(1,|p-z|) 
+    k_1+k \to p+z, \quad |k_1-k| \to |p-z|,
+    \quad k_d \to R^{\frac{3}{4}}, \quad k_0 \to 1.
 \end{equation}
 
-\tb{Not sure about bounds-- need to double check}
-
-Finally we find:
-
+Finally:
 \begin{equation}
     H_{ijij}(p,q) =
-    2\pi Ak_0 \int^{k_d/k_0}_1dz  \int^{\min(R^\frac{3}{4},p+z)}_{\max(1,|p-z|)}dy \frac{1}{pyz}\left[ 
-    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
-    \frac{z^2}{2y^2} 
+    2\pi Ak_0 \int^{R^\frac{3}{4}_{\vphantom{Y}}}_{1}dz  \int^{\min(R^\frac{3}{4},p+z)}_{\max(1,|p-z|)}dy\, \frac{1}{pyz}\left[
+    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} +
+    \frac{z^2}{2y^2}
     - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
-    \right]\int_0^\infty dq_1 
-      g(q_1)g(q-q_1)
+    \right]\int_0^\infty dq_1\,
+      \hat{g}(q_1)\,\hat{g}(q-q_1).
 \end{equation}
 
 \section{Monochromatic and White-Noise Spectra}
@@ -907,30 +840,30 @@ with $\mathcal{K}_0(p) = \frac{14}{3} - \frac{p^2}{3} + \frac{p^4}{12}$ from Eq.
 
 For the decaying-turbulence model the temporal kernel is
 \begin{equation}
-  \tilde{f}(\omega) = g(\omega\tau_1),
+  \tilde{f}(\omega) = \hat{g}(\omega\tau_1),
   \qquad
-  g(q) = e^{iq}(-iq)^{-5/3}\Gamma\!\left(\tfrac{1}{3},-iq\right),
+  \hat{g}(q) = e^{iq}(-iq)^{-5/3}\Gamma\!\left(\tfrac{1}{3},-iq\right),
 \end{equation}
 where $\tau_1$ is the characteristic decay time at scale $k_0$. Substituting into Eq.~\eqref{eq:H-delta-k} and defining $q=\omega\tau_1$, $q_1=\omega_1\tau_1$, so that $d\omega_1=dq_1/\tau_1$:
 \begin{equation}
   I_\omega(\omega)
-  = \int_{-\infty}^{\infty}d\omega_1\,g(\omega_1\tau_1)\,g((\omega-\omega_1)\tau_1)
-  = \frac{1}{\tau_1}\int_{-\infty}^{\infty}dq_1\,g(q_1)\,g(q-q_1).
+  = \int_{-\infty}^{\infty}d\omega_1\,\hat{g}(\omega_1\tau_1)\,\hat{g}((\omega-\omega_1)\tau_1)
+  = \frac{1}{\tau_1}\int_{-\infty}^{\infty}dq_1\,\hat{g}(q_1)\,\hat{g}(q-q_1).
   \label{eq:Iomega-decay}
 \end{equation}
-Because $g$ has no closed-form convolution, this one-dimensional integral must be retained. Inserting Eq.~\eqref{eq:Iomega-decay} into Eq.~\eqref{eq:H-delta-k},
+Because $\hat{g}$ has no closed-form convolution, this one-dimensional integral must be retained. Inserting Eq.~\eqref{eq:Iomega-decay} into Eq.~\eqref{eq:H-delta-k},
 \begin{equation}
   H_{ijij}(\kb,\omega)
   = \frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,kk_0^2\,\tau_1}\,
     \mathcal{K}_0(p)\,
-    \int_{-\infty}^{\infty}dq_1\,g(q_1)\,g(q-q_1).
+    \int_{-\infty}^{\infty}dq_1\,\hat{g}(q_1)\,\hat{g}(q-q_1).
 \end{equation}
 The dimensionless result is
 \begin{equation}
   \boxed{
   \mathfrak{H}^{(\delta k)}_{\rm decay}(p,q)
   = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,
-    \int_{-\infty}^{\infty}dq_1\,g(q_1)\,g(q-q_1).
+    \int_{-\infty}^{\infty}dq_1\,\hat{g}(q_1)\,\hat{g}(q-q_1).
   }
   \label{eq:dimless-delta-decay}
 \end{equation}
@@ -1012,11 +945,11 @@ The frequency dependence is an explicit Gaussian factor, while the shape in $p$ 
 
 \subsubsection{Decay model}
 
-For the decaying-turbulence model, $\widetilde{T}(\omega)=g(\omega\tau_1)$ with the same $g$ as in Sec.~3.1.2. The temporal convolution is again a one-dimensional integral with no closed form:
+For the decaying-turbulence model, $\widetilde{T}(\omega)=\hat{g}(\omega\tau_1)$ with the same $\hat{g}$ as in Sec.~3.1.2. The temporal convolution is again a one-dimensional integral with no closed form:
 \begin{equation}
   J_{\rm decay}(\omega)
-  = \int_{-\infty}^{\infty}d\omega_1\,g(\omega_1\tau_1)\,g((\omega-\omega_1)\tau_1)
-  = \frac{1}{\tau_1}\int_{-\infty}^{\infty}dq_1\,g(q_1)\,g(q-q_1),
+  = \int_{-\infty}^{\infty}d\omega_1\,\hat{g}(\omega_1\tau_1)\,\hat{g}((\omega-\omega_1)\tau_1)
+  = \frac{1}{\tau_1}\int_{-\infty}^{\infty}dq_1\,\hat{g}(q_1)\,\hat{g}(q-q_1),
   \qquad q\equiv\omega\tau_1.
   \label{eq:J-decay}
 \end{equation}
@@ -1033,7 +966,7 @@ where the fully dimensionless expression is now genuinely three-dimensional:
   = \int_{1}^{R^{3/4}}\frac{z}{p}\,dz
     \int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}y\,dy\;
     \widetilde{\mathcal{K}}(p,z,y)
-    \int_{-\infty}^{\infty}dq_1\,g(q_1)\,g(q-q_1).
+    \int_{-\infty}^{\infty}dq_1\,\hat{g}(q_1)\,\hat{g}(q-q_1).
   }
   \label{eq:dimless-white-decay}
 \end{equation}
@@ -1054,90 +987,77 @@ $\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector 
 \end{tabular}
 \end{center}
 
-\section{Analytic k dependent decaying Energy Spectra}
+\section{Analytic $k$-Dependent Decaying Energy Spectra}
 
-We need to find a spectrum that when the k dependence is integrating out is of the form
-
+We seek a spectrum that, when integrated over $k$, gives
 \begin{equation}
     E_0 \left( 1-\frac{\tau}{\tau_0}\right) ^{-\frac{2}{3}}
     \label{2/3 Energy Spectrum}
 \end{equation}
+and that follows the Kolmogorov $k^{-5/3}$ scaling for $k > k_0$.
 
-and where the spectrum decays according to the Kolmogorov spectrum for $k > k_0$
-
-There are many possibilities, but here are two simple possibilities. 
-
+Two simple candidates are:
 \begin{equation}
     E_k(\tau,k)=\frac{2}{3}\tau E_0(1+k\tau)^{-\frac{5}{3}}
     \label{Decaying k_0 to infty}
 \end{equation}
-
 \begin{equation}
-    E_k(\tau,k)=\frac{2}{3}\frac{1}{k_0} E_0\left(1+\frac{\tau}{\tau_0}+\frac{k}{k_0} \right)^{-\frac{5}{3}}
+    E_k(\tau,k)=\frac{2}{3k_0} E_0\left(1+\frac{\tau}{\tau_0}+\frac{k}{k_0} \right)^{-\frac{5}{3}}.
     \label{Decaying 0 to infty}
 \end{equation}
+With $\tau_0=1/k_0$: Eq.~\eqref{Decaying k_0 to infty} integrated from $k_0$ to $\infty$ recovers Eq.~\eqref{2/3 Energy Spectrum}, and Eq.~\eqref{Decaying 0 to infty} integrated from $0$ to $\infty$ also recovers Eq.~\eqref{2/3 Energy Spectrum}.
 
-For these spectrum, we will assume $\tau_0=\frac{1}{k_0}$. If Eq. \eqref{Decaying k_0 to infty} is integrated from $k_0$ to infinity it will recover Eq. \eqref{2/3 Energy Spectrum}, and if Eq. \eqref{Decaying 0 to infty} is integrated from 0 to infinity it will also recover Eq. \eqref{2/3 Energy Spectrum}.
-
+The spectral tensor and its Fourier transform are
 \begin{equation}
-    F_{ij}(k,\tau) = \frac{E_k(k,\tau)}{4\pi k^2}P_{ij}(\hat{k})
+    F_{ij}(k,\tau) = \frac{E_k(k,\tau)}{4\pi k^2}P_{ij}(\hat{k}),
+    \qquad
+    \tilde{F}_{ij}(k,\omega) = \frac{\tilde{E}_k(k,\omega)}{4\pi k^2}P_{ij}(\hat{k}).
 \end{equation}
 
-\begin{equation}
-    \tilde{F}_{ij}(k,\omega) = \frac{\tilde{E}_k(k,\omega)}{4\pi k^2}P_{ij}(\hat{k})
-\end{equation}
-
-For Eq. \eqref{Decaying k_0 to infty} 
-
+For Eq.~\eqref{Decaying k_0 to infty}:
 \begin{align}
     \tilde{F}_{ij}(k,\omega)
     &= \frac{P_{ij}(\hat{k})}{4\pi k^2}\int^\infty_{\tau_0}
-    d\tau e^{-i\omega\tau} \frac{2}{3}\tau E_0
-    (1+k\tau)^{-\frac{5}{3}}\\
+    d\tau\, e^{-i\omega\tau} \frac{2}{3}\tau E_0
+    (1+k\tau)^{-\frac{5}{3}} \nonumber\\
     &= \frac{P_{ij}(\hat{k}) E_0}{6\pi k^4}
     e^{-i\frac{\omega}{k}} \int^\infty_{1+k\tau_0}
     e^{-i\omega \alpha/k}
-    (\alpha^{-\frac{2}{3}}-\alpha^{-\frac{5}{3}})\\
+    \left(\alpha^{-\frac{2}{3}}-\alpha^{-\frac{5}{3}}\right)d\alpha \nonumber\\
     &= \frac{P_{ij}(\hat{k}) E_0 }{6\pi k^4}
     e^{-i\frac{\omega}{k}}\left(\frac{i\omega}{k}\right)
     \left[\left(-\frac{ik}{\omega}\right)^{-\frac{2}{3}}
     \Gamma \left( \frac{1}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
     -\left(-\frac{ik}{\omega}\right)^{-\frac{5}{3}}
     \Gamma \left( -\frac{2}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
-    \right]
+    \right].
 \end{align}
 
-For Eq. \eqref{Decaying 0 to infty}
-
+For Eq.~\eqref{Decaying 0 to infty}:
 \begin{align}
     \tilde{F}_{ij}(k,\omega)
     &= \frac{P_{ij}(\hat{k})}{4\pi k^2}\int^\infty_{0}
-    d\tau e^{-i\omega\tau} \frac{2}{3k_0} E_0
-    \left(1+\frac{\tau}{\tau_0}+\frac{k}{k_0}\right)^{-\frac{5}{3}}\\ 
+    d\tau\, e^{-i\omega\tau} \frac{2}{3k_0} E_0
+    \left(1+\frac{\tau}{\tau_0}+\frac{k}{k_0}\right)^{-\frac{5}{3}} \nonumber\\
     &= \frac{P_{ij}(\hat{k})E_0}{8\pi k^2k_0^2} e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)}
-    \int^\infty_{1+\frac{k}{k_0}} d\alpha
-    e^{- \omega \alpha / k_0} \alpha^{-\frac{5}{3}} \\
-    &= \frac{P_{ij}(\hat{k})E_0}{8\pi k^2k_0^2} e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)} 
+    \int^\infty_{1+\frac{k}{k_0}} d\alpha\,
+    e^{- \omega \alpha / k_0} \alpha^{-\frac{5}{3}} \nonumber\\
+    &= \frac{P_{ij}(\hat{k})E_0}{8\pi k^2k_0^2} e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)}
     \Gamma \left(-\frac{2}{3},
-    i\frac{\omega}{k_0}+ i\frac{\omega k}{k_0^2}\right)
+    i\frac{\omega}{k_0}+ i\frac{\omega k}{k_0^2}\right).
 \end{align}
 
-Now we put out integrals into the form
-
+We put the integrals into the convolution form
 \begin{equation}
     H_{ijij}(\bm{k},\omega) =
-    \frac{1}{6}\int d^3k_1d\omega_1 g(\bm{k_1},w_1)g(\bm{k}-\bm{k_1},\omega -\omega_1) \mathfrak{K}
+    \frac{1}{6}\int d^3k_1\,d\omega_1\; g(\bm{k_1},\omega_1)\,g(\bm{k}-\bm{k_1},\omega -\omega_1)\, \mathfrak{K},
 \end{equation}
-
-using the convolution theorem, where 
-
+where
 \begin{equation}
-    \mathfrak{K}=\left[ 27-\frac{k^2}{k_1^2}+\frac{k^4}{2k^2_1u^2}+\frac{k_1^2}{2u^2}-\frac{k^2}{u^2}+\frac{u^2}{2k^2_1} \right] .
+    \mathfrak{K}=\left[ 27-\frac{k^2}{k_1^2}+\frac{k^4}{2k^2_1u^2}+\frac{k_1^2}{2u^2}-\frac{k^2}{u^2}+\frac{u^2}{2k^2_1} \right].
 \end{equation}
 
-
-and $g(\bm{k},\omega)$ takes on different forms in the two cases. Let 
-
+Define
 \begin{equation}
 g_1(\bm{k},\omega) = \frac{E_0 }{6\pi k^4}
     e^{-i\frac{\omega}{k}}\left(\frac{i\omega}{k}\right)
@@ -1147,96 +1067,54 @@ g_1(\bm{k},\omega) = \frac{E_0 }{6\pi k^4}
     \Gamma \left( -\frac{2}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
     \right]
 \end{equation}
-
 and
-
 \begin{equation}
-g_2(\bm{k},\omega) = \frac{E_0}{8\pi k^2k_0^2} 
+g_2(\bm{k},\omega) = \frac{E_0}{8\pi k^2k_0^2}
 \left(\frac{i \omega}{k_0}\right)^{\frac{8}{3}}
-e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)} 
+e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)}
     \Gamma \left(-\frac{2}{3},
-    i\frac{\omega}{k_0}+ i\frac{\omega k}{k_0^2}\right)
+    i\frac{\omega}{k_0}+ i\frac{\omega k}{k_0^2}\right).
 \end{equation}
 
-Lets expand
-
-\begin{equation}
-    H_{ijij}(\bm{k},\omega) =
-    \frac{1}{6}\int^{k_d}_{k_0} dk_1
-    \int^{2\pi}_0 d\phi_1
-    \int^{\pi}_0 d\theta_1 k_1^2\sin(\theta_1)
-    \int^\infty_0 d\omega_1 
-    g(\bm{k_1},w_1)g(\bm{k}-\bm{k_1},\omega -\omega_1) \mathfrak{K}
-\end{equation}
-
-Because we are assuming isotropic turbulence,  we can set the $\theta_1=0$ axis with to align with $\bm{k}$. When we do, we find that the integral over $\phi_1$ is simply $2\pi$. We also can relate $u$ to $k_1$, $\theta_1$ and $k$ using the cosine law.
-
-\begin{equation}
-    u = \sqrt{k_1^2+k^2-2k_1k \cos{\theta_1}}
-\end{equation}
-
-Therefore 
- \begin{equation}
-    du = \frac{k_1k}{u}\sin{\theta_1}d\theta_1
-\end{equation}
-
-and the bounds are $\theta_1=0 \rightarrow |k_1-k|$, and $\theta_1=\pi \rightarrow k_1+k$. Thus
-
+Expanding the integral in spherical coordinates and performing the $\phi_1$ and $\theta_1$ integrals (using isotropy to align with $\bm{k}$ and changing $\theta_1 \to u$):
 \begin{equation}
     H_{ijij}(\bm{k},\omega) =
     \frac{\pi}{3}\int^{k_d}_{k_0} dk_1
-    \int^{k_1+k}_{|k_1-k|} du \frac{uk_1}{k}
-    \int^\infty_0 d\omega_1 
-    g(k_1,w_1)g(u,\omega -\omega_1) \mathfrak{K}
+    \int^{k_1+k}_{|k_1-k|} du\, \frac{uk_1}{k}
+    \int^\infty_0 d\omega_1\,
+    g(k_1,\omega_1)\,g(u,\omega -\omega_1)\, \mathfrak{K}.
 \end{equation}
 
-
-We need top make these integrals dimensionless. We will define the following dimensionless variables: 
+Making the integral dimensionless with
 \begin{equation}
-    R^\frac{3}{4}=\frac{k_d}{k_0}, \ \frac{u}{k_0}=y, \ \frac{k_1}{k_0} = z, \ \frac{k}{k_0} = p, \ \frac{\omega}{k_0}=\omega \tau_1 =q,
-    \frac{\omega_1}{k_0}=\omega_1 \tau_1 =q_1
+    R^\frac{3}{4}=\frac{k_d}{k_0}, \quad \frac{u}{k_0}=y, \quad \frac{k_1}{k_0} = z, \quad \frac{k}{k_0} = p, \quad \frac{\omega}{k_0}=\omega \tau_1 =q, \quad
+    \frac{\omega_1}{k_0}=\omega_1 \tau_1 =q_1,
 \end{equation}
-
-Using these new variables
-
+we get
 \begin{equation}
-    \mathfrak{K}=\left[ 
-    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
-    \frac{z^2}{2y^2} 
+    \mathfrak{K}=\left[
+    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} +
+    \frac{z^2}{2y^2}
     - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
-    \right]
+    \right],
+    \qquad
+    dk_1 = k_0\,dz, \quad du = k_0\,dy,
 \end{equation}
-
+with bounds
 \begin{equation}
-    dk_1 = k_0dz,\  du = k_0dy
-\end{equation}
-
-We also need to find the bounds for the integrals.
-
-\begin{equation}
-    k_1+k \rightarrow p+z, \ |k_1-k\ \rightarrow |p-z|, 
-    k_d \rightarrow R^{\frac{3}{4}}, k_0 \rightarrow 1
+    k_1+k \to p+z, \quad |k_1-k| \to |p-z|,
+    \quad k_d \to R^{\frac{3}{4}}, \quad k_0 \to 1.
 \end{equation}
 
 \begin{equation}
     H_{ijij}(p,q) =
-    \frac{\pi k_0^4}{3p}\int^{R^\frac{3}{4}}_{1} dz z
-    \int^{p+z}_{|p-z|} dy y
-    \int^\infty_0 dq_1 
-    g(z,q_1)g(y,q-q_1) \mathfrak{K}
+    \frac{\pi k_0^4}{3p}\int^{R^\frac{3}{4}}_{1} dz\, z
+    \int^{p+z}_{|p-z|} dy\, y
+    \int^\infty_0 dq_1\,
+    g(z,q_1)\,g(y,q-q_1)\, \mathfrak{K}.
 \end{equation}
 
-Now we need to find $g_1(p,q)$ and $g_2(p,q)$
-
-\begin{equation}
-    g_1(p,q) = \frac{E_0 }{6\pi k_0^4 p^4}
-    \left[    e^{-i\frac{q}{p}}\left(\frac{iq}{p}\right)^{\frac{5}{3}}
-    \Gamma \left( \frac{1}{3}, iq+i\frac{q}{p}\right)
-    -    e^{-i\frac{q}{p}}\left(\frac{iq}{p}\right)^{\frac{8}{3}}
-    \Gamma \left( -\frac{2}{3}, iq+i\frac{q}{p}\right)
-    \right]
-\end{equation}
-
+The dimensionless spectral functions are
 \begin{equation}
     g_1(z,q_1) = \frac{E_0 }{6\pi k_0^4 z^4}
     e^{-i\frac{q_1}{z}}
@@ -1244,99 +1122,87 @@ Now we need to find $g_1(p,q)$ and $g_2(p,q)$
     \Gamma \left( \frac{1}{3}, iq_1+i\frac{q_1}{z}\right)
     -\left(\frac{iq_1}{z}\right)^{\frac{8}{3}}
     \Gamma \left( -\frac{2}{3}, iq_1+i\frac{q_1}{z}\right)
-    \right]
+    \right],
+\end{equation}
+\begin{align}
+    g_1(y,q-q_1) &= \frac{E_0 }{6\pi k_0^4 y^4}
+    e^{-i\frac{q-q_1}{y}}
+    \left[\left(\frac{i(q-q_1)}{y}\right)^{\frac{5}{3}}
+    \Gamma \left( \frac{1}{3}, i(q-q_1)+i\frac{q-q_1}{y}\right)
+    -\left(\frac{i(q-q_1)}{y}\right)^{\frac{8}{3}}
+    \Gamma \left( -\frac{2}{3}, i(q-q_1)+i\frac{q-q_1}{y}\right)
+    \right],
+\end{align}
+\begin{equation}
+ g_2(z,q_1) = \frac{E_0}{8\pi z^2 k_0^4}
+ (iq_1)^\frac{8}{3}
+ e^{iq_1(1+z)}
+    \Gamma \left(-\frac{2}{3},
+    iq_1(1+z)\right),
+\end{equation}
+\begin{equation}
+ g_2(y,q-q_1) = \frac{E_0}{8\pi y^2 k_0^4}
+ (iq-iq_1)^\frac{8}{3}
+ e^{i(q-q_1)(1+y)}
+    \Gamma \left(-\frac{2}{3},
+    i(q-q_1)(1+y)\right).
 \end{equation}
 
-\begin{align*}
-    g_1(y,q-q_1) &= \frac{E_0 }{6\pi k_0^4 y^4}
-    e^{-i\frac{q-q_1}{z}}\\
-    &\times \left[\left(\frac{i(q-q_1)}{z}\right)^{\frac{5}{3}}
-    \Gamma \left( \frac{1}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
-    -\left(\frac{i(q-q_1)}{z}\right)^{\frac{8}{3}}
-    \Gamma \left( -\frac{2}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
-    \right]
-\end{align*}
-
-Finally we find that for Eq. 
-\eqref{Decaying k_0 to infty} we find an overall dimensionless integral
-
-\begin{align*}
-    H_{ijij}(p,q) 
-    &=
-    \frac{\pi E_0^2 }{108 \pi p k_0^4}\int^{R^\frac{3}{4}}_{1} dz \frac{1}{z^3}
-    \int^{p+z}_{|p-z|} dy \frac{1}{y^3}
-    \int^\infty_0 dq_1 
-    e^{-i\frac{q}{z}}\times \\
-    &\left[
+For Eq.~\eqref{Decaying k_0 to infty}, the fully dimensionless integral is
+\begin{align}
+    H_{ijij}(p,q)
+    =&\;
+    \frac{\pi E_0^2 }{108 \pi p k_0^4}\int^{R^\frac{3}{4}}_{1} dz\, \frac{1}{z^3}
+    \int^{p+z}_{|p-z|} dy\, \frac{1}{y^3}
+    \int^\infty_0 dq_1\,
+    e^{-i\frac{q_1}{z}}
+    \nonumber\\
+    &\times\left[
         \left(\frac{iq_1}{z}\right)^{\frac{5}{3}}
         \Gamma \left( \frac{1}{3}, iq_1+i\frac{q_1}{z}\right)
         -\left(\frac{iq_1}{z}\right)^{\frac{8}{3}}
         \Gamma \left( -\frac{2}{3}, iq_1+i\frac{q_1}{z}\right)
-    \right] \times \\
-    &\left[
-        \left(\frac{i(q-q_1)}{z}\right)^{\frac{5}{3}}
-        \Gamma \left( \frac{1}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
-        -\left(\frac{i(q-q_1)}{z}\right)^{\frac{8}{3}}
-        \Gamma \left( -\frac{2}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
-    \right] \times \\
-    & \left[ 
-    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
-    \frac{z^2}{2y^2} 
-    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
     \right]
-\end{align*}
-
-Similarly, 
-
-\begin{equation}
- g_2(p,q) = \frac{E_0}{8\pi p^2 k_0^4} 
- (iq)^\frac{8}{3}
- e^{iq(1+p)} 
-    \Gamma \left(-\frac{2}{3},
-    iq(1+p)\right)   
-\end{equation}
-
-\begin{equation}
- g_2(z,q_1) = \frac{E_0}{8\pi z^2 k_0^4} 
- (iq_1)^\frac{8}{3}
- e^{iq_1(1+z)} 
-    \Gamma \left(-\frac{2}{3},
-    iq_1(1+z)\right)   
-\end{equation}
-
-\begin{equation}
- g_2(y,q-q_1) = \frac{E_0}{8\pi y^2 k_0^4} 
- (iq-iq_1)^\frac{8}{3}
- e^{i(q-q_1)(1+y)} 
-    \Gamma \left(-\frac{2}{3},
-    i(q-q_1)(1+y)\right)   
-\end{equation}
-
-    
-Therefore, for equation \eqref{Decaying 0 to infty} we get the corresponding equation:
-
-\begin{align*}
-    H_{ijij}(p,q) 
-    =&
-    \frac{E_0^2 }{192 p\pi k_0^4 }
-    \frac{\pi k_0^4}{3p}
-    \int^{R^\frac{3}{4}}_{1} dz \frac{1}{z}
-    \int^{p+z}_{|p-z|} dy \frac{1}{y}
-    \int^\infty_0 dq_1  
-    (iq_1)^\frac{8}{3}
-    e^{iq_1(1+z)} 
-    \Gamma \left(-\frac{2}{3},
-    iq_1(1+z)\right) \times \\
-    &(iq-iq_1)^\frac{8}{3}
-    e^{i(q-q_1)(1+y)} 
-    \Gamma \left(-\frac{2}{3},
-    i(q-q_1)(1+y)\right) \times \\ 
-    &\left[ 
-    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
-    \frac{z^2}{2y^2} 
+    \nonumber\\
+    &\times\left[
+        \left(\frac{i(q-q_1)}{y}\right)^{\frac{5}{3}}
+        \Gamma \left( \frac{1}{3}, i(q-q_1)+i\frac{q-q_1}{y}\right)
+        -\left(\frac{i(q-q_1)}{y}\right)^{\frac{8}{3}}
+        \Gamma \left( -\frac{2}{3}, i(q-q_1)+i\frac{q-q_1}{y}\right)
+    \right]
+    \nonumber\\
+    &\times\left[
+    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} +
+    \frac{z^2}{2y^2}
     - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
     \right].
-\end{align*}
+\end{align}
+
+For Eq.~\eqref{Decaying 0 to infty}:
+\begin{align}
+    H_{ijij}(p,q)
+    =&\;
+    \frac{E_0^2 }{192 p\pi k_0^4 }
+    \frac{\pi k_0^4}{3p}
+    \int^{R^\frac{3}{4}}_{1} dz\, \frac{1}{z}
+    \int^{p+z}_{|p-z|} dy\, \frac{1}{y}
+    \int^\infty_0 dq_1\,
+    (iq_1)^\frac{8}{3}
+    e^{iq_1(1+z)}
+    \Gamma \left(-\frac{2}{3},
+    iq_1(1+z)\right)
+    \nonumber\\
+    &\times(iq-iq_1)^\frac{8}{3}
+    e^{i(q-q_1)(1+y)}
+    \Gamma \left(-\frac{2}{3},
+    i(q-q_1)(1+y)\right)
+    \nonumber\\
+    &\times\left[
+    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} +
+    \frac{z^2}{2y^2}
+    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
+    \right].
+\end{align}
 
 \bibliography{bib}
 

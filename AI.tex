@@ -7,9 +7,10 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{amsmath,amssymb,amsthm}
-\usepackage{mathtools}          % dcases, prescript, etc.
-\usepackage{physics}            % \dv, \pdv, \bra, etc.
-\usepackage{bm}                 % bold math \bm
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{bm}
+\usepackage{empheq}
 \usepackage{geometry}
 \usepackage{hyperref}
 \usepackage{cleveref}
@@ -57,13 +58,6 @@
 \newcommand{\KH}{K_{H}}
 \newcommand{\alphaH}{\alpha_{H}}
 \newcommand{\alphaE}{\alpha_{E}}
-\newcommand{\sigmarel}{\sigma_{H}}
-
-% Boxing important results
-\newcommand{\boxedeq}[1]{%
-  \begin{empheq}[box=\fbox]{align}#1\end{empheq}
-}
-\usepackage{empheq}
 
 %----------------------------------------------------------------------
 % Theorem environments
@@ -216,22 +210,15 @@ and inserting into \cref{eq:energy_exact,eq:eps_closure}:
   \label{eq:saffman_ode}
 \end{equation}
 
-This is a separable first-order ODE. Separating variables:
-
-\begin{equation}
-  E^{-11/6}\,dE = -\Ceps\,S^{-1/3}\,dt,
-\end{equation}
-
-and integrating from $(t_0,\,E_0)$ to $(t,\,E)$:
+Separating variables and integrating from $(t_0,E_0)$ to $(t,E)$:
 
 \begin{equation}
   \int_{E_0}^{E} E'^{-11/6}\,dE'
-  = \left[-\frac{6}{5}\,E'^{-5/6}\right]_{E_0}^{E}
-  = \frac{6}{5}\left(E^{-5/6} - E_0^{-5/6}\right).
+  = \frac{6}{5}\bigl(E^{-5/6} - E_0^{-5/6}\bigr)
+  = -\Ceps\,S^{-1/3}(t-t_0).
 \end{equation}
 
-Setting the right-hand side equal to $-\Ceps S^{-1/3}(t-t_0)$ and
-solving for $E$:
+Solving for $E$:
 
 \begin{empheq}[box=\fbox]{equation}
   E(t) = \left[E_0^{-5/6} + \frac{5\Ceps}{6}\,S^{-1/3}(t-t_0)
@@ -309,15 +296,15 @@ With $L = (I/E)^{1/5}$:
   \label{eq:batchelor_ode}
 \end{equation}
 
-Separating and integrating:
+Separating variables and integrating:
 
 \begin{equation}
   \int_{E_0}^{E} E'^{-17/10}\,dE'
-  = \frac{10}{7}\left(E^{-7/10} - E_0^{-7/10}\right)
-  = -\Ceps\,I^{-1/5}\,(t-t_0).
+  = \frac{10}{7}\bigl(E^{-7/10} - E_0^{-7/10}\bigr)
+  = -\Ceps\,I^{-1/5}(t-t_0).
 \end{equation}
 
-Solving exactly:
+Solving:
 
 \begin{empheq}[box=\fbox]{equation}
   E(t) = \left[E_0^{-7/10} + \frac{7\Ceps}{10}\,I^{-1/5}(t-t_0)
@@ -375,7 +362,7 @@ Substituting the exact dissipation rates from
 \begin{equation}
   \boxed{
   \eta(t) = \eta_0 \left(\frac{t}{t_0}\right)^{11/20},\qquad
-  \taueta(t) = \taueta \left(\frac{t}{t_0}\right)^{11/10}, }
+  \taueta(t) = \tauetaz \left(\frac{t}{t_0}\right)^{11/10}, }
   \label{eq:eta_saffman}
 \end{equation}
 
