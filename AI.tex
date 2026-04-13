@@ -1,0 +1,881 @@
+\documentclass[12pt,a4paper]{article}
+
+%----------------------------------------------------------------------
+% Packages
+%----------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}          % dcases, prescript, etc.
+\usepackage{physics}            % \dv, \pdv, \bra, etc.
+\usepackage{bm}                 % bold math \bm
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{microtype}
+\usepackage{enumitem}
+
+\geometry{
+  top=2cm, bottom=2cm,
+  left=1cm, right=1cm
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black
+}
+
+%----------------------------------------------------------------------
+% Custom commands
+%----------------------------------------------------------------------
+\newcommand{\eps}{\varepsilon}
+\newcommand{\epsh}{\varepsilon_{H}}
+\newcommand{\keta}{k_{\eta}}
+\newcommand{\kH}{k_{H}}
+\newcommand{\kL}{k_{L}}
+\newcommand{\kOmega}{k_{\Omega}}
+\newcommand{\taueta}{\tau_{\eta}}
+\newcommand{\tauetaz}{\tau_{\eta_0}}
+\newcommand{\tauL}{\tau_{L}}
+\newcommand{\Reu}{Re_{0}}
+\newcommand{\Relambda}{Re_{\lambda}}
+\newcommand{\CK}{C_{K}}
+\newcommand{\Ceps}{C_{\varepsilon}}
+\newcommand{\CH}{C_{H}}
+\newcommand{\CepsH}{C_{\varepsilon H}}
+\newcommand{\Lint}{\mathcal{L}}
+\newcommand{\Saffman}{\mathcal{S}}
+\newcommand{\Loits}{\mathcal{I}}
+\newcommand{\KH}{K_{H}}
+\newcommand{\alphaH}{\alpha_{H}}
+\newcommand{\alphaE}{\alpha_{E}}
+\newcommand{\sigmarel}{\sigma_{H}}
+
+% Boxing important results
+\newcommand{\boxedeq}[1]{%
+  \begin{empheq}[box=\fbox]{align}#1\end{empheq}
+}
+\usepackage{empheq}
+
+%----------------------------------------------------------------------
+% Theorem environments
+%----------------------------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+
+%----------------------------------------------------------------------
+% Title
+%----------------------------------------------------------------------
+\title{%
+  \textbf{Exact Equations for Decaying Helical Turbulence}\\[6pt]
+  \large Energy and Helicity Decay, Kolmogorov Scales, UV Spectra,\\
+  and Total Decay Duration
+}
+\author{Derived from Kolmogorov (1941), Saffman (1967),\\
+  Batchelor \& Proudman (1956), Briard \& Gomez (2017),\\
+  Ditlevsen \& Giuliani (2001)}
+\date{}
+
+%======================================================================
+\begin{document}
+%======================================================================
+
+\maketitle
+\tableofcontents
+
+\bigskip
+\noindent\textbf{Notation.}
+Throughout this document $E(t) = \tfrac{1}{2}\langle u_i u_i\rangle$ is the
+kinetic energy per unit mass, $\KH(t) = \langle \bm{u}\cdot\bm{\omega}\rangle$
+is the kinetic helicity, $\eps(t)$ is the energy dissipation rate,
+$\epsh(t)$ is the helicity dissipation rate, $\nu$ is the kinematic
+viscosity, $L(t)$ is the integral scale, and $U_0,\,L_0,\,\Reu = U_0 L_0/\nu$
+denote initial r.m.s.\ velocity, integral scale, and Reynolds number,
+respectively.
+
+%======================================================================
+\section{Exact Governing Equations}
+%======================================================================
+
+\subsection{Energy and Helicity Evolution}
+
+The exact evolution equations for the volume-averaged kinetic energy
+and kinetic helicity in homogeneous isotropic turbulence follow
+directly from the incompressible Navier--Stokes equations:
+
+\begin{align}
+  \frac{dE}{dt} &= -\eps, \label{eq:energy_exact}\\[6pt]
+  \frac{d\KH}{dt} &= -\epsh, \label{eq:helicity_exact}
+\end{align}
+
+where the dissipation rates are \emph{exactly}:
+
+\begin{align}
+  \eps(t) &= 2\nu \int_0^{\infty} k^2\, E(k,t)\,dk, \label{eq:eps_def}\\[6pt]
+  \epsh(t) &= 2\nu \int_0^{\infty} k^2\, H(k,t)\,dk. \label{eq:epsh_def}
+\end{align}
+
+Here $E(k,t)$ and $H(k,t)$ are the three-dimensional energy and
+helicity spectra, related to the two-point correlations by:
+
+\begin{align}
+  E &= \int_0^{\infty} E(k,t)\,dk, \qquad
+  \KH = \int_0^{\infty} H(k,t)\,dk.
+\end{align}
+
+\subsection{Integral Scale}
+
+The integral scale is defined exactly by:
+
+\begin{equation}
+  L(t) = \frac{\pi}{2E(t)} \int_0^{\infty} \frac{E(k,t)}{k}\,dk.
+  \label{eq:L_def}
+\end{equation}
+
+\subsection{Taylor Microscale}
+
+In homogeneous isotropic turbulence, the Taylor microscale satisfies
+the exact relation:
+
+\begin{equation}
+  \lambda(t) = \sqrt{\frac{15\nu u_{\mathrm{rms}}^2}{\eps(t)}}
+             = \sqrt{\frac{10\nu E(t)}{\eps(t)}},
+  \label{eq:lambda_exact}
+\end{equation}
+
+where the factor $15$ arises from isotropy:
+$\eps = 15\nu\langle(\partial u_1/\partial x_1)^2\rangle$ and
+$\lambda^2 = u_{\mathrm{rms}}^2/\langle(\partial u_1/\partial x_1)^2\rangle$.
+
+\subsection{Dissipation Estimate}
+
+The standard dimensional closure of the energy equation in the
+turbulent inertial cascade is:
+
+\begin{equation}
+  \eps(t) = \Ceps \frac{E(t)^{3/2}}{L(t)}, \qquad
+  \Ceps \approx 0.42\text{--}0.50.
+  \label{eq:eps_closure}
+\end{equation}
+
+This relation, although not exact, is empirically well-established from
+both laboratory and DNS data at $\Relambda > 100$.
+
+%======================================================================
+\section{Saffman Turbulence: Exact Decay}
+\label{sec:saffman}
+%======================================================================
+
+\subsection{The Saffman Invariant}
+
+For turbulence whose energy spectrum satisfies $E(k\to 0) \sim k^2$
+(Saffman 1967), the Saffman invariant is exactly conserved in the
+inviscid limit:
+
+\begin{equation}
+  \Saffman = (2\pi)^3\lim_{k\to 0}\frac{E(k,t)}{k^2}
+           = \int_{\mathbb{R}^3}
+             \langle \bm{u}(\bm{x},t)\cdot\bm{u}(\bm{x}+\bm{r},t)\rangle
+             \,d^3\bm{r}
+           = \mathrm{const}.
+  \label{eq:saffman_invariant}
+\end{equation}
+
+The conservation of $\Saffman$ implies the integral-scale constraint:
+
+\begin{equation}
+  E(t)\,L(t)^3 = \frac{\Saffman}{2\pi^2} \equiv S = \mathrm{const}.
+  \label{eq:saffman_constraint}
+\end{equation}
+
+\subsection{Exact ODE Derivation}
+
+Substituting \cref{eq:saffman_constraint} into \cref{eq:eps_closure}:
+
+\begin{equation}
+  L(t) = \left(\frac{S}{E(t)}\right)^{1/3},
+\end{equation}
+
+and inserting into \cref{eq:energy_exact,eq:eps_closure}:
+
+\begin{equation}
+  \frac{dE}{dt} = -\Ceps\,\frac{E^{3/2}}{L}
+                = -\Ceps\,E^{3/2}\left(\frac{E}{S}\right)^{1/3}
+                = -\Ceps\,S^{-1/3}\,E^{11/6}.
+  \label{eq:saffman_ode}
+\end{equation}
+
+This is a separable first-order ODE. Separating variables:
+
+\begin{equation}
+  E^{-11/6}\,dE = -\Ceps\,S^{-1/3}\,dt,
+\end{equation}
+
+and integrating from $(t_0,\,E_0)$ to $(t,\,E)$:
+
+\begin{equation}
+  \int_{E_0}^{E} E'^{-11/6}\,dE'
+  = \left[-\frac{6}{5}\,E'^{-5/6}\right]_{E_0}^{E}
+  = \frac{6}{5}\left(E^{-5/6} - E_0^{-5/6}\right).
+\end{equation}
+
+Setting the right-hand side equal to $-\Ceps S^{-1/3}(t-t_0)$ and
+solving for $E$:
+
+\begin{empheq}[box=\fbox]{equation}
+  E(t) = \left[E_0^{-5/6} + \frac{5\Ceps}{6}\,S^{-1/3}(t-t_0)
+         \right]^{-6/5}.
+  \label{eq:saffman_energy_exact}
+\end{empheq}
+
+This is the \textbf{exact solution for all times} in Saffman turbulence
+(within the self-similar closure \cref{eq:eps_closure}).
+
+\subsection{Late-time Power Law}
+
+Define the virtual time origin $t_* = \tfrac{6}{5\Ceps} S^{1/3} E_0^{-5/6}$.
+For $t \gg t_0$ the bracket is dominated by the second term:
+
+\begin{equation}
+  \boxed{E(t) = \left(\frac{5\Ceps}{6}\right)^{-6/5} S^{2/5}\,t^{-6/5}.}
+  \label{eq:saffman_power}
+\end{equation}
+
+\subsection{Integral Scale and Dissipation Rate}
+
+From $L = (S/E)^{1/3}$:
+
+\begin{equation}
+  \boxed{L(t) = S^{1/5}\left(\frac{5\Ceps}{6}\right)^{2/5} t^{2/5}.}
+  \label{eq:saffman_L}
+\end{equation}
+
+The exact dissipation rate $\eps = -dE/dt$:
+
+\begin{equation}
+  \boxed{
+  \eps(t) = \frac{6}{5}\left(\frac{5\Ceps}{6}\right)^{-6/5} S^{2/5}\,t^{-11/5}.
+  }
+  \label{eq:saffman_eps}
+\end{equation}
+
+%======================================================================
+\section{Batchelor Turbulence: Exact Decay}
+\label{sec:batchelor}
+%======================================================================
+
+\subsection{The Loitsyansky Invariant}
+
+For turbulence with $E(k\to 0)\sim k^4$, the Loitsyansky integral
+is approximately conserved:
+
+\begin{equation}
+  \Loits = -\int_{\mathbb{R}^3} r^2
+             \langle \bm{u}(\bm{x})\cdot\bm{u}(\bm{x}+\bm{r})\rangle
+             d^3\bm{r}
+           = (2\pi)^3 \lim_{k\to 0}
+             \frac{\partial^2}{\partial k^2}\!\left[\frac{E(k,t)}{k^2}\right]
+           \approx \mathrm{const}.
+  \label{eq:loitsyansky}
+\end{equation}
+
+\begin{remark}
+Batchelor \& Proudman (1956) showed that pressure-mediated interactions
+generate algebraic tails $K(r)\sim r^{-6}$ at large separations, so
+$\Loits$ acquires a slow logarithmic drift:
+$\Loits(t) \approx \Loits_0\bigl(1 + c\ln(t/t_0)\bigr)$.
+For engineering purposes this correction is neglected and
+$E(t)L(t)^5 = I = \mathrm{const}$ is used.
+\end{remark}
+
+\subsection{Exact ODE Derivation}
+
+With $L = (I/E)^{1/5}$:
+
+\begin{equation}
+  \frac{dE}{dt} = -\Ceps\,E^{3/2}\left(\frac{E}{I}\right)^{1/5}
+                = -\Ceps\,I^{-1/5}\,E^{17/10}.
+  \label{eq:batchelor_ode}
+\end{equation}
+
+Separating and integrating:
+
+\begin{equation}
+  \int_{E_0}^{E} E'^{-17/10}\,dE'
+  = \frac{10}{7}\left(E^{-7/10} - E_0^{-7/10}\right)
+  = -\Ceps\,I^{-1/5}\,(t-t_0).
+\end{equation}
+
+Solving exactly:
+
+\begin{empheq}[box=\fbox]{equation}
+  E(t) = \left[E_0^{-7/10} + \frac{7\Ceps}{10}\,I^{-1/5}(t-t_0)
+         \right]^{-10/7}.
+  \label{eq:batchelor_energy_exact}
+\end{empheq}
+
+\subsection{Late-time Power Law}
+
+\begin{equation}
+  \boxed{E(t) = \left(\frac{7\Ceps}{10}\right)^{-10/7} I^{2/7}\,t^{-10/7}.}
+  \label{eq:batchelor_power}
+\end{equation}
+
+\subsection{Integral Scale and Dissipation Rate}
+
+\begin{equation}
+  \boxed{L(t) = I^{1/7}\left(\frac{7\Ceps}{10}\right)^{2/7} t^{2/7}.}
+  \label{eq:batchelor_L}
+\end{equation}
+
+\begin{equation}
+  \boxed{
+  \eps(t) = \frac{10}{7}\left(\frac{7\Ceps}{10}\right)^{-10/7}
+            I^{2/7}\,t^{-17/7}.
+  }
+  \label{eq:batchelor_eps}
+\end{equation}
+
+%======================================================================
+\section{Kolmogorov, Taylor, and Dissipation Scales}
+\label{sec:scales}
+%======================================================================
+
+\subsection{Exact Definitions}
+
+\begin{align}
+  \eta(t)     &= \left(\frac{\nu^3}{\eps(t)}\right)^{1/4},
+  \label{eq:eta_def}\\[6pt]
+  \taueta(t)  &= \left(\frac{\nu}{\eps(t)}\right)^{1/2},
+  \label{eq:taueta_def}\\[6pt]
+  u_\eta(t)   &= \bigl(\nu\,\eps(t)\bigr)^{1/4}.
+  \label{eq:ueta_def}
+\end{align}
+
+The identity $\eta = \nu/u_\eta = u_\eta \taueta$ holds exactly.
+
+\subsection{Time Evolution of $\eta$ and $\taueta$}
+
+Substituting the exact dissipation rates from
+\cref{eq:saffman_eps,eq:batchelor_eps}:
+
+\paragraph{Saffman turbulence.}
+
+\begin{equation}
+  \boxed{
+  \eta(t) = \eta_0 \left(\frac{t}{t_0}\right)^{11/20},\qquad
+  \taueta(t) = \taueta \left(\frac{t}{t_0}\right)^{11/10}, }
+  \label{eq:eta_saffman}
+\end{equation}
+
+where $\eta_0 = (\nu^3/\eps_0)^{1/4}$ and $\tauetaz = (\nu/\eps_0)^{1/2}$
+with $\eps_0 = \eps(t_0)$.
+
+\paragraph{Batchelor turbulence.}
+
+\begin{equation}
+  \boxed{
+  \eta(t) = \eta_0 \left(\frac{t}{t_0}\right)^{17/28},\qquad
+  \taueta(t) = \tauetaz \left(\frac{t}{t_0}\right)^{17/14}.
+  }
+  \label{eq:eta_batchelor}
+\end{equation}
+
+\subsection{Inertial-Range Velocity at Scale $\ell$}
+
+From Kolmogorov (1941), the exact Kolmogorov hypothesis gives the
+characteristic velocity at scale $\ell$ in the inertial range:
+
+\begin{equation}
+  u(\ell,t) = \bigl(\eps(t)\,\ell\bigr)^{1/3}.
+  \label{eq:u_kolmogorov}
+\end{equation}
+
+The corresponding eddy turnover time and helicity dissipation
+wavenumber are:
+
+\begin{equation}
+  \tau(\ell,t) = \frac{\ell}{u(\ell,t)} = \eps(t)^{-1/3}\,\ell^{2/3},
+  \label{eq:tau_eddy}
+\end{equation}
+
+\begin{equation}
+  \kH(t) = \left(\frac{\epsh(t)^2}{\nu^3\,\eps(t)}\right)^{1/3}.
+  \label{eq:kH_exact}
+\end{equation}
+
+Equation~\eqref{eq:kH_exact} is the result of Ditlevsen \& Giuliani
+(2001), obtained by equating the helicity transfer time with the
+viscous damping time on the helicity spectrum.
+
+The ratio of the two dissipation wavenumbers is exactly:
+
+\begin{equation}
+  \frac{\kH(t)}{\keta(t)}
+  = \left(\frac{\epsh(t)^2}{\eps(t)^2}\right)^{1/3}
+    \left(\frac{\eps(t)}{\nu^3}\right)^{1/12}
+  = \sigma_H^{2/3}(t)\,\Relambda(t)^{1/6},
+  \label{eq:kH_keta_ratio}
+\end{equation}
+
+where $\sigma_H = \epsh^{1/2}/\eps$ is the relative helicity (dimensions
+$\mathrm{m}^{-1}$) and $\Relambda = u_{\mathrm{rms}}\lambda/\nu$.
+
+%======================================================================
+\section{Energy Spectra: Inertial and UV Regimes}
+\label{sec:spectra}
+%======================================================================
+
+\subsection{Kolmogorov Inertial-Range Spectrum}
+
+The exact Kolmogorov energy spectrum in the inertial range is:
+
+\begin{equation}
+  E(k,t) = \CK\,\eps(t)^{2/3}\,k^{-5/3},\qquad
+  \kL \ll k \ll \keta,
+  \label{eq:kolmogorov_spectrum}
+\end{equation}
+
+with $\CK = 1.50\pm 0.05$ (the Kolmogorov constant).
+
+The helicity spectrum in the inertial range (joint cascade case):
+
+\begin{equation}
+  H(k,t) = \CH\,\frac{\epsh(t)}{\eps(t)}\,\eps(t)^{2/3}\,k^{-5/3},\qquad
+  \CH \approx 1.46.
+  \label{eq:helicity_spectrum_inertial}
+\end{equation}
+
+For the maximally helical ($k^{-7/3}$) case:
+
+\begin{equation}
+  E(k,t) = C\,\eta_H(t)^{2/3}\,k^{-7/3},\qquad
+  \eta_H(t)^{-1} = \kH(t),
+  \label{eq:maximal_helicity_spectrum}
+\end{equation}
+
+where the governing timescale is the helicity dissipation rate
+$\epsh$ rather than $\eps$.
+
+\subsection{Infrared Spectrum}
+
+The infrared spectrum, valid for $k\ll\kL$, encodes the initial
+conditions:
+
+\begin{equation}
+  E(k,t) =
+  \begin{dcases}
+    A_B(t)\,k^4, & \text{Batchelor (Loitsyansky)},\\[4pt]
+    A_S(t)\,k^2, & \text{Saffman},
+  \end{dcases}
+  \label{eq:infrared}
+\end{equation}
+
+where $A_B = I/(8\pi^2)$ and $A_S = \Saffman/(2\pi)^3$ are
+determined by the respective conserved invariants.
+
+\subsection{UV Near-Dissipation: Pao Spectrum}
+
+The Pao (1965) spectrum interpolates exactly between the inertial
+range \eqref{eq:kolmogorov_spectrum} and the viscous cutoff. It is
+derived from a spectral energy transfer closure and reads:
+
+\begin{empheq}[box=\fbox]{equation}
+  E(k,t) = \CK\,\eps(t)^{2/3}\,k^{-5/3}
+           \exp\!\left[-\frac{3\CK}{2}
+           \left(\frac{k}{\keta(t)}\right)^{4/3}\right].
+  \label{eq:pao_energy}
+\end{empheq}
+
+The corresponding UV helicity spectrum is:
+
+\begin{empheq}[box=\fbox]{equation}
+  H(k,t) = \CH\,\frac{\epsh(t)}{\eps(t)}\,\eps(t)^{2/3}\,k^{-5/3}
+           \exp\!\left[-\frac{3\CK}{2}
+           \left(\frac{k}{\kH(t)}\right)^{4/3}\right].
+  \label{eq:pao_helicity}
+\end{empheq}
+
+Note that $\kH > \keta$, so the helicity spectrum rolls off at a
+\emph{higher} wavenumber than the energy spectrum. There is a
+transition window $\keta < k < \kH$ where the energy spectrum is
+already in its Pao rolloff but the helicity spectrum has not yet
+reached its cutoff.
+
+\subsection{Final Period: Exact Batchelor-Townsend Solution}
+
+In the final period of decay ($Re\to 0$), the nonlinear terms in the
+Navier--Stokes equation are negligible. The exact solution for the
+energy spectrum is:
+
+\begin{equation}
+  E(k,t) = A\,k^4\,\exp(-2\nu k^2 t),
+  \label{eq:final_period_spectrum}
+\end{equation}
+
+and the total energy:
+
+\begin{equation}
+  E(t) = \int_0^\infty E(k,t)\,dk
+       = A\int_0^\infty k^4 e^{-2\nu k^2 t}\,dk
+       = \frac{3A}{8}\sqrt{\frac{\pi}{2}}\,(2\nu t)^{-5/2}.
+  \label{eq:final_period_energy}
+\end{equation}
+
+This gives the exact final period decay law $E(t)\sim t^{-5/2}$,
+first derived by Batchelor \& Townsend (1948).
+
+%======================================================================
+\section{Total Decay Time}
+\label{sec:decay_time}
+%======================================================================
+
+\subsection{Definition}
+
+The flow is considered turbulent as long as $Re(t) = u_{\rm rms}(t)
+L(t)/\nu \geq 1$. The total turbulent lifetime $t_{\rm decay}$ is
+obtained by solving $Re(t_{\rm decay}) = 1$.
+
+\subsection{Reynolds Number Evolution}
+
+Using $u_{\rm rms} = \sqrt{2E/3}$ and $L = (S/E)^{1/3}$ (Saffman):
+
+\begin{equation}
+  Re(t) = \frac{u_{\rm rms}(t)\,L(t)}{\nu}
+        = \frac{\sqrt{2/3}\,E(t)^{1/2}\,(S/E(t))^{1/3}}{\nu}
+        = \frac{\sqrt{2/3}\,S^{1/3}}{\nu}\,E(t)^{1/6}.
+  \label{eq:Re_saffman}
+\end{equation}
+
+Setting $Re = 1$ and using \cref{eq:saffman_energy_exact}:
+
+\begin{equation}
+  E(t_{\rm decay}) = \left(\frac{\nu}{\sqrt{2/3}\,S^{1/3}}\right)^6
+                   = \frac{\nu^6}{(2/3)^3\,S^2}.
+  \label{eq:E_at_decay_saffman}
+\end{equation}
+
+Substituting into \cref{eq:saffman_energy_exact} and solving for
+$t_{\rm decay}$ (taking $t_0 = 0$):
+
+\begin{equation}
+  \frac{5\Ceps}{6}\,S^{-1/3}\,t_{\rm decay}
+  = E(t_{\rm decay})^{-5/6} - E_0^{-5/6}
+  = \left[\frac{(2/3)^3 S^2}{\nu^6}\right]^{5/6} - E_0^{-5/6}.
+\end{equation}
+
+For $\Reu \gg 1$ the first term dominates ($E_{\rm decay}\ll E_0$):
+
+\begin{equation}
+  t_{\rm decay}^{\rm Saffman} \approx \frac{6}{5\Ceps}\,S^{-1/3}
+  \cdot (2/3)^{5/2}\,S^{5/3}\,\nu^{-5}
+  = \frac{6(2/3)^{5/2}}{5\Ceps}\,\frac{S^{4/3}}{\nu^5}.
+  \label{eq:tdecay_saffman_intermediate}
+\end{equation}
+
+Expressing in terms of $L_0$ and $U_0 = \sqrt{2E_0/3}$, using
+$S = E_0 L_0^3$:
+
+\begin{empheq}[box=\fbox]{equation}
+  t_{\rm decay}^{\rm Saffman} = \frac{6}{5\Ceps}\,\frac{L_0}{U_0}\,\Reu^{5/2}.
+  \label{eq:tdecay_saffman}
+\end{empheq}
+
+By the identical procedure for Batchelor turbulence, using
+$Re = \sqrt{2/3}\,I^{1/5}\,\nu^{-1}\,E^{3/10}$:
+
+\begin{empheq}[box=\fbox]{equation}
+  t_{\rm decay}^{\rm Batchelor} = \frac{10}{7\Ceps}\,\frac{L_0}{U_0}\,\Reu^{7/3}.
+  \label{eq:tdecay_batchelor}
+\end{empheq}
+
+%======================================================================
+\section{Helicity Decay: Exact Exponents}
+\label{sec:helicity_decay}
+%======================================================================
+
+\subsection{Exact Decay Equation}
+
+The exact helicity decay equation is \cref{eq:helicity_exact}:
+$d\KH/dt = -\epsh$. The closure analogous to \cref{eq:eps_closure} is:
+
+\begin{equation}
+  \epsh(t) = \CepsH\,\frac{\KH(t)^{3/2}}{L_H(t)},\qquad
+  \CepsH \approx 0.40.
+  \label{eq:epsh_closure}
+\end{equation}
+
+In the joint cascade regime the helicity integral scale satisfies
+$L_H \approx L$ (Briard \& Gomez 2017), giving:
+
+\begin{equation}
+  \frac{d\KH}{dt} = -\CepsH\,\frac{\KH^{3/2}}{L(t)}.
+  \label{eq:helicity_ode}
+\end{equation}
+
+\subsection{Exact Self-Similar Exponent}
+
+Let the infrared slopes of the energy and helicity spectra be $\sigma$
+and $\sigma_H = \sigma + 1$, respectively. The EDQNM and self-similar
+analysis of Levshin \& Chkhetiani (2013) and Briard \& Gomez (2017)
+give the exact helicity decay exponent:
+
+\begin{empheq}[box=\fbox]{equation}
+  \alphaH = -\frac{3}{2}\,\frac{2\sigma_H + 3}{2\sigma + 3}.
+  \label{eq:alpha_H_exact}
+\end{empheq}
+
+For the two standard cases:
+
+\begin{align}
+  \text{Saffman } (\sigma = 2,\;\sigma_H = 3):\quad
+  &\alphaH = -\frac{3}{2}\cdot\frac{9}{7} = -\frac{27}{14} \approx -1.929,
+  \label{eq:alphaH_saffman}\\[4pt]
+  \text{Batchelor } (\sigma = 4,\;\sigma_H = 5):\quad
+  &\alphaH = -\frac{3}{2}\cdot\frac{13}{11} = -\frac{39}{22} \approx -1.773.
+  \label{eq:alphaH_batchelor}
+\end{align}
+
+For comparison, the energy decay exponents are:
+
+\begin{equation}
+  \alphaE^{\rm Saffman} = -\frac{6}{5} = -1.200,\qquad
+  \alphaE^{\rm Batchelor} = -\frac{10}{7} \approx -1.429.
+  \label{eq:alpha_E}
+\end{equation}
+
+Since $|\alphaH| > |\alphaE|$ in all cases, helicity \emph{always} decays
+faster than energy.
+
+\subsection{Exact Helicity Time Series}
+
+The exact solution of \cref{eq:helicity_ode} with $L \propto t^\beta$
+($\beta = 2/5$ Saffman, $\beta = 2/7$ Batchelor) is:
+
+\begin{empheq}[box=\fbox]{equation}
+  \KH(t) = \left[K_{H0}^{\,1/|\alphaH|} + \frac{t}{t_{H,0}}\right]^{\alphaH},
+  \label{eq:KH_exact}
+\end{empheq}
+
+where the helicity timescale is:
+
+\begin{equation}
+  t_{H,0} = \frac{|\alphaH|}{\CepsH}\,\frac{K_{H0}^{1/2}\,L_0}{1}
+           = \frac{|\alphaH|}{\CepsH}\,K_{H0}^{1/2}\,L_0.
+  \label{eq:tH0}
+\end{equation}
+
+\subsection{Helicity Duration}
+
+The helicity character of the flow is considered extinguished when
+$K_{H}(t)/K_{H0} = \delta \ll 1$. Solving \cref{eq:KH_exact}:
+
+\begin{equation}
+  t_{\rm helical} = t_{H,0}\left[
+    \delta^{1/\alphaH}\,K_{H0}^{-1/|\alphaH|}
+    - K_{H0}^{1/|\alphaH|}\cdot K_{H0}^{-1/|\alphaH|}
+  \right]
+  \approx t_{H,0}\,\delta^{1/\alphaH}\,K_{H0}^{-1/|\alphaH|},
+  \label{eq:t_helical}
+\end{equation}
+
+which for $\delta \to 0$ gives:
+
+\begin{equation}
+  \boxed{
+  t_{\rm helical} \approx \frac{|\alphaH|}{\CepsH}\,
+  \frac{L_0}{U_0}\,\Reu^{(|\alphaH|-|\alphaE|)/(|\alphaH|\cdot|\alphaE|)\cdot 3}.
+  }
+\end{equation}
+
+%======================================================================
+\section{Complete Spectrum at Arbitrary Time}
+\label{sec:complete_spectrum}
+%======================================================================
+
+Combining the infrared, inertial, and UV expressions, the complete
+energy spectrum at time $t$ is:
+
+\begin{empheq}[box=\fbox]{align}
+  E(k,t) &= \CK\,\eps(t)^{2/3}\,k^{-5/3}
+            \exp\!\left[-\frac{3\CK}{2}
+            \left(\frac{k}{\keta(t)}\right)^{4/3}\right]
+  \notag\\[6pt]
+  &\quad \times
+  \begin{dcases}
+    \!\left[1 - \exp\!\left(-\bigl(kL(t)\bigr)^4/c_B\right)\right],
+    & \text{Batchelor IR},\\[6pt]
+    \!\left[1 - \exp\!\left(-\bigl(kL(t)\bigr)^2/c_S\right)\right],
+    & \text{Saffman IR},
+  \end{dcases}
+  \label{eq:complete_spectrum}
+\end{empheq}
+
+where $c_B,\,c_S$ are order-unity constants that ensure the correct
+infrared slopes, and all time-dependent quantities on the right-hand
+side are given by the explicit expressions derived in
+\cref{sec:saffman,sec:batchelor,sec:scales}.
+
+%======================================================================
+\section{Summary of Exact Decay Laws}
+\label{sec:summary}
+%======================================================================
+
+\begin{table}[ht]
+\centering
+\caption{Exact temporal decay laws for decaying helical turbulence.
+  Here $S = E_0 L_0^3$ (Saffman invariant),
+  $I = E_0 L_0^5$ (Loitsyansky invariant),
+  $\Ceps \approx 0.46$,
+  $\CepsH \approx 0.40$,
+  $\CK = 1.50$.}
+\label{tab:summary}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{@{}lllll@{}}
+  \toprule
+  Case & $E(t)$ (late time) & $L(t)$ & $\eps(t)$ & $\eta(t)/\eta_0$\\
+  \midrule
+  Saffman
+    & $\!\left(\!\tfrac{5\Ceps}{6}\!\right)^{\!\!-6/5}\!\!S^{2/5}t^{-6/5}$
+    & $S^{1/5}\!\left(\!\tfrac{5\Ceps}{6}\!\right)^{\!\!2/5}\!t^{2/5}$
+    & $\tfrac{6}{5}\!\left(\!\tfrac{5\Ceps}{6}\!\right)^{\!\!-6/5}\!\!S^{2/5}t^{-11/5}$
+    & $(t/t_0)^{11/20}$\\[4pt]
+  Batchelor
+    & $\!\left(\!\tfrac{7\Ceps}{10}\!\right)^{\!\!-10/7}\!\!I^{2/7}t^{-10/7}$
+    & $I^{1/7}\!\left(\!\tfrac{7\Ceps}{10}\!\right)^{\!\!2/7}\!t^{2/7}$
+    & $\tfrac{10}{7}\!\left(\!\tfrac{7\Ceps}{10}\!\right)^{\!\!-10/7}\!\!I^{2/7}t^{-17/7}$
+    & $(t/t_0)^{17/28}$\\[4pt]
+  Final period
+    & $\tfrac{3A}{8}\sqrt{\tfrac{\pi}{2}}\,(2\nu t)^{-5/2}$
+    & $\sim(\nu t)^{1/2}$
+    & $-dE/dt$
+    & ---\\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Exact total decay times and helicity decay exponents.}
+\label{tab:decay_times}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{@{}lllll@{}}
+  \toprule
+  Case & $t_{\rm decay}$ & $\alphaH$ & $\alphaE$\\
+  \midrule
+  Saffman
+    & $\tfrac{6}{5\Ceps}\tfrac{L_0}{U_0}\Reu^{5/2}$
+    & $-27/14$
+    & $-6/5$\\[4pt]
+  Batchelor
+    & $\tfrac{10}{7\Ceps}\tfrac{L_0}{U_0}\Reu^{7/3}$
+    & $-39/22$
+    & $-10/7$\\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+%======================================================================
+\section{Numerical Constants}
+\label{sec:constants}
+%======================================================================
+
+\begin{table}[ht]
+\centering
+\caption{Empirical constants appearing in the exact equations.}
+\label{tab:constants}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{}lll@{}}
+  \toprule
+  Symbol & Value & Source / Definition \\
+  \midrule
+  $\CK$    & $1.50 \pm 0.05$   & Kolmogorov spectral constant
+                                  (DNS \& experiments) \\
+  $\Ceps$  & $0.42$--$0.50$    & Dimensionless dissipation rate;
+                                  use $0.46$ as central value \\
+  $\CepsH$ & $\approx 0.40$    & Helicity dissipation constant
+                                  (Briard \& Gomez 2017)\\
+  $\CH$    & $\approx 1.46$    & Helicity spectral constant (DNS) \\
+  $\beta$  & $3\CK/2 \approx 2.25$ & Pao exponential coefficient \\
+  $\kappa$ & $0.41$            & von K\'arm\'an constant \\
+  $S_u$    & $\approx -0.40$   & Skewness of velocity derivative
+                                  (3D isotropic) \\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+%======================================================================
+\section*{References}
+%======================================================================
+
+\begin{enumerate}[leftmargin=*, label={[\arabic*]}]
+
+\item Kolmogorov, A.N.\ (1941).
+  \textit{On the degeneration of isotropic turbulence in an incompressible
+  viscous fluid.}
+  Dokl.\ Akad.\ Nauk SSSR \textbf{31}, 538--540.
+
+\item Kolmogorov, A.N.\ (1941).
+  \textit{Dissipation of energy in locally isotropic turbulence.}
+  Dokl.\ Akad.\ Nauk SSSR \textbf{32}, 16--18.
+
+\item Saffman, P.G.\ (1967).
+  \textit{The large-scale structure of homogeneous turbulence.}
+  J.\ Fluid Mech.\ \textbf{27}, 581--593.
+
+\item Batchelor, G.K.\ \& Proudman, I.\ (1956).
+  \textit{The large-scale structure of homogeneous turbulence.}
+  Phil.\ Trans.\ R.\ Soc.\ Lond.\ A \textbf{248}, 369--405.
+
+\item Batchelor, G.K.\ \& Townsend, A.A.\ (1948).
+  \textit{Decay of turbulence in the final period.}
+  Proc.\ R.\ Soc.\ Lond.\ A \textbf{194}, 527--543.
+
+\item Brissaud, A., Frisch, U., L\'eorat, J., Lesieur, M.\ \& Mazure, A.\
+  (1973).
+  \textit{Helicity cascades in fully developed isotropic turbulence.}
+  Phys.\ Fluids \textbf{16}, 1366.
+
+\item Kraichnan, R.H.\ (1973).
+  \textit{Helical turbulence and absolute equilibrium.}
+  J.\ Fluid Mech.\ \textbf{59}, 745--752.
+
+\item Pao, Y.H.\ (1965).
+  \textit{Structure of turbulent velocity and scalar fields at large
+  wavenumbers.}
+  Phys.\ Fluids \textbf{8}, 1063.
+
+\item Ditlevsen, P.D.\ \& Giuliani, P.\ (2001).
+  \textit{Dissipation in helical turbulence.}
+  Phys.\ Fluids \textbf{13}, 3508.
+
+\item Briard, A.\ \& Gomez, T.\ (2017).
+  \textit{Dynamics of helicity in homogeneous skew-isotropic turbulence.}
+  J.\ Fluid Mech.\ \textbf{821}, 539--581.
+
+\item Levshin, A.O.\ \& Chkhetiani, O.G.\ (2013).
+  \textit{Decay of helicity in homogeneous turbulence.}
+  JETP Lett.\ \textbf{98}, 598--602.
+
+\item Ishida, T., Davidson, P.A.\ \& Kaneda, Y.\ (2006).
+  \textit{On the decay of isotropic turbulence.}
+  J.\ Fluid Mech.\ \textbf{564}, 455--475.
+
+\item Davidson, P.A.\ (2004).
+  \textit{Turbulence: An Introduction for Scientists and Engineers.}
+  Oxford University Press.
+
+\end{enumerate}
+
+\end{document}

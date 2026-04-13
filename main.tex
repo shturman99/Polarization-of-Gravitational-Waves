@@ -55,8 +55,8 @@
 \newcommand{\eone}{\hat{e}^1}
 \newcommand{\etwo}{\hat{e}^2}
 
-\newcommand{\Omgw}{\Omega_{\rm GW}}
-\newcommand{\Agw}{\mathcal{A}_{\rm GW}}
+%\newcommand{\Omgravitational wave}{\Omega_{\rm gravitational wave}}
+%\newcommand{\Agravitational wave}{\mathcal{A}_{\rm gravitational wave}}
 \newcommand{\n}{\hat{n}}
 \newcommand{\vhat}{\hat{v}}
 \newcommand{\p}{\hat{p}}
@@ -108,71 +108,45 @@ Carnegie Mellon University, Pittsburgh, PA 15213, USA}
 \maketitle
 
 \section{Introduction}
-Gravitational waves (GWs) provide a unique probe of high-energy physics and physical processes  
-in the early universe: they are almost freely during the universe expansion, and thus they retain undamaged information on highest energy scales inaccessible by any laboratory experiments and far beyond the epoch imprinted on cosmic microwave background (CMB). 
-%TK reference
-Several different sources of gravitational radiation are potentially present during the first stages of the universe expansion : these sources include (but are not limited by) quantum-mechanical perturbations present during and short after the inflationary epoch, 
+Gravitational waves provide a unique probe of high-energy physics and physical processes in the early universe \cite{Dent:2025}: they test highest energy scales inaccessible by any laboratory experiments and far beyond the epoch probed on cosmic microwave background (CMB), see Ref.~\cite{Roshan:2025} for a recent review and references therein. 
+%
+Several different sources of gravitational radiation are potentially present during the early stages of the universe expansion: these sources include (but are not limited by) quantum-mechanical perturbations present during and short after the inflationary epoch, 
 bubble collisions and nucleation during first order cosmological phase transitions 
-and the follow up sound waves and/or 
-turbulent motions, see Ref.~\cite{Caprini:2018mtu} and references therein.
-Turbulence of primordial plasma can be induced without first order transitions, for example, through the presence of the magnetic seeds (and vise versa) \cite{Brandenburg:1996fc,Enqvist:1998fw,Son:1998my},  
+and the follow up sound waves and/or turbulent motions, see Ref.~\cite{Caprini:2018mtu} and references therein. Turbulence of primordial plasma can be induced without first order transitions, for example, through the presence of the magnetic seeds (and vise versa) \cite{Brandenburg:1996fc,Enqvist:1998fw,Son:1998my},  and/or through 
 small inhomogeneities leading to the pressure gradient \cite{Miniati:2017kah},  
-and/or presence of anisotropic stress \cite{Deryagin:19886}.  
+and/or presence of any kind of anisotropic stress \cite{Deryagin:19886}.  
+%
+An exceptionally interesting case is related to sources that violate parity (mirror) symmetry: the standard model does not explain the predominance of matter over antimatter,  and explanations, such as leptogenesis and baryogenesis, hypothesize that there could be parity violation occurring at high temperatures and leading to matter-antimatter asymmetry \cite{Fukugita:1986hr}. A key feature of the induced gravitational wave signal is its polarization, which carries information about parity-violating processes in the early universe \cite{Riotto:1999yt}.
+%
+Actually, the CMB anisotropies observations can also be used to probe parity violation from the early universe,  through birefrigence and parity-odd cross correlations of temperature and polarization anisotropies \cite{Lue:1998mq}. 
+However, other processes (for example, Lorentz symmetry violation) can mimic parity violation \cite{Kostelecky:2001mb} and additionally there are observational challenges associated with CMB foregrounds, such as dust masking the signal \cite{Diego-Palazuelos:2022dsq}, 
+gravitational lensing that is not intrinsically present \cite{Zaldarriaga:1998ar}. 
+Contrary to these difficulties of probing parity symmetry violation in the early universe through its traces on the CMB, the stochastic gravitational wave background polarization provides (almost) undamaged  patterns of intrinsic parity breaking. 
 
-An exceptionally interesting case is related to sources that violate parity (mirror) symmetry: the standard model does not explain the predominance of matter over antimatter,  and explanations, 
-such as leptogenesis, hypothesize that there could be parity violation occurring at high temperatures and leading to matter-antimatter asymmetry \cite{Fukugita:1986hr}. 
-A key feature of the induced GW signal is its polarization 
-which carries information about parity-violating processes in the early universe. 
-%TK reference
+
+In this paper, we consider analytic and simulation-based phenomenological approaches to studying the polarization of gravitational waves from helical (parity violating) primordial hydro- and magnetohydrodynamical (MHD) turbulence possibly present after inflationary stage but not later than the recombination epoch. Our models assume that turbulence has been generated, but are agnostic to the source of turbulence. To keep our description as general as possible, we will consider different models of turbulence (such as with and without helicity, stationary and decaying, etc). 
 
 
-CMB can also be used to probe parity violation from the early universe, 
-through birefrigence and parity-odd cross correlations of temperature and polarization anisotropies \cite{Lue:1998mq}. 
-However, other processes (for example, Lorentz symmetry violation) can mimic parity violation \cite{Kostelecky:2001mb} and additionally there are observational challenges associated with CMB foregrounds, 
-such as dust masking the signal \cite{Diego-Palazuelos:2022dsq}, 
-gravitational lensing that is not intrinsically present. 
-%TK references in inspires format. \cite{1998Zaldarriaga} 
-%TK since this is fast developing area there is a need of the recent works like PLANCK-BICEP
-Contrary to difficulties of the early universe parity violation detection through its traces on the CMB, the stochastic GW background (SGWB) retains information of intrinsic parity violation because of almost free propagation 
-%TK maybe highlight free propagation earlier
-of GWs throughout the universe expansion.   
-%TK Reference
-%TK this statement can go as a footnote when discussiong CMB 
-%TK Nevertheless, reference\cite{2022Diego-Palazuelos} provides a measurement of cosmic birefringence $\beta = 0.33^{\circ} \pm 0.11^{\circ} $ using Planck data. This birefringence is intrinsic and could be caused by helical turbulence in the early universe or another parity violating effect. Additionally, Planck data sets bounds of roughly 0.4 nanogauss on the magnitude of the primordial magnetic field.\cite{2022Paoletti}
+\section{Gravitational radiation from early universe turbulence}
 
-In this paper, we will consider analytic and simulation-based approaches to studying the polarization of GWs from helical (parity violating) primordial turbulence possibly present in the early universe. Our models assume that turbulence has been generated in the early Universe but are agnostic to the source of turbulence. To keep our description as general as possible, we will consider different models of turbulence (such as helical and non-helical, stationary and decaying, etc). 
+Stochastic gravitational waves generated through an anisotropic stress-energy tensor associated with primordial (hydro- MHD) turbulence are characterized by the energy density: 
+\begin{equation}
+\rho_{\rm GW}(\mathbf{x}) = \frac{1}{32\pi G}
+\left\langle \partial_t h_{ij}(\mathbf{x},t)\,\partial_t h_{ij}(\mathbf{x},t) \right\rangle
+= \frac{G}{2\pi} \int d^3\mathbf{x}'\, d^3\mathbf{x}''
+\frac{\left\langle \partial_t S_{ij}(\mathbf{x}',t')\,\partial_t S_{ij}(\mathbf{x}'',t'') \right\rangle}
+{|\mathbf{x}-\mathbf{x}'|\,|\mathbf{x}-\mathbf{x}''|} .
+\end{equation}
+where time variables with primes represent the light-cone combination
+$t' = t - |\mathbf{x} - \mathbf{x}'|$, $i$ and $j$ are spatial indices
+(repeated indices are summed), the source
 
-%TK 
-%We will assume that the turbulence is stationary and isotropic. 
 
-\begin{comment}
-\begin{itemize}
-    \item Importance of the parity violation and that existing models can't explain matter antimatter asymmetric
-    \item In solar plasma we see parity violation
-    \item We see similar things in Astor jets
-    \item ACT + Planck data what are the limits on the party violation 
-    \item Connect to the birefringence of CMB
-    \item Can be explained with standard model 
-    \item Segway into the section about early universe 
-    \item If the chiral/hilctiy was present in the early universe it could be manifested in the turbulence and be observed
-    \item Early universe data is scarce, by universe not being transparent to E\& M
-    \item GW propagation is free from this constrains, so the could be used as a probe of this feature.
-    \item With CMB we can observe parity violation as well but it is subject to the observational effects like lensing
-    \item Cite existing constrains
-    \item Move in the conformal units 
-    \item Talk about the turbulence as a source of the GW
-    \item Talk about the model of the Turbulence.
-    \item Talk about the parameters of the dominant type of turbulence: Stationery,viscosity, etc.
-    
-\end{itemize}
-\end{comment}
 
-%TK discuss units; 
-\section{Set Up}
-In this section, we outline the framework for studying GW polarization
-from turbulent sources. We discuss both the mathematical formalism
-and the relevant physical scales.
-\subsection{Modeling sources}
+\section{Modeling Turbulence in the early universe}
+
+
+
 
 \subsection{Gravitational radiation}
 Starting with the equation
@@ -272,7 +246,7 @@ P_{ \pm}(\hat{n})=I_0 \sum_{L=4}^{\infty} \sum_{M=-L}^L c_{L M \pm 4}^{ \pm} Y_{
 \end{gathered}
 \end{equation}
 where $P_{\pm}=Q\pm iU$. Here we see that $I$ and $V$ transform like scalars while $P_{\pm}$ transforms like spin-4 file.\\
-Conversion from the linear polarization basis ($+$, $\times$) typically used in gravitational wave (GW) analyses, to the helical polarization basis, which consists of left-handed (L) and right-handed (R) circular polarization states. This helical basis is particularly useful when analyzing parity-violating phenomena or when clearly isolating circular polarization components.
+Conversion from the linear polarization basis ($+$, $\times$) typically used in gravitational wave (gravitational wave) analyses, to the helical polarization basis, which consists of left-handed (L) and right-handed (R) circular polarization states. This helical basis is particularly useful when analyzing parity-violating phenomena or when clearly isolating circular polarization components.
 
 We start by defining the relationship between the linear polarization tensors and the helical polarization tensors as done in the appendix B of \cite{2019Domcke}. For a gravitational wave propagating in the direction $\hat{n}$, the polarization tensors can be transformed as follows:
 
@@ -288,7 +262,7 @@ e^{+}_{ij}(\hat{n}) = \frac{e^{R}_{ij}(\hat{n}) + e^{L}_{ij}(\hat{n})}{\sqrt{2}}
 e^{\times}_{ij}(\hat{n}) = \frac{e^{R}_{ij}(\hat{n}) - e^{L}_{ij}(\hat{n})}{\sqrt{2}i}
 \end{equation}
 
-The GW mode expansions in the helical basis become:
+The gravitational wave mode expansions in the helical basis become:
 
 \begin{equation}
 h_{ij}(t, \vec{x}) = \sum_{\lambda=R,L} \int_{-\infty}^{\infty} df \int d^2 \hat{n}
@@ -305,7 +279,7 @@ The power spectral densities in the helical basis can be expressed analogously t
 \end{aligned}
 \end{equation}
 
-Here, $I$ and $V$ are directly interpreted as the total intensity and the circular polarization, respectively, while $Q$ and $U$ measure linear polarization correlations within the helical framework. This decomposition facilitates explicit studies of GW polarization properties, particularly under rotations and boosts, relevant for detecting and characterizing anisotropic or polarized stochastic gravitational wave backgrounds.
+Here, $I$ and $V$ are directly interpreted as the total intensity and the circular polarization, respectively, while $Q$ and $U$ measure linear polarization correlations within the helical framework. This decomposition facilitates explicit studies of gravitational wave polarization properties, particularly under rotations and boosts, relevant for detecting and characterizing anisotropic or polarized stochastic gravitational wave backgrounds.
 \subsection{Turbulence}
 MHD turbulence is characterized by spectra such as the Kolmogorov $k^{-5/3}$ scaling.\\
 
@@ -316,7 +290,7 @@ In the previous paper, we used the correlation function $f(\eta_k,\tau)=\exp (-\
 where $\tau$ is a lableing time, and $\sigma$ is the time history coordinate for a fluid particle. \tb{I'm trying this... not sure its right}
 
 \section{Conclusion}
-We have highlighted the motivation for comparing analytic estimates of the GW polarization.
+We have highlighted the motivation for comparing analytic estimates of the gravitational wave polarization.
 
 \newpage
 \nocite{*}
@@ -345,13 +319,13 @@ We define $L(x,\tau )$ such that:
 \begin{equation}
     L(\xb,\tau) = \frac{1}{32 \pi G} \langle \partial_t h_{ij}(\xb , t), \partial_t h_{ij}(\xb, t+\tau)\rangle
 \end{equation}
-with $\tau= t'-t$ and $\rho_{GW}= L(\xb,0)$. The angle brackets indicate averaging over time to find the time correlation. Then we define $I(\xb,w_\tau)$ as the Fourier transform of $L(\xb,\tau)$.
+with $\tau= t'-t$ and $\rho_{gravitational wave}= L(\xb,0)$. The angle brackets indicate averaging over time to find the time correlation. Then we define $I(\xb,w_\tau)$ as the Fourier transform of $L(\xb,\tau)$.
 \begin{equation}
     I(\xb,\omega_{\tau}) = \frac{1}{2 \pi} \int d\tau e^{i\omega_{\tau} \tau} L(\xb,\tau)
 \end{equation}
 We can also see that
 \begin{equation}
-    \rho_{GW}(\xb) = \int d\omega_{\tau} I(\xb,\omega_{\tau}) 
+    \rho_{gravitational wave}(\xb) = \int d\omega_{\tau} I(\xb,\omega_{\tau}) 
 \end{equation}
 \begin{equation}
     L(\xb,t)= \frac{-G}{2\pi|x|^2} \int d^3x'd^3x''  \langle \partial_t S_{ij}(\xb' , t'), \partial_t S_{ij}(\xb'', t'')\rangle

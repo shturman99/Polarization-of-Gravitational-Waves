@@ -13,10 +13,16 @@
 \usepackage{mathrsfs}
 \usepackage{bm}
 \usepackage{cancel}
-
+\usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{comment}
 
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black
+}
 \def \ul{\underline}
 \def \vp{\varphi}
 
@@ -84,6 +90,8 @@ Derivation of the equations used in the literature.
 \end{abstract}
 
 \maketitle
+
+\tableofcontents
 
 \section{GOGOBERIDZE 2007}
 
@@ -1143,7 +1151,9 @@ g_1(\bm{k},\omega) = \frac{E_0 }{6\pi k^4}
 and
 
 \begin{equation}
-g_2(\bm{k},\omega) = \frac{E_0}{8\pi k^2k_0^2} e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)} 
+g_2(\bm{k},\omega) = \frac{E_0}{8\pi k^2k_0^2} 
+\left(\frac{i \omega}{k_0}\right)^{\frac{8}{3}}
+e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)} 
     \Gamma \left(-\frac{2}{3},
     i\frac{\omega}{k_0}+ i\frac{\omega k}{k_0^2}\right)
 \end{equation}
@@ -1220,30 +1230,29 @@ Now we need to find $g_1(p,q)$ and $g_2(p,q)$
 
 \begin{equation}
     g_1(p,q) = \frac{E_0 }{6\pi k_0^4 p^4}
-    e^{-i\frac{q}{p}}\left(\frac{iq}{p}\right)
-    \left[\left(-\frac{ip}{q}\right)^{-\frac{2}{3}}
+    \left[    e^{-i\frac{q}{p}}\left(\frac{iq}{p}\right)^{\frac{5}{3}}
     \Gamma \left( \frac{1}{3}, iq+i\frac{q}{p}\right)
-    -\left(-\frac{ip}{q}\right)^{-\frac{5}{3}}
+    -    e^{-i\frac{q}{p}}\left(\frac{iq}{p}\right)^{\frac{8}{3}}
     \Gamma \left( -\frac{2}{3}, iq+i\frac{q}{p}\right)
     \right]
 \end{equation}
 
 \begin{equation}
     g_1(z,q_1) = \frac{E_0 }{6\pi k_0^4 z^4}
-    e^{-i\frac{q_1}{z}}\left(\frac{iq_1}{z}\right)
-    \left[\left(-\frac{iz}{q_1}\right)^{-\frac{2}{3}}
+    e^{-i\frac{q_1}{z}}
+    \left[\left(\frac{iq_1}{z}\right)^{\frac{5}{3}}
     \Gamma \left( \frac{1}{3}, iq_1+i\frac{q_1}{z}\right)
-    -\left(-\frac{iz}{q_1}\right)^{-\frac{5}{3}}
+    -\left(\frac{iq_1}{z}\right)^{\frac{8}{3}}
     \Gamma \left( -\frac{2}{3}, iq_1+i\frac{q_1}{z}\right)
     \right]
 \end{equation}
 
 \begin{align*}
     g_1(y,q-q_1) &= \frac{E_0 }{6\pi k_0^4 y^4}
-    e^{-i\frac{q-q_1}{z}}\left(\frac{i(q-q_1)}{z}\right)\\
-    &\times \left[\left(-\frac{iz}{q-q_1}\right)^{-\frac{2}{3}}
+    e^{-i\frac{q-q_1}{z}}\\
+    &\times \left[\left(\frac{i(q-q_1)}{z}\right)^{\frac{5}{3}}
     \Gamma \left( \frac{1}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
-    -\left(-\frac{iz}{q-q_1}\right)^{-\frac{5}{3}}
+    -\left(\frac{i(q-q_1)}{z}\right)^{\frac{8}{3}}
     \Gamma \left( -\frac{2}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
     \right]
 \end{align*}
@@ -1257,17 +1266,17 @@ Finally we find that for Eq.
     \frac{\pi E_0^2 }{108 \pi p k_0^4}\int^{R^\frac{3}{4}}_{1} dz \frac{1}{z^3}
     \int^{p+z}_{|p-z|} dy \frac{1}{y^3}
     \int^\infty_0 dq_1 
-    e^{-i\frac{q}{z}}\left(\frac{i(q-q_1)}{z}\right)\times \\
+    e^{-i\frac{q}{z}}\times \\
     &\left[
-        \left(-\frac{iz}{q_1}\right)^{-\frac{2}{3}}
+        \left(\frac{iq_1}{z}\right)^{\frac{5}{3}}
         \Gamma \left( \frac{1}{3}, iq_1+i\frac{q_1}{z}\right)
-        -\left(-\frac{iz}{q_1}\right)^{-\frac{5}{3}}
+        -\left(\frac{iq_1}{z}\right)^{\frac{8}{3}}
         \Gamma \left( -\frac{2}{3}, iq_1+i\frac{q_1}{z}\right)
     \right] \times \\
     &\left[
-        \left(-\frac{iz}{q-q_1}\right)^{-\frac{2}{3}}
+        \left(\frac{i(q-q_1)}{z}\right)^{\frac{5}{3}}
         \Gamma \left( \frac{1}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
-        -\left(-\frac{iz}{q-q_1}\right)^{-\frac{5}{3}}
+        -\left(\frac{i(q-q_1)}{z}\right)^{\frac{8}{3}}
         \Gamma \left( -\frac{2}{3}, i(q-q_1)+i\frac{q-q_1}{z}\right)
     \right] \times \\
     & \left[ 
@@ -1277,9 +1286,57 @@ Finally we find that for Eq.
     \right]
 \end{align*}
 
+Similarly, 
 
+\begin{equation}
+ g_2(p,q) = \frac{E_0}{8\pi p^2 k_0^4} 
+ (iq)^\frac{8}{3}
+ e^{iq(1+p)} 
+    \Gamma \left(-\frac{2}{3},
+    iq(1+p)\right)   
+\end{equation}
 
+\begin{equation}
+ g_2(z,q_1) = \frac{E_0}{8\pi z^2 k_0^4} 
+ (iq_1)^\frac{8}{3}
+ e^{iq_1(1+z)} 
+    \Gamma \left(-\frac{2}{3},
+    iq_1(1+z)\right)   
+\end{equation}
 
+\begin{equation}
+ g_2(y,q-q_1) = \frac{E_0}{8\pi y^2 k_0^4} 
+ (iq-iq_1)^\frac{8}{3}
+ e^{i(q-q_1)(1+y)} 
+    \Gamma \left(-\frac{2}{3},
+    i(q-q_1)(1+y)\right)   
+\end{equation}
+
+    
+Therefore, for equation \eqref{Decaying 0 to infty} we get the corresponding equation:
+
+\begin{align*}
+    H_{ijij}(p,q) 
+    =&
+    \frac{E_0^2 }{192 p\pi k_0^4 }
+    \frac{\pi k_0^4}{3p}
+    \int^{R^\frac{3}{4}}_{1} dz \frac{1}{z}
+    \int^{p+z}_{|p-z|} dy \frac{1}{y}
+    \int^\infty_0 dq_1  
+    (iq_1)^\frac{8}{3}
+    e^{iq_1(1+z)} 
+    \Gamma \left(-\frac{2}{3},
+    iq_1(1+z)\right) \times \\
+    &(iq-iq_1)^\frac{8}{3}
+    e^{i(q-q_1)(1+y)} 
+    \Gamma \left(-\frac{2}{3},
+    i(q-q_1)(1+y)\right) \times \\ 
+    &\left[ 
+    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} + 
+    \frac{z^2}{2y^2} 
+    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
+    \right].
+\end{align*}
 
 \bibliography{bib}
 
