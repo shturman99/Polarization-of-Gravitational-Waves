@@ -80,7 +80,10 @@ Derivation of the equations used in the literature.
 
 \tableofcontents
 
-\section{Gogoberidze (2007)}
+\section{Kraichnan--K41 Model (Gogoberidze 2007)}
+% Inertial-range Kolmogorov energy spectrum with Kraichnan sweeping decorrelation.
+% Derives H_{ijij}(k, omega) for k > k_0 (Sec 1.1), recasts in Gogoberidze (2007)
+% Appendix~A form (Sec 1.2), then takes the IR limit k -> 0 (Sec 1.3).
 
 We adopt the spatial Fourier pair
 \begin{align}
@@ -257,7 +260,17 @@ Using $A(k) = C_k\epsilon^{2/3}k^{-11/3}/4\pi$ and $\eta_k = \frac{1}{\sqrt{2\pi
 g(k,\omega) \equiv A(k)\,\tf(\eta_k,\omega)
 = \frac{2E_k}{k^2\eta_k}\exp\!\left(-\frac{\omega^2}{\pi\eta_k^2}\right),
 \end{equation}
-where $E_k = C_k\epsilon^{2/3}k^{-5/3}$. Explicitly introducing integration bounds:
+where $E_k = C_k\epsilon^{2/3}k^{-5/3}$.
+% FLAG: Prefactor check. With A(k) = E_k/(4 pi k^2) (line ~104) and
+% tilde f(eta_k, omega) = (2/eta_k) exp(-omega^2/(pi eta_k^2)), the product gives
+%   g = A(k) tilde f = E_k / (2 pi k^2 eta_k) exp(-2 Omega^2).
+% Eq. below states g = 2 E_k / (k^2 eta_k) exp(...), which is 4 pi times larger.
+% Equivalently in the closed form below, g = (2 sqrt(2 pi)) C_k eps^{1/3} k^{-13/3} ...,
+% whereas direct substitution gives g = (1/sqrt(2 pi)) C_k eps^{1/3} k^{-13/3} ....
+% The 4 pi discrepancy then propagates into the overall prefactor of H_{ijij} below
+% (C_k^2 eps / (16 pi^6) k^{-5}). Cross-check against Gogoberidze (2007) Eq.(31)/(A2)
+% conventions to confirm which normalization of A(k) is intended.
+Explicitly introducing integration bounds:
 \begin{align}
     H_{ijij}(\xb',\kb,\omega) =
     \frac{1}{(2\pi)^8}\int_{\mathbb{R}^4} d^{3}k_{1}\,d\omega_1\;
@@ -427,7 +440,7 @@ In this form, all integrals are manifestly dimensionless, and the dependence
 on the turbulent energy injection rate $\epsilon$ and the wavenumber $k$ is
 fully contained in the overall prefactor $C_k^{2}\epsilon k^{-5}$.
 
-\subsection{Repeating the Derivation of Gogoberidze (2007) Appendix~A}
+\subsection{Gogoberidze (2007) Appendix~A form}
 
 Eq.~A.1 of \cite{2007Gogoberidze}:
 \begin{equation}
@@ -593,6 +606,20 @@ y_{\min} = \max((x^{-3/4} + p)^{-4/3}, R^{-1}).
 
 \subsection{$\kb \leq \kb_0$}
 
+% FLAG: Dimensional consistency problem. The prefactor C_k^2 eps k^{-5} and the
+% dimensionless variables q = k_1/k, Omega = omega/(eps^{1/3} k^{2/3}) all DIVERGE
+% at k = 0, yet this subsection claims to evaluate H_{ijij} at k = 0. Two options:
+%   (a) reinterpret the result as the leading small-k behaviour with k > 0 small
+%       (so q can still range over (0, infty)), or
+%   (b) re-derive with k_0 (outer scale) as the dimensional normalization, replacing
+%       q -> k_1/k_0 and Omega -> omega/(eps^{1/3} k_0^{2/3}).
+% Option (b) makes the section title literally correct; option (a) is what the text
+% currently does and should be relabeled "k -> 0 limit" or "low-k expansion".
+%
+% FLAG: The IR-spectrum substitution that is announced in the first sentence
+% (E ~ k^2 or k^4) never actually happens — the derivation keeps using A(k) from
+% the K41 inertial-range form. If the intention is a Saffman/Batchelor-style IR
+% asymptotic, the integrand near k_1 = 0 needs to switch spectra.
 To account for the case $k = 0$, one substitutes the appropriate infrared spectrum ($E \propto k^2$ or $E \propto k^4$ depending on the flow structure). We start from Eq.~\eqref{eq: H-with-P}.
 
 At $k = 0$ we have $k_1 = u$, so the equation takes the form:
@@ -654,6 +681,23 @@ In this form the integral is manifestly dimensionless, and all dependence on
 the physical scales $\epsilon$ and $k$ is contained in the overall prefactor
 $C_k^2\,\epsilon\,k^{-5}$.
 
+% =====================================================================
+% NOTE: The section that follows ("Dimensionless Form of the Decaying Spectrum")
+% is a preliminary derivation that is fully superseded by the consolidated
+% treatment in Sec. "Analytic k-Dependent Decaying Energy Spectra" below.
+% Differences:
+%   - uses MathFrak kernel `mathfrak K` = 6 * (`mathcal K` from Sec. 1) with a
+%     compensating 1/6 prefactor
+%   - uses the wv_1^2 / tau_1 parameterization rather than the E_0 / k_0 model
+%     in Sec. 4
+%   - the (2 pi)^8 Fourier-bookkeeping factor that appears in Sec. 1 is
+%     unaccounted for here
+% Hidden from the PDF via the `comment` environment so the source is preserved
+% as a record. To restore it, remove the surrounding \begin{comment}/\end{comment}.
+% TODO: salvage anything from this block that is NOT already in Sec. 4 before
+% finally deleting it.
+% =====================================================================
+\begin{comment}
 \section{Dimensionless Form of the Decaying Spectrum}
 
 Our integral begins as
@@ -742,6 +786,10 @@ Finally:
     \right]\int_0^\infty dq_1\,
       \hat{g}(q_1)\,\hat{g}(q-q_1).
 \end{equation}
+\end{comment}
+% =====================================================================
+% END of hidden preliminary section.
+% =====================================================================
 
 \section{Monochromatic and White-Noise Spectra}
 
@@ -987,9 +1035,18 @@ $\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector 
 \end{tabular}
 \end{center}
 
-\section{Analytic $k$-Dependent Decaying Energy Spectra}
+\section{Self-Similar Decaying Spectra}
+% Consolidated treatment of decaying-turbulence energy spectra. Two candidate
+% self-similar forms are considered; the temporal FT, spectral tensor, and
+% dimensionless convolution form are worked out for each. (The earlier preliminary
+% derivation in the hidden "Dimensionless Form of the Decaying Spectrum" section
+% is superseded by what follows.)
 
 We seek a spectrum that, when integrated over $k$, gives
+% FLAG: Sign error in target decay law? `(1 - tau/tau_0)^{-2/3}` diverges as tau -> tau_0,
+% contradicting "decaying". The check on line ~"With tau_0 = 1/k_0" below recovers
+% `(1 + tau/tau_0)^{-2/3}` from the candidate spectra, so this label is almost certainly
+% supposed to be `(1 + tau/tau_0)^{-2/3}`.
 \begin{equation}
     E_0 \left( 1-\frac{\tau}{\tau_0}\right) ^{-\frac{2}{3}}
     \label{2/3 Energy Spectrum}
@@ -1014,6 +1071,23 @@ The spectral tensor and its Fourier transform are
     \tilde{F}_{ij}(k,\omega) = \frac{\tilde{E}_k(k,\omega)}{4\pi k^2}P_{ij}(\hat{k}).
 \end{equation}
 
+% FLAG: Fourier convention drift. Section 1 (line ~91-93) defines the forward
+% temporal transform with `e^{+i omega tau}`. Here Sec. 4 uses `e^{-i omega tau}`.
+% Pick one convention globally and adjust signs accordingly.
+%
+% FLAG: Two errors in the result on lines below.
+%   (1) The substitution alpha = 1 + k*tau gives
+%         e^{-i omega tau} = e^{-i omega (alpha-1)/k} = e^{-i omega alpha/k} * e^{+i omega/k}
+%       so the extracted exponential should be `e^{+i omega/k}`, NOT `e^{-i omega/k}`.
+%   (2) Using the standard identity
+%         int_a^infty alpha^{s-1} e^{-p alpha} d alpha = p^{-s} Gamma(s, p a),
+%       with p = i omega/k, the two alpha-integrals give
+%         int alpha^{-2/3} e^{-i omega alpha/k} d alpha = (i omega/k)^{-1/3} Gamma(1/3, ...)
+%         int alpha^{-5/3} e^{-i omega alpha/k} d alpha = (i omega/k)^{+2/3} Gamma(-2/3, ...)
+%       The bracket below has an extra overall factor (i omega/k)^2 — i.e. the powers
+%       (-ik/omega)^{-2/3} and (-ik/omega)^{-5/3} should be (i omega/k)^{-1/3} and (i omega/k)^{+2/3}.
+%   Sanity check: as omega -> 0, F(tau) ~ tau * tau^{-5/3} = tau^{-2/3} is not integrable,
+%   so tilde F should DIVERGE at omega = 0. The current expression goes to ZERO instead.
 For Eq.~\eqref{Decaying k_0 to infty}:
 \begin{align}
     \tilde{F}_{ij}(k,\omega)
@@ -1033,6 +1107,17 @@ For Eq.~\eqref{Decaying k_0 to infty}:
     \right].
 \end{align}
 
+% FLAG: Several issues in this block.
+%   (1) Prefactor: 1/(4 pi k^2) * 2 E_0 / (3 k_0) * 1/k_0 = E_0/(6 pi k^2 k_0^2),
+%       NOT E_0/(8 pi k^2 k_0^2). Off by factor 4/3.
+%   (2) Substituting alpha = 1 + tau/tau_0 + k/k_0 with tau_0 = 1/k_0 gives
+%         e^{-i omega tau} = e^{-i omega alpha/k_0} * e^{+i omega (1/k_0 + k/k_0^2)}
+%       so the extracted exponential should be `e^{+i omega (1/k_0 + k/k_0^2)}` —
+%       the sign of the k/k_0^2 term is wrong (and the leading sign is wrong too if
+%       Sec. 1's Fourier convention is used; see FLAG above on Eq.~\eqref{Decaying k_0 to infty}).
+%   (3) The integrand on line 2 reads `e^{- omega alpha / k_0}` — missing the `i`.
+%   (4) Applying int alpha^{-5/3} e^{-p alpha} d alpha = p^{2/3} Gamma(-2/3, p a) with p = i omega/k_0
+%       leaves an overall factor (i omega/k_0)^{2/3} that is absent in line 3.
 For Eq.~\eqref{Decaying 0 to infty}:
 \begin{align}
     \tilde{F}_{ij}(k,\omega)
@@ -1068,6 +1153,13 @@ g_1(\bm{k},\omega) = \frac{E_0 }{6\pi k^4}
     \right]
 \end{equation}
 and
+% FLAG: This g_2 contains an extra factor (i omega / k_0)^{8/3} that is not present
+% in the tilde F_{ij} computed above (line ~\eqref{Decaying 0 to infty} block).
+% Either the FT line for tilde F_{ij} is missing this factor (consistent with item (4)
+% in the earlier FLAG: applying the standard identity yields (i omega/k_0)^{2/3}, not 8/3),
+% or g_2 was constructed by combining tilde F_{ij} with additional spectral factors
+% that should be made explicit. Trace the bookkeeping; the 8/3 power propagates into the
+% final integral below.
 \begin{equation}
 g_2(\bm{k},\omega) = \frac{E_0}{8\pi k^2k_0^2}
 \left(\frac{i \omega}{k_0}\right)^{\frac{8}{3}}
@@ -1148,6 +1240,9 @@ The dimensionless spectral functions are
     i(q-q_1)(1+y)\right).
 \end{equation}
 
+% FLAG: The product g_1(z,q_1) * g_1(y, q-q_1) on lines ~\eqref{...} above
+% carries TWO exponentials: e^{-i q_1/z} AND e^{-i (q-q_1)/y}. Only the first
+% appears in the integrand below; the second is missing.
 For Eq.~\eqref{Decaying k_0 to infty}, the fully dimensionless integral is
 \begin{align}
     H_{ijij}(p,q)
@@ -1178,6 +1273,12 @@ For Eq.~\eqref{Decaying k_0 to infty}, the fully dimensionless integral is
     \right].
 \end{align}
 
+% FLAG: Duplicated prefactor. The spherical-measure factor pi k_0^4 / (3p) is
+% already implicit in the convolution H_{ijij}(p,q) = (pi k_0^4 / (3p)) * int dz z dy y dq_1 g g K
+% from the dimensionless form above; multiplying by it AGAIN here double-counts.
+% Working from g_2(z,q_1) g_2(y, q-q_1) and that measure, the prefactor is
+% E_0^2 / (192 pi p k_0^4), with no extra pi k_0^4 / (3p). Current expression gives
+% E_0^2 / (576 p^2 k_0^0) — wrong scaling in p and missing the k_0^4.
 For Eq.~\eqref{Decaying 0 to infty}:
 \begin{align}
     H_{ijij}(p,q)
