@@ -72,18 +72,12 @@ Carnegie Mellon University, Pittsburgh, PA 15213, USA}
 \affiliation{School of Natural Sciences and Medicine, Ilia State University, 0194 Tbilisi, Georgia}
 \affiliation{Abastumani Astrophysical Observatory, Tbilisi, GE-0179, Georgia}
 
-\begin{abstract}
-Derivation of the equations used in the literature.
-\end{abstract}
 
 \maketitle
 
 \tableofcontents
 
 \section{Kraichnan--K41 Model (Gogoberidze 2007)}
-% Inertial-range Kolmogorov energy spectrum with Kraichnan sweeping decorrelation.
-% Derives H_{ijij}(k, omega) for k > k_0 (Sec 1.1), recasts in Gogoberidze (2007)
-% Appendix~A form (Sec 1.2), then takes the IR limit k -> 0 (Sec 1.3).
 
 We adopt the spatial Fourier pair
 \begin{align}
@@ -123,16 +117,7 @@ Equation~28 of \cite{2007Gogoberidze} gives
     \right ).
 \end{equation}
 
-We substitute the spatial transforms for each product explicitly:
-\begin{align}
-R_{ii}(\br,\tau)R_{jj}(\br,\tau)
-&= \int \frac{d^3q}{(2\pi)^3} \frac{d^3p}{(2\pi)^3}
-e^{i(\bq+\bp)\cdot \br} F_{ii}(\bq,\tau) F_{jj}(\bp,\tau), \label{eq: Rijij-term1} \\
-R_{ij}(\br,\tau)R_{ij}(\br,\tau)
-&= \int \frac{d^3q}{(2\pi)^3} \frac{d^3p}{(2\pi)^3}
-e^{i(\bq+\bp)\cdot \br} F_{ij}(\bq,\tau) F_{ij}(\bp,\tau). \label{eq: Rijij-term2}
-\end{align}
-Inserting Eqs.~\eqref{eq: Rijij-term1}--\eqref{eq: Rijij-term2} into Eq.~\eqref{eq: main} yields
+
 \begin{align}
 H_{ijij}(\xb',\kb,\omega)
 &= \frac{1}{(2\pi)^{4}}\int d \tau d^3 \br \, e^{ i\omega \tau } e^{-i\kb \cdot \br}
@@ -258,7 +243,7 @@ The temporal Fourier transform of $f(\eta_k,\tau) = \exp(-\frac{\pi}{4}\eta_k^2\
 Using $A(k) = C_k\epsilon^{2/3}k^{-11/3}/4\pi$ and $\eta_k = \frac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3}$ from \cite{2007Gogoberidze}, the combined factor is
 \begin{equation}
 g(k,\omega) \equiv A(k)\,\tf(\eta_k,\omega)
-= \frac{2E_k}{k^2\eta_k}\exp\!\left(-\frac{\omega^2}{\pi\eta_k^2}\right),
+= \frac{2E_k}{4 \pi k^2\eta_k}\exp\!\left(-\frac{\omega^2}{\pi\eta_k^2}\right),
 \end{equation}
 where $E_k = C_k\epsilon^{2/3}k^{-5/3}$.
 % FLAG: Prefactor check. With A(k) = E_k/(4 pi k^2) (line ~104) and
@@ -269,7 +254,8 @@ where $E_k = C_k\epsilon^{2/3}k^{-5/3}$.
 % whereas direct substitution gives g = (1/sqrt(2 pi)) C_k eps^{1/3} k^{-13/3} ....
 % The 4 pi discrepancy then propagates into the overall prefactor of H_{ijij} below
 % (C_k^2 eps / (16 pi^6) k^{-5}). Cross-check against Gogoberidze (2007) Eq.(31)/(A2)
-% conventions to confirm which normalization of A(k) is intended.
+% conventions to confirm which normalization of A(k) is intended. 
+% MG: Good catch correct the rest of the  notebook 
 Explicitly introducing integration bounds:
 \begin{align}
     H_{ijij}(\xb',\kb,\omega) =
@@ -604,192 +590,6 @@ y_{\min} = \max((x^{-3/4} + p)^{-4/3}, R^{-1}).
 \end{equation}
 
 
-\subsection{$\kb \leq \kb_0$}
-
-% FLAG: Dimensional consistency problem. The prefactor C_k^2 eps k^{-5} and the
-% dimensionless variables q = k_1/k, Omega = omega/(eps^{1/3} k^{2/3}) all DIVERGE
-% at k = 0, yet this subsection claims to evaluate H_{ijij} at k = 0. Two options:
-%   (a) reinterpret the result as the leading small-k behaviour with k > 0 small
-%       (so q can still range over (0, infty)), or
-%   (b) re-derive with k_0 (outer scale) as the dimensional normalization, replacing
-%       q -> k_1/k_0 and Omega -> omega/(eps^{1/3} k_0^{2/3}).
-% Option (b) makes the section title literally correct; option (a) is what the text
-% currently does and should be relabeled "k -> 0 limit" or "low-k expansion".
-%
-% FLAG: The IR-spectrum substitution that is announced in the first sentence
-% (E ~ k^2 or k^4) never actually happens — the derivation keeps using A(k) from
-% the K41 inertial-range form. If the intention is a Saffman/Batchelor-style IR
-% asymptotic, the integrand near k_1 = 0 needs to switch spectra.
-To account for the case $k = 0$, one substitutes the appropriate infrared spectrum ($E \propto k^2$ or $E \propto k^4$ depending on the flow structure). We start from Eq.~\eqref{eq: H-with-P}.
-
-At $k = 0$ we have $k_1 = u$, so the equation takes the form:
-
-\begin{align}
-    H_{ijij}(\xb',\kb=0,\omega)
-&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
-g(k_1,\omega_1)\,g(k_1,\omega-\omega_1) \times \left[ \frac{14}{3} \right].
-\end{align}
-
-Using the definition
-\begin{equation}
-g(k,\omega)
-= \frac{2E_k}{k^2\eta_k}
-\exp\!\left(-\frac{\omega^2}{\pi\eta_k^2}\right)
-= 2\sqrt{2\pi}\,C_k\,\epsilon^{1/3}\,k^{-13/3}
-\exp\!\left(-2\Omega^2\right),
-\qquad
-\Omega \equiv \frac{\omega}{\epsilon^{1/3}k^{2/3}},
-\end{equation}
-we introduce the dimensionless variables
-\begin{equation}
-q \equiv \frac{k_1}{k},
-\qquad
-\Omega_1 \equiv \frac{\omega_1}{\epsilon^{1/3}k^{2/3}},
-\end{equation}
-so that
-\begin{equation}
-d^3k_1 = k^3 q^2\,dq\,d\Omega_1,
-\qquad
-d\omega_1 = \epsilon^{1/3}k^{2/3}\,d\Omega_1.
-\end{equation}
-
-Substituting into
-\begin{equation}
-H_{ijij}(\xb',\kb=0,\omega)
-= \frac{14}{3(2\pi)^8}
-\int d^3k_1 \int d\omega_1\;
-g(k_1,\omega_1)\,g(k_1,\omega-\omega_1),
-\end{equation}
-and collecting all dimensional factors, we obtain
-\begin{equation}
-H_{ijij}(\xb',\kb=0,\omega)
-= \frac{14}{3}\,
-\frac{C_k^2\,\epsilon}{16\pi^6}\,k^{-5}\,
-\mathfrak{H}_0(\Omega),
-\end{equation}
-where the dimensionless function $\mathfrak{H}_0$ is given by
-\begin{equation}
-\mathfrak{H}_0(\Omega)
-=
-\int_{0}^{\infty} dq\; q^{-7/3}
-\int_{-\infty}^{\infty} d\Omega_1\;
-\exp\!\left(-2\Omega_1^2 q^{-4/3}\right)
-\exp\!\left(-2(\Omega-\Omega_1)^2 q^{-4/3}\right).
-\end{equation}
-
-In this form the integral is manifestly dimensionless, and all dependence on
-the physical scales $\epsilon$ and $k$ is contained in the overall prefactor
-$C_k^2\,\epsilon\,k^{-5}$.
-
-% =====================================================================
-% NOTE: The section that follows ("Dimensionless Form of the Decaying Spectrum")
-% is a preliminary derivation that is fully superseded by the consolidated
-% treatment in Sec. "Analytic k-Dependent Decaying Energy Spectra" below.
-% Differences:
-%   - uses MathFrak kernel `mathfrak K` = 6 * (`mathcal K` from Sec. 1) with a
-%     compensating 1/6 prefactor
-%   - uses the wv_1^2 / tau_1 parameterization rather than the E_0 / k_0 model
-%     in Sec. 4
-%   - the (2 pi)^8 Fourier-bookkeeping factor that appears in Sec. 1 is
-%     unaccounted for here
-% Hidden from the PDF via the `comment` environment so the source is preserved
-% as a record. To restore it, remove the surrounding \begin{comment}/\end{comment}.
-% TODO: salvage anything from this block that is NOT already in Sec. 4 before
-% finally deleting it.
-% =====================================================================
-\begin{comment}
-\section{Dimensionless Form of the Decaying Spectrum}
-
-Our integral begins as
-
-\begin{equation}
-    H_{ijij}(\bm{k},\omega) =
-    \frac{1}{6}\int d^3k_1\,d\omega_1\; g(\bm{k_1},\omega_1)\,g(\bm{k}-\bm{k_1},\omega -\omega_1)\, \mathfrak{K},
-\end{equation}
-
-where
-\begin{equation}
-    \mathfrak{K}=\left[ 27-\frac{k^2}{k_1^2}+\frac{k^4}{2k^2_1u^2}+\frac{k_1^2}{2u^2}-\frac{k^2}{u^2}+\frac{u^2}{2k^2_1} \right]
-\end{equation}
-
-with $u=|\bm{k}-\bm{k_1}|$ and
-\begin{equation}
-    g(\bm{k},\omega) = \frac{\text{w}v_1^2}{8\pi k^2} \tau_1^2e^{i\omega\tau_1}(-i\omega\tau_1)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-i\omega\tau_1\right).
-\end{equation}
-
-Separating the $k$ dependence from the $\omega$ dependence:
-\begin{equation}
-    g(\bm{k},\omega) = \frac{\text{w}v_1^2}{8\pi k^2} \tau_1^2\, \hat{g}(\omega),
-    \qquad
-    \hat{g}(\omega)=e^{i\omega\tau_1}(-i\omega\tau_1)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-i\omega\tau_1\right).
-\end{equation}
-Substituting $q=\omega \tau_1$ (and $q_1=\omega_1 \tau_1$, $dq=\tau_1\,d\omega$):
-\begin{equation}
-     \hat{g}(q)=e^{iq}(-iq)^{-\frac{5}{3}}\Gamma\left(\frac{1}{3},-iq\right).
-\end{equation}
-
-Using these substitutions:
-\begin{equation}
-    H_{ijij}(\bm{k},q) =
-    \frac{1}{6}\int d^3k_1\,dq_1 \frac{1}{\tau_1}\frac{\text{w}v_1^2\tau_1^2}{8\pi k^2_1} \frac{\text{w}v_1^2\tau_1^2}{8\pi u^2}\, \hat{g}(q_1)\,\hat{g}(q -q_1)\, \mathfrak{K}.
-\end{equation}
-
-Letting $A=\frac{\text{w}^2v_1^4\tau_1^3}{384\pi^2}$:
-\begin{equation}
-    H_{ijij}(\bm{k},q) =
-    A \int^\infty_0dk_1 \int^{2\pi}_0d\phi_1 \int^\pi_0d\theta_1\, k_1^2\sin{\theta_1} \int_0^\infty dq_1\,
-     \frac{\mathfrak{K}}{k_1^2u^2}
-     \cdot \hat{g}(q_1)\,\hat{g}(q-q_1).
-\end{equation}
-
-Assuming isotropic turbulence, we align the $\theta_1=0$ axis with $\bm{k}$, so the $\phi_1$ integral gives $2\pi$. Using the cosine law $u = \sqrt{k_1^2+k^2-2k_1k \cos{\theta_1}}$ and changing variables to $u$:
-\begin{equation}
-    du = \frac{k_1k}{u}\sin{\theta_1}\,d\theta_1,
-\end{equation}
-with bounds $\theta_1=0 \to |k_1-k|$ and $\theta_1=\pi \to k_1+k$:
-\begin{equation}
-    H_{ijij}(k,q) =
-    2\pi A \int^\infty_0dk_1  \int^{k+k_1}_{|k-k_1|}du\, \frac{\mathfrak{K}}{kk_1u}\int_0^\infty dq_1\,
-      \hat{g}(q_1)\,\hat{g}(q-q_1).
-\end{equation}
-
-We introduce the following dimensionless variables:
-\begin{equation}
-    R^\frac{3}{4}=\frac{k_d}{k_0}, \quad \frac{u}{k_0}=y, \quad \frac{k_1}{k_0} = z, \quad \frac{k}{k_0} = p, \quad \frac{\omega}{k_0}=\omega \tau_1 =q, \quad
-    \frac{\omega_1}{k_0}=\omega_1 \tau_1 =q_1.
-\end{equation}
-
-In these variables,
-\begin{equation}
-    \mathfrak{K}=\left[
-    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} +
-    \frac{z^2}{2y^2}
-    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
-    \right],
-\end{equation}
-\begin{equation}
-    dk_1 = k_0\,dz, \quad du = k_0\,dy,
-\end{equation}
-and the integration bounds transform as
-\begin{equation}
-    k_1+k \to p+z, \quad |k_1-k| \to |p-z|,
-    \quad k_d \to R^{\frac{3}{4}}, \quad k_0 \to 1.
-\end{equation}
-
-Finally:
-\begin{equation}
-    H_{ijij}(p,q) =
-    2\pi Ak_0 \int^{R^\frac{3}{4}_{\vphantom{Y}}}_{1}dz  \int^{\min(R^\frac{3}{4},p+z)}_{\max(1,|p-z|)}dy\, \frac{1}{pyz}\left[
-    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} +
-    \frac{z^2}{2y^2}
-    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
-    \right]\int_0^\infty dq_1\,
-      \hat{g}(q_1)\,\hat{g}(q-q_1).
-\end{equation}
-\end{comment}
-% =====================================================================
-% END of hidden preliminary section.
-% =====================================================================
 
 \section{Monochromatic and White-Noise Spectra}
 
@@ -1036,19 +836,12 @@ $\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector 
 \end{center}
 
 \section{Self-Similar Decaying Spectra}
-% Consolidated treatment of decaying-turbulence energy spectra. Two candidate
-% self-similar forms are considered; the temporal FT, spectral tensor, and
-% dimensionless convolution form are worked out for each. (The earlier preliminary
-% derivation in the hidden "Dimensionless Form of the Decaying Spectrum" section
-% is superseded by what follows.)
+
 
 We seek a spectrum that, when integrated over $k$, gives
-% FLAG: Sign error in target decay law? `(1 - tau/tau_0)^{-2/3}` diverges as tau -> tau_0,
-% contradicting "decaying". The check on line ~"With tau_0 = 1/k_0" below recovers
-% `(1 + tau/tau_0)^{-2/3}` from the candidate spectra, so this label is almost certainly
-% supposed to be `(1 + tau/tau_0)^{-2/3}`.
+
 \begin{equation}
-    E_0 \left( 1-\frac{\tau}{\tau_0}\right) ^{-\frac{2}{3}}
+    E_0 \left( 1+\frac{\tau}{\tau_0}\right) ^{-\frac{2}{3}}
     \label{2/3 Energy Spectrum}
 \end{equation}
 and that follows the Kolmogorov $k^{-5/3}$ scaling for $k > k_0$.
@@ -1088,6 +881,7 @@ The spectral tensor and its Fourier transform are
 %       (-ik/omega)^{-2/3} and (-ik/omega)^{-5/3} should be (i omega/k)^{-1/3} and (i omega/k)^{+2/3}.
 %   Sanity check: as omega -> 0, F(tau) ~ tau * tau^{-5/3} = tau^{-2/3} is not integrable,
 %   so tilde F should DIVERGE at omega = 0. The current expression goes to ZERO instead.
+% MG : Pick earlier fourier convetion to be correct and stick to it updte here 
 For Eq.~\eqref{Decaying k_0 to infty}:
 \begin{align}
     \tilde{F}_{ij}(k,\omega)
@@ -1118,6 +912,7 @@ For Eq.~\eqref{Decaying k_0 to infty}:
 %   (3) The integrand on line 2 reads `e^{- omega alpha / k_0}` — missing the `i`.
 %   (4) Applying int alpha^{-5/3} e^{-p alpha} d alpha = p^{2/3} Gamma(-2/3, p a) with p = i omega/k_0
 %       leaves an overall factor (i omega/k_0)^{2/3} that is absent in line 3.
+%MG : Correct Fourier convetions and rest of mistakes 
 For Eq.~\eqref{Decaying 0 to infty}:
 \begin{align}
     \tilde{F}_{ij}(k,\omega)
@@ -1160,6 +955,7 @@ and
 % or g_2 was constructed by combining tilde F_{ij} with additional spectral factors
 % that should be made explicit. Trace the bookkeeping; the 8/3 power propagates into the
 % final integral below.
+% MG : update assuming previous deffionotions are correct 
 \begin{equation}
 g_2(\bm{k},\omega) = \frac{E_0}{8\pi k^2k_0^2}
 \left(\frac{i \omega}{k_0}\right)^{\frac{8}{3}}
@@ -1279,6 +1075,7 @@ For Eq.~\eqref{Decaying k_0 to infty}, the fully dimensionless integral is
 % Working from g_2(z,q_1) g_2(y, q-q_1) and that measure, the prefactor is
 % E_0^2 / (192 pi p k_0^4), with no extra pi k_0^4 / (3p). Current expression gives
 % E_0^2 / (576 p^2 k_0^0) — wrong scaling in p and missing the k_0^4.
+% MG : self simular part seemt to be making some major mistakes Lets delti it and start over form scratch 
 For Eq.~\eqref{Decaying 0 to infty}:
 \begin{align}
     H_{ijij}(p,q)
