@@ -87,7 +87,7 @@ def g_decaying(z):
 
 @lru_cache(maxsize=1024)
 def _g_decaying_scalar(z: complex) -> complex:
-    # For E(t) ∝ (1 + t/tau_1)^(-2/3) with t >= 0 and Fourier convention
+    # For E(t) \propto  (1 + t/tau_1)^(-2/3) with t >= 0 and Fourier convention
     # exp(-i omega t), derivation.tex gives
     # g(q) = exp(i q) * (-i q)^(-5/3) * Gamma(1/3, -i q),
     # where Gamma(1/3, -i q) is the lower incomplete gamma.
@@ -563,7 +563,7 @@ def H_k0_analytic(q, M: float = 1.0, k0: float = 1.0, R: float = 1e4):
     return output
 
 
-# ── Delta-k (monochromatic E = E0 * delta(k - k0)) models ──────────────────
+# -- Delta-k (monochromatic E = E0 * delta(k - k0)) models ------------------
 
 
 def K0_p(p: float) -> float:
@@ -645,7 +645,7 @@ def H_delta_k_decay(
     return K0_p(p) / p * _temporal_conv_decay(q, n_points=n_points)
 
 
-# ── White-noise (R_ij ∝ delta^3(r)) models ─────────────────────────────────
+# -- White-noise (R_ij \propto  delta^3(r)) models ---------------------------------
 
 
 def kernel_bracket_zy(p: float, z: float, y: float) -> float:
@@ -738,7 +738,7 @@ def H_white_decay(
     return spatial * temporal
 
 
-# ── Grid helpers for new models ─────────────────────────────────────────────
+# -- Grid helpers for new models ---------------------------------------------
 
 
 def H_delta_k_kraichnan_grid(ps, Omegas) -> np.ndarray:
