@@ -246,16 +246,6 @@ g(k,\omega) \equiv A(k)\,\tf(\eta_k,\omega)
 = \frac{2E_k}{4 \pi k^2\eta_k}\exp\!\left(-\frac{\omega^2}{\pi\eta_k^2}\right),
 \end{equation}
 where $E_k = C_k\epsilon^{2/3}k^{-5/3}$.
-% FLAG: Prefactor check. With A(k) = E_k/(4 pi k^2) (line ~104) and
-% tilde f(eta_k, omega) = (2/eta_k) exp(-omega^2/(pi eta_k^2)), the product gives
-%   g = A(k) tilde f = E_k / (2 pi k^2 eta_k) exp(-2 Omega^2).
-% Eq. below states g = 2 E_k / (k^2 eta_k) exp(...), which is 4 pi times larger.
-% Equivalently in the closed form below, g = (2 sqrt(2 pi)) C_k eps^{1/3} k^{-13/3} ...,
-% whereas direct substitution gives g = (1/sqrt(2 pi)) C_k eps^{1/3} k^{-13/3} ....
-% The 4 pi discrepancy then propagates into the overall prefactor of H_{ijij} below
-% (C_k^2 eps / (16 pi^6) k^{-5}). Cross-check against Gogoberidze (2007) Eq.(31)/(A2)
-% conventions to confirm which normalization of A(k) is intended. 
-% MG: Good catch correct the rest of the  notebook 
 Explicitly introducing integration bounds:
 \begin{align}
     H_{ijij}(\xb',\kb,\omega) =
@@ -345,14 +335,14 @@ s \in \bigl[|1-q|,\,1+q\bigr].
 Using the explicit form of $g(k,\omega)$,
 \begin{equation}
 g(k,\omega)
-= 2\sqrt{2\pi}\,C_k\,\epsilon^{1/3}\,k^{-13/3}
+= \frac{1}{\sqrt{2\pi}}\,C_k\,\epsilon^{1/3}\,k^{-13/3}
 \exp\!\left(-2\Omega^{2}\right),
 \end{equation}
 the product $g(k_{1},\omega_{1})g(u,\omega-\omega_{1})$ factorizes into an overall
 dimensional prefactor and a purely dimensionless Gaussian,
 \begin{align}
 g(k_{1},\omega_{1})g(u,\omega-\omega_{1})
-&= 8\pi\,C_k^{2}\,\epsilon^{2/3}\,k^{-26/3}\,
+&= \frac{1}{2\pi}\,C_k^{2}\,\epsilon^{2/3}\,k^{-26/3}\,
 q^{-13/3}s^{-13/3}
 \nonumber\\
 &\times
@@ -363,7 +353,7 @@ q^{-13/3}s^{-13/3}
 Collecting all dimensional factors, the correlator takes the scaling form
 \begin{equation}
 H_{ijij}(\xb',\kb,\omega)
-= \frac{C_k^{2}\,\epsilon}{16\pi^{6}}\,k^{-5}\,
+= \frac{C_k^{2}\,\epsilon}{256\pi^{8}}\,k^{-5}\,
 \mathfrak{H}(\Omega),
 \end{equation}
 where the entire dependence on physical scales has been absorbed into the
@@ -643,6 +633,18 @@ The geometric kernel at $k_1=u=k_0$ evaluates as (using $p=k/k_0$)
   \label{eq:K0}
 \end{equation}
 Collecting Eqs.~\eqref{eq:k1-delta}--\eqref{eq:K0} in Eq.~\eqref{eq: H-with-P},
+% FLAG: 4 pi error in the dimensional prefactor below.
+% From Eq.~\eqref{eq:k1-delta}: int k_1^2 dk_1 A(k_1) = E_0/(4 pi).
+% From Eq.~\eqref{eq:angular-delta}: 2 pi int d mu A(u) = E_0/(2 k k_0^2) * Theta(2-p).
+% Product: int d^3 k_1 A(k_1) A(u) K = E_0^2 K_0(p) Theta(2-p) / (8 pi k k_0^2).
+% Together with 1/(2 pi)^8 from Eq.~\eqref{eq: H-with-P}, the correct prefactor
+% reads E_0^2 Theta / (8 pi (2 pi)^8 k k_0^2). The displayed form has 1/2 in
+% place of 1/(8 pi) — 4 pi too large. The compound error propagates into
+% Eq.~\eqref{eq:H-delta-Kraichnan} below as an 8 pi overstatement (an extra
+% factor of 2 also enters the pi/(2 pi)^8 -> 1/(2 pi)^7 simplification there).
+% The boxed dimensionless mathfrak{H} in Eq.~\eqref{eq:dimless-delta-Kraichnan}
+% is unaffected — it is the shape only, with the dimensional prefactor
+% (whichever value) stripped off.
 \begin{equation}
   H_{ijij}(\kb,\omega)
   = \frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,kk_0^2}\;
@@ -835,272 +837,7 @@ $\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector 
 \end{tabular}
 \end{center}
 
-\section{Self-Similar Decaying Spectra}
 
-
-We seek a spectrum that, when integrated over $k$, gives
-
-\begin{equation}
-    E_0 \left( 1+\frac{\tau}{\tau_0}\right) ^{-\frac{2}{3}}
-    \label{2/3 Energy Spectrum}
-\end{equation}
-and that follows the Kolmogorov $k^{-5/3}$ scaling for $k > k_0$.
-
-Two simple candidates are:
-\begin{equation}
-    E_k(\tau,k)=\frac{2}{3}\tau E_0(1+k\tau)^{-\frac{5}{3}}
-    \label{Decaying k_0 to infty}
-\end{equation}
-\begin{equation}
-    E_k(\tau,k)=\frac{2}{3k_0} E_0\left(1+\frac{\tau}{\tau_0}+\frac{k}{k_0} \right)^{-\frac{5}{3}}.
-    \label{Decaying 0 to infty}
-\end{equation}
-With $\tau_0=1/k_0$: Eq.~\eqref{Decaying k_0 to infty} integrated from $k_0$ to $\infty$ recovers Eq.~\eqref{2/3 Energy Spectrum}, and Eq.~\eqref{Decaying 0 to infty} integrated from $0$ to $\infty$ also recovers Eq.~\eqref{2/3 Energy Spectrum}.
-
-The spectral tensor and its Fourier transform are
-\begin{equation}
-    F_{ij}(k,\tau) = \frac{E_k(k,\tau)}{4\pi k^2}P_{ij}(\hat{k}),
-    \qquad
-    \tilde{F}_{ij}(k,\omega) = \frac{\tilde{E}_k(k,\omega)}{4\pi k^2}P_{ij}(\hat{k}).
-\end{equation}
-
-% FLAG: Fourier convention drift. Section 1 (line ~91-93) defines the forward
-% temporal transform with `e^{+i omega tau}`. Here Sec. 4 uses `e^{-i omega tau}`.
-% Pick one convention globally and adjust signs accordingly.
-%
-% FLAG: Two errors in the result on lines below.
-%   (1) The substitution alpha = 1 + k*tau gives
-%         e^{-i omega tau} = e^{-i omega (alpha-1)/k} = e^{-i omega alpha/k} * e^{+i omega/k}
-%       so the extracted exponential should be `e^{+i omega/k}`, NOT `e^{-i omega/k}`.
-%   (2) Using the standard identity
-%         int_a^infty alpha^{s-1} e^{-p alpha} d alpha = p^{-s} Gamma(s, p a),
-%       with p = i omega/k, the two alpha-integrals give
-%         int alpha^{-2/3} e^{-i omega alpha/k} d alpha = (i omega/k)^{-1/3} Gamma(1/3, ...)
-%         int alpha^{-5/3} e^{-i omega alpha/k} d alpha = (i omega/k)^{+2/3} Gamma(-2/3, ...)
-%       The bracket below has an extra overall factor (i omega/k)^2 — i.e. the powers
-%       (-ik/omega)^{-2/3} and (-ik/omega)^{-5/3} should be (i omega/k)^{-1/3} and (i omega/k)^{+2/3}.
-%   Sanity check: as omega -> 0, F(tau) ~ tau * tau^{-5/3} = tau^{-2/3} is not integrable,
-%   so tilde F should DIVERGE at omega = 0. The current expression goes to ZERO instead.
-% MG : Pick earlier fourier convetion to be correct and stick to it updte here 
-For Eq.~\eqref{Decaying k_0 to infty}:
-\begin{align}
-    \tilde{F}_{ij}(k,\omega)
-    &= \frac{P_{ij}(\hat{k})}{4\pi k^2}\int^\infty_{\tau_0}
-    d\tau\, e^{-i\omega\tau} \frac{2}{3}\tau E_0
-    (1+k\tau)^{-\frac{5}{3}} \nonumber\\
-    &= \frac{P_{ij}(\hat{k}) E_0}{6\pi k^4}
-    e^{-i\frac{\omega}{k}} \int^\infty_{1+k\tau_0}
-    e^{-i\omega \alpha/k}
-    \left(\alpha^{-\frac{2}{3}}-\alpha^{-\frac{5}{3}}\right)d\alpha \nonumber\\
-    &= \frac{P_{ij}(\hat{k}) E_0 }{6\pi k^4}
-    e^{-i\frac{\omega}{k}}\left(\frac{i\omega}{k}\right)
-    \left[\left(-\frac{ik}{\omega}\right)^{-\frac{2}{3}}
-    \Gamma \left( \frac{1}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
-    -\left(-\frac{ik}{\omega}\right)^{-\frac{5}{3}}
-    \Gamma \left( -\frac{2}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
-    \right].
-\end{align}
-
-% FLAG: Several issues in this block.
-%   (1) Prefactor: 1/(4 pi k^2) * 2 E_0 / (3 k_0) * 1/k_0 = E_0/(6 pi k^2 k_0^2),
-%       NOT E_0/(8 pi k^2 k_0^2). Off by factor 4/3.
-%   (2) Substituting alpha = 1 + tau/tau_0 + k/k_0 with tau_0 = 1/k_0 gives
-%         e^{-i omega tau} = e^{-i omega alpha/k_0} * e^{+i omega (1/k_0 + k/k_0^2)}
-%       so the extracted exponential should be `e^{+i omega (1/k_0 + k/k_0^2)}` —
-%       the sign of the k/k_0^2 term is wrong (and the leading sign is wrong too if
-%       Sec. 1's Fourier convention is used; see FLAG above on Eq.~\eqref{Decaying k_0 to infty}).
-%   (3) The integrand on line 2 reads `e^{- omega alpha / k_0}` — missing the `i`.
-%   (4) Applying int alpha^{-5/3} e^{-p alpha} d alpha = p^{2/3} Gamma(-2/3, p a) with p = i omega/k_0
-%       leaves an overall factor (i omega/k_0)^{2/3} that is absent in line 3.
-%MG : Correct Fourier convetions and rest of mistakes 
-For Eq.~\eqref{Decaying 0 to infty}:
-\begin{align}
-    \tilde{F}_{ij}(k,\omega)
-    &= \frac{P_{ij}(\hat{k})}{4\pi k^2}\int^\infty_{0}
-    d\tau\, e^{-i\omega\tau} \frac{2}{3k_0} E_0
-    \left(1+\frac{\tau}{\tau_0}+\frac{k}{k_0}\right)^{-\frac{5}{3}} \nonumber\\
-    &= \frac{P_{ij}(\hat{k})E_0}{8\pi k^2k_0^2} e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)}
-    \int^\infty_{1+\frac{k}{k_0}} d\alpha\,
-    e^{- \omega \alpha / k_0} \alpha^{-\frac{5}{3}} \nonumber\\
-    &= \frac{P_{ij}(\hat{k})E_0}{8\pi k^2k_0^2} e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)}
-    \Gamma \left(-\frac{2}{3},
-    i\frac{\omega}{k_0}+ i\frac{\omega k}{k_0^2}\right).
-\end{align}
-
-We put the integrals into the convolution form
-\begin{equation}
-    H_{ijij}(\bm{k},\omega) =
-    \frac{1}{6}\int d^3k_1\,d\omega_1\; g(\bm{k_1},\omega_1)\,g(\bm{k}-\bm{k_1},\omega -\omega_1)\, \mathfrak{K},
-\end{equation}
-where
-\begin{equation}
-    \mathfrak{K}=\left[ 27-\frac{k^2}{k_1^2}+\frac{k^4}{2k^2_1u^2}+\frac{k_1^2}{2u^2}-\frac{k^2}{u^2}+\frac{u^2}{2k^2_1} \right].
-\end{equation}
-
-Define
-\begin{equation}
-g_1(\bm{k},\omega) = \frac{E_0 }{6\pi k^4}
-    e^{-i\frac{\omega}{k}}\left(\frac{i\omega}{k}\right)
-    \left[\left(-\frac{ik}{\omega}\right)^{-\frac{2}{3}}
-    \Gamma \left( \frac{1}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
-    -\left(-\frac{ik}{\omega}\right)^{-\frac{5}{3}}
-    \Gamma \left( -\frac{2}{3}, i\frac{\omega}{k}+i\frac{\omega}{k_0}\right)
-    \right]
-\end{equation}
-and
-% FLAG: This g_2 contains an extra factor (i omega / k_0)^{8/3} that is not present
-% in the tilde F_{ij} computed above (line ~\eqref{Decaying 0 to infty} block).
-% Either the FT line for tilde F_{ij} is missing this factor (consistent with item (4)
-% in the earlier FLAG: applying the standard identity yields (i omega/k_0)^{2/3}, not 8/3),
-% or g_2 was constructed by combining tilde F_{ij} with additional spectral factors
-% that should be made explicit. Trace the bookkeeping; the 8/3 power propagates into the
-% final integral below.
-% MG : update assuming previous deffionotions are correct 
-\begin{equation}
-g_2(\bm{k},\omega) = \frac{E_0}{8\pi k^2k_0^2}
-\left(\frac{i \omega}{k_0}\right)^{\frac{8}{3}}
-e^{i\omega \left( \frac{1}{k_0}-\frac{k}{k_0^2} \right)}
-    \Gamma \left(-\frac{2}{3},
-    i\frac{\omega}{k_0}+ i\frac{\omega k}{k_0^2}\right).
-\end{equation}
-
-Expanding the integral in spherical coordinates and performing the $\phi_1$ and $\theta_1$ integrals (using isotropy to align with $\bm{k}$ and changing $\theta_1 \to u$):
-\begin{equation}
-    H_{ijij}(\bm{k},\omega) =
-    \frac{\pi}{3}\int^{k_d}_{k_0} dk_1
-    \int^{k_1+k}_{|k_1-k|} du\, \frac{uk_1}{k}
-    \int^\infty_0 d\omega_1\,
-    g(k_1,\omega_1)\,g(u,\omega -\omega_1)\, \mathfrak{K}.
-\end{equation}
-
-Making the integral dimensionless with
-\begin{equation}
-    R^\frac{3}{4}=\frac{k_d}{k_0}, \quad \frac{u}{k_0}=y, \quad \frac{k_1}{k_0} = z, \quad \frac{k}{k_0} = p, \quad \frac{\omega}{k_0}=\omega \tau_1 =q, \quad
-    \frac{\omega_1}{k_0}=\omega_1 \tau_1 =q_1,
-\end{equation}
-we get
-\begin{equation}
-    \mathfrak{K}=\left[
-    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} +
-    \frac{z^2}{2y^2}
-    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
-    \right],
-    \qquad
-    dk_1 = k_0\,dz, \quad du = k_0\,dy,
-\end{equation}
-with bounds
-\begin{equation}
-    k_1+k \to p+z, \quad |k_1-k| \to |p-z|,
-    \quad k_d \to R^{\frac{3}{4}}, \quad k_0 \to 1.
-\end{equation}
-
-\begin{equation}
-    H_{ijij}(p,q) =
-    \frac{\pi k_0^4}{3p}\int^{R^\frac{3}{4}}_{1} dz\, z
-    \int^{p+z}_{|p-z|} dy\, y
-    \int^\infty_0 dq_1\,
-    g(z,q_1)\,g(y,q-q_1)\, \mathfrak{K}.
-\end{equation}
-
-The dimensionless spectral functions are
-\begin{equation}
-    g_1(z,q_1) = \frac{E_0 }{6\pi k_0^4 z^4}
-    e^{-i\frac{q_1}{z}}
-    \left[\left(\frac{iq_1}{z}\right)^{\frac{5}{3}}
-    \Gamma \left( \frac{1}{3}, iq_1+i\frac{q_1}{z}\right)
-    -\left(\frac{iq_1}{z}\right)^{\frac{8}{3}}
-    \Gamma \left( -\frac{2}{3}, iq_1+i\frac{q_1}{z}\right)
-    \right],
-\end{equation}
-\begin{align}
-    g_1(y,q-q_1) &= \frac{E_0 }{6\pi k_0^4 y^4}
-    e^{-i\frac{q-q_1}{y}}
-    \left[\left(\frac{i(q-q_1)}{y}\right)^{\frac{5}{3}}
-    \Gamma \left( \frac{1}{3}, i(q-q_1)+i\frac{q-q_1}{y}\right)
-    -\left(\frac{i(q-q_1)}{y}\right)^{\frac{8}{3}}
-    \Gamma \left( -\frac{2}{3}, i(q-q_1)+i\frac{q-q_1}{y}\right)
-    \right],
-\end{align}
-\begin{equation}
- g_2(z,q_1) = \frac{E_0}{8\pi z^2 k_0^4}
- (iq_1)^\frac{8}{3}
- e^{iq_1(1+z)}
-    \Gamma \left(-\frac{2}{3},
-    iq_1(1+z)\right),
-\end{equation}
-\begin{equation}
- g_2(y,q-q_1) = \frac{E_0}{8\pi y^2 k_0^4}
- (iq-iq_1)^\frac{8}{3}
- e^{i(q-q_1)(1+y)}
-    \Gamma \left(-\frac{2}{3},
-    i(q-q_1)(1+y)\right).
-\end{equation}
-
-% FLAG: The product g_1(z,q_1) * g_1(y, q-q_1) on lines ~\eqref{...} above
-% carries TWO exponentials: e^{-i q_1/z} AND e^{-i (q-q_1)/y}. Only the first
-% appears in the integrand below; the second is missing.
-For Eq.~\eqref{Decaying k_0 to infty}, the fully dimensionless integral is
-\begin{align}
-    H_{ijij}(p,q)
-    =&\;
-    \frac{\pi E_0^2 }{108 \pi p k_0^4}\int^{R^\frac{3}{4}}_{1} dz\, \frac{1}{z^3}
-    \int^{p+z}_{|p-z|} dy\, \frac{1}{y^3}
-    \int^\infty_0 dq_1\,
-    e^{-i\frac{q_1}{z}}
-    \nonumber\\
-    &\times\left[
-        \left(\frac{iq_1}{z}\right)^{\frac{5}{3}}
-        \Gamma \left( \frac{1}{3}, iq_1+i\frac{q_1}{z}\right)
-        -\left(\frac{iq_1}{z}\right)^{\frac{8}{3}}
-        \Gamma \left( -\frac{2}{3}, iq_1+i\frac{q_1}{z}\right)
-    \right]
-    \nonumber\\
-    &\times\left[
-        \left(\frac{i(q-q_1)}{y}\right)^{\frac{5}{3}}
-        \Gamma \left( \frac{1}{3}, i(q-q_1)+i\frac{q-q_1}{y}\right)
-        -\left(\frac{i(q-q_1)}{y}\right)^{\frac{8}{3}}
-        \Gamma \left( -\frac{2}{3}, i(q-q_1)+i\frac{q-q_1}{y}\right)
-    \right]
-    \nonumber\\
-    &\times\left[
-    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} +
-    \frac{z^2}{2y^2}
-    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
-    \right].
-\end{align}
-
-% FLAG: Duplicated prefactor. The spherical-measure factor pi k_0^4 / (3p) is
-% already implicit in the convolution H_{ijij}(p,q) = (pi k_0^4 / (3p)) * int dz z dy y dq_1 g g K
-% from the dimensionless form above; multiplying by it AGAIN here double-counts.
-% Working from g_2(z,q_1) g_2(y, q-q_1) and that measure, the prefactor is
-% E_0^2 / (192 pi p k_0^4), with no extra pi k_0^4 / (3p). Current expression gives
-% E_0^2 / (576 p^2 k_0^0) — wrong scaling in p and missing the k_0^4.
-% MG : self simular part seemt to be making some major mistakes Lets delti it and start over form scratch 
-For Eq.~\eqref{Decaying 0 to infty}:
-\begin{align}
-    H_{ijij}(p,q)
-    =&\;
-    \frac{E_0^2 }{192 p\pi k_0^4 }
-    \frac{\pi k_0^4}{3p}
-    \int^{R^\frac{3}{4}}_{1} dz\, \frac{1}{z}
-    \int^{p+z}_{|p-z|} dy\, \frac{1}{y}
-    \int^\infty_0 dq_1\,
-    (iq_1)^\frac{8}{3}
-    e^{iq_1(1+z)}
-    \Gamma \left(-\frac{2}{3},
-    iq_1(1+z)\right)
-    \nonumber\\
-    &\times(iq-iq_1)^\frac{8}{3}
-    e^{i(q-q_1)(1+y)}
-    \Gamma \left(-\frac{2}{3},
-    i(q-q_1)(1+y)\right)
-    \nonumber\\
-    &\times\left[
-    27 -\frac{z^2}{p^2}+ \frac{p^4}{2z^2y^2} +
-    \frac{z^2}{2y^2}
-    - \frac{p^2}{y^2} + \frac{y^2}{2p^2}
-    \right].
-\end{align}
 
 \bibliography{bib}
 
