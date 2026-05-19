@@ -43,10 +43,25 @@ for the four BK2016 self-similar classes.
 
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from gw_turbulence.plot_style import (  # noqa: E402
+    FIGSIZES,
+    apply_max_ticks,
+    apply_paper_style,
+    pcolormesh_rasterized,
+    save_figure,
+)
+
+# numpy < 2.0 calls this np.trapz; keep one alias so the rest of the file works
+# on both old and new numpy releases.
+_trapz = getattr(np, "trapezoid", None) or np.trapz
 
 
 # ---------------------------------------------------------------------------
@@ -137,7 +152,7 @@ def G_random_phase(q: np.ndarray | float, sigma_max: float = 300.0, n: int = 800
     sig = np.linspace(0.0, sigma_max, n)
     weight = (1.0 + sig) ** (-4.0 / 3.0)
     # 2 Re int = 2 int cos(q sigma) (1+s)^{-4/3} ds
-    result = 2.0 * np.array([np.trapezoid(np.cos(qi * sig) * weight, sig) for qi in q])
+    result = 2.0 * np.array([_trapz(np.cos(qi * sig) * weight, sig) for qi in q])
     return result if result.size > 1 else float(result[0])
 
 
@@ -183,7 +198,7 @@ def Omega_GW(omega_grid, T_grid, model: str, **kwargs) -> np.ndarray:
     spec = np.zeros_like(omega_grid)
     for j, om in enumerate(omega_grid):
         H_vs_T = np.array([H_instant(om, T, model, **kwargs) for T in T_grid])
-        spec[j] = np.trapezoid(H_vs_T, T_grid)
+        spec[j] = _trapz(H_vs_T, T_grid)
     return spec
 
 
@@ -234,55 +249,100 @@ def scan_f_peak(
 # Plot helpers
 # ---------------------------------------------------------------------------
 
-def plot_kernels(savepath: str | None = None):
+def plot_kernels(name: str = "f_peak_kernels"):
     qs = np.linspace(-5, 5, 600)
     GA = G_random_phase(qs)
     GB = G_coherent(qs, alpha=0.15)
-    fig, ax = plt.subplots(figsize=(8, 4.5))
-    ax.plot(qs, GA, label=r"Model A: random-phase BK2016")
-    ax.plot(qs, GB, label=r"Model B: coherent eddy ($\alpha=0.15$)")
+    fig, ax = plt.subplots(figsize=FIGSIZES["small"])
+    ax.plot(qs, GA, label=r"Model A")
+    ax.plot(qs, GB, label=r"Model B")
     ax.axvline( 2, color="0.6", ls=":", lw=1.0)
     ax.axvline(-2, color="0.6", ls=":", lw=1.0)
-    ax.set_xlabel(r"$q = \omega\,\tau_e(T)$")
+    ax.set_xlabel(r"$q$")
     ax.set_ylabel(r"$\mathcal{G}(q)$")
-    ax.set_title("Dimensionless temporal kernel  $\\mathcal{G}(q) = \\widehat{R^2}(q)$")
     ax.legend()
-    plt.tight_layout()
-    if savepath:
-        plt.savefig(savepath, dpi=130, bbox_inches="tight")
-    return fig
+    apply_max_ticks(ax)
+    return save_figure(fig, name)
+
+
+def plot_spectra_at_tau(
+    cls: DecayClass,
+    tau_star: float,
+    M0_list: np.ndarray,
+    name: str,
+    *,
+    kp0: float = 1.0,
+    T_em_in_tau: float = 5.0,
+    n_omega: int = 200,
+    n_T: int = 80,
+    omega_lo: float = 1e-3,
+    omega_hi: float = 3e1,
+    alpha_coherent: float = 0.15,
+):
+    """Full ``omega * Omega_GW(omega)`` spectrum at fixed tau_*, Mach overlay.
+
+    For each ``M_0`` in ``M0_list`` two curves are drawn: Model A solid, Model B
+    dotted. Curves at the same Mach share a color from the Okabe-Ito palette.
+    """
+    omega_grid = np.logspace(np.log10(omega_lo), np.log10(omega_hi), n_omega)
+    T_em = T_em_in_tau * tau_star
+    T_grid = np.linspace(0.0, T_em, n_T)
+
+    fig, ax = plt.subplots(figsize=FIGSIZES["small"])
+    for j, M0 in enumerate(M0_list):
+        u0 = u0_from_mach(M0, kp0=kp0, tau_star=tau_star, p=cls.p)
+        color = f"C{j}"
+        for model, ls in (("A", "-"), ("B", ":")):
+            spec = Omega_GW(
+                omega_grid, T_grid, model,
+                u0=u0, kp0=kp0, tau_star=tau_star,
+                p=cls.p, q=cls.q, alpha_coherent=alpha_coherent,
+            )
+            mach_label = rf"$M_0 = {M0:g}$" if model == "A" else None
+            ax.loglog(omega_grid, omega_grid * spec,
+                      color=color, linestyle=ls, label=mach_label)
+
+    # Two legends: colour = Mach, line style = model.
+    mach_legend = ax.legend(loc="upper right", title=r"")
+    ax.add_artist(mach_legend)
+    style_handles = [
+        plt.Line2D([], [], color="black", linestyle="-",  label="Model A"),
+        plt.Line2D([], [], color="black", linestyle=":",  label="Model B"),
+    ]
+    ax.legend(handles=style_handles, loc="lower left")
+
+    ax.set_xlabel(r"$\omega$")
+    ax.set_ylabel(r"$\omega\,\Omega_{\rm GW}(\omega)$")
+    ax.set_title(rf"{cls.name}: $\tau_\ast = {tau_star:g}$")
+    apply_max_ticks(ax)
+    return save_figure(fig, name)
 
 
 def plot_scan(peaks: np.ndarray, tau_grid: np.ndarray, M0_grid: np.ndarray,
-              cls: DecayClass, model: str, savepath: str | None = None):
-    fig, ax = plt.subplots(figsize=(7.5, 5.5))
-    pcm = ax.pcolormesh(
-        M0_grid, tau_grid, peaks,
-        shading="auto", cmap="viridis", norm="log",
+              cls: DecayClass, model: str, name: str):
+    fig, ax = plt.subplots(figsize=FIGSIZES["small"])
+    pcm = pcolormesh_rasterized(
+        ax, M0_grid, tau_grid, peaks,
+        cmap="viridis", norm="log",
     )
     cb = fig.colorbar(pcm, ax=ax)
-    cb.set_label(r"$f_{\rm peak}^{\rm GW}\,[k_{p,0}]$  (units of $k_{p,0}/(2\pi)$)")
+    cb.set_label(r"$f_{\rm peak}^{\rm GW}$")
     ax.set_xscale("log")
     ax.set_yscale("log")
-    ax.set_xlabel(r"initial Mach $M_0 = (p\,u_0^2 / 2\tau_\ast k_{p,0})^{1/3}$")
-    ax.set_ylabel(r"decay time $\tau_\ast\,[k_{p,0}^{-1}]$")
-    ax.set_title(
-        f"{cls.name}  ($q={cls.q:.3f}$, $p={cls.p:.3f}$, $\\beta={cls.beta:.0f}$)\n"
-        f"Model {model}"
-    )
-    plt.tight_layout()
-    if savepath:
-        plt.savefig(savepath, dpi=130, bbox_inches="tight")
-    return fig
+    ax.set_xlabel(r"$M_0$")
+    ax.set_ylabel(r"$\tau_\ast$")
+    apply_max_ticks(ax)
+    return save_figure(fig, name)
 
 
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
-def main():
-    out_dir = "Notebooks"
-    plot_kernels(savepath=f"{out_dir}/f_peak_kernels.pdf")
+def main_heatmaps():
+    apply_paper_style()
+    out = plot_kernels()
+    print(f"saved {out}")
 
     tau_grid = np.logspace(-1, 1, 6)   # 6 decay times
     M0_grid  = np.logspace(-1.5, 0.5, 7)  # 7 Mach values (0.03 to 3.2)
@@ -291,12 +351,37 @@ def main():
         for model in ("A", "B"):
             peaks = scan_f_peak(tau_grid, M0_grid, cls=cls, model=model)
             stem = f"f_peak_{cls.name.replace(' ', '_').lower()}_model{model}"
-            plot_scan(peaks, tau_grid, M0_grid, cls, model,
-                      savepath=f"{out_dir}/{stem}.pdf")
-            print(f"saved {out_dir}/{stem}.pdf")
+            out = plot_scan(peaks, tau_grid, M0_grid, cls, model, name=stem)
+            print(f"saved {out}")
             print(f"  peak range: {peaks.min():.3e} to {peaks.max():.3e}  [k_p0 / (2 pi)]")
 
-    print("done.")
+    print("heatmaps done.")
+
+
+def main_spectra():
+    """Full ``omega * Omega_GW(omega)`` spectra at fixed tau_*, Mach overlay."""
+    apply_paper_style()
+    tau_list = [0.1, 1.0, 10.0, 100.0]
+    M0_list = np.array([0.03, 0.1, 0.3, 1.0, 3.0])
+
+    for cls in CLASSES:
+        for tau_star in tau_list:
+            stem = f"f_spectrum_{cls.name.replace(' ', '_').lower()}_tau{tau_star:g}"
+            out = plot_spectra_at_tau(cls, tau_star, M0_list, name=stem)
+            print(f"saved {out}")
+    print("spectra done.")
+
+
+def main():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("which", nargs="?", default="all",
+                        choices=("all", "heatmaps", "spectra"))
+    args = parser.parse_args()
+    if args.which in ("all", "heatmaps"):
+        main_heatmaps()
+    if args.which in ("all", "spectra"):
+        main_spectra()
 
 
 if __name__ == "__main__":

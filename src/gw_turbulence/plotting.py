@@ -1,4 +1,8 @@
-"""Plotting and scan helpers built on the numerical kernels."""
+"""Plotting and scan helpers built on the numerical kernels.
+
+Styling is delegated to :mod:`gw_turbulence.plot_style` so the whole project
+shares one colorblind palette, font sizes, line widths, and figure sizes.
+"""
 
 from __future__ import annotations
 
@@ -6,31 +10,20 @@ import os
 import warnings
 from contextlib import contextmanager
 
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
 from .core import H_k0_analytic, H_pq, H_pq_decaying, H_pq_decaying_grid
 from .mpi import get_mpi_context
+from .plot_style import FIGSIZES, apply_max_ticks, apply_paper_style
 
 
-PLOT_STYLE = {
-    "font.family": "serif",
-    "font.size": 11,
-    "axes.titlesize": 13,
-    "axes.labelsize": 12,
-    "axes.grid": False,
-    "xtick.labelsize": 10,
-    "ytick.labelsize": 10,
-    "legend.fontsize": 10,
-    "figure.titlesize": 13,
-    "lines.linewidth": 2,
-    "savefig.dpi": 200,
-}
-
+# Map this module's historical figure-size keys onto the project-wide sizes.
 DEFAULT_FIGURE_SIZES = {
-    "grid": (7, 5),
-    "spectrum": (8, 6),
-    "compact_spectrum": (6, 4),
+    "grid": FIGSIZES["large"],
+    "spectrum": FIGSIZES["large"],
+    "compact_spectrum": FIGSIZES["small"],
 }
 
 
@@ -46,13 +39,19 @@ def _ensure_parent(path: str) -> None:
 
 @contextmanager
 def _plot_style_context():
-    with plt.rc_context(PLOT_STYLE):
+    """Apply the project-wide paper style for the duration of the block."""
+    snapshot = mpl.rcParams.copy()
+    try:
+        apply_paper_style()
         yield
+    finally:
+        mpl.rcParams.update(snapshot)
 
 
 def _finalize_plot(out_png: str) -> None:
     _ensure_parent(out_png)
-    plt.tight_layout()
+    ax = plt.gca()
+    apply_max_ticks(ax)
     plt.savefig(out_png)
     plt.close()
 

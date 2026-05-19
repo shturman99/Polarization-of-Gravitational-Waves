@@ -24,6 +24,20 @@ from .core import (
     kernel_bracket,
 )
 from .mpi import get_mpi_context, mpi_is_active
+from .plot_style import (
+    FIGSIZES,
+    IMAGES_DIR,
+    LABEL_SIZE,
+    LINEWIDTH,
+    LINEWIDTH_THIN,
+    MAX_TICKS,
+    PALETTE,
+    TITLE_SIZE,
+    apply_max_ticks,
+    apply_paper_style,
+    pcolormesh_rasterized,
+    save_figure,
+)
 from .plotting import (
     example_scan_and_plot,
     plot_gogoberidze_2007_figure1,
@@ -56,6 +70,19 @@ __all__ = [
     "H_white_decay_grid",
     # Shared utilities
     "LiveStatusLogger",
+    # Plot style template
+    "FIGSIZES",
+    "IMAGES_DIR",
+    "LABEL_SIZE",
+    "LINEWIDTH",
+    "LINEWIDTH_THIN",
+    "MAX_TICKS",
+    "PALETTE",
+    "TITLE_SIZE",
+    "apply_max_ticks",
+    "apply_paper_style",
+    "pcolormesh_rasterized",
+    "save_figure",
     "example_scan_and_plot",
     "g_decaying",
     "get_mpi_context",

@@ -1,10 +1,9 @@
-\documentclass[prd,aps,psfig,nobibnotes,superscriptaddress,preprintnumbers,times]{revtex4}
+\documentclass[10pt,prd,aps,nobibnotes,superscriptaddress,preprintnumbers]{revtex4-1}
 
 \bibliographystyle{apsrev4-1}
 \setlength{\topmargin}{-14mm}
-\usepackage{graphicx,bm,color,braket,amsmath}
-\usepackage{hyperref}
-\usepackage{subcaption}
+\usepackage{graphicx,bm,braket,amsmath}
+\graphicspath{{./images/}}
 \usepackage{amssymb}
 \usepackage{xfrac}
 \usepackage{mathrsfs}
@@ -12,6 +11,8 @@
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{comment}
+% hyperref must be loaded last so it can patch the other packages cleanly.
+\usepackage{hyperref}
 
 \hypersetup{
   colorlinks=true,
@@ -195,7 +196,7 @@ A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1
 \end{align}
 This is the Fourier transform valid for all $k$; we treat $\kb > \kb_0$ and $\kb \leq \kb_0$ separately below.
 
-\subsection{$\kb > \kb_0$}
+\subsection{\texorpdfstring{$\kb > \kb_0$}{k > k0}}
 
 Using $\kb = \kb_1 + \ub$ so that
 \begin{equation}
@@ -587,7 +588,7 @@ We now consider two alternative models for the turbulence power spectrum and car
 
 The derivation follows the same sequence of steps as in Sec.~1: (i) write $H_{ijij}$ as a double convolution in both $\kb$ and $\omega$, (ii) insert the spectral model, (iii) perform the tensor contractions to get $\mathcal{K}$, (iv) switch to spherical coordinates and the variable $u=|\kb-\kb_1|$, (v) evaluate or simplify the temporal integral, and (vi) introduce dimensionless variables.
 
-\subsection{Monochromatic energy spectrum $E(k)=E_0\delta(k-k_0)$}
+\subsection{\texorpdfstring{Monochromatic energy spectrum $E(k)=E_0\delta(k-k_0)$}{Monochromatic energy spectrum E(k)=E0 delta(k-k0)}}
 
 We set
 \begin{equation}
@@ -837,6 +838,181 @@ $\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector 
 \end{tabular}
 \end{center}
 
+
+\section{\texorpdfstring{Numerical results: $f_{\rm peak}^{\rm GW}(\tau_\ast, M_0)$}{Numerical results: f\_peak\^GW(tau, M0)}}
+\label{sec:fpeak-numerical}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\columnwidth]{f_peak_kernels}
+  \caption{Dimensionless temporal kernel $\mathcal{G}(q) = \widehat{R^2}(q)$ for
+  the two correlation models considered in Sec.~\ref{sec:fpeak-numerical}.
+  Model A uses the random-phase BK2016 form $R_A(\sigma)=(1+|\sigma|)^{-2/3}$;
+  Model B is the coherent eddy $R_B(\sigma)=\cos(\sigma)\,e^{-\alpha|\sigma|}$
+  with $\alpha=0.15$.}
+  \label{fig:f_peak_kernels}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{f_peak_hd_loitsiansky_modelA}\\
+    \textit{(a) Model A}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{f_peak_hd_loitsiansky_modelB}\\
+    \textit{(b) Model B}
+  \end{minipage}
+  \caption{HD Loitsiansky decay ($q=2/7$, $p=10/7$, $\beta=4$).
+  $f_{\rm peak}^{\rm GW}$ on the $(\tau_\ast, M_0)$ plane in units of
+  $k_{p,0}/(2\pi)$.  Random-phase BK2016 temporal kernel (a) and coherent
+  eddy temporal kernel (b).}
+  \label{fig:f_peak_hd_loitsiansky}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{f_peak_hd_saffman_modelA}\\
+    \textit{(a) Model A}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{f_peak_hd_saffman_modelB}\\
+    \textit{(b) Model B}
+  \end{minipage}
+  \caption{HD Saffman decay ($q=1/3$, $p=4/3$, $\beta=3$).
+  $f_{\rm peak}^{\rm GW}$ on the $(\tau_\ast, M_0)$ plane in units of
+  $k_{p,0}/(2\pi)$.  Random-phase BK2016 temporal kernel (a) and coherent
+  eddy temporal kernel (b).}
+  \label{fig:f_peak_hd_saffman}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{f_peak_nonhelical_mhd_modelA}\\
+    \textit{(a) Model A}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{f_peak_nonhelical_mhd_modelB}\\
+    \textit{(b) Model B}
+  \end{minipage}
+  \caption{Nonhelical MHD decay ($q=1/2$, $p=1$, $\beta=1$).
+  $f_{\rm peak}^{\rm GW}$ on the $(\tau_\ast, M_0)$ plane in units of
+  $k_{p,0}/(2\pi)$.  Random-phase BK2016 temporal kernel (a) and coherent
+  eddy temporal kernel (b).}
+  \label{fig:f_peak_nonhelical_mhd}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{f_peak_helical_mhd_modelA}\\
+    \textit{(a) Model A}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{f_peak_helical_mhd_modelB}\\
+    \textit{(b) Model B}
+  \end{minipage}
+  \caption{Helical MHD decay ($q=2/3$, $p=2/3$, $\beta=0$).
+  $f_{\rm peak}^{\rm GW}$ on the $(\tau_\ast, M_0)$ plane in units of
+  $k_{p,0}/(2\pi)$.  Random-phase BK2016 temporal kernel (a) and coherent
+  eddy temporal kernel (b).}
+  \label{fig:f_peak_helical_mhd}
+\end{figure}
+
+
+\section{Spectrum survey for all derived models}
+\label{sec:spectrum-survey}
+
+In this section we plot, on a common convention, the dimensionless GW
+energy-density spectrum
+\begin{equation}
+  \Omega_{\rm GW}(p) \;\propto\; p^{3}\,H(p,p),
+  \qquad p = k_{\rm GW}/k_0,
+\end{equation}
+along the sound-cone diagonal $q = p$ for every model derived in this paper.
+The $p^{2}$ factor relative to the characteristic strain
+$h_c^{2}(p) = p\,H(p,p)$ is the phase-space measure $d^{3}k$; together with
+causality and a finite white-noise source it predicts $\Omega_{\rm GW}\sim
+p^{3}$ in the IR, followed by a peak near $p\sim 1$ and a decay in the UV.
+A dotted grey line shows the $p^{3}$ reference; cases whose IR slope deviates
+from $3$ by more than $\pm 0.5$ are flagged in the build log of
+\texttt{Notebooks/all\_spectra.py}.  Models with a $1/p$ pole at the origin
+(monochromatic $E_0\,\delta(k-k_0)$ source) cannot satisfy the universal
+scaling because the fluid itself carries no IR power.
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_kraichnan_kolmogorov}\\
+    \textit{(a) full $H_{pq}$}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_aeroacoustic_limit}\\
+    \textit{(b) $p\to 0$ limit}
+  \end{minipage}
+  \caption{Kraichnan decorrelation + Kolmogorov spectrum.  Five curves per
+  panel correspond to $M = 0.03,\, 0.1,\, 0.3,\, 1.0,\, 3.0$ at $R=10^{4}$.
+  Panel (a) is the full numerical $H_{pq}$ (Sec.~1); panel (b) is the
+  aeroacoustic $p\to 0$ limit (Kahniashvili et al.\ 2008).  Both give the
+  universal IR slope $\Omega_{\rm GW}\propto p^{3}$.}
+  \label{fig:spectrum_kolmogorov_kraichnan_pair}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_delta_k_kraichnan}\\
+    \textit{(a) Kraichnan}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_delta_k_decay}\\
+    \textit{(b) Decay}
+  \end{minipage}
+  \caption{Monochromatic spectrum $E(k)=E_{0}\delta(k-k_{0})$ (no free
+  parameters at the dimensionless level).  Panel (a): Kraichnan
+  decorrelation, closed form $\Omega_{\rm GW}(p)\propto
+  p^{3}\,K_{0}(p)/p\,\Theta(2-p)\,e^{-p^{2}/(2\pi)}$ with IR slope
+  $\mathbf{2}$ (flagged: $1/p$ pole from the monochromatic source removes
+  one power of $p$ from the universal scaling).  Panel (b): decay temporal
+  convolution, IR slope $\mathbf{0.3}$ (flagged: the temporal-tail extra
+  suppression further reduces the IR power).}
+  \label{fig:spectrum_delta_k_pair}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_white_kraichnan}\\
+    \textit{(a) Kraichnan}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_white_decay}\\
+    \textit{(b) Decay}
+  \end{minipage}
+  \caption{White-noise real-space correlations
+  $R_{ij}\propto\delta^{(3)}(\br)$.  Three curves per panel correspond to
+  $R = 10^{3},\, 10^{4},\, 10^{5}$.  Panel (a): Kraichnan decorrelation,
+  matches the universal IR slope $\mathbf{3}$.  Panel (b): decay temporal
+  model, IR slope $\mathbf{1.3}$ (flagged: temporal-convolution tails pull
+  power down at small $p$).}
+  \label{fig:spectrum_white_pair}
+\end{figure}
 
 
 \bibliography{bib}
