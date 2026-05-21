@@ -1,4 +1,4 @@
-\documentclass[10pt,prd,aps,nobibnotes,superscriptaddress,preprintnumbers]{revtex4-1}
+\documentclass[10pt,prd,aps,nobibnotes,superscriptaddress,preprintnumbers,notitlepage]{revtex4-1}
 
 \bibliographystyle{apsrev4-1}
 \setlength{\topmargin}{-14mm}
@@ -78,507 +78,241 @@ Carnegie Mellon University, Pittsburgh, PA 15213, USA}
 
 \tableofcontents
 
+\section{Gravitational waves from a turbulent source}
+\label{sec:framework}
+
+Before specializing to particular spectral and temporal models, we collect the
+standard analytic derivation of the gravitational-wave (GW) spectrum sourced by
+turbulence \cite{2002Kosowsky,2007Gogoberidze,2008Kahniashvili,Caprini:2018mtu,2007Maggiore}.
+This fixes the conventions used throughout and, in particular, shows why the
+remaining sections reduce the problem to computing the contracted source
+correlator $H_{ijij}(\kb,\omega)$ of Eq.~\eqref{eq: main} on the diagonal
+$\omega=k$.
+
+\subsection{Sourced wave equation}
+\label{sec:framework-waveeq}
+
+Write the tensor perturbations of a spatially flat FLRW background as
+\begin{equation}
+  ds^2 = a^2(\tau)\bigl[-d\tau^2 + (\delta_{ij}+h_{ij})\,dx^i dx^j\bigr],
+  \qquad \pa_i h_{ij}=h_{ii}=0,
+  \label{eq:metric-tt}
+\end{equation}
+with $h_{ij}$ transverse-traceless (TT). The linearized Einstein equations give
+\begin{equation}
+  h_{ij}'' + 2\frac{a'}{a}\,h_{ij}' - \nabla^2 h_{ij}
+  = 16\pi G\,a^2\,\Pi_{ij}^{\rm TT},
+  \label{eq:gw-wave}
+\end{equation}
+where $' = d/d\tau$ and $\Pi_{ij}^{\rm TT}$ is the TT part of the anisotropic
+stress. For an incompressible, non-relativistic turbulent fluid the source is
+the Reynolds stress,
+\begin{equation}
+  \Pi_{ij}^{\rm TT}(\kb,\tau) = \Lambda_{ij,lm}(\khat)\,T_{lm}(\kb,\tau),
+  \qquad
+  T_{lm} = w\,v_l v_m,
+  \qquad
+  \Lambda_{ij,lm} = P_{il}P_{jm}-\tfrac12 P_{ij}P_{lm},
+  \label{eq:source-tt}
+\end{equation}
+with $w=\bar\rho+\bar p$ the enthalpy density, $P_{ij}=\delta_{ij}-\khat_i\khat_j$,
+and $\Lambda$ the TT projector. The double TT projection together with the
+Gaussian (Wick) reduction of the quartic velocity correlator collapses the
+two-point function of \eqref{eq:source-tt} onto the contracted form
+$R_{ijij}=R_{ii}R_{jj}+\tfrac13 R_{ij}R_{ij}$ that appears in Eq.~\eqref{eq: main}.
+
+Turbulence acts on eddy-turnover times short compared with a Hubble time, so
+over the source lifetime we drop the expansion ($a\approx 1$, friction
+negligible) and Eq.~\eqref{eq:gw-wave} becomes, in Fourier space, a forced
+oscillator,
+\begin{equation}
+  h_{ij}''(\kb,\tau) + k^2 h_{ij}(\kb,\tau) = 16\pi G\,\Pi_{ij}^{\rm TT}(\kb,\tau).
+  \label{eq:gw-osc}
+\end{equation}
+
+\subsection{Green-function solution and the GW spectrum}
+\label{sec:framework-green}
+
+The retarded solution of Eq.~\eqref{eq:gw-osc} and its time derivative are
+\begin{equation}
+  h_{ij}(\kb,\tau) = \frac{16\pi G}{k}\!\int_{\tau_i}^{\tau}\!d\tau'\,
+  \sin[k(\tau-\tau')]\,\Pi_{ij}^{\rm TT}(\kb,\tau'),
+  \qquad
+  \dot h_{ij}(\kb,\tau) = 16\pi G\!\int_{\tau_i}^{\tau}\!d\tau'\,
+  \cos[k(\tau-\tau')]\,\Pi_{ij}^{\rm TT}(\kb,\tau').
+  \label{eq:greens}
+\end{equation}
+With the Isaacson energy density $\rho_{\rm GW}=\langle\dot h_{ij}\dot h_{ij}\rangle/(32\pi G)$
+and the unequal-time correlator (UETC) of the TT stress,
+\begin{equation}
+  \langle\Pi_{ij}^{\rm TT}(\kb,\tau_1)\,\Pi_{ij}^{\rm TT*}(\kb',\tau_2)\rangle
+  = (2\pi)^3\,\delta^{(3)}(\kb-\kb')\,\Pi(k;\tau_1,\tau_2),
+  \label{eq:uetc}
+\end{equation}
+inserting \eqref{eq:greens} and averaging the product
+$\cos[k(\tau-\tau_1)]\cos[k(\tau-\tau_2)]\to\tfrac12\cos[k(\tau_1-\tau_2)]$ over
+the fast GW oscillations gives the master formula
+\begin{equation}
+  \frac{d\rho_{\rm GW}}{d\ln k}
+  \simeq \frac{2G\,k^3}{\pi}\!\int\! d\tau_1\!\int\! d\tau_2\,
+  \cos[k(\tau_1-\tau_2)]\,\Pi(k;\tau_1,\tau_2).
+  \label{eq:master}
+\end{equation}
+The GW spectrum is thus the temporal Fourier transform of the source UETC,
+evaluated at the on-shell frequency $\omega=k$. For a statistically stationary
+(or quasi-stationary) source, $\Pi(k;\tau_1,\tau_2)=\Pi(k;\tau_1-\tau_2)$ and the
+double time integral factorizes into the source duration $T_{\rm src}$ times the
+temporal transform $\widetilde\Pi(k,\omega)=\int d(\Delta\tau)\,e^{i\omega\Delta\tau}\Pi(k;\Delta\tau)$,
+which is precisely the spatio-temporal correlator $H_{ijij}(\kb,\omega)$ of
+Eq.~\eqref{eq: main}. Hence
+\begin{equation}
+  \frac{d\rho_{\rm GW}}{d\ln k} \;\propto\; k^3\,H_{ijij}(\kb,\omega)\big|_{\omega=k}
+  \quad\Longrightarrow\quad
+  \Omega_{\rm GW}(p)\;\propto\; p^3\,H(p,p),
+  \qquad p=\frac{k}{k_0},\ \ q=\frac{\omega}{k_0},
+  \label{eq:omega-diag}
+\end{equation}
+the GW dispersion $\omega=k$ becoming the diagonal $q=p$ used in
+Sec.~\ref{sec:spectrum-survey} (with characteristic strain
+$h_c^2(p)=p\,H(p,p)$). Everything downstream is therefore an evaluation of
+$H_{ijij}$, whose spatial part is a convolution of the velocity power spectrum
+(quadratic source, Eqs.~\eqref{eq: H-after-r}--\eqref{eq: H-convolution}) and
+whose temporal part is the decorrelation model carried by $\Pi(k;\tau_1,\tau_2)$.
+
+\subsection{Spectral shape from the literature}
+\label{sec:framework-shape}
+
+For Kolmogorov inertial-range input the analytic results have three robust
+pieces:
+\begin{itemize}
+  \item \emph{Infrared ($k\ll k_0$):} causality forces the stress correlator to
+  be analytic (white) as $k\to0$, so $H\to\text{const}$ and
+  $\Omega_{\rm GW}\propto k^3$ \cite{Caprini:2018mtu,2008Kahniashvili}.
+  \item \emph{Peak ($k\sim k_0$):} set by the largest eddies, with parametric
+  amplitude $(d\Omega_{\rm GW}/d\ln k)_{\rm peak}\sim (H_\ast/k_0)\,\Omega_K^2$,
+  i.e.\ the squared kinetic-energy fraction suppressed by the source-duration
+  factor $H_\ast/k_0\sim H_\ast\tau_{\rm eddy}$ \cite{2002Kosowsky,2008Kahniashvili}.
+  \item \emph{Ultraviolet ($k\gg k_0$):} \emph{model-dependent}, fixed by the
+  temporal decorrelation $\Pi(k;\tau_1,\tau_2)$. Kraichnan sweeping gives the
+  Gogoberidze tail \cite{2007Gogoberidze}, while a $\delta$-correlated or a
+  decaying-turbulence kernel give different slopes.
+\end{itemize}
+The UV slope is precisely where the four UETC models derived below
+($\delta$-spectrum vs.\ white-noise, Kraichnan vs.\ decay) differ, which is the
+focus of the remainder of the paper.
+
 \section{Kraichnan--K41 Model (Gogoberidze 2007)}
+\label{sec:kraichnan-k41}
 
-We adopt the spatial Fourier pair
-\begin{align}
-R_{ij}(\br,\tau) &= \int \frac{d^3k}{(2\pi)^3} e^{i\kb \cdot \br} F_{ij}(\kb,\tau), &
-F_{ij}(\kb,\tau) &= \int d^3r \, e^{-i\kb \cdot \br} R_{ij}(\br,\tau),
-\end{align}
-and the temporal Fourier pair
-\begin{align}
-f(\eta_k,\tau) &= \int \frac{d\omega}{2\pi} e^{-i\omega \tau} \tilde f(\eta_k,\omega), &
-\tilde f(\eta_k,\omega) &= \int d\tau \, e^{i\omega \tau} f(\eta_k,\tau).
-\end{align}
-
-Starting with all the definitions from Eqs.~23--26 of \cite{2007Gogoberidze},
-\begin{align}
-R_{ij}(\br,\tau) &= \int \frac{d^3k}{(2\pi)^3} e^{i\kb \cdot \br} F_{ij}(\kb,\tau) \nonumber\\
-&= \int \frac{d^3k}{(2\pi)^3} e^{i\kb \cdot \br} A(k) P_{ij}(\khat) f(\eta_k,\tau) \nonumber\\
-&= \int \frac{d^3k}{(2\pi)^3} e^{i\kb \cdot \br} A(k) P_{ij}(\khat)
-\int \frac{d\omega}{2\pi} e^{-i\omega \tau}\tf(\eta_k,\omega).
-\end{align}
-
-Here $A(k) = C_k \epsilon^{2/3}k^{-11/3} /4\pi$, $P_{ij}(\khat) = \left( \delta_{ij}- \frac{k_{i}k_{j}}{k^{2}} \right)$, $f(\eta_k, \tau)= \exp(-\frac{\pi}{4}\eta_k^2 \tau^2)$, and $ \eta_k = \frac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3}$.
-
-Equation~28 of \cite{2007Gogoberidze} gives
+We use the spatial/temporal Fourier pair $R_{ij}(\br,\tau) = \int \tfrac{d^3k}{(2\pi)^3}e^{i\kb\cdot\br}F_{ij}(\kb,\tau)$ and $f(\eta_k,\tau)=\int\tfrac{d\omega}{2\pi}e^{-i\omega\tau}\tf(\eta_k,\omega)$, and adopt the isotropic incompressible model of \cite{2007Gogoberidze} (Eqs.~23--26),
 \begin{equation}
-    R_{ijij} (\xb',\xb'+ \br,\tau)=  R_{ii}(\br,\tau)R_{jj}(\br,\tau)+ \frac{1}{3}R_{ij}(\br,\tau)R_{ij}(\br,\tau).
+  F_{ij}(\kb,\tau) = A(k)\,P_{ij}(\khat)\,f(\eta_k,\tau),
+  \qquad
+  P_{ij}(\khat)=\delta_{ij}-\khat_i\khat_j,
+  \label{eq:Fij-iso}
+\end{equation}
+with $A(k)=C_k\epsilon^{2/3}k^{-11/3}/4\pi$, $f(\eta_k,\tau)=\exp(-\tfrac{\pi}{4}\eta_k^2\tau^2)$, and $\eta_k=\tfrac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3}$.
+
+The fourth-rank Fourier-space correlator
+$H_{ijkl}(\kb,\omega)=(2\pi)^{-4}\!\int d\tau\,d^3\bxi\,e^{i\omega\tau-i\kb\cdot\bxi}R_{ijkl}(\bxi,\tau)$ with the contraction
+$R_{ijij}=R_{ii}R_{jj}+\tfrac{1}{3}R_{ij}R_{ij}$ (Gogoberidze Eq.~28) reads, in real space,
+\begin{equation}
+  H_{ijij}(\kb,\omega) = \frac{1}{(2\pi)^4}\!\int d\tau\,d^3\br\,e^{i\omega\tau-i\kb\cdot\br}
+  \Bigl[R_{ii}(\br,\tau)R_{jj}(\br,\tau)+\tfrac{1}{3}R_{ij}(\br,\tau)R_{ij}(\br,\tau)\Bigr].
+  \label{eq: main}
+\end{equation}
+Inserting the spatial Fourier representation of $R_{ij}$, the $\br$ integral produces a momentum-conserving $\delta^{(3)}(\kb-\bq-\bp)$. Renaming $\bq\to\kb_1$, $\ub=\kb-\kb_1$,
+\begin{equation}
+  H_{ijij}(\kb,\omega) = \frac{1}{(2\pi)^7}\!\int d\tau\,e^{i\omega\tau}\,
+  d^3k_1\!\left[F_{ii}(\kb_1,\tau)F_{jj}(\ub,\tau)+\tfrac{1}{3}F_{ij}(\kb_1,\tau)F_{ij}(\ub,\tau)\right].
+  \label{eq: H-after-r}
+\end{equation}
+The temporal Fourier transform then converts the $\tau$ integral into a frequency $\delta$-function, leaving the frequency convolution
+\begin{equation}
+  H_{ijij}(\kb,\omega) = \frac{1}{(2\pi)^8}\!\int d^3k_1\,d\omega_1
+  \left[\tilde F_{ii}(\kb_1,\omega_1)\tilde F_{jj}(\ub,\omega-\omega_1)
+  +\tfrac{1}{3}\tilde F_{ij}(\kb_1,\omega_1)\tilde F_{ij}(\ub,\omega-\omega_1)\right].
+  \label{eq: H-convolution}
 \end{equation}
 
+Substituting Eq.~\eqref{eq:Fij-iso} and using $P_{ii}(\khat)=2$ together with $P_{ij}(\khat_1)P_{ij}(\hat u)=1+(\khat_1\cdot\hat u)^2$, the tensor contractions reduce Eq.~\eqref{eq: H-convolution} to
 \begin{equation}
-    H_{ijkl}(\xb',\kb,\omega) = \frac{1}{(2\pi)^{4}}\int d \tau d^3 \bxi \, e^{ i\omega \tau } e^{-i\kb \cdot \bxi} R_{ijkl}(\bxi,\tau).
+  H_{ijij}(\kb,\omega) = \frac{1}{(2\pi)^8}\!\int d^3k_1\,d\omega_1\,
+  A(k_1)A(u)\,\tf(\eta_{k_1},\omega_1)\tf(\eta_u,\omega-\omega_1)
+  \left[4+\tfrac{1}{3}\bigl(1+(\khat_1\cdot\hat u)^2\bigr)\right].
+  \label{eq: H-with-P}
 \end{equation}
-
-\begin{equation}
-\label{eq: main}
-    H_{ijij}(\xb',\kb,\omega) = \frac{1}{(2\pi)^{4}}\int d \tau d^3 \br \, e^{ i\omega \tau } e^{-i\kb \cdot \br}
-    \left(
-    R_{ii}(\br,\tau)R_{jj}(\br,\tau)+ \frac{1}{3}R_{ij}(\br,\tau)R_{ij}(\br,\tau)
-    \right ).
-\end{equation}
-
-
-\begin{align}
-H_{ijij}(\xb',\kb,\omega)
-&= \frac{1}{(2\pi)^{4}}\int d \tau d^3 \br \, e^{ i\omega \tau } e^{-i\kb \cdot \br}
-\int \frac{d^3q}{(2\pi)^3} \frac{d^3p}{(2\pi)^3}
-e^{i(\bq+\bp)\cdot \br} \nonumber\\
-&\quad \times \left[ F_{ii}(\bq,\tau) F_{jj}(\bp,\tau)
-+ \frac{1}{3} F_{ij}(\bq,\tau) F_{ij}(\bp,\tau) \right]. \label{eq: H-before-r}
-\end{align}
-The $\br$ integral gives
-\begin{equation}
-\int d^3r \, e^{-i\kb\cdot\br} e^{i(\bq+\bp)\cdot\br}
- = (2\pi)^3 \delta^{(3)}(\kb-\bq-\bp),
-\end{equation}
-so integrating over $\bp$ and renaming $\bq \to \kb_1$, $\ub = \kb-\kb_1$ with $u = |\ub|$, we obtain
-\begin{align}
-H_{ijij}(\xb',\kb,\omega)
-&= \frac{1}{(2\pi)^{7}}\int d \tau \, e^{ i\omega \tau }
-\int d^3k_{1} \left[ F_{ii}(\kb_1,\tau) F_{jj}(\ub,\tau)
-+ \frac{1}{3} F_{ij}(\kb_1,\tau) F_{ij}(\ub,\tau) \right]. \label{eq: H-after-r}
-\end{align}
-
-Next insert the temporal Fourier representation
-\begin{equation}
-F_{ab}(\kb,\tau) = \int \frac{d\omega}{2\pi} e^{-i\omega \tau} \tilde F_{ab}(\kb,\omega),
-\end{equation}
-which gives
-\begin{align}
-H_{ijij}(\xb',\kb,\omega)
-&= \frac{1}{(2\pi)^{7}}\int d^3k_{1}
-\int d\tau \, e^{ i\omega \tau }
-\int \frac{d\omega_{1}}{2\pi}\frac{d\omega_{2}}{2\pi}
-e^{-i(\omega_{1}+\omega_{2})\tau} \nonumber\\
-&\quad \times \left[ \tilde F_{ii}(\kb_1,\omega_{1}) \tilde F_{jj}(\ub,\omega_{2})
-+ \frac{1}{3} \tilde F_{ij}(\kb_1,\omega_{1}) \tilde F_{ij}(\ub,\omega_{2}) \right]. \label{eq: H-before-omega}
-\end{align}
-The $\tau$ integral is
-\begin{equation}
-\int d\tau \, e^{i\omega \tau} e^{-i(\omega_{1}+\omega_{2})\tau}
-= 2\pi \delta(\omega-\omega_{1}-\omega_{2}),
-\end{equation}
-so integrating over $\omega_{2}$ with $\omega_{2}=\omega-\omega_{1}$ yields the convolution form
-\begin{align}
-H_{ijij}(\xb',\kb,\omega)
-&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
-\left[ \tilde F_{ii}(\kb_1,\omega_{1}) \tilde F_{jj}(\ub,\omega-\omega_{1})
-+ \frac{1}{3} \tilde F_{ij}(\kb_1,\omega_{1}) \tilde F_{ij}(\ub,\omega-\omega_{1}) \right]. \label{eq: H-convolution}
-\end{align}
-
-Now substitute the isotropic incompressible model
-\begin{equation}
-F_{ij}(\kb,\tau) = A(k) P_{ij}(\khat) f(\eta_k,\tau),
-\qquad
-\tilde F_{ij}(\kb,\omega) = A(k) P_{ij}(\khat) \tilde f(\eta_k,\omega),
-\end{equation}
-and evaluate the index contractions explicitly. First,
-\begin{align}
-P_{ii}(\khat) &= \delta_{ii} - \khat_i \khat_i
-= 3 - 1 = 2. \label{eq: Pii}
-\end{align}
-Second,
-\begin{align}
-P_{ij}(\khat_1) P_{ij}(\hat{u})
-&= (\delta_{ij}-\khat_{1i}\khat_{1j})(\delta_{ij}-\hat{u}_i \hat{u}_j) \nonumber\\
-&= \delta_{ij}\delta_{ij} - \delta_{ij}\hat{u}_i\hat{u}_j - \khat_{1i}\khat_{1j}\delta_{ij}
-+ \khat_{1i}\khat_{1j}\hat{u}_i\hat{u}_j \nonumber\\
-&= 3 - 1 - 1 + (\khat_1\cdot\hat{u})^2
-= 1 + (\khat_1\cdot\hat{u})^2. \label{eq: PijPij}
-\end{align}
-Using Eqs.~\eqref{eq: Pii}--\eqref{eq: PijPij} in Eq.~\eqref{eq: H-convolution} gives
-\begin{align}
-H_{ijij}(\xb',\kb,\omega)
-&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
-A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber\\
-&\quad \times \left[ 4 + \frac{1}{3}\left(1+(\khat_{1}\cdot\hat{u})^2\right) \right]. \label{eq: H-with-P}
-\end{align}
-This is the Fourier transform valid for all $k$; we treat $\kb > \kb_0$ and $\kb \leq \kb_0$ separately below.
+This is the Fourier representation valid for all $k$; we treat $\kb > \kb_0$ and $\kb \leq \kb_0$ separately below.
 
 \subsection{\texorpdfstring{$\kb > \kb_0$}{k > k0}}
 
-Using $\kb = \kb_1 + \ub$ so that
+The law of cosines $\khat_1\cdot\hat u = (k^2-k_1^2-u^2)/(2k_1 u)$ turns the bracket in Eq.~\eqref{eq: H-with-P} into a homogeneous polynomial in $(k,k_1,u)$; expanding and grouping gives the geometric kernel
 \begin{equation}
-k^2 = k_1^2 + u^2 + 2 k_1 u (\khat_1\cdot\hat{u})
-\quad \Rightarrow \quad
-\khat_1\cdot\hat{u} = \frac{k^2-k_1^2-u^2}{2 k_1 u},
+  \mathcal{K}(k,k_1,u)\equiv \frac{27}{6}+\frac{k^4}{12k_1^2u^2}+\frac{k_1^2}{12u^2}+\frac{u^2}{12k_1^2}
+  -\frac{k^2}{6u^2}-\frac{k^2}{6k_1^2}
+  \qquad (\text{cf.\ Eq.~29 of \cite{2007Gogoberidze}}).
+  \label{eq: K-kernel}
 \end{equation}
-Eq.~\eqref{eq: H-with-P} becomes
-\begin{align}
-H_{ijij}(\xb',\kb,\omega)
-&= \frac{1}{(2\pi)^{8}}\int d^3k_{1} \int d\omega_{1}
-A(k_{1})A(u) \tilde f(\eta_{k_{1}},\omega_{1})\tilde f(\eta_{u},\omega-\omega_{1}) \nonumber\\
-&\quad \times \left[ 4 + \frac{1}{3}\left(1+\left(\frac{k^2-k_1^2-u^2}{2 k_1 u}\right)^2\right) \right]. \label{eq: H-geometric}
-\end{align}
-Expanding the bracket,
-\begin{align}
- \left[ 4 + \frac{1}{3}\left(1+\left(\frac{k^2-k_1^2-u^2}{2 k_1 u}\right)^2\right) \right]
- &= \left[ 4 + \frac{1}{3}+\frac{1}{12k_1^2u^2}\left(k^4 +k_1^4+u^4-2k_1^2k^2-2k^2u^2+2k_1^2u^2\right) \right] \nonumber\\
- &=\left[\frac{27}{6} + \frac{k^4}{12k_1^2u^2} + \frac{k_1^2}{12u^2} +\frac{u^2}{12k_1^2} - \frac{k^2}{6u^2}-\frac{k^2}{6k_1^2} \right].
-\end{align}
-Combining, we arrive at (cf.\ Eq.~(29) of \cite{2007Gogoberidze})
-\begin{align}
-    H_{ijij}(\xb',\kb,\omega) =
-    \frac{1}{(2\pi)^8}\int d^{3}k_{1}\,d\omega_1\;
-    A(k_{1})A(u)\,
-    \tf(\eta_{k_{1}},\omega_{1})\, \tf(\eta_{u},\omega-\omega_1)
-    \times \mathcal{K}(k,k_1,u),
-\end{align}
-where we define the geometric kernel
+The temporal transform $\tf(\eta_k,\omega) = (2/\eta_k)\exp(-\omega^2/\pi\eta_k^2)$ combines with $A(k)$ into the single spectral factor
 \begin{equation}
-\mathcal{K}(k,k_{1},u)\equiv
-\left[\frac{27}{6}
-+\frac{k^{4}}{12k_{1}^{2}u^{2}}
-+\frac{k_{1}^{2}}{12u^{2}}
-+\frac{u^{2}}{12k_{1}^{2}}
--\frac{k^{2}}{6u^{2}}
--\frac{k^{2}}{6k_{1}^{2}}
-\right].
+  g(k,\omega) \equiv A(k)\,\tf(\eta_k,\omega) = \frac{2E_k}{4\pi k^2\eta_k}\exp\!\left(-\frac{\omega^2}{\pi\eta_k^2}\right),
+  \qquad E_k = C_k\epsilon^{2/3}k^{-5/3}.
+  \label{eq: g-def}
+\end{equation}
+Going to spherical coordinates for $\kb_1$ ($d^3k_1 = k_1^2\,dk_1\,d\phi\,d\mu$ with $\mu=\hat\kb\cdot\hat\kb_1$), the azimuthal integral contributes $2\pi$. Trading $\mu$ for $u=\sqrt{k^2+k_1^2-2kk_1\mu}$ via $d\mu = u\,du/(k k_1)$, with $u\in[|k-k_1|,k+k_1]$,
+\begin{equation}
+  H_{ijij}(\kb,\omega) = \frac{1}{(2\pi)^7}\!\int_0^\infty\!\frac{k_1\,dk_1}{k}\int_{|k-k_1|}^{k+k_1}\!u\,du\int_{-\infty}^\infty\! d\omega_1\,
+  g(k_1,\omega_1)\,g(u,\omega-\omega_1)\,\mathcal K(k,k_1,u).
+  \label{eq: conversion}
 \end{equation}
 
-The temporal Fourier transform of $f(\eta_k,\tau) = \exp(-\frac{\pi}{4}\eta_k^2\tau^2)$ is
+Switching to the dimensionless variables $q=k_1/k$, $s=u/k$, $\Omega=\omega/(\epsilon^{1/3}k^{2/3})$, $\Omega_1=\omega_1/(\epsilon^{1/3}k^{2/3})$, $g$ becomes $g(k,\omega)=(1/\sqrt{2\pi})\,C_k\epsilon^{1/3}k^{-13/3}\exp(-2\Omega^2)$. The product $g(k_1,\omega_1)g(u,\omega-\omega_1)$ thus separates into a dimensional prefactor $\propto k^{-26/3}$ times a manifestly dimensionless Gaussian envelope $\Phi(q,\Omega_1;s,\Omega-\Omega_1) = q^{-13/3}s^{-13/3}\exp[-2\Omega_1^2q^{-4/3}-2(\Omega-\Omega_1)^2s^{-4/3}]$. Collecting all $k$-dependent factors gives the scaling form
 \begin{equation}
-    \tf(\eta_k,\omega) = \frac{2}{\eta_k}  \exp\left(-\frac{\omega^2}{\pi \eta^2_k}\right).
+  H_{ijij}(\kb,\omega) = \frac{C_k^2\,\epsilon}{256\,\pi^8}\,k^{-5}\,\mathfrak H(\Omega),
+  \qquad
+  \mathfrak H(\Omega) = \int_0^\infty\!dq\,q\int_{-\infty}^\infty\!d\Omega_1\int_{|1-q|}^{1+q}\!ds\,s\;\Phi\,\widetilde{\mathcal K}(q,s),
+  \label{eq: H-compact}
 \end{equation}
-Using $A(k) = C_k\epsilon^{2/3}k^{-11/3}/4\pi$ and $\eta_k = \frac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3}$ from \cite{2007Gogoberidze}, the combined factor is
-\begin{equation}
-g(k,\omega) \equiv A(k)\,\tf(\eta_k,\omega)
-= \frac{2E_k}{4 \pi k^2\eta_k}\exp\!\left(-\frac{\omega^2}{\pi\eta_k^2}\right),
-\end{equation}
-where $E_k = C_k\epsilon^{2/3}k^{-5/3}$.
-Explicitly introducing integration bounds:
-\begin{align}
-    H_{ijij}(\xb',\kb,\omega) =
-    \frac{1}{(2\pi)^8}\int_{\mathbb{R}^4} d^{3}k_{1}\,d\omega_1\;
-    g(k_1,\omega_1)\, g(u,\omega-\omega_1)\,
-    \mathcal{K}(k,k_{1},u).
-\end{align}
-
-Moving the $k_1$ integral to spherical coordinates, with $\mu\equiv\hat{\kb}\cdot\hat{\kb}_1$ the cosine of the angle between $\kb_1$ and $\kb$:
-\begin{align}
-d^{3}k_{1}=k_{1}^{2}\,dk_{1}\,d\Omega_{1}
-= k_{1}^{2}\,dk_{1}\,d\phi\,d\mu,
-\qquad
-\mu\equiv \hat{\kb}\!\cdot\!\hat{\kb}_{1}\in[-1,1],\ \phi\in[0,2\pi),
-\end{align}
-\begin{align}
-u \equiv |\kb-\kb_{1}|
-= \sqrt{k^{2}+k_{1}^{2}-2kk_{1}\mu}.
-\label{eq: conversion}
-\end{align}
-After integrating over the azimuthal angle ($\int_0^{2\pi}d\phi = 2\pi$):
-\begin{align}
-H_{ijij}(\xb',\kb,\omega)
-&=\frac{1}{(2\pi)^{7}}
-\int_{0}^{\infty} dk_{1}\,k_{1}^{2}
-\int_{-1}^{1} d\mu
-\int_{-\infty}^{\infty} d\omega_{1}\;
-g(k_{1},\omega_{1})\,g\!\left(u,\omega-\omega_{1}\right)\,
-\mathcal{K}(k,k_{1},u).
-\end{align}
-Changing the angular variable from $\mu$ to $u$ using Eq.~\eqref{eq: conversion},
-\begin{equation}
-d\mu = \frac{u\,du}{k\,k_1},
-\end{equation}
-with bounds $u \in [|k-k_1|, k+k_1]$:
-\begin{align}
-H_{ijij}(\xb',\kb,\omega)
-&=\frac{1}{(2\pi)^{7}}
-\int_{0}^{\infty} dk_{1}\,\frac{k_1}{k}
-\int_{|k-k_1|}^{k+k_1} du\; u
-\int_{-\infty}^{\infty} d\omega_{1}\;
-g(k_{1},\omega_{1})\,g\!\left(u,\omega-\omega_{1}\right)\,
-\mathcal{K}(k,k_{1},u).
-\end{align}
-
-Splitting $\mathcal{K}$ into parts with different powers of $u$ to separate the $u$-integrals:
-\begin{align}
-H_{ijij}(\xb',\kb,\omega)
-&=\frac{1}{(2\pi)^{7}}
-\int_{0}^{\infty} dk_{1}\,\frac{k_1}{k}
-\int_{-\infty}^{\infty} d\omega_{1}\;g(k_1,\omega_1)\times
-\left(\frac{27}{6}-\frac{k^2}{6k_1^2}\right)
-\int_{|k-k_1|}^{k+k_1}du\;u\; g(u,\omega-\omega_1) \nonumber\\
-&+\frac{1}{(2\pi)^{7}}
-\int_{0}^{\infty} dk_{1}\,\frac{k_1}{k}
-\int_{-\infty}^{\infty} d\omega_{1}\;g(k_1,\omega_1)\times
-\left(\frac{k^4}{12k_1^2} + \frac{k_1^2}{12} -\frac{k^2}{6}\right)
-\int_{|k-k_1|}^{k+k_1}du\;\frac{1}{u}\; g(u,\omega-\omega_1) \nonumber\\
-&+\frac{1}{(2\pi)^{7}}
-\int_{0}^{\infty} dk_{1}\,\frac{k_1}{k}
-\int_{-\infty}^{\infty} d\omega_{1}\;g(k_1,\omega_1)\times
-\frac{1}{12k_1^2}
-\int_{|k-k_1|}^{k+k_1}du\;u^3\; g(u,\omega-\omega_1).
-\end{align}
-This has the same structure as Eq.~(31) of \cite{2007Gogoberidze}.
-
-Introducing the dimensionless variables
-\begin{equation}
-q \equiv \frac{k_{1}}{k}, \qquad
-s \equiv \frac{u}{k}, \qquad
-\Omega \equiv \frac{\omega}{\epsilon^{1/3}k^{2/3}}, \qquad
-\Omega_{1} \equiv \frac{\omega_{1}}{\epsilon^{1/3}k^{2/3}},
-\end{equation}
-the integration measures transform as
-\begin{equation}
-dk_{1} = k\,dq, \qquad
-du = k\,ds, \qquad
-d\omega_{1} = \epsilon^{1/3}k^{2/3}\,d\Omega_{1},
-\end{equation}
-and the $u$-integration bounds become
-\begin{equation}
-u \in \bigl[|k-k_{1}|,\,k+k_{1}\bigr]
-\quad \longrightarrow \quad
-s \in \bigl[|1-q|,\,1+q\bigr].
-\end{equation}
-
-Using the explicit form of $g(k,\omega)$,
-\begin{equation}
-g(k,\omega)
-= \frac{1}{\sqrt{2\pi}}\,C_k\,\epsilon^{1/3}\,k^{-13/3}
-\exp\!\left(-2\Omega^{2}\right),
-\end{equation}
-the product $g(k_{1},\omega_{1})g(u,\omega-\omega_{1})$ factorizes into an overall
-dimensional prefactor and a purely dimensionless Gaussian,
-\begin{align}
-g(k_{1},\omega_{1})g(u,\omega-\omega_{1})
-&= \frac{1}{2\pi}\,C_k^{2}\,\epsilon^{2/3}\,k^{-26/3}\,
-q^{-13/3}s^{-13/3}
-\nonumber\\
-&\times
-\exp\!\left(-2\Omega_{1}^{2}q^{-4/3}\right)
-\exp\!\left(-2(\Omega-\Omega_{1})^{2}s^{-4/3}\right).
-\end{align}
-
-Collecting all dimensional factors, the correlator takes the scaling form
-\begin{equation}
-H_{ijij}(\xb',\kb,\omega)
-= \frac{C_k^{2}\,\epsilon}{256\pi^{8}}\,k^{-5}\,
-\mathfrak{H}(\Omega),
-\end{equation}
-where the entire dependence on physical scales has been absorbed into the
-dimensionless frequency $\Omega$, and $\mathfrak{H}$ is given by a fully
-dimensionless integral.
-
-For the split form of the kernel, this dimensionless function reads
-\begin{align}
-\mathfrak{H}(\Omega)
-=& \int_{0}^{\infty} dq\; q
-\int_{-\infty}^{\infty} d\Omega_{1}\;
-q^{-13/3}
-\exp\!\left(-2\Omega_{1}^{2}q^{-4/3}\right)
-\nonumber\\
-&\times \Bigg[
-\left(\frac{27}{6}-\frac{1}{6q^{2}}\right)
-I_{+1}(q,\Omega,\Omega_{1})
-+\left(\frac{1}{12q^{2}}+\frac{q^{2}}{12}-\frac{1}{6}\right)
-I_{-1}(q,\Omega,\Omega_{1})
-+\frac{1}{12q^{2}}\,I_{+3}(q,\Omega,\Omega_{1})
-\Bigg],
-\end{align}
-with the dimensionless $s$-integrals
-\begin{align}
-I_{+1}(q,\Omega,\Omega_{1})
-&\equiv \int_{|1-q|}^{1+q} ds\;
-s^{-10/3}
-\exp\!\left(-2(\Omega-\Omega_{1})^{2}s^{-4/3}\right),\\
-I_{-1}(q,\Omega,\Omega_{1})
-&\equiv \int_{|1-q|}^{1+q} ds\;
-s^{-16/3}
-\exp\!\left(-2(\Omega-\Omega_{1})^{2}s^{-4/3}\right),\\
-I_{+3}(q,\Omega,\Omega_{1})
-&\equiv \int_{|1-q|}^{1+q} ds\;
-s^{-4/3}
-\exp\!\left(-2(\Omega-\Omega_{1})^{2}s^{-4/3}\right).
-\end{align}
-
-Equivalently, without splitting the kernel,
-\begin{equation}
-\mathfrak{H}(\Omega)
-=
-\int_{0}^{\infty} dq\; q
-\int_{-\infty}^{\infty} d\Omega_{1}
-\int_{|1-q|}^{1+q} ds\; s\;
-\Phi(q,\Omega_{1};s,\Omega-\Omega_{1})\,
-\widetilde{\mathcal{K}}(q,s),
-\end{equation}
-where $\widetilde{\mathcal{K}}(q,s)$ is the kernel $\mathcal{K}(k,k_{1},u)$
-expressed in terms of $q$ and $s$, and
-\begin{equation}
-\Phi(q,\Omega_{1};s,\Omega-\Omega_{1})
-\equiv
-q^{-13/3}s^{-13/3}
-\exp\!\left(-2\Omega_{1}^{2}q^{-4/3}\right)
-\exp\!\left(-2(\Omega-\Omega_{1})^{2}s^{-4/3}\right).
-\end{equation}
-
-In this form, all integrals are manifestly dimensionless, and the dependence
-on the turbulent energy injection rate $\epsilon$ and the wavenumber $k$ is
-fully contained in the overall prefactor $C_k^{2}\epsilon k^{-5}$.
+with $\widetilde{\mathcal K}(q,s)=\mathcal K(k,k_1,u)|_{k_1=qk,u=sk}$ (homogeneous of degree zero). All physical scales are absorbed in the prefactor $C_k^2\epsilon k^{-5}$.
 
 \subsection{Gogoberidze (2007) Appendix~A form}
 
-Eq.~A.1 of \cite{2007Gogoberidze}:
-\begin{equation}
-    \int_0^{\infty}dy ~ \exp \left(-Ay^2\right)~\exp \left(-A(y-x)^2\right) =  \left( \frac{\pi}{4(A+B)} \right)^{1/2} \exp \left( \frac{-ABx^2}{A+B}\right){\rm erfc}  \left(\frac{-Bx}{\sqrt{A+B}}\right).
-\end{equation}
+Using the Gaussian-erfc identity (Eq.~A.1 of \cite{2007Gogoberidze}, $\int_0^\infty dy\,e^{-Ay^2-B(y-x)^2}=\sqrt{\pi/[4(A+B)]}\,e^{-ABx^2/(A+B)}\operatorname{erfc}[-Bx/\sqrt{A+B}]$), the $\omega_1$ integration in Eq.~\eqref{eq: conversion} can be done in closed form, yielding the doubly-bounded form
 \begin{align}
-H_{i j i j}(k, \omega)&=\frac{\varepsilon}{24 \pi(2 \pi)^{3 / 2} k} \int_{k_0}^{k_d} d k_1 k_1^{-10 / 3} \int_{{\rm max}(|k_1-k|,k_0)}^{{\rm min}(k_1+k,k_d)} d u u^{-10 / 3}\left(k_1^{-4 / 3}+u^{-4 / 3}\right)^{-1 / 2}\nonumber
-\\&\times\left[27-\frac{k^2}{k_1^2}-\frac{k^2}{u^2}+\frac{k^4}{2 k_1^2 u^2}+\frac{k_1^2}{2 u^2}+\frac{u^2}{2 k_1^2}\right] \nonumber \\
-& \times \exp \left(-\frac{2 \varepsilon^{-2 / 3} \omega^2}{k_1^{4 / 3}+u^{4 / 3}}\right) \operatorname{erfc}\left(-\frac{2^{1 / 2} \varepsilon^{-1 / 3} \omega}{\left(k_1^{-4 / 3}+u^{-4 / 3}\right)^{1 / 2}}\right) .
+  H_{ijij}(k,\omega) &= \frac{\varepsilon}{24\pi(2\pi)^{3/2} k}
+  \int_{k_0}^{k_d}\!\!dk_1\,k_1^{-10/3}
+  \int_{\max(|k_1-k|,k_0)}^{\min(k_1+k,k_d)}\!\!du\,u^{-10/3}\,(k_1^{-4/3}+u^{-4/3})^{-1/2}\nonumber\\
+  &\quad\times\Bigl[27-\tfrac{k^2}{k_1^2}-\tfrac{k^2}{u^2}+\tfrac{k^4}{2k_1^2u^2}+\tfrac{k_1^2}{2u^2}+\tfrac{u^2}{2k_1^2}\Bigr]
+  \exp\!\Bigl(-\tfrac{2\varepsilon^{-2/3}\omega^2}{k_1^{4/3}+u^{4/3}}\Bigr)
+  \operatorname{erfc}\!\Bigl(-\tfrac{\sqrt{2}\,\varepsilon^{-1/3}\omega}{(k_1^{-4/3}+u^{-4/3})^{1/2}}\Bigr).
+  \label{eq:Hijij-AppA}
 \end{align}
-Here $k_0$ is the largest scale of the turbulence and $k_d$ is the energy damping scale; the nonlinear integration bounds follow from the finite support of $E_k$.
+$k_0$ is the outer scale and $k_d$ the dissipation scale; the integration window collapses near the boundaries of the inertial range. This integral is finite as $k\to 0$.
 
-\textbf{Claim:} This integral is not divergent as $k \to 0$.
-
-We define the dimensionless parameters
+Define the dimensionless parameters
 \begin{equation}
-\frac{\varepsilon}{k_0} = M^3,
-\qquad
-\frac{k_d}{k_0} = R^{3/4},
-\qquad
-p = \frac{k}{k_0},
-\qquad
-q = \frac{\omega}{k_0}.
+  M=\Bigl(\frac{\varepsilon}{k_0}\Bigr)^{1/3},\quad \frac{k_d}{k_0}=R^{3/4},\quad p=\frac{k}{k_0},\quad q=\frac{\omega}{k_0},
+  \qquad
+  x=\bigl(\tfrac{k_1}{k_0}\bigr)^{-4/3},\ \ y=\bigl(\tfrac{u}{k_0}\bigr)^{-4/3},
+  \label{eq:appA-dimless}
 \end{equation}
-
+where $M=(\varepsilon/k_0)^{1/3}$ is the outer-scale turbulent Mach number (sound speed set to unity), equal to the rms eddy velocity $u_0$. The Mach number enters the GW kernel through the $k$-dependent sweeping rate $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}=\tfrac{M}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, which couples frequency to wavenumber in the Gaussian factor of Eq.~\eqref{eq:Hijij-AppA}. As a result $M$ sets the \emph{effective} wavenumber support of the integral: the exponential $\exp[-2q^2/(M^2(z^{4/3}+y^{4/3}))]$ (with $z=k_1/k_0$) cuts off contributions with $z^{4/3}+y^{4/3}\lesssim 2q^2/M^2$, so the peak of the GW spectrum shifts with $M$.
+The substitution $k_1=k_0 x^{-3/4}$, $u=k_0 y^{-3/4}$ gives $dk_1\,k_1^{-10/3}=-(3/4)k_0^{-7/3}x^{3/4}dx$ and $(k_1^{-4/3}+u^{-4/3})^{-1/2}=k_0^{2/3}(x+y)^{-1/2}$; the integration limits become $x\in[R^{-1},1]$ and $y\in[y_{\min}(x),y_{\max}(x)]$ with
 \begin{equation}
-x = \left(\frac{k_1}{k_0}\right)^{-4/3},
-\qquad
-y = \left(\frac{u}{k_0}\right)^{-4/3},
+  y_{\max}(x)=\min(|x^{-3/4}-p|^{-4/3},\,1),
+  \qquad
+  y_{\min}(x)=\max((x^{-3/4}+p)^{-4/3},\,R^{-1}).
+  \label{eq:appA-y-bounds}
 \end{equation}
-\begin{equation}
-k_1 = k_0 x^{-3/4},
-\qquad
-u = k_0 y^{-3/4}.
-\end{equation}
-
-\begin{equation}
-dk_1 = -\frac{3}{4} k_0 x^{-7/4} dx,
-\qquad
-du = -\frac{3}{4} k_0 y^{-7/4} dy.
-\end{equation}
-
-\begin{equation}
-k_1^{-10/3} = k_0^{-10/3} x^{5/2},
-\qquad
-u^{-10/3} = k_0^{-10/3} y^{5/2},
-\end{equation}
-\begin{equation}
-dk_1\, k_1^{-10/3}
-=
--\frac{3}{4} k_0^{-7/3} x^{3/4} dx,
-\qquad
-du\, u^{-10/3}
-=
--\frac{3}{4} k_0^{-7/3} y^{3/4} dy.
-\end{equation}
-
-\begin{equation}
-k_1^{-4/3} + u^{-4/3}
-=
-k_0^{-4/3} (x + y),
-\qquad
-\left(k_1^{-4/3} + u^{-4/3}\right)^{-1/2}
-=
-k_0^{2/3} (x+y)^{-1/2}.
-\end{equation}
-
-\begin{equation}
-k_1 \in [k_0, k_d]
-\quad \Longrightarrow \quad
-x \in [R^{-1}, 1].
-\end{equation}
-
-\begin{equation}
-\tilde{k}_1 = \frac{k_1}{k_0} = x^{-3/4},
-\qquad
-\tilde{u} = \frac{u}{k_0} = y^{-3/4},
-\end{equation}
-\begin{equation}
-\tilde{u}_{\min} = \max(|\tilde{k}_1 - p|, 1),
-\qquad
-\tilde{u}_{\max} = \min(\tilde{k}_1 + p, R^{3/4}),
-\end{equation}
-\begin{equation}
-y_{\min} = \tilde{u}_{\max}^{-4/3},
-\qquad
-y_{\max} = \tilde{u}_{\min}^{-4/3}.
-\end{equation}
-
+Plugging into Eq.~\eqref{eq:Hijij-AppA} yields
 \begin{align}
-27 - \frac{k^2}{k_1^2} - \frac{k^2}{u^2}
-+ \frac{k^4}{2 k_1^2 u^2}
-+ \frac{k_1^2}{2 u^2}
-+ \frac{u^2}{2 k_1^2}
-=
-27
-- p^2 x^{3/2}
-- p^2 y^{3/2}
-+ \frac{p^4}{2} x^{3/2} y^{3/2}
-+ \frac{1}{2} x^{-3/2} y^{3/2}
-+ \frac{1}{2} y^{-3/2} x^{3/2}.
+  H_{ijij}(p,q) &= \frac{3 M^3 k_0^{-4}}{256(2\pi)^{3/2}\,p}
+  \int_{R^{-1}}^{1}\!dx\,x^{3/4}\!\int_{y_{\min}}^{y_{\max}}\!dy\,y^{3/4}\,(x+y)^{-1/2}\nonumber\\
+  &\quad\times\bigl[27 - p^2(x^{3/2}+y^{3/2}) + \tfrac{p^4}{2}x^{3/2}y^{3/2} + \tfrac{1}{2}(x^{-3/2}y^{3/2}+y^{-3/2}x^{3/2})\bigr]\nonumber\\
+  &\quad\times\exp\!\bigl(-\tfrac{2xy}{x+y}\tfrac{q^2}{M^2}\bigr)\,
+  \operatorname{erfc}\!\bigl(-\tfrac{\sqrt{2}\,q}{M\sqrt{x+y}}\bigr).
+  \label{eq:Hijij-AppA-dimless}
 \end{align}
-
-\begin{equation}
-\exp\!\left(
--\frac{2 \varepsilon^{-2/3} \omega^2}
-{k_1^{4/3} + u^{4/3}}
-\right)
-=
-\exp\!\left(
--\frac{2xy}{x+y}
-\frac{q^2}{M^2}
-\right),
-\end{equation}
-\begin{equation}
-\operatorname{erfc}\!\left(
--\frac{2^{1/2}\varepsilon^{-1/3}\omega}
-{(k_1^{-4/3}+u^{-4/3})^{1/2}}
-\right)
-=
-\operatorname{erfc}\!\left(
--\frac{\sqrt{2}\, q}
-{M \sqrt{x+y}}
-\right).
-\end{equation}
-
-\begin{align}
-H_{ijij}(p,q)
-&=
-\frac{3 M^3 k_0^{-4}}
-{256 (2\pi)^{3/2} p}
-\int_{R^{-1}}^{1} dx\, x^{3/4}
-\int_{y_{\min}(x)}^{y_{\max}(x)} dy\, y^{3/4}
-(x+y)^{-1/2}
-\nonumber\\
-&\quad\times
-\left[
-27
-- p^2 x^{3/2}
-- p^2 y^{3/2}
-+ \frac{p^4}{2} x^{3/2} y^{3/2}
-+ \frac{1}{2} x^{-3/2} y^{3/2}
-+ \frac{1}{2} y^{-3/2} x^{3/2}
-\right]
-\nonumber\\
-&\quad\times
-\exp\!\left(
--\frac{2xy}{x+y}
-\frac{q^2}{M^2}
-\right)
-\operatorname{erfc}\!\left(
--\frac{\sqrt{2}\, q}
-{M \sqrt{x+y}}
-\right).
-\end{align}
-
-\begin{equation}
-y_{\max} = \min(|x^{-3/4} - p|^{-4/3}, 1),
-\qquad
-y_{\min} = \max((x^{-3/4} + p)^{-4/3}, R^{-1}).
-\end{equation}
 
 
 
@@ -586,242 +320,115 @@ y_{\min} = \max((x^{-3/4} + p)^{-4/3}, R^{-1}).
 
 We now consider two alternative models for the turbulence power spectrum and carry out the same GW-kernel derivation in each case. The first model replaces the Kolmogorov spectrum by a monochromatic (delta-function) distribution in wavenumber; the second takes the real-space two-point function to be spatially uncorrelated (delta function in $\br$), which corresponds to a flat (white-noise) spectrum in $k$-space. For each spatial model we work out both the Kraichnan stationary decorrelation and the decaying-turbulence temporal model, giving four cases in total.
 
-The derivation follows the same sequence of steps as in Sec.~1: (i) write $H_{ijij}$ as a double convolution in both $\kb$ and $\omega$, (ii) insert the spectral model, (iii) perform the tensor contractions to get $\mathcal{K}$, (iv) switch to spherical coordinates and the variable $u=|\kb-\kb_1|$, (v) evaluate or simplify the temporal integral, and (vi) introduce dimensionless variables.
+The derivation follows the same sequence of steps as in Sec.~\ref{sec:kraichnan-k41}: (i) write $H_{ijij}$ as a double convolution in both $\kb$ and $\omega$, (ii) insert the spectral model, (iii) perform the tensor contractions to get $\mathcal{K}$, (iv) switch to spherical coordinates and the variable $u=|\kb-\kb_1|$, (v) evaluate or simplify the temporal integral, and (vi) introduce dimensionless variables.
 
 \subsection{\texorpdfstring{Monochromatic energy spectrum $E(k)=E_0\delta(k-k_0)$}{Monochromatic energy spectrum E(k)=E0 delta(k-k0)}}
 
-We set
+Set $E(k)=E_0\,\delta(k-k_0)$ so that $A(k) = E_0\,\delta(k-k_0)/(4\pi k^2)$ and the spectral tensor reads
 \begin{equation}
-  E(k) = E_0\,\delta(k-k_0),
-  \qquad
-  A(k) = \frac{E(k)}{4\pi k^2} = \frac{E_0}{4\pi k^2}\,\delta(k-k_0),
-  \label{eq:Adelta}
+  \tilde{F}_{ij}(\kb,\omega) = \frac{E_0\,\delta(k-k_0)}{4\pi k^2}\,P_{ij}(\khat)\,\tf(\omega),
+  \qquad \int_0^\infty E(k)\,dk = E_0,
+  \label{eq:Fij-delta-k}
 \end{equation}
-so the spectral tensor is
-\begin{equation}
-  F_{ij}(\kb,\tau) = \frac{E_0\,\delta(k-k_0)}{4\pi k^2}\,P_{ij}(\khat)\,f(\tau),
-  \qquad
-  \tilde{F}_{ij}(\kb,\omega) = \frac{E_0\,\delta(k-k_0)}{4\pi k^2}\,P_{ij}(\khat)\,\tilde{f}(\omega),
-\end{equation}
-where $f(\tau)$ (and its Fourier transform $\tilde{f}(\omega)$) carries the temporal decorrelation, to be specified below. The total kinetic energy density is $\int_0^\infty E(k)\,dk=E_0$.
+with $\tf(\omega)$ to be specified by the decorrelation model.
 
-Starting from Eq.~\eqref{eq: H-with-P} and writing $d^3k_1 = k_1^2\,dk_1\,d\phi\,d\mu$ with $\mu\equiv\hat{\kb}\cdot\hat{\kb}_1$, the radial $k_1$ integral immediately yields
+Starting from Eq.~\eqref{eq: H-with-P} in spherical coordinates, the radial integral collapses $k_1\to k_0$ via $\delta(k_1-k_0)$, fixing $u=\sqrt{k^2+k_0^2-2kk_0\mu}$. Trading $\mu$ for $u$ (azimuth contributes $2\pi$) and using $\delta(u-k_0)$ from $A(u)$ yields the closed-form spatial reduction
 \begin{equation}
-  \int_0^\infty k_1^2\,dk_1\,A(k_1) = \int_0^\infty dk_1\,\frac{E_0\,\delta(k_1-k_0)}{4\pi} = \frac{E_0}{4\pi}.
-  \label{eq:k1-delta}
-\end{equation}
-With $k_1$ fixed to $k_0$, the second spectral factor evaluates on $u\equiv|\kb-\kb_1|=\sqrt{k^2+k_0^2-2kk_0\mu}$:
-\begin{equation}
-  A(u) = \frac{E_0\,\delta(u-k_0)}{4\pi u^2}.
-  \label{eq:Au-delta}
-\end{equation}
-We change the angular variable from $\mu$ to $u$ using Eq.~\eqref{eq: conversion}, i.e.\ $u\,du = kk_0\,|d\mu|$, and perform the azimuthal integral ($\int_0^{2\pi}d\phi = 2\pi$):
-\begin{align}
-  2\pi\int_{-1}^{1}d\mu\,\frac{E_0\,\delta(u(\mu)-k_0)}{4\pi u(\mu)^2}
-  &= \frac{E_0}{2}\int_{|k-k_0|}^{k+k_0}\frac{du}{kk_0}\,\frac{\delta(u-k_0)}{u}
-   = \frac{E_0}{2kk_0^2}\;\Theta(2k_0-k).
+  2\pi\!\int_{-1}^{1}\!d\mu\,A(u) = \frac{E_0}{2k k_0^2}\,\Theta(2k_0-k),
   \label{eq:angular-delta}
-\end{align}
-The Heaviside factor $\Theta(2k_0-k)$ enforces the triangle inequality: the root $u=k_0$ lies in the range $[|k-k_0|,k+k_0]$ only when $k\le 2k_0$, i.e.\ $p\le 2$ with $p\equiv k/k_0$.
-
-The geometric kernel at $k_1=u=k_0$ evaluates as (using $p=k/k_0$)
+\end{equation}
+with the Heaviside factor enforcing the triangle inequality $p \equiv k/k_0 \leq 2$. The geometric kernel at $k_1=u=k_0$ evaluates to
 \begin{equation}
-  \mathcal{K}(k,k_0,k_0)
-  = \frac{27}{6}+\frac{k^4}{12k_0^4}+\frac{k_0^2}{12k_0^2}+\frac{k_0^2}{12k_0^2}
-    -\frac{k^2}{6k_0^2}-\frac{k^2}{6k_0^2}
-  = \frac{14}{3} - \frac{p^2}{3} + \frac{p^4}{12}
-  \equiv \mathcal{K}_0(p).
+  \mathcal{K}_0(p) \equiv \mathcal{K}(k,k_0,k_0) = \frac{14}{3} - \frac{p^2}{3} + \frac{p^4}{12}.
   \label{eq:K0}
 \end{equation}
-Collecting Eqs.~\eqref{eq:k1-delta}--\eqref{eq:K0} in Eq.~\eqref{eq: H-with-P},
 % FLAG: 4 pi error in the dimensional prefactor below.
-% From Eq.~\eqref{eq:k1-delta}: int k_1^2 dk_1 A(k_1) = E_0/(4 pi).
-% From Eq.~\eqref{eq:angular-delta}: 2 pi int d mu A(u) = E_0/(2 k k_0^2) * Theta(2-p).
-% Product: int d^3 k_1 A(k_1) A(u) K = E_0^2 K_0(p) Theta(2-p) / (8 pi k k_0^2).
-% Together with 1/(2 pi)^8 from Eq.~\eqref{eq: H-with-P}, the correct prefactor
-% reads E_0^2 Theta / (8 pi (2 pi)^8 k k_0^2). The displayed form has 1/2 in
-% place of 1/(8 pi) — 4 pi too large. The compound error propagates into
-% Eq.~\eqref{eq:H-delta-Kraichnan} below as an 8 pi overstatement (an extra
-% factor of 2 also enters the pi/(2 pi)^8 -> 1/(2 pi)^7 simplification there).
-% The boxed dimensionless mathfrak{H} in Eq.~\eqref{eq:dimless-delta-Kraichnan}
-% is unaffected — it is the shape only, with the dimensional prefactor
-% (whichever value) stripped off.
+% int d^3 k_1 A(k_1) A(u) K should give E_0^2 K_0(p) Theta(2-p) / (8 pi k k_0^2).
+% Displayed form below has 1/2 in place of 1/(8 pi) — 4 pi too large. The error
+% propagates through to Eq.~\eqref{eq:H-delta-Kraichnan} (overall 8 pi too
+% large). The boxed mathfrak{H} is unaffected (shape only).
+Substituting Eqs.~\eqref{eq:angular-delta}--\eqref{eq:K0} in Eq.~\eqref{eq: H-with-P},
 \begin{equation}
   H_{ijij}(\kb,\omega)
-  = \frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,kk_0^2}\;
-    \mathcal{K}_0(p)\,
-    \underbrace{\int_{-\infty}^{\infty}d\omega_1\,
-    \tilde{f}(\omega_1)\,\tilde{f}(\omega-\omega_1)}_{I_\omega(\omega)}.
+  = \frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,k k_0^2}\;\mathcal{K}_0(p)\;I_\omega(\omega),
+  \qquad
+  I_\omega(\omega)\equiv\!\int\!d\omega_1\,\tf(\omega_1)\tf(\omega-\omega_1).
   \label{eq:H-delta-k}
 \end{equation}
-All spatial structure has been reduced to the explicit prefactor; the remaining task is to evaluate the temporal convolution $I_\omega$.
+All spatial structure has been resolved in closed form; only the temporal convolution $I_\omega$ remains. Because both wavevectors are pinned to $k_0$ by the two $\delta$-functions, there is no leftover wavenumber integration: the only spatial constraint is the $M$-independent triangle inequality $\Theta(2-p)$. The Mach number therefore cannot reshape any spatial integration \emph{bounds} here; it enters solely through the temporal decorrelation rate at the fixed scale $k_0$, which we tie to $M$ via $\eta_{k_0}=\tfrac{M}{\sqrt{2\pi}}k_0$ (cf.\ Eq.~\eqref{eq:appA-dimless}). This contrasts with the white-noise case of Sec.~\ref{sec:white}, where $M$ does enter the surviving wavenumber integral.
 
 \subsubsection{Kraichnan decorrelation}
 
-The Kraichnan model gives $\tilde{f}(\omega)=(2/\eta_0)\exp(-\omega^2/\pi\eta_0^2)$ with the fixed rate $\eta_0\equiv\eta_{k_0}$. The convolution of two identical Gaussians is itself Gaussian:
-\begin{align}
-  I_\omega(\omega)
-  &= \frac{4}{\eta_0^2}\int_{-\infty}^{\infty}d\omega_1\,
-     \exp\!\left(-\frac{\omega_1^2+(\omega-\omega_1)^2}{\pi\eta_0^2}\right) \nonumber\\
-  &= \frac{4}{\eta_0^2}\,e^{-\omega^2/(2\pi\eta_0^2)}
-     \int_{-\infty}^{\infty}d\omega_1\,
-     \exp\!\left(-\frac{2(\omega_1-\omega/2)^2}{\pi\eta_0^2}\right) \nonumber\\
-  &= \frac{2\sqrt{2}\pi}{\eta_0}\,\exp\!\left(-\frac{\omega^2}{2\pi\eta_0^2}\right).
-  \label{eq:Iomega-Kraichnan}
-\end{align}
-Defining the dimensionless frequency $\Omega\equiv\omega/\eta_0$ and substituting into Eq.~\eqref{eq:H-delta-k},
+For $\tf(\omega)=(2/\eta_0)e^{-\omega^2/\pi\eta_0^2}$ with $\eta_0\equiv\eta_{k_0}=M k_0/\sqrt{2\pi}$, the Gaussian convolution gives $I_\omega(\omega) = (2\sqrt{2}\pi/\eta_0)e^{-\omega^2/(2\pi\eta_0^2)}$. With $q\equiv\omega/k_0$ the exponent becomes $\omega^2/(2\pi\eta_0^2)=q^2/M^2$, so Eq.~\eqref{eq:H-delta-k} separates into a dimensional prefactor and the boxed dimensionless kernel
 \begin{equation}
-  H_{ijij}(\kb,\omega)
-  = \frac{\sqrt{2}\,E_0^2}{(2\pi)^7\,kk_0^2\,\eta_0}\,
-    \mathcal{K}_0(p)\,\Theta(2-p)\,
-    e^{-\Omega^2/(2\pi)}.
-  \label{eq:H-delta-Kraichnan}
-\end{equation}
-Writing $k=pk_0$, the entire result separates into a dimensional prefactor times a dimensionless expression:
-\begin{equation}
+  H_{ijij}(\kb,\omega) = \frac{\sqrt{2}\,E_0^2}{(2\pi)^7\,k k_0^2\,\eta_0}\,\mathcal{K}_0(p)\,\Theta(2-p)\,e^{-q^2/M^2},
+  \qquad
   \boxed{
-  \mathfrak{H}^{(\delta k)}_{\rm Kraichnan}(p,\Omega)
-  = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,e^{-\Omega^2/(2\pi)},
+  \mathfrak{H}^{(\delta k)}_{\rm Kraichnan}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,e^{-q^2/M^2}.
   }
   \label{eq:dimless-delta-Kraichnan}
 \end{equation}
-with $\mathcal{K}_0(p) = \frac{14}{3} - \frac{p^2}{3} + \frac{p^4}{12}$ from Eq.~\eqref{eq:K0}. There is no remaining integral: both delta functions have been evaluated in closed form.
+There is no remaining integral. The $p$-shape is fixed; $M$ acts only as the Gaussian width in $q$, so the GW spectrum peaks at $q\sim M$.
 
 \subsubsection{Decay model}
+\label{sec:delta-decay}
 
-For the decaying-turbulence model the temporal kernel is
-\begin{equation}
-  \tilde{f}(\omega) = \hat{g}(\omega\tau_1),
-  \qquad
-  \hat{g}(q) = e^{iq}(-iq)^{-5/3}\Gamma\!\left(\tfrac{1}{3},-iq\right),
-\end{equation}
-where $\tau_1$ is the characteristic decay time at scale $k_0$. Substituting into Eq.~\eqref{eq:H-delta-k} and defining $q=\omega\tau_1$, $q_1=\omega_1\tau_1$, so that $d\omega_1=dq_1/\tau_1$:
-\begin{equation}
-  I_\omega(\omega)
-  = \int_{-\infty}^{\infty}d\omega_1\,\hat{g}(\omega_1\tau_1)\,\hat{g}((\omega-\omega_1)\tau_1)
-  = \frac{1}{\tau_1}\int_{-\infty}^{\infty}dq_1\,\hat{g}(q_1)\,\hat{g}(q-q_1).
-  \label{eq:Iomega-decay}
-\end{equation}
-Because $\hat{g}$ has no closed-form convolution, this one-dimensional integral must be retained. Inserting Eq.~\eqref{eq:Iomega-decay} into Eq.~\eqref{eq:H-delta-k},
-\begin{equation}
-  H_{ijij}(\kb,\omega)
-  = \frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,kk_0^2\,\tau_1}\,
-    \mathcal{K}_0(p)\,
-    \int_{-\infty}^{\infty}dq_1\,\hat{g}(q_1)\,\hat{g}(q-q_1).
-\end{equation}
-The dimensionless result is
+For decaying turbulence, $\tf(\omega)=\hat g(\omega\tau_1)$ with $\hat g(\bar q)=e^{i\bar q}(-i\bar q)^{-5/3}\Gamma(\tfrac{1}{3},-i\bar q)$ and $\tau_1=1/\eta_0=\sqrt{2\pi}/(M k_0)$ the decay time at scale $k_0$. With $q=\omega/k_0$ the natural temporal argument is $\bar q\equiv\omega\tau_1=\sqrt{2\pi}\,q/M$; changing variables in Eq.~\eqref{eq:H-delta-k}, the temporal factor becomes $I_\omega=(1/\tau_1)\!\int dq_1\,\hat g(q_1)\hat g(\bar q-q_1)$, which has no closed form. The dimensionless result is
 \begin{equation}
   \boxed{
-  \mathfrak{H}^{(\delta k)}_{\rm decay}(p,q)
-  = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,
-    \int_{-\infty}^{\infty}dq_1\,\hat{g}(q_1)\,\hat{g}(q-q_1).
+  \mathfrak{H}^{(\delta k)}_{\rm decay}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,\int_{-\infty}^\infty\!dq_1\,\hat g(q_1)\,\hat g(\bar q-q_1),
+  \qquad \bar q=\frac{\sqrt{2\pi}\,q}{M}.
   }
   \label{eq:dimless-delta-decay}
 \end{equation}
-The spatial integration is again fully resolved by the two delta functions; only a single one-dimensional frequency integral remains.
+The spatial part is fully resolved by the two $\delta$-functions; only a 1-D frequency integral remains, and $M$ enters it solely through the rescaled frequency $\bar q$.
 
 \subsection{Real-space delta-function correlations}
+\label{sec:white}
 
-We now consider a model in which the spatial part of the two-point velocity correlation is a delta function in $\br$:
+Take the spatial part of $R_{ij}$ to be a $\delta^{(3)}(\br)$, with velocity variance $v_0^2$ and temporal decorrelation $T(\eta_k,\tau)$:
 \begin{equation}
-  R_{ij}(\br,\tau) = v_0^2\,\delta^{(3)}(\br)\,P_{ij}\,T(\tau),
-  \label{eq:R-white}
-\end{equation}
-where $v_0^2$ is the velocity variance and $T(\tau)$ is the (to-be-specified) temporal decorrelation function. Taking the spatial Fourier transform,
-\begin{equation}
-  F_{ij}(\kb,\tau) = v_0^2\,P_{ij}(\khat)\,T(\tau),
+  R_{ij}(\br,\tau) = v_0^2\,\delta^{(3)}(\br)\,P_{ij}\,T(\eta_k,\tau),
   \qquad
-  \tilde{F}_{ij}(\kb,\omega) = v_0^2\,P_{ij}(\khat)\,\widetilde{T}(\omega),
+  \tilde F_{ij}(\kb,\omega) = v_0^2\,P_{ij}(\khat)\,\widetilde T(\eta_k,\omega),
   \label{eq:Fwhite}
 \end{equation}
-so the spectral amplitude is $k$-independent: $A(k)=v_0^2$. This corresponds to an energy spectrum $E(k)\propto k^2$ (blue, ultraviolet-dominated), and in practice the integrals must be cut off between the outer scale $k_0$ and a dissipation scale $k_d$.
-
-The tensor contractions proceed identically to Sec.~1 and yield the same kernel $\mathcal{K}(k,k_1,u)$. With $A(k_1)=A(u)=v_0^2$ and the temporal factor $\widetilde{T}(\omega)$ independent of $k$, Eq.~\eqref{eq: H-after-r} becomes
+so $A(k)=v_0^2$ is $k$-independent (i.e.\ $E(k)\propto k^2$, ultraviolet-dominated); the integrals must be cut off between $k_0$ and $k_d$. Crucially, we adopt the same $k$-dependent sweeping rate as in Sec.~\ref{sec:kraichnan-k41}, $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}=\tfrac{M}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, so that $\widetilde T$ depends on the wavenumber and the temporal factor no longer decouples from the spatial integral. With $A(k_1)=A(u)=v_0^2$ in Eq.~\eqref{eq: H-after-r} and dimensionless variables $z=k_1/k_0$, $y=u/k_0$, $p=k/k_0$, $q=\omega/k_0$, $R^{3/4}=k_d/k_0$,
 \begin{equation}
-  H_{ijij}(\kb,\omega)
-  = \frac{v_0^4}{(2\pi)^7}
-    \underbrace{\int_{-\infty}^{\infty}d\omega_1\,\widetilde{T}(\omega_1)\,\widetilde{T}(\omega-\omega_1)}_{J(\omega)}
-    \int_{k_0}^{k_d}\frac{k_1}{k}\,dk_1
-    \int_{\max(|k-k_1|,k_0)}^{\min(k+k_1,k_d)}u\,du\;
-    \mathcal{K}(k,k_1,u).
+  H_{ijij}(\kb,\omega) = \frac{v_0^4 k_0^2}{(2\pi)^7}\!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,J(\omega;k_1,u),
+  \qquad
+  J(\omega;k_1,u)\equiv\!\int\!d\omega_1\,\widetilde T(\eta_{k_1},\omega_1)\widetilde T(\eta_u,\omega-\omega_1),
   \label{eq:H-white}
 \end{equation}
-The temporal convolution $J(\omega)$ and the double spatial integral are fully decoupled because $\widetilde{T}$ does not depend on $k_1$ or $u$. Introducing dimensionless integration variables
-\begin{equation}
-  z \equiv \frac{k_1}{k_0},\quad y \equiv \frac{u}{k_0},\quad p \equiv \frac{k}{k_0},\quad R^{3/4}\equiv\frac{k_d}{k_0},
-\end{equation}
-so $dk_1=k_0\,dz$, $du=k_0\,dy$, the spatial integral becomes
-\begin{equation}
-  k_0^2\int_{1}^{R^{3/4}}\frac{z}{p}\,dz
-  \int_{\max(|p-z|,1)}^{\min(p+z,\,R^{3/4})}y\,dy\;
-  \widetilde{\mathcal{K}}(p,z,y),
-  \label{eq:spatial-white}
-\end{equation}
-where $\widetilde{\mathcal{K}}(p,z,y)$ is the geometric kernel of Eq.~\eqref{eq: H-geometric} written in units of $k_0$:
-\begin{equation}
-  \widetilde{\mathcal{K}}(p,z,y)
-  = \left[\frac{27}{6}+\frac{p^4}{12z^2y^2}+\frac{z^2}{12y^2}+\frac{y^2}{12z^2}
-    -\frac{p^2}{6y^2}-\frac{p^2}{6z^2}\right].
-\end{equation}
+where $\widetilde{\mathcal K}(p,z,y) = \mathcal K(k,k_1,u)|_{k_1=zk_0,u=yk_0}$ and the frequency factor $J$ now carries the $k_1,u$ dependence inherited from $\eta_{k_1},\eta_u$.
 
 \subsubsection{Kraichnan decorrelation}
 
-For a spatially uncorrelated field there is no scale-dependent sweeping rate; we adopt a fixed decorrelation rate $\eta_0$ and set $\widetilde{T}(\omega)=(2/\eta_0)\exp(-\omega^2/\pi\eta_0^2)$. The temporal convolution is identical in form to Eq.~\eqref{eq:Iomega-Kraichnan}:
+With $\widetilde T(\eta_k,\omega)=(2/\eta_k)e^{-\omega^2/\pi\eta_k^2}$ the convolution combines two Gaussians of \emph{different} widths $\eta_{k_1},\eta_u$; using $\int d\omega_1\,e^{-a\omega_1^2}e^{-b(\omega-\omega_1)^2}=\sqrt{\pi/(a+b)}\,e^{-ab\omega^2/(a+b)}$ with $a=1/\pi\eta_{k_1}^2$, $b=1/\pi\eta_u^2$, and $\eta_{k_1}^2+\eta_u^2=\tfrac{M^2}{2\pi}k_0^{2/3}(k_1^{4/3}+u^{4/3})$, the frequency factor becomes
 \begin{equation}
-  J_{\rm Kraichnan}(\omega)
-  = \frac{2\sqrt{2}\pi}{\eta_0}\,\exp\!\left(-\frac{\omega^2}{2\pi\eta_0^2}\right),
-  \label{eq:J-Kraichnan}
+  J(\omega;k_1,u) = \frac{4\pi\sqrt{2\pi}}{M k_0^{1/3}\sqrt{k_1^{4/3}+u^{4/3}}}\,
+  \exp\!\Bigl(-\frac{2\,\omega^2}{M^2 k_0^{2/3}(k_1^{4/3}+u^{4/3})}\Bigr).
+  \label{eq:J-white-Kraichnan}
 \end{equation}
-which is now a $k$-independent closed form. Substituting Eqs.~\eqref{eq:J-Kraichnan} and \eqref{eq:spatial-white} into Eq.~\eqref{eq:H-white} and defining $\Omega\equiv\omega/\eta_0$:
-\begin{equation}
-  H_{ijij}(\kb,\omega)
-  = \frac{\sqrt{2}\,v_0^4\,k_0^2}{(2\pi)^6\,\eta_0}\,
-    e^{-\Omega^2/(2\pi)}\,
-    k_0^2\int_{1}^{R^{3/4}}\frac{z}{p}\,dz
-    \int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}y\,dy\;
-    \widetilde{\mathcal{K}}(p,z,y).
-\end{equation}
-The dimensionless integral is
+Inserting this into Eq.~\eqref{eq:H-white} and absorbing the constants into the dimensional prefactor gives the boxed dimensionless kernel
 \begin{equation}
   \boxed{
-  \mathfrak{H}^{(\delta r)}_{\rm Kraichnan}(p,\Omega)
-  = e^{-\Omega^2/(2\pi)}\,
-    \int_{1}^{R^{3/4}}\frac{z}{p}\,dz
-    \int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}y\,dy\;
-    \widetilde{\mathcal{K}}(p,z,y).
+  \mathfrak{H}^{(\delta r)}_{\rm Kraichnan}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,(z^{4/3}+y^{4/3})^{-1/2}\,e^{-2q^2/[M^2(z^{4/3}+y^{4/3})]}.
   }
   \label{eq:dimless-white-Kraichnan}
 \end{equation}
-The frequency dependence is an explicit Gaussian factor, while the shape in $p$ is determined by the two-dimensional wavenumber integral.
+The exponential now acts as an $M$-dependent effective cutoff on the wavenumber integration: contributions require $z^{4/3}+y^{4/3}\gtrsim 2q^2/M^2$, so as $M$ grows the effective wavenumber support widens and the GW spectrum peak shifts. This is precisely the structure of the Gogoberidze exponent $\exp[-2\varepsilon^{-2/3}\omega^2/(k_1^{4/3}+u^{4/3})]$ in Eq.~\eqref{eq:Hijij-AppA}; the $k$-dependent sweeping rate, rather than a fixed $\eta_0$, is what makes $M$ control the integration support.
 
 \subsubsection{Decay model}
 
-For the decaying-turbulence model, $\widetilde{T}(\omega)=\hat{g}(\omega\tau_1)$ with the same $\hat{g}$ as in Sec.~3.1.2. The temporal convolution is again a one-dimensional integral with no closed form:
-\begin{equation}
-  J_{\rm decay}(\omega)
-  = \int_{-\infty}^{\infty}d\omega_1\,\hat{g}(\omega_1\tau_1)\,\hat{g}((\omega-\omega_1)\tau_1)
-  = \frac{1}{\tau_1}\int_{-\infty}^{\infty}dq_1\,\hat{g}(q_1)\,\hat{g}(q-q_1),
-  \qquad q\equiv\omega\tau_1.
-  \label{eq:J-decay}
-\end{equation}
-Substituting into Eq.~\eqref{eq:H-white},
-\begin{equation}
-  H_{ijij}(\kb,\omega)
-  = \frac{v_0^4\,k_0^2}{(2\pi)^7\,\tau_1}\,
-    \mathfrak{H}^{(\delta r)}_{\rm decay}(p,q),
-\end{equation}
-where the fully dimensionless expression is now genuinely three-dimensional:
+For decaying turbulence $\widetilde T(\eta_k,\omega)=\hat g(\omega\tau_k)$ with the same $\hat g(q)=e^{iq}(-iq)^{-5/3}\Gamma(\tfrac13,-iq)$ as Sec.~\ref{sec:delta-decay}, but now with the $k$-dependent decay time $\tau_k=1/\eta_k=\sqrt{2\pi}/(M k_0^{1/3}k^{2/3})$. The temporal factor is the convolution $J(\omega;k_1,u)=\int d\omega_1\,\hat g(\omega_1\tau_{k_1})\hat g((\omega-\omega_1)\tau_u)$, which has no closed form and, because $\tau_{k_1},\tau_u$ depend on the wavenumbers, must remain \emph{inside} the spatial integral. Writing $\tilde J(q;z,y,M)$ for this convolution with the per-mode dimensionless frequencies fixed by $\tau_{k_1},\tau_u\propto 1/M$, the boxed result is
 \begin{equation}
   \boxed{
-  \mathfrak{H}^{(\delta r)}_{\rm decay}(p,q)
-  = \int_{1}^{R^{3/4}}\frac{z}{p}\,dz
-    \int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}y\,dy\;
-    \widetilde{\mathcal{K}}(p,z,y)
-    \int_{-\infty}^{\infty}dq_1\,\hat{g}(q_1)\,\hat{g}(q-q_1).
+  \mathfrak{H}^{(\delta r)}_{\rm decay}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,\tilde J(q;z,y,M).
   }
   \label{eq:dimless-white-decay}
 \end{equation}
-Because $J_{\rm decay}$ is independent of $z$ and $y$ (since $\widetilde{T}$ carries no $k$-dependence), the three integrals are separable: the double wavevector integral and the frequency convolution may be computed independently.
+The decay rates scale as $\eta_k\propto M k_0^{1/3}k^{2/3}$, so $M$ again sets the effective wavenumber support. Unlike the fixed-$\eta_0$ case, the three integrals no longer factorize: the $k$-dependence of the decay rate couples the frequency convolution to the wavenumber integration, mirroring the behavior of Eq.~\eqref{eq:Hijij-AppA}.
 
 \subsection*{Summary of the four dimensionless integrals}
 
@@ -830,10 +437,10 @@ Because $J_{\rm decay}$ is independent of $z$ and $y$ (since $\widetilde{T}$ car
 \hline
 Spectrum & Decorrelation & Dimensionless integral \\
 \hline
-$E_0\delta(k-k_0)$ & Kraichnan & Eq.~\eqref{eq:dimless-delta-Kraichnan}: closed form, no integral \\
-$E_0\delta(k-k_0)$ & Decay & Eq.~\eqref{eq:dimless-delta-decay}: 1D frequency integral \\
-$\delta^{(3)}(\br)$ & Kraichnan & Eq.~\eqref{eq:dimless-white-Kraichnan}: 2D wavevector integral \\
-$\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector $\times$ 1D frequency \\
+$E_0\delta(k-k_0)$ & Kraichnan & Eq.~\eqref{eq:dimless-delta-Kraichnan}: closed form; $M$ in frequency scale only \\
+$E_0\delta(k-k_0)$ & Decay & Eq.~\eqref{eq:dimless-delta-decay}: 1D frequency integral; $M$ in $\bar q$ \\
+$\delta^{(3)}(\br)$ & Kraichnan & Eq.~\eqref{eq:dimless-white-Kraichnan}: 2D wavevector integral; $M$-cutoff in bounds \\
+$\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector $\times$ nested 1D frequency; $M$-cutoff \\
 \hline
 \end{tabular}
 \end{center}
@@ -964,7 +571,7 @@ scaling because the fluid itself carries no IR power.
   \end{minipage}
   \caption{Kraichnan decorrelation + Kolmogorov spectrum.  Five curves per
   panel correspond to $M = 0.03,\, 0.1,\, 0.3,\, 1.0,\, 3.0$ at $R=10^{4}$.
-  Panel (a) is the full numerical $H_{pq}$ (Sec.~1); panel (b) is the
+  Panel (a) is the full numerical $H_{pq}$ (Sec.~\ref{sec:kraichnan-k41}); panel (b) is the
   aeroacoustic $p\to 0$ limit (Kahniashvili et al.\ 2008).  Both give the
   universal IR slope $\Omega_{\rm GW}\propto p^{3}$.}
   \label{fig:spectrum_kolmogorov_kraichnan_pair}
