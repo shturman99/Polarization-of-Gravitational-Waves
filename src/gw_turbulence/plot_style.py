@@ -40,8 +40,8 @@ PALETTE: list[str] = [
 ]
 
 FIGSIZES: dict[str, tuple[float, float]] = {
-    "small": (4.0, 4.0),
-    "large": (8.0, 8.0),
+    "small": (3.5, 3.5),
+    "large": (7.0, 7.0),
 }
 
 LABEL_SIZE = 15
