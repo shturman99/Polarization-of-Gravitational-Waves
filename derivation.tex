@@ -508,6 +508,106 @@ of the universal shape with the dimensional peak and amplitude.
 
 
 
+\section{Location of the spectral peak: sweeping versus source scale}
+\label{sec:peak-location}
+
+A striking feature of the stationary spectrum of
+Fig.~\ref{fig:stationary_mach_peak} is that, for subsonic turbulence, the GW
+energy density peaks at wavenumbers \emph{far below} the outer scale,
+$p_{\rm peak}=k_{\rm peak}/k_0\ll1$ (e.g.\ $p_{\rm peak}\simeq0.04$ at $M=0.03$).
+This is counterintuitive: the GW source is the quadratic stress
+$T_{ij}\sim u_i u_j$, and for a velocity field concentrated at the stirring scale
+$k_0$ one expects the stress---and hence the radiation---to peak near $k\sim k_0$,
+with spatial support extending to at most $k=2k_0$ by the triangle inequality. We
+show here that the analytic peak is fixed instead by the \emph{temporal}
+(sweeping) decorrelation, giving $p_{\rm peak}\simeq1.47\,M$, and that the
+``$k\simeq2k_0$'' expectation is recovered only in the transonic limit.
+
+\paragraph{A one-parameter scaling.}
+In the dimensionless kernel of Eq.~\eqref{eq:Hijij-AppA-dimless} the Mach number
+enters \emph{only} through the sweeping rate $\eta_k\propto M k^{2/3}$, i.e.\
+through the Gaussian $\exp[-\tfrac{2xy}{x+y}q^2/M^2]$ (and its accompanying erfc)
+evaluated on the GW cone $q=p$ of Eq.~\eqref{eq:omega-diag}. The geometric kernel
+and the triangle-inequality integration bounds carry no $M$. The on-cone spectrum
+must therefore take the self-similar form
+\begin{equation}
+  \Omega_{\rm GW}(p;M)\;=\;A\,M^3\,p^3\,G\!\left(\frac{p}{M}\right),
+  \label{eq:peak-ansatz}
+\end{equation}
+in which $A\,M^3 p^3$ is the universal causal infrared rise
+(Sec.~\ref{sec:framework-shape}, with the $M^3$ prefactor of
+Eq.~\eqref{eq:Hijij-AppA-dimless}) and $G$ is a cutoff of the single combination
+$\xi\equiv p/M$, with $G(0)=1$ and $G(\xi\!\to\!\infty)\to0$.
+
+\paragraph{Numerical proof of the collapse.}
+Equation~\eqref{eq:peak-ansatz} is verified directly in
+Fig.~\ref{fig:peak_analysis}. Panel~(b) plots $\Omega_{\rm GW}/(M^3p^3)$ against
+$\xi=p/M$ for $M=0.03$--$3$: the curves collapse onto a single cutoff
+$A\,G(\xi)$, with infrared plateau $A\simeq2.1\times10^{-2}$ and $<13\%$ residual
+spread dominated by the transonic $M=3$ case. The decorrelation cutoff thus
+depends on $p$ and $M$ \emph{only} through $p/M$---the unambiguous signature of
+the sweeping rate---and switches on at $\xi\sim1$, i.e.\ $p\sim M$.
+
+\paragraph{Peak condition and raw peak location.}
+Differentiating Eq.~\eqref{eq:peak-ansatz} on the cone,
+\begin{equation}
+  \frac{d\ln\Omega_{\rm GW}}{d\ln p}\;=\;3+\frac{d\ln G}{d\ln\xi}\;=\;0
+  \quad\Longrightarrow\quad
+  \frac{d\ln G}{d\ln\xi}\bigg|_{\xi_\ast}=-3,\qquad p_{\rm peak}=\xi_\ast\,M,
+  \label{eq:peak-condition}
+\end{equation}
+so the peak sits where the cutoff has logarithmic slope $-3$, at a fixed
+$\xi_\ast$ independent of $M$. Reading the peak directly from each computed
+spectrum (Fig.~\ref{fig:peak_analysis}c; sub-grid argmax, no model fit) gives a
+location linear in $M$ across the entire subsonic--transonic range,
+\begin{equation}
+  p_{\rm peak}\;=\;1.48\,M^{1.00}\qquad(M\lesssim1),
+  \label{eq:peak-fit}
+\end{equation}
+with $\xi_\ast=1.47$ read from the collapsed shape, consistent with
+Eq.~\eqref{eq:peak-condition}. Above $M\simeq1$ the peak runs into the outer
+scale and the linear law saturates: $p_{\rm peak}/M$ falls from $1.49$ at $M=1$
+to $0.77$ at $M=3.4$. The peak reaches the ``source-scale'' value $p\simeq2$ only
+at transonic $M\simeq1.4$.
+
+\paragraph{Resolution.}
+The naive ``$k\simeq2k_0$'' is a purely \emph{spatial} statement: it is the
+largest wavenumber at which the quadratic stress has support, the triangle edge
+$\Theta(2-p)$ that appears explicitly in the monochromatic kernel
+[Eq.~\eqref{eq:dimless-delta-Kraichnan}]. It is an ultraviolet \emph{edge}, not a
+peak. The GW peak, by contrast, is fixed in \emph{frequency}: gravitational waves
+are sourced on the cone $\omega=k$, while a turbulent eddy of wavenumber $k$
+decorrelates at the sweeping frequency $\eta_k\sim M k_0^{1/3}k^{2/3}$, which for
+subsonic flow is $\ll k$ for every $k\gtrsim k_0$. The source therefore has
+negligible temporal power at the frequency $\omega=k$ needed to radiate at
+wavenumber $k$, except at the lowest wavenumbers $k=\omega\lesssim M k_0$, and the
+spectrum is throttled down to $p_{\rm peak}\sim M$. This is the aeroacoustic
+(Lighthill) suppression of slow sources: subsonic turbulence radiates at its
+eddy-turnover frequency $\sim M k_0$, not at its spatial scale $k_0$. Whether the
+true peak follows this sweeping scale or remains pinned near $k_0$
+(Sec.~\ref{sec:mach-discussion}) is precisely the simulation--analytic tension
+this paper addresses; the stationary kernel commits unambiguously to the sweeping
+scale.
+
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{stationary_peak_analysis}
+  \caption{Why the stationary GW spectrum peaks at $p\simeq1.47\,M$ rather than at
+  the source scale $p\sim2$, computed from
+  $\Omega_{\rm GW}(p)=p^3H_{ijij}(p,p;M,R)$ [Eq.~\eqref{eq:Hijij-AppA-dimless},
+  $R=10^4$]. (a)~Each spectrum (solid) follows its causal infrared asymptote
+  $A\,M^3p^3$ (dotted) and rolls over at the peak (dot) where the sweeping cutoff
+  switches on. (b)~Collapse: $\Omega_{\rm GW}/(M^3p^3)$ versus $\xi=p/M$ falls on a
+  single curve $A\,G(\xi)$ for every $M$, proving the cutoff depends only on $p/M$
+  [Eq.~\eqref{eq:peak-ansatz}]; the universal peak position is $\xi_\ast=1.47$.
+  (c)~Peak location read directly from each computed spectrum (points) versus $M$:
+  a power law $p_{\rm peak}=1.48\,M^{1.00}$ (line) [Eq.~\eqref{eq:peak-fit}],
+  coincident with $\xi_\ast M$ (dashed), that bends below it toward the $p=2$
+  source scale (dotted) only at transonic $M$. Generated by
+  \texttt{Notebooks/stationary\_peak\_analysis.py}.}
+  \label{fig:peak_analysis}
+\end{figure*}
+
 \section{Monochromatic and White-Noise Spectra}
 
 We now consider two alternative models for the turbulence power spectrum and carry out the same GW-kernel derivation in each case. The first model replaces the Kolmogorov spectrum by a monochromatic (delta-function) distribution in wavenumber; the second takes the real-space two-point function to be spatially uncorrelated (delta function in $\br$), which corresponds to a flat (white-noise) spectrum in $k$-space. For each spatial model we work out both the Kraichnan stationary decorrelation and the decaying-turbulence temporal model, giving four cases in total.
@@ -648,19 +748,7 @@ the BK2016 self-similar closure and time-integrated over the emission window
 (\texttt{Notebooks/f\_peak\_vs\_tau\_mach.py}). Two temporal-correlation kernels
 are compared through their dimensionless transform
 $\mathcal{G}(q)=\widehat{R^2}(q)$: the random-phase BK2016 form (Model A) and the
-coherent eddy (Model B), %shown in Fig.~\ref{fig:f_peak_kernels}.
-
-%\begin{figure}[ht]
-%  \centering
-
-%\includegraphics[width=\columnwidth]{f_peak_kernels}
-%  \caption{Dimensionless temporal kernel $\mathcal{G}(q) = \widehat{R^2}(q)$ for
-%  the two correlation models considered in Sec.~\ref{sec:fpeak-numerical}.
-%  Model A uses the random-phase BK2016 form $R_A(\sigma)=(1+|\sigma|)^{-2/3}$;
-%  Model B is the coherent eddy $R_B(\sigma)=\cos(\sigma)\,e^{-\alpha|\sigma|}$
-%  with $\alpha=0.15$.}
-%  \label{fig:f_peak_kernels}
-%\end{figure}
+coherent eddy (Model B).
 
 Across all four self-similar classes the ratio
 $f_{\rm peak}^{A}/f_{\rm peak}^{B}$ is \emph{independent of} $(\tau_\ast,M_0)$:
