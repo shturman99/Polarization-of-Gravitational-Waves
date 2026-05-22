@@ -87,13 +87,20 @@ def g_decaying(z):
 
 @lru_cache(maxsize=1024)
 def _g_decaying_scalar(z: complex) -> complex:
-    # For E(t) \propto  (1 + t/tau_1)^(-2/3) with t >= 0 and Fourier convention
-    # exp(-i omega t), derivation.tex gives
-    # g(q) = exp(i q) * (-i q)^(-5/3) * Gamma(1/3, -i q),
-    # where Gamma(1/3, -i q) is the lower incomplete gamma.
+    # Temporal transfer function: forward Fourier transform of the BK2016
+    # decorrelation (1 + t/tau_1)^(-2/3) on t >= 0.  With derivation.tex's
+    # convention f(tau) = int (dw/2pi) e^{-i w tau} ftilde(w) -- i.e. forward
+    # transform e^{+i w tau} -- a substitution u = 1 + sigma gives
+    #   g(q) = int_0^inf e^{+i q sigma} (1+sigma)^{-2/3} dsigma
+    #        = e^{-i q} (-i q)^{-1/3} Gamma(1/3, -i q),
+    # with Gamma(1/3, -i q) the UPPER incomplete gamma.  The exponent is -1/3
+    # ( = alpha - 1 for the kernel power alpha = 2/3 ); the earlier -5/3 was
+    # wrong -- it diverges as q -> 0 and made the convolution non-integrable.
+    # Only Re[g(z1) g(z2)] enters the spectrum, which is invariant under the
+    # FT sign convention, so the result is unaffected by the e^{+/-i w tau} choice.
     arg = -1j * z
-    gamma_lower = mp.gammainc(1.0 / 3.0, arg)
-    return complex(mp.e ** (1j * z) * (arg ** (-5.0 / 3.0)) * gamma_lower)
+    gamma_upper = mp.gammainc(1.0 / 3.0, arg)
+    return complex(mp.e ** (-1j * z) * (arg ** (-1.0 / 3.0)) * gamma_upper)
 
 
 def _cosine_grid(lower: float, upper: float, count: int) -> np.ndarray:

@@ -36,6 +36,40 @@ class TestCoreHelpers(unittest.TestCase):
         self.assertTrue(np.all(np.isfinite(values.real)))
         self.assertTrue(np.all(np.isfinite(values.imag)))
 
+    def test_g_decaying_matches_direct_fourier_transform(self):
+        # Regression for the kernel-exponent bug: g is the forward FT of the
+        # decorrelation (1+sigma)^{-2/3}, so Re g(q) must equal
+        #   int_0^inf cos(q sigma) (1+sigma)^{-2/3} dsigma.
+        # The earlier closed form used exponent -5/3 (correct is -1/3) and was
+        # off by factors of ~2-3 with the wrong sign.
+        from scipy import integrate
+
+        for q in (0.5, 1.0, 2.0, 4.0):
+            ref, _ = integrate.quad(
+                lambda s: (1.0 + s) ** (-2.0 / 3.0),
+                0.0,
+                np.inf,
+                weight="cos",
+                wvar=q,
+                limit=200,
+            )
+            self.assertAlmostEqual(g_decaying(q).real, ref, places=4)
+
+    def test_g_decaying_small_q_power_law_is_minus_one_third(self):
+        # |g(q)| ~ q^{-1/3} as q -> 0, so |g(q)|/|g(2q)| -> 2^(1/3) ~ 1.26.
+        # The -5/3 bug would give 2^(5/3) ~ 3.17 -- a clean discriminator.
+        ratio = abs(g_decaying(1e-4)) / abs(g_decaying(2e-4))
+        self.assertAlmostEqual(ratio, 2.0 ** (1.0 / 3.0), delta=0.05)
+
+    def test_temporal_conv_decay_is_finite_and_order_unity(self):
+        # The corrected kernel makes the self-convolution converge to O(1);
+        # the -5/3 bug made it non-integrable (~1e6, sign-flipping).
+        for q in (0.5, 1.5, 4.0):
+            val = float(core._temporal_conv_decay(q))
+            self.assertTrue(np.isfinite(val))
+            self.assertLess(abs(val), 50.0)
+            self.assertGreater(abs(val), 1e-3)
+
     def test_integration_bounds_return_none_for_empty_region(self):
         self.assertIsNone(core._integration_bounds(x=1.0, p=5.0, R=1.0))
 
