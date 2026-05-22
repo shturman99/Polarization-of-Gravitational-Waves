@@ -1,20 +1,26 @@
-"""Analytic GW spectrum in the Roper Pol et al. (2020) Omega(k)/k convention.
+"""Analytic GW + fluid spectra in the Roper Pol et al. (2020) Omega(k)/k convention.
 
 Roper Pol, Mandal, Brandenburg, Kahniashvili & Kosowsky, PRD 102, 083512 (2020)
 [arXiv:1903.08585], Fig. 1 (run ini2) plot the spectra as Omega(k)/k versus k,
 where Omega(k)=drho/dln k (energy per logarithmic wavenumber), so Omega(k)/k is
 the per-dk spectrum E(k).
 
-We plot ONLY what our derivation contains: the analytic GW spectrum from the
-stationary Kraichnan--K41 (Gogoberidze 2007) kernel, which assumes a Kolmogorov
-inertial range and is therefore shown only for k >= k0 (above the peak). In our
-variables Omega_GW(p) ~ p^3 H(p,p) = drho_GW/dln k, hence
+In our variables Omega_GW(p) ~ p^3 H(p,p) = drho_GW/dln k, hence
 
-    Omega_GW(k)/k  ~  p^2 H(p,p),    p = k/k0.
+    Omega_GW(k)/k  ~  p^2 H(p,p),    p = k/k0,
 
-For reference we draw the slope the simulation REPORTS, k^{-11/3}, as a dash-dot
-guide. No simulation data points are plotted here: a quantitative comparison
-against the actual simulated spectra (real digitized or run data) is deferred.
+from the stationary Kraichnan--K41 (Gogoberidze 2007) kernel.  We also show the
+model fluid spectrum Omega_M(k)/k = E(k) ~ k^{-5/3}, plotted ONLY for k >= k0
+(the Kolmogorov inertial range the kernel assumes -- no fabricated IR).
+
+IMPORTANT (normalization).  Both curves are DIMENSIONLESS.  Omega_GW/k here is the
+bare GW kernel with the source stress set to O(1); the physical relic Omega_GW is
+suppressed by the source amplitude squared (~Omega_M^2), the horizon/efficiency
+factor (~H_*/k_*), and gravitational couplings -- together ~1e-9..-11, which is
+why Roper Pol's Omega_GW/k sits ~1e-13 while the bare kernel is ~1e-2.  The
+GW-vs-fluid VERTICAL OFFSET in this figure is therefore NOT physical; only the
+shapes (slopes, peak location) are comparable.  A calibrated absolute comparison
+needs the run's k_*/H_* and Omega_M and is deferred.
 """
 
 from __future__ import annotations
@@ -34,7 +40,7 @@ from gw_turbulence.plot_style import (  # noqa: E402
     save_figure,
 )
 
-M = 3.0
+M = 1.0
 R = 1.0e4
 
 
@@ -43,36 +49,64 @@ def gw_over_k(p: np.ndarray) -> np.ndarray:
     return np.array([pp ** 2 * H_pq(pp, pp, M=M, R=R) for pp in p])
 
 
+def _fit_slope(p, y, lo, hi):
+    """Least-squares log-log slope of y(p) over the window [lo, hi]."""
+    m = (p >= lo) & (p <= hi)
+    return float(np.polyfit(np.log(p[m]), np.log(y[m]), 1)[0])
+
+
 def main(name: str = "roperpol_convention_spectra"):
     apply_paper_style()
 
-    # analytic GW only over the inertial range k >= k0 (p >= 1)
-    p = np.logspace(0.0, 2.3, 60)
+    p = np.logspace(-1, 3, 70)
     gw = gw_over_k(p)
+    p_peak = p[np.argmax(gw)]
 
-    vermilion = PALETTE[6]
-    fig, ax = plt.subplots(figsize=(4.8, 3.6), constrained_layout=True)
-    ax.loglog(p, gw, "-", lw=2.0, color=vermilion,
-              label=r"analytic $\Omega_{\rm GW}/k$ (Kolmogorov, $M=3$)")
+    # fitted IR slope of the GW spectrum (causal tail, k < k0)
+    ir_slope = _fit_slope(p, gw, 0.1, 0.4)
 
-    # reference slope ONLY: the exponent k^{-11/3} reported by the Roper Pol et
-    # al. simulation. This is a guide line, NOT their data -- no simulated
-    # spectrum is plotted here. Anchored to the analytic curve in the window
-    # where the two are compared.
-    x0, x1 = 3.0, 40.0
+    # model fluid spectrum Omega_M/k = E(k) ~ k^{-5/3}, Kolmogorov, k >= k0 only.
+    pk = p[p >= 1.0]
+    fluid = pk ** (-5.0 / 3.0)  # normalized to E(k0)=1; absolute level arbitrary
+
+    c_gw, c_fluid = PALETTE[6], PALETTE[0]
+    fig, ax = plt.subplots(figsize=(5.2, 4.0), constrained_layout=True)
+
+    ax.loglog(pk, fluid, "-", lw=2.0, color=c_fluid,
+              label=r"model $\Omega_{\rm M}/k = E(k)\sim k^{-5/3}$ ($k\geq k_0$)")
+    ax.loglog(p, gw, "-", lw=2.0, color=c_gw,
+              label=rf"analytic $\Omega_{{\rm GW}}/k$ (Kolmogorov, $M={M:.0f}$)")
+    ax.axvline(p_peak, color="0.6", lw=0.9, ls=":")
+
+    # fitted GW IR slope guide
+    x0, x1 = 0.11, 0.45
     y0 = np.exp(np.interp(np.log(x0), np.log(p), np.log(gw)))
     xs = np.geomspace(x0, x1, 2)
-    ax.loglog(xs, y0 * (xs / x0) ** (-11.0 / 3.0), color="0.35", ls="-.", lw=1.2,
-              label=r"$k^{-11/3}$ (Roper Pol et al.\ reported slope; reference)")
+    ax.loglog(xs, 1.6 * y0 * (xs / x0) ** ir_slope, color="0.35", ls="--", lw=1.2,
+              label=rf"fitted IR slope $k^{{{ir_slope:+.2f}}}$ (causal)")
+
+    # UV reference slopes (guides, not data), both anchored to the GW curve at the
+    # same point so the eye can read how much steeper the analytic UV actually is.
+    xu0, xu1 = 3.0, 30.0
+    yu0 = 1.4 * np.exp(np.interp(np.log(xu0), np.log(p), np.log(gw)))
+    xu = np.geomspace(xu0, xu1, 2)
+    ax.loglog(xu, yu0 * (xu / xu0) ** (-11.0 / 3.0), color="0.30", ls="-.", lw=1.2,
+              label=r"$k^{-11/3}$ (Roper Pol reported; reference)")
+    ax.loglog(xu, yu0 * (xu / xu0) ** (-9.0 / 2.0), color="0.55", ls=":", lw=1.4,
+              label=r"$k^{-9/2}$ (Gogoberidze reported; reference)")
+    # measured post-peak slope, for the caption/print (the actual analytic UV)
+    uv_slope = _fit_slope(p, gw, 3.0, 8.0)
 
     ax.set_xlabel(r"$k/k_0$")
-    ax.set_ylabel(r"$\Omega_{\rm GW}(k)/k$")
+    ax.set_ylabel(r"$\Omega_{\rm GW}(k)/k$ and $\Omega_{\rm M}(k)/k$  (dimensionless)")
     ax.set_xlim(p[0], p[-1])
-    ax.set_ylim(gw.max() * 1e-5, gw.max() * 3)
-    ax.legend(loc="lower left", fontsize=9)
+    ax.set_ylim(gw.max() * 1e-6, fluid.max() * 5)
+    ax.legend(loc="lower left", fontsize=8)
     apply_max_ticks(ax)
     out = save_figure(fig, name)
     print(f"saved {out}")
+    print(f"  GW peak at p={p_peak:.2f};  IR slope k^{ir_slope:+.2f} (causal);  "
+          f"post-peak UV slope k^{uv_slope:+.2f}  (vs ref -3.67, -4.50)")
     return out
 
 
