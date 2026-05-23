@@ -379,55 +379,83 @@ Eq.~\eqref{eq:omega-diag} is precisely $d\rho_{\rm GW}/d\ln k$, hence
   \;=\;p^2\,H_{ijij}(p,p;M,R),\qquad p=\frac{k}{k_0},
   \label{eq:omega-over-k}
 \end{equation}
-with $H_{ijij}$ the stationary kernel of Eq.~\eqref{eq:Hijij-AppA-dimless}. Our
-derivation of $\Omega_{\rm GW}$ assumes a \emph{Kolmogorov inertial range} only;
-we therefore plot the analytic GW spectrum solely for $k\ge k_0$ (above the
-spectral peak) and add no Batchelor infrared tail or other component that the
-derivation does not justify.
+with $H_{ijij}$ the stationary kernel of Eq.~\eqref{eq:Hijij-AppA-dimless}. To
+compare on the simulations' own footing we feed a \emph{full} fluid input spectrum
+into this kernel, with both an infrared band and the Kolmogorov inertial range,
+\begin{equation}
+  E(k)\;\propto\;\begin{cases}
+    k^{4}, & k<k_0\quad(\text{Batchelor infrared band}),\\[2pt]
+    k^{-5/3}, & k\ge k_0\quad(\text{Kolmogorov inertial range}),
+  \end{cases}
+  \label{eq:full-input-spectrum}
+\end{equation}
+joined continuously at $k_0$. The spectrum enters the Appendix-A integral
+Eq.~\eqref{eq:Hijij-AppA} only through the amplitude $A(k)=E(k)/4\pi k^2$; writing
+$A(k)=S(k)\,A_{\rm Kol}(k)$ with the Kolmogorov law $A_{\rm Kol}\propto k^{-11/3}$
+extrapolated to all $k$, the shape factor is $S(k)=1$ for $k\ge k_0$ and
+$S(k)=(k/k_0)^{\,s+5/3}$ for $k<k_0$ (energy slope $E\propto k^s$, here $s=4$).
+Every kinematic and temporal factor of the kernel is left untouched: we extend the
+$k_1,u$ integrations down to an infrared cutoff $k_{\rm IR}=k_0/R_{\rm IR}$ and
+multiply the integrand by $S(k_1)\,S(u)$. Setting $R_{\rm IR}=1$ recovers
+Eq.~\eqref{eq:Hijij-AppA-dimless} identically.
 
-Figure~\ref{fig:roperpol_convention} shows this analytic GW spectrum at $M=1$,
-together with the model fluid spectrum $\Omega_{\rm M}(k)/k=E(k)\propto k^{-5/3}$
-(plotted, like the GW curve, only over the Kolmogorov inertial range $k\ge k_0$)
-and the two slopes the literature reports for the GW inertial range, drawn as
-reference guides: $k^{-11/3}$ from the simulation of \cite{2019RoperPol} (run
-ini2) and $k^{-9/2}$ from \cite{2007Gogoberidze}. We plot no simulation data
-points and defer a quantitative data-level comparison to future work. Both curves
-are \emph{dimensionless}: the GW curve is the bare kernel with the source stress
-normalised to unity, so the GW--fluid vertical offset carries no physical meaning;
-the relic $\Omega_{\rm GW}$ acquires the additional suppression
+Figure~\ref{fig:roperpol_convention} shows the resulting GW spectrum at $M=1$ with
+$R_{\rm IR}=100$ (two infrared decades), together with the full fluid input
+spectrum and the two slopes the literature reports for the GW inertial range, drawn
+as reference guides: $k^{-11/3}$ from the simulation of \cite{2019RoperPol} (run
+ini2) and $k^{-9/2}$ from \cite{2007Gogoberidze}. We plot no simulation data points
+and defer a quantitative data-level comparison to future work. Both curves are
+\emph{dimensionless}: the GW curve is the bare kernel with the source stress
+normalised to unity, so the GW--fluid vertical offset carries no physical meaning
+(the relic $\Omega_{\rm GW}$ acquires the additional suppression
 $\sim\Omega_{\rm M}^2\,(\mathcal H_\ast/k_\ast)$ and gravitational couplings that
-the kernel omits (this is why the simulated $\Omega_{\rm GW}/k\sim10^{-13}$ lies
-far below the fluid spectrum), and only the slopes and peak locations are to be
-compared. In the infrared the analytic GW spectrum rises with the causal slope
-$\Omega_{\rm GW}/k\propto k^{2}$ (i.e.\ $\Omega_{\rm GW}\propto k^3$, fitted slope
-$k^{+1.9}$) and peaks near $k\simeq k_0$. Above the peak it steepens
-\emph{continuously}, and at $M=1$ far more steeply than either reference: the
-measured post-peak slope is $\simeq k^{-4.8}$---steeper than both Gogoberidze's
-$k^{-9/2}$ and the simulation's $k^{-11/3}$---before the $k$-dependent sweeping
-decorrelation bends it below any single power law. The analytic stationary kernel
-therefore does \emph{not} reproduce the extended $k^{-11/3}$ range seen in the
+the kernel omits, which is why the simulated $\Omega_{\rm GW}/k\sim10^{-13}$ lies
+far below the fluid spectrum); only slopes and peak locations are comparable, and
+the fluid curve is rescaled to share the GW peak.
+
+Three features survive this honest treatment. \emph{(i)~The infrared stays causal.}
+The GW spectrum rises with the causal slope $\Omega_{\rm GW}\propto k^3$
+($\Omega_{\rm GW}/k\propto k^2$, fitted $k^{+2.0}$); it does \emph{not} inherit the
+steeper fluid $k^4$ band, because the GW infrared is fixed by the analyticity of the
+stress rather than by the input spectrum. \emph{(ii)~The infrared band lifts the
+amplitude, not the inertial range.} Feeding the band raises the GW amplitude near and
+below the peak by a factor $\simeq1.9$ and shifts the peak from $k\simeq1.5\,k_0$ to
+$k\simeq k_0$, a change that depends only weakly on the infrared slope (a further
+$\simeq1.4$ between Batchelor $k^4$ and Saffman $k^2$) and leaves the inertial range
+untouched. \emph{(iii)~The ultraviolet tension is robust.} Above the peak the
+spectrum steepens \emph{continuously}, and at $M=1$ far more steeply than either
+reference: the measured post-peak slope is $\simeq k^{-5.0}$---steeper than both
+Gogoberidze's $k^{-9/2}$ and the simulation's $k^{-11/3}$---before the $k$-dependent
+sweeping decorrelation bends it below any single power law. The analytic stationary
+kernel therefore does \emph{not} reproduce the extended $k^{-11/3}$ range seen in the
 simulation; at the simulations' Mach number it is markedly steeper, crossing that
-slope rather than following it. This high-$k$ disagreement is precisely the
-simulation--analytic tension that motivates this paper---and that the decaying
-kernel of Sec.~\ref{sec:peak-location} substantially relieves.
+slope rather than following it, and this conclusion is unchanged by the infrared
+treatment. This high-$k$ disagreement is precisely the simulation--analytic tension
+that motivates this paper---and that the decaying kernel of
+Sec.~\ref{sec:peak-location} substantially relieves.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\columnwidth]{roperpol_convention_spectra}
-  \caption{Analytic spectra in the Roper Pol et al.~\cite{2019RoperPol}
-  convention $\Omega(k)/k=E(k)$ (energy per logarithmic wavenumber divided by
-  $k$). Orange: analytic GW spectrum
-  $\Omega_{\rm GW}(k)/k=p^2H_{ijij}(p,p;M,R)$ [Eq.~\eqref{eq:omega-over-k},
-  stationary kernel Eq.~\eqref{eq:Hijij-AppA-dimless}, $M=1$, $R=10^4$]. Black:
-  model fluid spectrum $\Omega_{\rm M}/k=E(k)\propto k^{-5/3}$. Both are shown only
-  over the Kolmogorov inertial range $k\ge k_0$ and are \emph{dimensionless}---the
-  GW curve is the bare kernel, so the GW--fluid vertical offset is not physical
-  (only slopes and peak location are comparable). Dashed: fitted causal infrared
-  slope $k^{+1.9}$. Dash-dot/dotted: the $k^{-11/3}$ (Roper Pol, run ini2) and
-  $k^{-9/2}$ (Gogoberidze) slopes \emph{reported} in the literature, as references
-  only---no simulation data points are plotted. At $M=1$ the analytic GW spectrum
-  steepens past the peak to $\simeq k^{-4.8}$, steeper than both references.
-  Generated by \texttt{Notebooks/roperpol\_convention\_spectra.py}.}
+  \caption{Analytic spectra in the Roper Pol et al.~\cite{2019RoperPol} convention
+  $\Omega(k)/k=E(k)$. Orange (solid): GW spectrum
+  $\Omega_{\rm GW}(k)/k=p^2H_{ijij}(p,p;M,R)$ [Eq.~\eqref{eq:omega-over-k}] computed
+  from a \emph{full} fluid input spectrum---an infrared band $E\propto k^4$ ($k<k_0$)
+  joined to the Kolmogorov range $E\propto k^{-5/3}$ ($k\ge k_0$),
+  Eq.~\eqref{eq:full-input-spectrum}---fed into the Appendix-A kernel
+  Eq.~\eqref{eq:Hijij-AppA} through the shape factor $S(k)=A/A_{\rm Kol}$ ($M=1$,
+  $R=10^4$, infrared range $R_{\rm IR}=k_0/k_{\rm IR}=100$). Orange (dashed): the
+  same kernel restricted to the inertial range only ($R_{\rm IR}=1$, i.e.\ core
+  Eq.~\eqref{eq:Hijij-AppA-dimless})---the infrared band raises the amplitude near
+  the peak but leaves the ultraviolet unchanged. Black: the full fluid input
+  spectrum, rescaled to share the GW peak (the GW--fluid vertical offset is
+  unphysical; only shapes compare). Grey dashed: the causal infrared guide $k^2$
+  ($\Omega_{\rm GW}\sim k^3$). Dash-dot/dotted: the $k^{-11/3}$ (Roper Pol, run
+  ini2) and $k^{-9/2}$ (Gogoberidze) slopes \emph{reported} in the literature, as
+  references only---no simulation data points are plotted. At $M=1$ the GW spectrum
+  steepens past the peak to $\simeq k^{-5.0}$, steeper than both references,
+  independently of the infrared treatment. Generated by
+  \texttt{Notebooks/roperpol\_convention\_spectra.py}.}
   \label{fig:roperpol_convention}
 \end{figure}
 
@@ -512,7 +540,10 @@ Sec.~\ref{sec:kraichnan-mach-peak}); more generally the quadrupole argument
 gives $\Omega_{\rm GW}\propto\Omega_K^2\propto M^4$, steepening toward
 $M^{5\text{--}6}$ once the finite source duration is included
 \cite{Caprini:2018mtu}, the extra power being absent from a single-time
-stationary kernel. Consequently a stated ``$M$-independence'' of the GW signal
+stationary kernel. We derive this progression explicitly for the decaying source
+in Sec.~\ref{sec:decaying-peak}: the full-spatial kernel gives an infrared
+amplitude $\propto M^4$ and a source-pinned peak amplitude $\propto M^{5.3}$
+[Eq.~\eqref{eq:decay-amplitude}, Fig.~\ref{fig:decaying_amplitude}]. Consequently a stated ``$M$-independence'' of the GW signal
 can only refer to the shape (i); any claim that the peak position and the total
 energy are simultaneously $M$-independent is either a normalised-units artifact
 (dividing by $\Omega_K^2$ and measuring $p$ in units of $k_0$) or a conflation
@@ -729,6 +760,37 @@ responsible for displacing the peak to the source scale. Restoring the finite
 source duration (the self-similar slow-time integration) modifies the amplitude
 and overall normalisation but leaves this peak displacement intact.
 
+\paragraph{Amplitude: an extra power of $M$.}
+The same kernel fixes the amplitude as cleanly as the peak. The Mach number enters
+the full-spatial decaying kernel in only two places: the prefactor $\propto M^3$ of
+Eq.~\eqref{eq:Hijij-AppA-dimless} and the temporal factor
+Eq.~\eqref{eq:ft-of-product}. Rescaling $\tau\to\tau/M$ in the latter shows it
+equals $M\,F(\omega/M)$ with $F$ independent of $M$ (the geometric weight, kernel
+bracket and triangle bounds carry no $M$), so on the GW cone $\omega=k$ the spectrum
+factorises exactly as
+\begin{equation}
+  \Omega_{\rm GW}(p;M)\;=\;M^4\,p^3\,\Psi\!\left(p,\,p/M\right),
+  \label{eq:decay-amplitude}
+\end{equation}
+with $\Psi$ the $M$-independent rescaled spatial integral. Two limits follow. In the
+infrared $p/M\to0$ freezes $\Psi\to\Psi(p,0)$, and the amplitude scales as the bare
+prefactor,
+$\Omega_{\rm GW}\propto M^4$ (measured: $M^{3.98}$)---one power steeper than the
+stationary $M^3$ of Eq.~\eqref{eq:Hijij-AppA-dimless}, the extra power being the
+single $M$ from the temporal convolution. At the source-pinned peak $p\simeq2.4$,
+by contrast, the argument $p/M$ slides down the universal $\Psi$ as $M$ grows, and
+the scaling steepens to $\Omega_{\rm GW}^{\rm peak}\propto M^{5.3}$, with the
+band-integrated energy following the same $M^{5.3}$ (Fig.~\ref{fig:decaying_amplitude}).
+This \emph{derives}, rather than postulates, the $M^4\!\to\!M^{5\text{--}6}$
+progression quoted in Sec.~\ref{sec:mach-discussion}: the $M^4$ is the genuine
+infrared prefactor, while the $M^{5\text{--}6}$ peak and energy steepening follows
+from the source-scale pinning acting on the $p/M$-dependent temporal weight---a
+mechanism already present in the quasi-stationary kernel, distinct from and prior to
+the finite-duration correction. (For reference the stationary peak amplitude scales
+similarly, $\sim M^{5.4}$, because its peak rides outward to $p=1.47M$; the amplitude
+discriminant between the two pictures is therefore the \emph{infrared} slope,
+$M^4$ versus $M^3$, not the peak height.)
+
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\columnwidth]{fullspatial_decay_peak}
@@ -745,6 +807,21 @@ and overall normalisation but leaves this peak displacement intact.
   Eq.~\eqref{eq:ft-of-product}; generated by
   \texttt{Notebooks/fullspatial\_decay.py}.}
   \label{fig:fullspatial_decay}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\columnwidth]{decaying_amplitude}
+  \caption{Mach scaling of the full-spatial decaying GW amplitude, from the exact
+  factorisation $\Omega_{\rm GW}=M^4 p^3\Psi(p,p/M)$ [Eq.~\eqref{eq:decay-amplitude}].
+  (a)~$M^4$-rescaled spectra $\Omega_{\rm GW}(p)/M^4$ for $M=0.3$--$2$ ($R=10^4$):
+  the curves collapse in the infrared---confirming the $M^4$ prefactor---and spread
+  upward through the source-scale band (shaded), the peak amplitude growing faster
+  than $M^4$. (b)~Amplitude versus $M$, normalised at $M=1$, with fitted power laws:
+  the decaying infrared amplitude scales as $M^{4.0}$ (one power above the stationary
+  $M^{2.9}$), while the source-pinned peak amplitude steepens to $M^{5.3}$. Generated
+  by \texttt{Notebooks/decaying\_amplitude.py}.}
+  \label{fig:decaying_amplitude}
 \end{figure}
 
 \section{Monochromatic and White-Noise Spectra}
