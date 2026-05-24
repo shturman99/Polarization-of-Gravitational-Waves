@@ -39,6 +39,7 @@ if not hasattr(np, "trapezoid"):
 import roperpol_data as rpd  # noqa: E402
 from _fullspectrum_kernel import H_full, omega_gw_over_k  # noqa: E402
 from fullspatial_decay import H_decay_fast  # noqa: E402
+from fullspatial_selfsimilar import H_window  # noqa: E402
 from gw_turbulence.core import H_pq  # noqa: E402
 
 
@@ -141,6 +142,62 @@ def test_data_GW_infrared_is_k1_not_k3():
 def test_data_fluid_slopes_batchelor_kolmogorov():
     assert 3.6 < rpd.fluid_ir_slope() < 4.6      # Omega_M/k = E(k) ~ k^4 (Batchelor)
     assert -1.9 < rpd.fluid_uv_slope() < -1.4     # ~ k^-5/3 (Kolmogorov)
+
+
+# ---- RESOLUTION: finite source duration bridges k^3 (analytic) and k^1 (sim) -----
+def _win_H(p, coh, T_em, n=20):
+    return H_window(p, p, M=1.0, R=1e4, T_em=T_em, coherence=coh, x_points=n, y_points=n)
+
+
+def test_window_kernel_reduces_to_quasistationary():
+    """T_em->inf, coherence=1 reproduces fullspatial_decay exactly (the build is correct)."""
+    for p in (0.5, 1.0, 2.0):
+        a = H_window(p, p, M=1.0, R=1e4, T_em=np.inf)
+        b = H_decay_fast(p, p, M=1.0, R=1e4)
+        assert abs(a / b - 1) < 1e-3, (p, a, b)
+
+
+def test_finite_duration_flattens_IR_while_peak_survives():
+    """A source coherent over its lifetime flattens the full-spatial infrared toward the
+    simulated k^1 while the source-scale peak stays put (Sec. principal-discrepancy)."""
+    band = np.geomspace(0.1, 0.7, 5)
+
+    def slope(coh):
+        return _fit(band, [p ** 3 * _win_H(p, coh, 20.0) for p in band], band[0], band[-1])
+
+    s_qs, s_coh = slope(1.0), slope(16.0)
+    assert s_qs > 2.2, s_qs                       # quasi-stationary: causal-steep
+    assert s_coh < 1.8, s_coh                      # coherent: flattened toward k^1
+    assert s_qs - s_coh > 0.5, (s_qs, s_coh)
+    for coh in (1.0, 16.0):                        # peak stays source-scale in both
+        pk = _peak(lambda p: p ** 3 * _win_H(p, coh, 20.0), 0.8, 6.0, n=16)
+        assert 1.7 < pk < 3.0, (coh, pk)
+
+
+def test_deep_IR_of_finite_duration_kernel_is_causal_k3():
+    """The strict k->0 tail of the finite-duration kernel is still causal k^3 (analyticity)."""
+    ps = np.geomspace(1e-3, 1e-2, 5)
+    og = [p ** 3 * _win_H(p, 1.0, np.inf) for p in ps]
+    assert 2.6 < _fit(ps, og, ps[0], ps[-1]) < 3.2
+
+
+def test_coherence_ratio_controls_aeroacoustic_IR_slope():
+    """Aeroacoustic IR slope falls from causal ~3 (fast decay, tau_c<<T_em) toward the
+    simulated ~1 (coherent, tau_c>~T_em) as the coherence-over-lifetime ratio grows."""
+    import selfsimilar_hybrid as ss
+    LOITS = dict(u0=1.0, l0=1.0, p=10 / 7, q=2 / 7, s=4)
+    T_em = 40.0
+    band = np.geomspace(3.0 / T_em, 0.5, 6)
+
+    def slope(tau_st):
+        pars = {**LOITS, "tau_st": tau_st}
+        og = [p ** 3 * ss.H_exact(p, T_em, n_T=110, n_k=64, **pars) for p in band]
+        return _fit(band, og, band[0], band[-1])
+
+    s_fast, s_slow = slope(0.3), slope(1e5)
+    assert s_fast > 2.2, s_fast                    # fast decay -> causal-steep
+    assert s_slow < 1.8, s_slow                    # coherent -> flat toward k^1
+    assert s_fast - s_slow > 0.5, (s_fast, s_slow)
 
 
 # =================================================================================
