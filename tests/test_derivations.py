@@ -71,11 +71,15 @@ class TestDerivationIdentities(unittest.TestCase):
 class TestDecayingExtensionKernel(unittest.TestCase):
     def test_decaying_kernel_matches_derivation_formula(self):
         q_values = np.array([0.2, 1.0, 4.0])
+        # Derivation closed form (derivation.tex, Secs. delta-decay / decay-k):
+        #   g_hat(q) = e^{-i q} (-i q)^{-1/3} Gamma(1/3, -i q)   (upper incomplete).
+        # The exponent is -1/3 (= alpha - 1, alpha = 2/3); the earlier -5/3 (and the
+        # e^{+i q} sign) predate the kernel-exponent fix and are stale.
         expected = np.array(
             [
                 complex(
-                    mp.e ** (1j * q)
-                    * ((-1j * q) ** (-5.0 / 3.0))
+                    mp.e ** (-1j * q)
+                    * ((-1j * q) ** (-1.0 / 3.0))
                     * mp.gammainc(1.0 / 3.0, -1j * q)
                 )
                 for q in q_values
