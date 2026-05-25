@@ -1,0 +1,16 @@
+# Exact versions this project was developed and tested with (Python 3.12).
+# These pins reproduce the paper's figures and the test suite bit-for-bit.
+#
+#   python -m venv .venv && source .venv/bin/activate
+#   pip install -r requirements.txt
+#   pip install -e .            # install the gw_turbulence package itself
+#
+# For a looser, range-based install instead, skip this file and run:
+#   pip install -e ".[dev]"
+numpy==1.26.4
+scipy==1.11.4
+mpmath==1.2.1
+matplotlib==3.6.3
+sympy==1.12
+pillow==10.2.0
+pytest==7.4.4

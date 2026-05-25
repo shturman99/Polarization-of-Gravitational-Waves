@@ -3,10 +3,21 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 
+# virtual environments
+.venv/
+venv/
+env/
+
+# local agent / editor state (not for the public repo)
+.claude/
+tmp/
+
 # docs and outputs
 
 # Python packaging
 *.egg-info/
+build/
+dist/
 
 src/__pycache__/
 
