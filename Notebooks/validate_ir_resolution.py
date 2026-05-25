@@ -178,6 +178,27 @@ def main():
     results.append(verdict("peak stays source-scale (1.7..3) for coherence 16", pk16, 1.7, 3.0))
 
     print("\n" + "=" * 74)
+    print("C6. tau_c/T_em is NOT a single control: lifetime and correlation time each")
+    print("    flatten the slope, so the ratio moves OPPOSITELY along the two routes.")
+    print("=" * 74)
+    fixed_band = np.geomspace(0.05, 0.45, 8)  # band fixed for ALL points (fair comparison)
+
+    def aslope(T_em, tau_st):
+        y = np.array([omega_aero(p, T_em, tau_st, n_t=max(160, int(8 * T_em)), n_k=60)
+                      for p in fixed_band])
+        g = y > 0
+        return float(np.polyfit(np.log(fixed_band[g]), np.log(y[g]), 1)[0])
+
+    sT = [aslope(T, 2.0) for T in (15, 60, 120)]          # vary lifetime, fixed decay
+    sD = [aslope(60, ts) for ts in (0.5, 8.0, 40.0)]      # vary decay, fixed lifetime
+    print(f"  vary T_em (tau_st=2):   T_em=15/60/120 -> slope {sT[0]:.2f}/{sT[1]:.2f}/{sT[2]:.2f}"
+          f"  (longer lifetime -> flatter)")
+    print(f"  vary decay (T_em=60):   tau_st=0.5/8/40 -> slope {sD[0]:.2f}/{sD[1]:.2f}/{sD[2]:.2f}"
+          f"  (slower decay -> flatter)")
+    results.append(verdict("longer lifetime flattens", sT[0] - sT[2], 0.05, 2.0))
+    results.append(verdict("slower decay flattens", sD[0] - sD[2], 0.05, 2.0))
+
+    print("\n" + "=" * 74)
     n_pass = sum(results)
     print(f"SUMMARY: {n_pass}/{len(results)} checks passed.")
     print("=" * 74)

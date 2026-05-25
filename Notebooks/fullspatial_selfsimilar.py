@@ -187,8 +187,8 @@ def _figure(name="fullspatial_selfsimilar_ir"):
     # causal k^3 toward the simulated k^1 while the source-scale peak (shaded) stays put.
     ps = np.geomspace(0.03, 7.0, 48)
     levels = [(1.0, PALETTE[0], r"$\tau_c\!\ll\!T_{\rm em}$ (quasi-stationary)"),
-              (4.0, PALETTE[2], r"$\tau_c\!\sim\!T_{\rm em}$"),
-              (16.0, PALETTE[1], r"$\tau_c\!\gtrsim\!T_{\rm em}$ (coherent)")]
+              (4.0, PALETTE[2], r"$\tau_c\!<\!T_{\rm em}$ (intermediate)"),
+              (16.0, PALETTE[1], r"$\tau_c\!\sim\!T_{\rm em}$ (coherent)")]
     for coh, col, lab in levels:
         sp = np.array([omega_gw(p, 1.0, T_em=20.0, coherence=coh) for p in ps])
         ax0.plot(ps, sp / sp.max(), "-", color=col, lw=1.8, label=lab)

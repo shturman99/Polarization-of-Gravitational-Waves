@@ -978,36 +978,40 @@ factor by the finite-duration kernel
 for a source that remains coherent across $[0,T_{\rm em}]$. This factor is $\to T_{\rm em}^2$
 (constant) for $\omega T_{\rm em}\ll1$, recovering $\Omega_{\rm GW}\propto k^3$, but
 $\to2/\omega^2$ for $\omega T_{\rm em}\gg1$, lowering the spectrum by two powers to the flat
-$\Omega_{\rm GW}\propto k^1$. The controlling parameter is thus the ratio of the source's
-correlation time $\tau_c$ to its lifetime $T_{\rm em}$, with the transition between the two
-scalings at $k\sim1/\min(\tau_c,T_{\rm em})$. When $\tau_c\gtrsim T_{\rm em}$ the source stays
-coherent over its life and the $k^1$ law extends down to $k\sim T_{\rm em}^{-1}$, covering the
-whole sub-peak range $T_{\rm em}^{-1}\lesssim k\lesssim k_{\rm peak}$. When
-$\tau_c\ll T_{\rm em}$ the unequal-time integral converges within a correlation time, so the
-$k^1$ band shrinks to $\tau_c^{-1}\lesssim k\lesssim k_{\rm peak}$ and the causal $k^3$
-governs the rest of the sub-peak range, down to $k\to0$.
+$\Omega_{\rm GW}\propto k^1$. Two scales therefore govern the infrared---the source lifetime
+$T_{\rm em}$ and its correlation time $\tau_c$---and \emph{both} flatten the spectrum: a
+fixed-coherence source over $[0,T_{\rm em}]$ has its $k^3\!\to\!k^1$ transition at
+$k\sim1/\min(\tau_c,T_{\rm em})$, so the $k^1$ band widens as either $T_{\rm em}$ or $\tau_c$
+grows. In the limiting case $\tau_c\gtrsim T_{\rm em}$ (coherent over the whole lifetime) the
+$k^1$ law covers the entire sub-peak range $T_{\rm em}^{-1}\lesssim k\lesssim k_{\rm peak}$;
+a short-lived or rapidly decorrelating source recovers the causal $k^3$ over most of it. The
+deep infrared $k\to0$ is $k^3$ in every case. (The ratio $\tau_c/T_{\rm em}$
+alone is not the control: lengthening $T_{\rm em}$ and lengthening $\tau_c$ both flatten the
+slope yet move the ratio in opposite directions.)
 
 \paragraph{Numerical confirmation.} Evaluating the self-similar slow-time kernel directly
-bears this out [Fig.~\ref{fig:ir_resolution}]; the values below are reproduced to better than
-$0.3\%$ by an independent brute-force double-time integration. In the aeroacoustic limit,
+bears this out [Fig.~\ref{fig:ir_resolution}], and an independent brute-force double-time
+integration reproduces the kernel to better than $0.3\%$ and the slopes below to within
+$0.05$. In the aeroacoustic limit,
 where the infrared slope lives, the slope measured over the sub-peak band falls monotonically
-toward the simulated value as the coherence ratio $\tau_c/T_{\rm em}$ grows: a source held
-coherent over its lifetime gives slope $1.1$---the DNS law (the analytic limit is exactly
-$1$)---while rapid decorrelation steepens it back toward the causal $3$ ($2.5$ over the band
-when the source decays within an eddy turnover, and $3.0$ in the deep infrared $k\to0$, where
-the slope is causal for \emph{any} $\tau_c/T_{\rm em}$). Self-similar decay interpolates,
-giving $k^{1.9}$ for slow decay and $k^{2.5}$ for fast decay. The same flattening appears in
-the full-spatial kernel, and---crucially---the source-scale peak at $k\simeq2.4\,k_0$
-(Sec.~\ref{sec:decaying-peak}) is left in place: a coherent, finite-duration source carries a
-$k^1$ infrared and a source-scale peak \emph{simultaneously}, the two features Roper Pol
-et al.\ report together. The discrepancy is thereby resolved, not merely
+toward the simulated value as the source is made more coherent---slower decay at fixed
+lifetime [Fig.~\ref{fig:ir_resolution}, right]: a source held coherent over its lifetime
+gives slope $1.1$---the DNS law (the analytic limit is exactly $1$)---while rapid
+decorrelation steepens it back toward the causal $3$ ($2.5$ over the band when the source
+decays within an eddy turnover, and $3.0$ in the deep infrared $k\to0$, which is causal
+regardless). Self-similar decay interpolates, giving $k^{1.9}$ for slow decay and $k^{2.5}$
+for fast decay. The same flattening appears in
+the full-spatial kernel, and---crucially---the peak stays at the source scale
+(Sec.~\ref{sec:decaying-peak}; $k\simeq2.2$--$2.4\,k_0$ across the coherence range): a
+coherent, finite-duration source carries a $k^1$ infrared and a source-scale peak
+\emph{simultaneously}, the two features Roper Pol et al.\ report together. The discrepancy is thereby resolved, not merely
 relocated. The simulated $k^1$ is the finite-duration, coherent regime
 ($\tau_c\gtrsim T_{\rm em}$)---equivalently Roper Pol's treatment of the source as
 statistically stationary over a finite window---whereas the analytic $k^3$ of
 \cite{2007Gogoberidze,2008Kahniashvili} and of our own quasi-stationary kernels is the
-rapidly decorrelating (or instantaneous-source) limit $\tau_c\ll T_{\rm em}$. Both are correct
-in their own regime; which one a real electroweak-scale source realises is fixed by
-$\tau_c/T_{\rm em}$.
+rapidly decorrelating (or instantaneous-source) limit. Both are correct in their own regime;
+which one a real electroweak-scale source realises is set by how coherent it remains over its
+active lifetime---both its decay rate and its duration.
 
 \begin{figure}[ht]
   \centering
@@ -1021,9 +1025,11 @@ $\tau_c/T_{\rm em}$.
   toward the simulated $k^1$ [the finite-duration kernel Eq.~\eqref{eq:duration-kernel}],
   while the source-scale peak (shaded, $p\simeq2$--$2.6$) stays in place. Grey dotted/dashed:
   $k^3$ and $k^1$ guides. \emph{Right:} the aeroacoustic infrared slope (where the infrared
-  limit is exact) versus the coherence-over-lifetime ratio $\tau_c/T_{\rm em}$, interpolating
-  monotonically between the causal $k^3$ and the simulated $k^1$. Generated by
-  \texttt{Notebooks/fullspatial\_selfsimilar.py}.}
+  limit is exact) as the decay rate is varied at fixed lifetime $T_{\rm em}$, plotted against
+  the resulting correlation-time ratio $\tau_c/T_{\rm em}$; it interpolates monotonically
+  between the causal $k^3$ and the simulated $k^1$. (Along this family slower decay flattens
+  the slope; a longer lifetime at fixed decay flattens it too, so $\tau_c/T_{\rm em}$ is not
+  itself the sole control.) Generated by \texttt{Notebooks/fullspatial\_selfsimilar.py}.}
   \label{fig:ir_resolution}
 \end{figure}
 
@@ -1035,7 +1041,7 @@ $\tau_c/T_{\rm em}$.
     \hline
     Gogoberidze 2007 \cite{2007Gogoberidze} & Gaussian, $\eta_k\propto k^{2/3}$ (turnover) & $\sim M k_0$ (sub-source) & $k^3$ & steep ($\sim k^{-7/2}$) \\
     Kahniashvili 2008 \cite{2008Kahniashvili} & Gaussian $+$ helical inverse cascade & $\to f_H$ (Hubble scale) & $k^3$ (framework) & Kolmogorov input \\
-    this paper (kernels) & Gaussian / power-law / finite-$T_{\rm em}$ & $1.47Mk_0$ / $2.4k_0$ & $k^3\!\to\!k^1$ (by $\tau_c/T_{\rm em}$) & $k^{-5}$ / $k^{-8/3}$ \\
+    this paper (kernels) & Gaussian / power-law / finite-$T_{\rm em}$ & $1.47Mk_0$ / $2.4k_0$ & $k^3\!\to\!k^1$ (source coherence) & $k^{-5}$ / $k^{-8/3}$ \\
     Roper Pol 2020 \cite{2019RoperPol} (simulation) & freely decaying (measured) & $2k_0$ (source stress) & $k^1$ & $k^{-8/3}$ \\
     \hline\hline
   \end{tabular}
