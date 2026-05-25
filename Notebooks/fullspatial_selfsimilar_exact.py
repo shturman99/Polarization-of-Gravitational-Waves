@@ -195,14 +195,17 @@ def _figure(name="fullspatial_selfsimilar_exact"):
     # The infrared slopes OVERLAP (causal, decay-independent) -- decay does not flatten
     # them toward k^1; the source-scale peak is common.
     # Peak region (p>~1.5) requires fine resolution: the kernel bracket changes sign
-    # and is under-resolved below ~40x40 (spurious dips/negatives near the peak).
-    ps = np.geomspace(0.04, 3.0, 14)
+    # and is under-resolved at lower grids (spurious dips/negatives near the peak; the
+    # fast-decay eps0=4 case needs 60x60/n_T=90 to stay positive through the peak).
+    # Resolution must be UNIFORM across p -- the kernel's absolute scale shifts with grid,
+    # so mixing resolutions would put a spurious step in the curve.
+    ps = np.geomspace(0.04, 3.0, 13)
     cases = [(1e12, PALETTE[0], r"no decay ($\varepsilon_0\!\to\!0$)"),
              (1.0, PALETTE[2], r"$\varepsilon_0=1$"),
              (0.25, PALETTE[1], r"$\varepsilon_0=4$ (fast)")]
     for tau_st, col, lab in cases:
         sp = np.array([omega_gw(p, 1.0, tau_st=tau_st, T_em=40.0,
-                                x_points=44, y_points=44, n_T=64) for p in ps])
+                                x_points=60, y_points=60, n_T=90) for p in ps])
         ax0.plot(ps, sp / sp.max(), "-", color=col, lw=1.8, label=lab)
     pr = np.geomspace(0.06, 0.5, 8)
     ax0.plot(pr, 0.55 * (pr / 0.5) ** 3, ":", color="0.45", lw=1.2, label=r"$k^3$ (causal)")
