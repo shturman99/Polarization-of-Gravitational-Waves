@@ -9,7 +9,7 @@ description = "Numerical kernels for gravitational waves from turbulent sources 
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "shturman99", email = "mgurgeni@andrew.cmu.edu" }]
+authors = [{ name = "Murman Gurgenidze", email = "mgurgeni@andrew.cmu.edu" }]
 keywords = ["gravitational-waves", "turbulence", "cosmology", "MHD", "early-universe"]
 classifiers = [
     "Programming Language :: Python :: 3",
