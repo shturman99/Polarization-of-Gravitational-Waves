@@ -1,0 +1,116 @@
+% Table of variables for derivation.tex
+% PREAMBLE: add  \usepackage{longtable}  to derivation.tex (it is not yet loaded).
+% Drop in with \input{variables_table} or copy the block below.
+% revtex 'prd' is two-column, so the table is wrapped in \onecolumngrid ...
+% \twocolumngrid (longtable cannot span two columns).
+%
+% Columns: Symbol | Precise definition | Introduced (eq./sec.)
+% - Cells left BLANK (just "&") are for you to fill manually.
+% - Rows flagged [MULTI] use the SAME glyph for different quantities depending on
+%   the physics case; the distinct meanings are listed and must be disambiguated.
+% - Eq. refs use the \label{}s already in derivation.tex, so they auto-link.
+
+\onecolumngrid
+\begingroup
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{@{}p{0.13\textwidth} p{0.62\textwidth} p{0.20\textwidth}@{}}
+\caption{Symbols used in this paper. Glyphs flagged \textbf{[MULTI]} carry more
+than one meaning depending on the physics case and are disambiguated below.}
+\label{tab:variables}\\
+\hline\hline
+Symbol & Definition & Introduced \\
+\hline
+\endfirsthead
+\hline\hline
+Symbol & Definition & Introduced \\
+\hline
+\endhead
+\hline
+\endfoot
+\hline\hline
+\endlastfoot
+
+\multicolumn{3}{@{}l}{\emph{Gravitational-wave field and source}}\\
+$h_{ij}$              & Transverse--traceless metric (strain) perturbation & \eqref{eq:metric-tt}\\
+$h_c(p)$             & Characteristic strain, $h_c^2(p)=p\,H(p,p)$ & \eqref{eq:omega-diag}\\
+$\Pi_{ij}^{\rm TT}$  & TT part of the anisotropic (Reynolds) stress source & \eqref{eq:source-tt}\\
+$\Lambda_{ij,lm}$    & TT projection operator, $P_{il}P_{jm}-\tfrac12 P_{ij}P_{lm}$ & \eqref{eq:source-tt}\\
+$P_{ij}$             & Transverse projector, $\delta_{ij}-\hat k_i\hat k_j$ & \eqref{eq:source-tt}\\
+$T_{lm}$             & Reynolds stress, $T_{lm}=w\,v_l v_m$ & \eqref{eq:source-tt}\\
+$w$                  & Enthalpy density, $w=\bar\rho+\bar p$ & \eqref{eq:source-tt}\\
+$v_i$                & Turbulent (incompressible) velocity field & \eqref{eq:source-tt}\\
+$\rho_{\rm GW}$      & GW energy density (Isaacson), $\langle\dot h_{ij}\dot h_{ij}\rangle/32\pi G$ & sec.~\ref{sec:framework-green}\\
+$\Pi(k;\tau_1,\tau_2)$ & Unequal-time correlator (UETC) of the TT stress & \eqref{eq:uetc}\\
+$\widetilde\Pi(k,\omega)$ & Temporal transform of the UETC & sec.~\ref{sec:framework-green}\\
+$G$                  & Newton's gravitational constant & \eqref{eq:gw-wave}\\
+$\Omega_{\rm GW}(p)$ & GW energy spectrum, $d\rho_{\rm GW}/d\ln k$ (dimensionless) & \eqref{eq:omega-diag}\\
+$\Omega_{\rm M}$     & Magnetic (source) energy fraction & \\
+$\Omega_K$           & Kinetic-energy fraction of the source & sec.~\ref{sec:framework-shape}\\
+$H_{ijij}(\kb,\omega)$ & Contracted source spatio-temporal correlator (the GW kernel) & \eqref{eq: main}\\
+$f_H$                & Hubble frequency at GW production & \\
+$T_{\rm src}$        & Source duration (statistically stationary case) & sec.~\ref{sec:framework-green}\\
+$T_{\rm em}$         & Finite emission window of the self-similar source & \eqref{eq:duration-kernel}\\
+
+\multicolumn{3}{@{}l}{\emph{Background / cosmology}}\\
+$a(\tau)$\;[MULTI]   & FLRW scale factor.\quad\textbf{[also:} $a(t)$ = self-similar amplitude decay factor $\Phi_{\rm eq}(t)/\Phi_{\rm eq}(0)$\textbf{]} & \eqref{eq:metric-tt}\\
+$\tau$\;[MULTI]      & Conformal time.\quad\textbf{[also:} time lag $\tau=t_1-t_2$ in UETCs/decorrelation\textbf{]} & \eqref{eq:metric-tt}\\
+$\Delta\tau$         & Time lag $\tau_1-\tau_2$ in the master integral & \eqref{eq:master}\\
+
+\multicolumn{3}{@{}l}{\emph{Spatial turbulence spectrum}}\\
+$R_{ij}(\br,\tau)$   & Real-space two-point velocity correlator & sec.~\ref{sec:kraichnan-k41}\\
+$F_{ij}(\kb,\tau)$   & Spectral (Fourier) two-point velocity correlator & \eqref{eq:Fij-iso}\\
+$A(k)$               & Spectral amplitude, $A(k)=C_K\varepsilon^{2/3}k^{-11/3}/4\pi=E(k)/4\pi k^2$ & \eqref{eq:Fij-iso}\\
+$E(k)$, $E_k$        & Kinetic energy spectrum, $E_k=C_K\varepsilon^{2/3}k^{-5/3}$ (Kolmogorov) & \eqref{eq: g-def}\\
+$C_K$ ($C_k$)        & Kolmogorov constant & \eqref{eq:Fij-iso}\\
+$\varepsilon$        & Turbulent energy dissipation rate & \eqref{eq:Fij-iso}\\
+$\mathcal{K}(k,k_1,u)$ & Geometric (tensor-contraction) kernel & \eqref{eq: K-kernel}\\
+$\mathcal{K}_0(p)$   & Monochromatic geometric kernel, $\tfrac{14}{3}-\tfrac{p^2}{3}+\tfrac{p^4}{12}$ & \eqref{eq:K0}\\
+$\Theta$             & Heaviside step (triangle-inequality constraint) & \eqref{eq:angular-delta}\\
+
+\multicolumn{3}{@{}l}{\emph{Wavenumbers}}\\
+$k$                  & GW / Fourier wavenumber magnitude & \eqref{eq: main}\\
+$k_0$                & Outer (integral) scale wavenumber & \eqref{eq:Hijij-AppA}\\
+$k_d$                & Dissipation-scale wavenumber, $k_d/k_0=R^{3/4}$ & \eqref{eq:appA-dimless}\\
+$k_1$                & First source wavevector magnitude & \eqref{eq: H-after-r}\\
+$u$                  & Second source wavevector magnitude, $u=|\kb-\kb_1|$ & \eqref{eq: H-after-r}\\
+$\mu$                & Cosine of the source angle, $\hat\kb\cdot\hat\kb_1$ & sec.~\ref{sec:kraichnan-k41}\\
+$k_{\rm peak}$, $p_{\rm peak}$ & Wavenumber of the GW spectral peak & sec.~\ref{sec:peak-location}\\
+
+\multicolumn{3}{@{}l}{\emph{Temporal / decorrelation model}}\\
+$f(\eta_k,\tau)$     & Temporal decorrelation function; Kraichnan $\exp(-\tfrac{\pi}{4}\eta_k^2\tau^2)$ & \eqref{eq:Fij-iso}\\
+$\tilde f(\eta_k,\omega)$ & Frequency transform of $f$, $(2/\eta_k)\exp(-\omega^2/\pi\eta_k^2)$ & \eqref{eq: g-def}\\
+$\eta_k$             & Kraichnan eddy/sweeping rate, $\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}$ & \eqref{eq:Fij-iso}\\
+$\eta_0$             & Rate $\eta_k$ at the outer scale $k_0$ & \\
+$g(k,\omega)$        & Combined spectral$\times$temporal factor, $A(k)\tilde f(\eta_k,\omega)$ & \eqref{eq: g-def}\\
+$\tau_k$, $\tau_1$\;[MULTI] & Sweeping/eddy decorrelation time, $\sqrt{2\pi}/(M k_0^{1/3}k^{2/3})$.\quad\textbf{[also:} $\tau_1,\tau_2$ = the two legs' times $\sqrt{x}/M,\sqrt{y}/M$\textbf{]} & sec.~\ref{sec:decaying-peak}\\
+$\hat g(q)$          & Dimensionless decaying-turbulence temporal kernel (FT of $(1+\sigma)^{-2/3}$) & \eqref{eq:ft-of-product}\\
+
+\multicolumn{3}{@{}l}{\emph{Dimensionless variables} (note the heavy reuse of $p,q,s,\Omega,x$)}\\
+$p$\;[MULTI]         & Dimensionless wavenumber, $p=k/k_0$.\quad\textbf{[also:} Loitsiansky decay exponent $p=10/7$ in the self-similar model\textbf{]} & \eqref{eq:omega-diag}\\
+$q$\;[MULTI]         & Dimensionless frequency $q=\omega/k_0$ (on-shell $q=p$).\quad\textbf{[also:} $q=k_1/k$ in \eqref{eq: H-compact}; $q=\omega\tau_1$ in the decay kernel; growth exponent $q=2/7$\textbf{]} & \eqref{eq:omega-diag}\\
+$s$\;[MULTI]         & $s=u/k$ in \eqref{eq: H-compact}.\quad\textbf{[also:} self-similar spectral shape exponent $s=4$ (Batchelor $k^4$ IR)\textbf{]} & \eqref{eq: H-compact}\\
+$\Omega$\;[MULTI]    & Dimensionless frequency $\omega/(\varepsilon^{1/3}k^{2/3})$ \eqref{eq: H-compact}; or $\omega/\eta_0$ (mono./white models).\quad\textbf{[distinct from} $\Omega_{\rm GW},\Omega_{\rm M},\Omega_K$\textbf{]} & \eqref{eq: H-compact}\\
+$\Omega_1$           & $\omega_1/(\varepsilon^{1/3}k^{2/3})$ (convolution frequency) & \eqref{eq: H-compact}\\
+$x$\;[MULTI]         & Substitution variable $(k_1/k_0)^{-4/3}$.\quad\textbf{[also:} comoving coordinate $x^i$ in \eqref{eq:metric-tt}\textbf{]} & \eqref{eq:appA-dimless}\\
+$y$                  & Substitution variable $(u/k_0)^{-4/3}$ & \eqref{eq:appA-dimless}\\
+$z$                  & $z=k_1/k_0$ (sweeping-cutoff discussion) & sec.~\ref{sec:kraichnan-k41}\\
+$M$                  & Outer-scale turbulent Mach number, $M=(\varepsilon/k_0)^{1/3}=u_0$ ($c_s\!=\!1$) & \eqref{eq:mach-def}\\
+$R$                  & Outer-scale ratio (Reynolds-like), $k_d/k_0=R^{3/4}$ & \eqref{eq:appA-dimless}\\
+$\Psi(p,p/M)$        & $M$-independent rescaled spatial integral, $\Omega_{\rm GW}=M^4 p^3\Psi$ & \eqref{eq:decay-amplitude}\\
+$S(p,R)$             & Frequency-independent spatial integral (white-noise model) & \\
+
+\multicolumn{3}{@{}l}{\emph{Self-similar decaying-turbulence model}}\\
+$u_0$                & Initial rms (outer-scale) velocity, $u_0=M$ & \\
+$L_0$                & Initial integral length scale & \\
+$\tau_{\rm st}$      & Self-similar decay time scale & \\
+$\tau_c$             & Source correlation (decorrelation) time at the energy scale & sec.~\ref{sec:principal-discrepancy}\\
+$u(t)$, $L(t)$, $\varepsilon(t)$ & Self-similar time evolution of velocity, scale, dissipation & \\
+$\Phi(k;t_1,t_2)$    & Two-time velocity spectral correlator (self-similar) & \\
+$\Phi_{\rm eq}(k,t)$ & Equal-time velocity spectral correlator, $E(k,t)/4\pi k^2$ & \\
+$\xi$                & $O(\epsilon^2)$ Wigner parameter, $\xi=\tau_1^2\,\partial_T^2\ln\Phi$ & \\
+$\varepsilon_0$\;[MULTI] & Decay-strength ratio, $\varepsilon_0=\tau_{\rm eddy}/\tau_{\rm st}$ (eddy time / decay time), $O(1)$ physically.\quad\textbf{[also:} initial dissipation rate $\varepsilon(0)\propto M^3$\textbf{]} & sec.~\ref{sec:principal-discrepancy}\\
+$\alpha,\ \gamma$    & Self-similar exponents, $\tau_c\!\propto\!(1{+}T/\tau_{\rm st})^{\alpha}$ ($\alpha=\tfrac{17}{21}$), $\Phi_{\rm eq}\!\propto\!(1{+}t/\tau_{\rm st})^{-\gamma}$ ($\gamma=\tfrac{34}{21}$) & sec.~\ref{sec:principal-discrepancy}\\
+
+\end{longtable}
+\endgroup
+\twocolumngrid
