@@ -1,4 +1,18 @@
 #!/usr/bin/env python3
+# =============================================================================
+# DEPRECATED for the Sec. IV IR-slope conclusion (2026-05-25 audit).
+# -----------------------------------------------------------------------------
+# This tool flattens the IR slope via a `coherence` KNOB / finite-window proxy
+# (H_window with an externally imposed coherence parameter).  The Sec. IV reframe
+# found that an imposed coherence knob is NOT a first-principles control and that
+# self-similar decay does NOT in fact flatten the IR to k^1 (the k^1 is a genuine
+# MHD tension, not reproduced by HD self-similar decay).  The AUTHORITATIVE
+# Sec. IV kernel is the first-principles full-spatial kernel in
+#     Notebooks/fullspatial_selfsimilar_exact.py.
+# Keep this file for exploration/provenance only; do NOT cite its coherence-knob
+# IR slopes or "resolution" as the Sec. IV result.
+# See MEMORY: project_fullspatial_selfsimilar_exact.md, project_paper_state.md.
+# =============================================================================
 r"""Full-spatial decaying GW spectrum with a FINITE source duration (self-similar
 slow-time integration).  Resolves the principal IR-slope discrepancy.
 

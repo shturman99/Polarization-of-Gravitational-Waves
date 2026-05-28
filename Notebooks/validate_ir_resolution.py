@@ -1,4 +1,19 @@
 #!/usr/bin/env python3
+# =============================================================================
+# DEPRECATED for the Sec. IV IR-slope conclusion (2026-05-25 audit).
+# -----------------------------------------------------------------------------
+# This validator checks the OLD "coherence-resolution" story (checks C5/C6 below
+# exercise fullspatial_selfsimilar.py's coherence KNOB and the tau_c/T_em
+# narrative).  Per the Sec. IV reframe, that resolution is superseded: self-
+# similar HD decay does NOT flatten the IR to k^1.  The AUTHORITATIVE Sec. IV
+# kernel is Notebooks/fullspatial_selfsimilar_exact.py.
+#
+# NOTE: checks C1-C4 here are STILL VALID and useful -- they are independent
+# from-scratch re-validations of the AEROACOUSTIC self-similar source and of
+# selfsimilar_hybrid.H_exact (C2 confirms brute-force == H_exact to <0.5%).  Only
+# the coherence-resolution interpretation in C5/C6 is deprecated.  As of
+# 2026-05-25 all 13/13 checks still PASS.
+# =============================================================================
 r"""INDEPENDENT validation of every numerical claim in derivation.tex
 Sec.~principal-discrepancy "Resolution".
 

@@ -1,0 +1,141 @@
+% DRAFT ANALYTICAL NOTE -- for review, NOT \input by derivation.tex.
+% The GW infrared slope from temporal coherence: why analytic k^3 and simulated k^1
+% are reconcilable, and what (if anything) is genuinely MHD about k^1.
+% Companion numerics: /tmp/ir_regimes.py (toy window integral, confirms the regimes)
+% and Notebooks/mhd_scaledependent.py (full kernel, in progress).
+
+\paragraph{Setup.}
+The GW energy spectrum from the turbulent/MHD anisotropic stress, in the sub-horizon
+($k\gg H$) limit and for a source active over $0<t<T_{\rm em}$, is
+\begin{equation}
+  \Omega_{\rm GW}(k)\;\propto\; k^{3}\!\int_{0}^{T_{\rm em}}\!\!dt_1\!\int_{0}^{T_{\rm em}}\!\!dt_2\,
+  \cos\!\big[k(t_1-t_2)\big]\,\Pi(k,t_1,t_2),
+  \label{eq:master}
+\end{equation}
+where $\Pi(k,t_1,t_2)$ is the unequal-time spectral density of the transverse--traceless stress.
+Two inputs control the infrared ($k\to0$) behaviour.
+
+\paragraph{(i) The equal-time stress is white at $k\to0$.}
+The stress $T\sim v^2$ or $B^2$ is a \emph{local quadratic} field; its two-point correlation
+$\langle\delta T(0)\,\delta T(r)\rangle$ is short-ranged (integrable) as long as the underlying
+field has a finite integral scale. Hence the equal-time stress spectrum is analytic,
+\begin{equation}
+  P_T(k)\equiv\Pi(k,t,t)=P_T(0)+\mathcal{O}(k^2),\qquad
+  P_T(0)=\!\int\! d^3r\,\langle\delta T(0)\delta T(r)\rangle<\infty .
+  \label{eq:white}
+\end{equation}
+This holds for a Saffman ($E\sim k^2$) or Batchelor ($E\sim k^4$) source spectrum alike: the
+self-convolution that builds the stress is white at $k=0$. This whiteness is the origin of the
+causal tail.
+
+\paragraph{(ii) Temporal coherence.}
+Write $\Pi=\sqrt{P_T(k,t_1)P_T(k,t_2)}\,D(k,t_1-t_2)$ with the normalised unequal-time
+correlation $D(k,0)=1$ decaying over a correlation time $\tau_c(k)$. For a source whose amplitude
+varies slowly across the window, $P_T(k,t)\simeq P_T(k)$. Changing variables to $\tau=t_1-t_2$,
+\begin{equation}
+  \Omega_{\rm GW}(k)\propto k^3\,P_T(k)\,I(k),\qquad
+  I(k)=\!\int_{-T_{\rm em}}^{+T_{\rm em}}\!\! d\tau\,(T_{\rm em}-|\tau|)\cos(k\tau)\,D(k,\tau).
+  \label{eq:window}
+\end{equation}
+With $P_T$ white, the GW infrared slope is $\;3+\dfrac{d\ln I}{d\ln k}$.
+
+\paragraph{Regime I -- incoherent ($k\tau_c\ll1,\ \tau_c\ll T_{\rm em}$).}
+$D$ collapses on $\tau\sim\tau_c\ll T_{\rm em}$, so $(T_{\rm em}-|\tau|)\simeq T_{\rm em}$ and
+$\cos(k\tau)\simeq1$ over the support,
+\begin{equation}
+  I(k)\simeq T_{\rm em}\!\int\! d\tau\,D(k,\tau)=2\,T_{\rm em}\,\tau_c(k).
+\end{equation}
+If $\tau_c$ is bounded for the sub-source modes ($k<k_0$, where it saturates to the large-eddy
+time), $I\to$ const and $\boxed{\Omega_{\rm GW}\sim k^3}$ -- the standard causal estimate.
+
+\paragraph{Regime II -- coherent over the window ($\tau_c\gtrsim T_{\rm em}$).}
+$D\simeq1$ for $|\tau|<T_{\rm em}$, so
+\begin{equation}
+  I(k)\simeq\!\int_{-T_{\rm em}}^{T_{\rm em}}\!(T_{\rm em}-|\tau|)\cos(k\tau)\,d\tau
+  =\frac{4\sin^2(kT_{\rm em}/2)}{k^2}\equiv|W(k)|^2,
+\end{equation}
+the F\'ej\'er window. Hence
+\begin{equation}
+  kT_{\rm em}\ll1:\ |W|^2\to T_{\rm em}^2 \Rightarrow \Omega_{\rm GW}\sim k^3;\qquad
+  kT_{\rm em}\gg1:\ \overline{|W|^2}\to \tfrac{2}{k^2}\Rightarrow \boxed{\Omega_{\rm GW}\sim k^1}.
+\end{equation}
+A coherent source therefore gives a $k^1$ band over $1/T_{\rm em}<k<k_0$, \emph{turning over to
+causal $k^3$ for $k<1/T_{\rm em}$.}
+
+\paragraph{Intermediate (Alfv\'enic) scaling.}
+If $\tau_c(k)\sim 1/(k\,v_A)$ (so $k\tau_c=1/v_A=$ const, ``marginally coherent''), with a
+Gaussian $D=e^{-\tau^2/2\tau_c^2}$ the relevant object is the temporal spectrum at frequency $k$,
+$I(k)\simeq T_{\rm em}\,\widehat D(k)=T_{\rm em}\sqrt{2\pi}\,\tau_c\,e^{-(k\tau_c)^2/2}
+=T_{\rm em}\sqrt{2\pi}\,(k v_A)^{-1}e^{-1/2v_A^2}\sim T_{\rm em}/k$, giving
+$\boxed{\Omega_{\rm GW}\sim k^2}$. Clean $k^1$ requires $\tau_c$ essentially \emph{scale-independent}
+and $\gtrsim T_{\rm em}$ (full coherence), not merely Alfv\'enic.
+
+\paragraph{Numerical confirmation (toy window integral, $T_{\rm em}=40$).}
+$\Omega=k^3 I(k)$ with white $P_T$: coherent $D=1$ gives band slope $0.7$ ($\simeq k^1$) and
+deep-IR $2.98$; incoherent (fixed $\tau_0$) gives $2.58/3.00$; Alfv\'enic gives $2.08/2.96$.
+The deep IR is $k^3$ in \emph{all} cases.
+
+\paragraph{Numerical confirmation (full scale-dependent kernel).}
+\texttt{Notebooks/mhd\_scaledependent.py} keeps the $k$-dependent decorrelation \emph{inside}
+the full triangle-windowed $(x,y)$ stress integral (the windowed machinery of
+\texttt{fullspatial\_selfsimilar\_exact.py}; not the factored-out knob of the earlier flawed
+attempt). With $T_{\rm em}=40$, DNS band $p\in[0.04,0.45]$, deep IR $p\in[0.005,0.02]$:
+HD eddy $\to2.64\,/\,2.99$ (decay-independent); MHD sustained-coherent ($\tau_c\gtrsim T_{\rm em}$)
+$\to1.0$--$1.3\,/\,2.97$; the band edge tracks $1/T_{\rm em}$ (sustained DNS slope
+$2.17\to1.40\to0.96$ for $T_{\rm em}=10,40,160$). Among the physical laws, \emph{only} sustained
+coherence over the window yields the $k^1$ band, and it reverts to causal $k^3$ in the deep IR
+exactly as predicted.
+
+\paragraph{Operative correlation time: the energy-containing modes.}
+The GW mode at small $k$ is sourced by the \emph{beat} of two fluid modes at $q$ and $k-q$,
+$T_{\rm TT}(k)\sim\int d^3q\,M(\hat k)\,\tilde u(q)\tilde u(k-q)$, and the $q$-integral is
+dominated by the spectral peak $q\sim k_0$. Hence the decorrelation relevant for \emph{every}
+sub-peak GW mode is that of the energy-containing modes, $D_{k_0}(\tau)^2$, and the operative
+correlation time is $\tau_c(k_0)$ -- \emph{not} $\tau_c$ evaluated at the GW scale $1/k$. The
+discriminator is therefore simply whether the \emph{peak} modes stay coherent across the
+emission window, $\tau_c(k_0)\gtrsim T_{\rm em}$. (This is why the kernel, whose stress legs are
+floored at $k\ge k_0$, is the correct object; and why the $\tau_c(k)\propto1/k$ ``Alfv\'enic''
+scaling above is a real mathematical regime but \emph{not} the operative one for
+GW-from-peak-beating -- numerically it collapses onto the HD result.)
+
+\paragraph{Discriminator and reconciliation.}
+Whether the GW infrared is Regime~I ($k^3$) or Regime~II ($k^1$ band) is set by the coherence of
+the energy-containing ($k_0$) modes relative to the emission window, $\tau_c(k_0)$ vs $T_{\rm em}$:
+\begin{itemize}\itemsep2pt
+\item \textbf{HD, freely decaying:} the peak eddies turn over and decay on an eddy time
+  $\ll T_{\rm em}$, so $\tau_c(k_0)\ll T_{\rm em}$ $\Rightarrow$ Regime~I $\Rightarrow k^3$
+  (confirmed: kernel gives $2.64$, decay-independent, matching the Sec.~IV result).
+\item \textbf{Helical MHD inverse transfer:} magnetic-helicity conservation continually feeds
+  energy to ever-larger scales and \emph{sustains} a coherent large-scale field, so
+  $\tau_c(k_0)\gtrsim T_{\rm em}$ $\Rightarrow$ Regime~II $\Rightarrow$ a $k^1$ band over
+  $1/T_{\rm em}<k<k_0$ (confirmed: kernel gives $1.0$--$1.3$, surviving helical decay
+  $\gamma=\tfrac13$). The observed $k^1$ thus points specifically to near-static, large-scale
+  coherence -- which an inverse cascade that piles energy at the growing integral scale supplies.
+\end{itemize}
+Thus the analytic $k^3$ and simulated $k^1$ are \emph{not} contradictory slopes: $k^3$ is the
+\emph{universal asymptotic} infrared (whiteness of the equal-time stress $+$ finite source
+duration), while $k^1$ is an \emph{intermediate-band} slope present when the source stays
+temporally coherent across $T_{\rm em}$ for its sub-source modes. They describe different ranges
+of $k$; a finite-dynamic-range simulation samples the $k^1$ band and does not reach the $k^3$
+turnover. The genuinely \emph{MHD} content is the existence and width of the coherent $k^1$ band,
+$\Delta\ln k\sim\ln(k_0 T_{\rm em})$ -- or, if the inverse cascade reaches the horizon so that
+$\tau_c\to H^{-1}$, the band extends to $k\sim k_H$, connecting to the Hubble-scale picture.
+
+\paragraph{Testable predictions and the data.}
+(1) A measured $k^1$ should steepen toward $k^3$ below $k\sim1/T_{\rm em}$ given the dynamic range.
+(2) The $k^1$ band width grows with $k_0 T_{\rm em}$ (the inverse-cascade reach). \emph{Data check:}
+the digitized Roper~Pol \texttt{ini2} GW spectrum has slope $+1.30$ over its IR side
+($p\in[0.19,0.90]\,k_0$) and does \emph{not} steepen at its smallest accessible $k$ -- but that
+smallest $k\simeq0.19\,k_0$ is still well inside the predicted $k^1$ band ($k>k_0/T_{\rm em}$),
+nowhere near the deep-IR turnover, so the data is consistent with (but cannot yet confirm)
+prediction~(1).
+
+\paragraph{What remains open (honest caveats).}
+(a) The analysis and numerics \emph{assume} $\tau_c(k_0)\gtrsim T_{\rm em}$ for the MHD case; they
+do not \emph{derive} it from helical inverse-transfer dynamics. The remaining task is a closure
+for the unequal-time correlation of an inverse-cascading helical field, to show it actually
+sustains peak-mode coherence over $T_{\rm em}$. (b) The present kernel floors the stress legs at
+$k\ge k_0$; a field whose integral scale \emph{grows below} $k_0$ (the inverse cascade proper)
+would add genuine sub-$k_0$ source modes that this kernel omits -- a full MHD calc should extend
+the source spectrum below $k_0$. (c) No simulation in hand has the dynamic range to test the
+deep-IR $k^3$ reversion.

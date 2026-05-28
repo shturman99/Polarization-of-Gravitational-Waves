@@ -1,4 +1,18 @@
 #!/usr/bin/env python3
+# =============================================================================
+# DEPRECATED for the Sec. IV IR-slope conclusion (2026-05-25 audit).
+# -----------------------------------------------------------------------------
+# This tool fits the IR slope of the AEROACOUSTIC self-similar source
+# (Omega ~ p^3 H_exact(p, T_em)).  Per the Sec. IV reframe, the aeroacoustic
+# limit only resolves the deep-IR (p<<1) and uses a finite-window / coherence
+# parametrization that the reframe found does NOT cleanly map to a single
+# physical control (T_em and the decay rate eps0 BOTH flatten the slope).  The
+# AUTHORITATIVE Sec. IV kernel for the IR-slope conclusion is now the
+# first-principles full-spatial kernel in
+#     Notebooks/fullspatial_selfsimilar_exact.py.
+# Keep this file for provenance/diagnostics only; do NOT cite its slopes as the
+# Sec. IV result.  See MEMORY: project_fullspatial_selfsimilar_exact.md.
+# =============================================================================
 """Diagnostic: aeroacoustic self-similar GW IR slope vs source duration and decay rate.
 
 Provenance for the numbers quoted in derivation.tex Sec.~principal-discrepancy
