@@ -1194,9 +1194,9 @@ wavenumber, $E(k)=E_0\,\delta(k-k_0)$. This idealisation approximates a
 combustion front, a rapid phase transition, or any process whose active lifetime
 is negligible compared with the GW oscillation period $2\pi/k$. Because the
 temporal part of the UETC is an exact double $\delta$-function, the time
-integrals in the master formula \eqref{eq:master} collapse \emph{without
-approximation}, yielding a GW spectrum that is purely spatial in character and
-entirely free of Mach-number or decorrelation-time parameters.
+integrals in the master formula collapse \emph{without approximation}, yielding
+a GW spectrum that is purely spatial in character and entirely free of
+Mach-number or decorrelation-time parameters.
 
 \subsection{Source model and UETC}
 \label{sec:impulsive-uetc}
@@ -1207,92 +1207,166 @@ The stress tensor of the impulsive source factorises as
   \label{eq:impulsive-stress}
 \end{equation}
 where $A^{\rm TT}_{ij}(\kb)$ carries the spatial amplitude of the burst and is
-independent of time. Taking the two-point average of Eq.~\eqref{eq:uetc} with
-the ansatz \eqref{eq:impulsive-stress}, the UETC becomes
+independent of time. The two-point function of the TT stress defines the UETC
+via
 \begin{equation}
-  \Pi(k;\tau_1,\tau_2) = P(k)\,\delta(\tau_1-\tau_s)\,\delta(\tau_2-\tau_s),
+  \bigl\langle\Pi^{\rm TT}_{ij}(\kb,\tau_1)\,
+  \Pi^{\rm TT\,*}_{ij}(\kb',\tau_2)\bigr\rangle
+  = (2\pi)^3\,\delta^{(3)}(\kb-\kb')\,\Pi(k;\tau_1,\tau_2).
+  \label{eq:uetc-def-impulsive}
+\end{equation}
+Inserting the ansatz \eqref{eq:impulsive-stress} and defining the spatial power
+$P(k)$ through
+$\langle A^{\rm TT}_{ij}(\kb)\,A^{\rm TT\,*}_{ij}(\kb')\rangle
+=(2\pi)^3\delta^{(3)}(\kb-\kb')P(k)$, the UETC becomes
+\begin{equation}
+  \Pi(k;\tau_1,\tau_2) = P(k)\,\delta(\tau_1-\tau_s)\,\delta(\tau_2-\tau_s).
   \label{eq:uetc-impulsive}
 \end{equation}
-where $P(k)$ is the spatial power spectrum of the burst amplitude. For the
-monochromatic spatial model, $P(k)$ is determined by the same kinematic
-decomposition that underlies Eq.~\eqref{eq:angular-delta}: the two $\delta$-functions
-in $k$ pin both loop momenta to $k_0$, giving $P(k)\propto
-E_0^2\,\mathcal{K}_0(p)/(k k_0^2)$ with $p=k/k_0$ restricted to $p\leq2$ by
-the triangle inequality. No decorrelation model ($\eta_k$, $\hat g$, or any
-finite coherence time) is needed; the UETC of Eq.~\eqref{eq:uetc-impulsive} is
-exact and requires no further closure assumption.
+No decorrelation model ($\eta_k$, $\hat g$, or any finite coherence time) is
+needed; the UETC is exact and requires no further closure assumption.
 
-\subsection{Temporal integral}
+\subsection{Temporal integral and master formula}
 \label{sec:impulsive-temporal}
 
-Inserting the UETC \eqref{eq:uetc-impulsive} into the master formula \eqref{eq:master},
+The Isaacson GW energy density $\rho_{\rm GW}=\langle\dot h_{ij}\dot
+h_{ij}\rangle/(32\pi G)$, together with the retarded solution
+\begin{equation}
+  \dot h_{ij}(\kb,\tau) = 16\pi G\!\int_{\tau_i}^{\tau}\!d\tau'\,
+  \cos[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau'),
+  \label{eq:impulsive-hdot}
+\end{equation}
+and time-averaging the fast-oscillation product
+$\cos[k(\tau-\tau_1)]\cos[k(\tau-\tau_2)]\to\tfrac{1}{2}\cos[k(\tau_1-\tau_2)]$,
+gives the master formula
+\begin{equation}
+  \frac{d\rho_{\rm GW}}{d\ln k}
+  \simeq \frac{2G\,k^3}{\pi}
+  \!\int\!d\tau_1\!\int\!d\tau_2\,
+  \cos[k(\tau_1-\tau_2)]\,\Pi(k;\tau_1,\tau_2).
+  \label{eq:master-impulsive}
+\end{equation}
+Substituting the impulsive UETC \eqref{eq:uetc-impulsive},
 \begin{align}
   \frac{d\rho_{\rm GW}}{d\ln k}
-  &\;\propto\; k^3\!\int\!d\tau_1\!\int\!d\tau_2\,
-    \cos[k(\tau_1-\tau_2)]\,
+  &\;=\; \frac{2G\,k^3}{\pi}
+    \!\int\!d\tau_1\!\int\!d\tau_2\;
+    \cos[k(\tau_1-\tau_2)]\;
     P(k)\,\delta(\tau_1-\tau_s)\,\delta(\tau_2-\tau_s)
     \nonumber\\
-  &= k^3\,P(k)\,\cos[k(\tau_s-\tau_s)]
-  \;=\; k^3\,P(k)\,\cos(0)
-  \;=\; k^3\,P(k).
+  &= \frac{2G\,k^3}{\pi}\,P(k)\,\cos[k(\tau_s-\tau_s)]
+  \;=\; \frac{2G\,k^3}{\pi}\,P(k)\,\cos(0)
+  \;=\; \frac{2G\,k^3}{\pi}\,P(k).
   \label{eq:impulsive-temporal}
 \end{align}
-The temporal factor is identically unity regardless of $k$, $k_0$, or $\tau_s$.
-This is the sharpest possible contrast with the stationary and decaying cases of
-Sec.~\ref{sec:kraichnan-k41} and Sec.~\ref{sec:delta-decay}: whereas those
-models produce a non-trivial temporal power spectrum $\widetilde\Pi(k,\omega)$
-that peaks at a decorrelation frequency and suppresses the integrand for
-$\omega\gtrsim\eta_0$, the impulsive UETC contributes the same weight to every
-on-shell frequency. The GW spectrum is therefore entirely shaped by the
-\emph{spatial} correlator $P(k)$, with no temporal modulation whatsoever.
+The temporal factor is identically unity regardless of $k$, $k_0$, or $\tau_s$:
+both $\delta$-functions collapse to set $\tau_1=\tau_2=\tau_s$, so the cosine
+argument vanishes. No approximation is involved. The GW spectrum is therefore
+determined entirely by the instantaneous spatial power $P(k)$ of the burst,
+with no temporal modulation and no on-shell frequency integral.
 
-\subsection{Spatial reduction}
+\subsection{Spatial reduction for monochromatic $E(k)=E_0\,\delta(k-k_0)$}
 \label{sec:impulsive-spatial}
 
-With the temporal factor reduced to unity, Eqs.~\eqref{eq:angular-delta}--\eqref{eq:K0}
-supply the spatial reduction without modification:
+We now compute $P(k)$ for the monochromatic energy spectrum. Adopting the
+isotropic, incompressible velocity model
+$F_{ij}(\kb)=A(k)P_{ij}(\khat)$ with $P_{ij}(\khat)=\delta_{ij}-\khat_i\khat_j$,
+the spatial power of the TT-projected quadratic source reads
 \begin{equation}
-  \frac{d\rho_{\rm GW}}{d\ln k} \;\propto\; k^3\,P(k)
-  \;\propto\; \frac{k^3\,E_0^2\,\mathcal{K}_0(p)}{k\,k_0^2}\,\Theta(2-p)
-  \;=\; E_0^2\,k_0^2\,p^2\,\mathcal{K}_0(p)\,\Theta(2-p),
+  P(k) = \frac{1}{(2\pi)^7}\!\int\!d^3k_1\,
+  A(k_1)\,A(u)\,\mathcal{K}(k,k_1,u),
+  \qquad \ub\equiv\kb-\kb_1,\quad u\equiv|\ub|,
+  \label{eq:Pk-impulsive}
 \end{equation}
-where $\mathcal{K}_0(p) = \tfrac{14}{3}-\tfrac{p^2}{3}+\tfrac{p^4}{12}$ is the
-geometric factor from Eq.~\eqref{eq:K0} evaluated at $k_1=u=k_0$. The
-dimensionless kernel is
+with the geometric kernel
+\begin{equation}
+  \mathcal{K}(k,k_1,u) = \frac{27}{6}
+  +\frac{k^4}{12k_1^2u^2}+\frac{k_1^2}{12u^2}+\frac{u^2}{12k_1^2}
+  -\frac{k^2}{6u^2}-\frac{k^2}{6k_1^2}.
+  \label{eq:K-impulsive}
+\end{equation}
+For the monochromatic spectrum $E(k)=E_0\,\delta(k-k_0)$, the amplitude is
+$A(k)=E_0\,\delta(k-k_0)/(4\pi k^2)$. Going to spherical coordinates
+$d^3k_1=k_1^2\,dk_1\,d\phi\,d\mu$ with $\mu=\khat\cdot\khat_1$, the azimuthal
+integral gives $2\pi$; trading $\mu$ for
+$u=\sqrt{k^2+k_1^2-2kk_1\mu}$\,(so $u\,du=kk_1\,d\mu$),
+\begin{equation}
+  P(k) = \frac{1}{(2\pi)^6}\!\int_0^\infty\!\frac{k_1\,dk_1}{k}
+  \!\int_{|k-k_1|}^{k+k_1}\!u\,du\;
+  A(k_1)\,A(u)\,\mathcal{K}(k,k_1,u).
+  \label{eq:Pk-spherical}
+\end{equation}
+Inserting $A(k_1)=E_0\delta(k_1-k_0)/(4\pi k_1^2)$, the $k_1$ integral
+collapses to $k_1=k_0$; inserting $A(u)=E_0\delta(u-k_0)/(4\pi u^2)$, the $u$
+integral collapses to $u=k_0$, which is inside the range $[|k-k_0|,k+k_0]$
+only when $k\leq 2k_0$, i.e.\ $p\leq 2$. The angular residue from
+$\delta(u-k_0)$ is $1/(du/d\mu)|_{u=k_0}=u/(kk_1)|_{u=k_0}=k_0/(kk_0)=1/k$,
+so the two-dimensional integration reduces to
+\begin{equation}
+  \int_0^\infty\!\frac{k_1\,dk_1}{k}\!
+  \int_{|k-k_1|}^{k+k_1}\!u\,du\;
+  \frac{E_0\,\delta(k_1-k_0)}{4\pi k_1^2}\cdot
+  \frac{E_0\,\delta(u-k_0)}{4\pi u^2}
+  = \frac{E_0^2}{16\pi^2}\cdot\frac{1}{k_0^2}\cdot\frac{1}{k}\,\Theta(2k_0-k).
+  \label{eq:angular-collapse}
+\end{equation}
+With both momenta pinned at $k_0$, the geometric kernel evaluates to
+\begin{align}
+  \mathcal{K}(k,k_0,k_0)
+  &= \frac{27}{6}
+    +\frac{k^4}{12k_0^4}+\frac{k_0^2}{12k_0^2}+\frac{k_0^2}{12k_0^2}
+    -\frac{k^2}{6k_0^2}-\frac{k^2}{6k_0^2}
+    \nonumber\\
+  &= \frac{27}{6}+\frac{p^4}{12}+\frac{1}{12}+\frac{1}{12}
+    -\frac{p^2}{6}-\frac{p^2}{6}
+    \nonumber\\
+  &= \frac{27+1+1}{6}+\frac{p^4}{12}-\frac{p^2}{3}
+  \;=\; \frac{14}{3}-\frac{p^2}{3}+\frac{p^4}{12}
+  \;\equiv\; \mathcal{K}_0(p).
+  \label{eq:K0-impulsive}
+\end{align}
+Substituting \eqref{eq:angular-collapse} and \eqref{eq:K0-impulsive} into
+\eqref{eq:Pk-spherical} gives
+\begin{equation}
+  P(k) = \frac{E_0^2\,\mathcal{K}_0(p)}{(2\pi)^6\cdot 16\pi^2\,k\,k_0^2}\,\Theta(2-p).
+  \label{eq:Pk-result}
+\end{equation}
+Inserting into \eqref{eq:impulsive-temporal} and collecting the dimensional
+prefactor into an overall constant, we read off the dimensionless kernel
 \begin{equation}
   \boxed{
-  \mathfrak{H}^{(\delta\tau,\delta k)}(p) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p).
+  \mathfrak{H}^{(\delta\tau,\delta k)}(p) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p),
+  \qquad
+  \mathcal{K}_0(p)=\frac{14}{3}-\frac{p^2}{3}+\frac{p^4}{12}.
   }
   \label{eq:dimless-impulsive}
 \end{equation}
-There is no remaining integral, no $q$ argument, and no $M$ dependence. In
-$p$-shape this kernel coincides with the Kraichnan monochromatic kernel
-\eqref{eq:dimless-delta-Kraichnan} evaluated at $q=0$: setting $q\to0$ in the
-Gaussian $e^{-q^2/M^2}$ reproduces Eq.~\eqref{eq:dimless-impulsive}, which is
-physically correct since the impulsive source has no characteristic decorrelation
-frequency to distinguish any particular on-shell $\omega$.
+There is no remaining integral, no frequency argument $q$, and no Mach number
+$M$: the kernel is a single algebraic expression in $p$. In $p$-shape it
+coincides with the Kraichnan monochromatic kernel of
+Sec.~\ref{sec:kraichnan-k41} evaluated at $q=0$ — setting $q\to0$ in
+$e^{-q^2/M^2}$ trivially reproduces \eqref{eq:dimless-impulsive} — because the
+impulsive source assigns equal weight to every on-shell frequency.
 
 \subsection{GW spectrum: peak, IR and UV slopes}
 \label{sec:impulsive-result}
 
-The energy-density spectrum is
+Using $\Omega_{\rm GW}(p)\propto p^3\,\mathfrak{H}^{(\delta\tau,\delta k)}(p)$,
 \begin{equation}
-  \Omega_{\rm GW}(p) \;\propto\; p^3\,\mathfrak{H}^{(\delta\tau,\delta k)}(p)
-  = p^2\,\mathcal{K}_0(p)\,\Theta(2-p).
+  \Omega_{\rm GW}(p) \;\propto\; p^2\,\mathcal{K}_0(p)\,\Theta(2-p).
   \label{eq:omega-impulsive}
 \end{equation}
 
 \paragraph{Infrared slope.}
-Expanding $\mathcal{K}_0(p)=\tfrac{14}{3}+O(p^2)$ as $p\to0$,
+As $p\to0$, $\mathcal{K}_0(p)=\tfrac{14}{3}+O(p^2)$ is constant, so
 \begin{equation}
-  \Omega_{\rm GW}(p) \;\xrightarrow{p\to0}\; \tfrac{14}{3}\,p^2,
+  \Omega_{\rm GW}(p) \;\xrightarrow{p\to0}\; \frac{14}{3}\,p^2.
 \end{equation}
-so the infrared slope is $\Omega_{\rm GW}\propto p^2$, not the causal $p^3$
-that arises for spectrally extended sources. The $1/p$ in
-$\mathfrak{H}^{(\delta\tau,\delta k)}$ comes from the angular phase-space factor
-in Eq.~\eqref{eq:angular-delta}, which persists independently of the temporal
-model; the same IR slope appears in the Kraichnan monochromatic kernel
-\eqref{eq:dimless-delta-Kraichnan}.
+The infrared slope is $p^2$, not the causal $p^3$ of spatially extended
+sources. The extra power of $1/p$ in $\mathfrak{H}$ traces back to the angular
+residue in \eqref{eq:angular-collapse}: pinning both loop momenta to $k_0$ means
+the phase-space measure for small $k$ grows as $k$ rather than $k^2$, which
+demotes $k^3\to k^2$.
 
 \paragraph{Peak.}
 Define $f(p)\equiv p^2\,\mathcal{K}_0(p)=\tfrac{14}{3}\,p^2-\tfrac{p^4}{3}+\tfrac{p^6}{12}$.
@@ -1300,45 +1374,54 @@ Its derivative is
 \begin{equation}
   f'(p) = p\!\left(\frac{28}{3} - \frac{4}{3}\,p^2 + \frac{p^4}{2}\right).
 \end{equation}
-Setting the bracket to zero requires $3p^4-8p^2+56=0$, which has discriminant
-$\Delta=64-4\cdot3\cdot56=-608<0$: no real roots. Since the bracket evaluates to
-$56/3>0$ at $p=0$ and to $72>0$ at $p=2$, and has no roots, $f'(p)>0$
-throughout $(0,2)$. The spectrum is therefore strictly increasing and peaks at
-the triangle-inequality hard cutoff,
+Setting the bracket to zero requires $3p^4-8p^2+56=0$, a quadratic in $p^2$
+with discriminant $\Delta=64-4\cdot3\cdot56=-608<0$: no real roots. Since the
+bracket is $56/3>0$ at $p=0$ and $72>0$ at $p=2$, and has no roots on $(0,2)$,
+$f'(p)>0$ throughout the support. The spectrum is strictly increasing and peaks
+at the triangle-inequality cutoff,
 \begin{equation}
   p_{\rm peak} = 2 \qquad\Longrightarrow\qquad k_{\rm GW}^{\rm peak} = 2k_0.
   \label{eq:impulsive-peak}
 \end{equation}
-Geometrically, the maximum GW wavenumber reachable by combining two fluid modes
-at $k_0$ is exactly $2k_0$; the monotone spatial kernel drives all power toward
-this upper limit. The Kraichnan and decay kernels approach $p=2$ only in the
-limit $M\to\infty$ or at large Reynolds number; the impulsive case reaches it
-exactly with no free parameter.
+Geometrically, the maximum GW wavenumber from two modes both at $k_0$ is
+$k_0+k_0=2k_0$; the monotone kernel drives all power to this kinematic limit.
 
 \paragraph{Ultraviolet.}
 The Heaviside factor $\Theta(2-p)$ enforces an exact hard cutoff: $\Omega_{\rm
-GW}(p)\equiv0$ for $p>2$. There is no UV power-law tail whatsoever, in contrast
-to the smooth Gaussian (Kraichnan) or power-law (decay) falloffs of the
-stationary models.
+GW}(p)\equiv0$ for $p>2$. There is no UV power-law tail, in contrast to the
+smooth Gaussian (Kraichnan) or power-law (decay) falloffs of the stationary
+models.
 
 \subsection{Post-burst free propagation}
 \label{sec:impulsive-propagation}
 
-For $\tau>\tau_s$ the source is off. Inserting Eq.~\eqref{eq:impulsive-stress}
-into the Green-function solution \eqref{eq:greens},
+For $\tau>\tau_s$ the source is off. The retarded Green's function gives
+\begin{equation}
+  h_{ij}(\kb,\tau)
+  = \frac{16\pi G}{k}\!\int_{\tau_i}^{\tau}\!d\tau'\,
+    \sin[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau').
+  \label{eq:greens-impulsive}
+\end{equation}
+Substituting $\Pi^{\rm TT}_{ij}(\kb,\tau')=A^{\rm TT}_{ij}(\kb)\,\delta(\tau'-\tau_s)$,
 \begin{equation}
   h_{ij}(\kb,\tau) = \frac{16\pi G}{k}\,\sin[k(\tau-\tau_s)]\,A^{\rm TT}_{ij}(\kb),
   \qquad \tau>\tau_s,
   \label{eq:impulsive-h}
 \end{equation}
-and $\dot h_{ij}(\kb,\tau)=16\pi G\cos[k(\tau-\tau_s)]\,A^{\rm TT}_{ij}(\kb)$.
-Each mode oscillates on-shell at $\omega=k$ with amplitude fixed by the burst;
-time-averaging $\langle\cos^2\rangle=\tfrac{1}{2}$ in the Isaacson formula
-returns the frozen spectrum \eqref{eq:omega-impulsive}. There is no further
-evolution: the GW background is impressed at $\tau_s$ and decouples from the
-source permanently. This is the temporal analog of the spatial hard cutoff --
-the impulsive source produces the maximum-wavenumber ($2k_0$) GW spectrum
-in a single instant.
+with time derivative
+$\dot h_{ij}(\kb,\tau)=16\pi G\cos[k(\tau-\tau_s)]\,A^{\rm TT}_{ij}(\kb)$.
+The Isaacson energy density
+\begin{equation}
+  \rho_{\rm GW} = \frac{\langle\dot h_{ij}\dot h_{ij}\rangle}{32\pi G}
+  = \frac{(16\pi G)^2}{32\pi G}\cos^2[k(\tau-\tau_s)]\,P(k)
+  \;\xrightarrow{\langle\cos^2\rangle=1/2}\;
+  \frac{(16\pi G)\,k^3}{2\pi}\,P(k)\,\frac{d\ln k}{1},
+  \label{eq:rho-impulsive}
+\end{equation}
+after integrating over $k$-shells, recovers the frozen spectrum
+\eqref{eq:omega-impulsive} without further time evolution. Each mode oscillates
+on-shell at $\omega=k$ with amplitude set at $\tau_s$; the GW background
+decouples from the source permanently and carries a spectrum that never changes.
 
 \section{\texorpdfstring{Numerical results: $f_{\rm peak}^{\rm GW}(\tau_\ast, M_0)$}{Numerical results: f\_peak\^GW(tau, M0)}}
 \label{sec:fpeak-numerical}
