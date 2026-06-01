@@ -1454,7 +1454,6 @@ unequal-time GW correlator
   = \frac{1}{32\pi G}\,\bigl\langle \dot h_{ij}(\br,t_1)\,\dot h_{ij}(\br,t_2)\bigr\rangle
   \label{eq:rs2-LGWdef}
 \end{equation}
-then becomes, with $(4G)^2/32\pi G=G/2\pi$,
 \begin{equation}
   L_{\rm GW}(\br,t_1,t_2)
   = \frac{G}{2\pi}\!\int\! d^3r_1\,d^3r_2\,
@@ -1463,7 +1462,7 @@ then becomes, with $(4G)^2/32\pi G=G/2\pi$,
   {|\br-\br_1|\,|\br-\br_2|},
   \label{eq:rs2-LGW}
 \end{equation}
-the retarded times now written out. By homogeneity $L_{\rm GW}$ is independent of
+By homogeneity $L_{\rm GW}$ is independent of
 $\br$; set $\br=0$, so $|\br-\br_a|=r_a$.
 
 \subsection{The impulsive source and the two frequencies}
@@ -1524,32 +1523,6 @@ After the burst each mode oscillates at the GW frequency $k$, independently of t
 source frequencies $\omega$ that fed it: the impulse is white in $\omega$, and the
 propagator alone selects $\omega=k$.
 
-\subsection{Energy density and spectrum}
-\label{sec:rs2-spectrum}
-
-The GW energy density is the equal-time limit $\rho_{\rm GW}=L_{\rm GW}(t_1,t_1)$;
-averaging $\cos^2\to\tfrac12$ over the GW oscillation,
-\begin{equation}
-  \rho_{\rm GW}
-  = 4\pi G\!\int\!\frac{d^3k}{(2\pi)^3}\,\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle
-  = \frac{2G}{\pi}\!\int_0^\infty\!dk\,k^2\,\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle,
-\end{equation}
-so that
-\begin{equation}
-  \boxed{\;
-  \frac{d\rho_{\rm GW}}{d\ln k}
-  = \frac{2G}{\pi}\,k^3\,\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle.
-  \;}
-  \label{eq:rs2-master}
-\end{equation}
-The $k^3$ is the GW phase space at the GW frequency $k$, while
-$\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle$ is the source power sampled
-on-shell, the source frequency having been integrated out against the propagator. No
-source-frequency weighting survives because the impulse is white in $\omega$. This is
-the configuration-space derivation of the Fourier-space result
-Eq.~\eqref{eq:impulsive-temporal}, with
-$\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle$ the same TT-projected
-stress power $P(k)$ computed there.
 
 \section{\texorpdfstring{Numerical results: $f_{\rm peak}^{\rm GW}(\tau_\ast, M_0)$}{Numerical results: f\_peak\^GW(tau, M0)}}
 \label{sec:fpeak-numerical}
