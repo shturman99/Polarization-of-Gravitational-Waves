@@ -1423,6 +1423,134 @@ after integrating over $k$-shells, recovers the frozen spectrum
 on-shell at $\omega=k$ with amplitude set at $\tau_s$; the GW background
 decouples from the source permanently and carries a spectrum that never changes.
 
+\section{Impulsive source in real space: source versus GW frequency}
+\label{sec:impulsive-realspace}
+
+We derive the impulsive ($\delta$-in-time) spectrum directly in configuration space,
+propagating with the retarded Green's function of $\Box$. This makes plain that two
+distinct frequencies enter: the frequency $\omega$ of the source's own time
+dependence, and the frequency $k$ at which the radiated $h_{ij}$ oscillates. The
+latter is fixed by a pole of the propagator, not assumed.
+
+\subsection{Retarded solution and the GW correlator}
+\label{sec:rs2-retarded}
+
+With $a=1$ over the short source lifetime,
+\begin{equation}
+  \Box\,h_{ij}(\br,t) = 16\pi G\,S_{ij}(\br,t),
+  \qquad \Box = \partial_t^2 - \nabla^2,
+  \label{eq:rs2-box}
+\end{equation}
+and the retarded Green's function gives
+\begin{equation}
+  h_{ij}(\br,t) = 4G\!\int d^3r'\,
+  \frac{S_{ij}\!\left(\br',\,t-|\br-\br'|\right)}{|\br-\br'|},
+  \label{eq:rs2-h}
+\end{equation}
+so $\dot h_{ij}$ carries $\dot S_{ij}$ at the retarded time $t-|\br-\br'|$. The
+unequal-time GW correlator
+\begin{equation}
+  L_{\rm GW}(\br,t_1,t_2)
+  = \frac{1}{32\pi G}\,\bigl\langle \dot h_{ij}(\br,t_1)\,\dot h_{ij}(\br,t_2)\bigr\rangle
+  \label{eq:rs2-LGWdef}
+\end{equation}
+then becomes, with $(4G)^2/32\pi G=G/2\pi$,
+\begin{equation}
+  L_{\rm GW}(\br,t_1,t_2)
+  = \frac{G}{2\pi}\!\int\! d^3r_1\,d^3r_2\,
+  \frac{\bigl\langle \dot S_{ij}\!\left(\br_1,\,t_1-|\br-\br_1|\right)\,
+  \dot S_{ij}\!\left(\br_2,\,t_2-|\br-\br_2|\right)\bigr\rangle}
+  {|\br-\br_1|\,|\br-\br_2|},
+  \label{eq:rs2-LGW}
+\end{equation}
+the retarded times now written out. By homogeneity $L_{\rm GW}$ is independent of
+$\br$; set $\br=0$, so $|\br-\br_a|=r_a$.
+
+\subsection{The impulsive source and the two frequencies}
+\label{sec:rs2-twofreq}
+
+Fire the stress once, $S_{ij}(\br,t)=\mathcal{S}_{ij}(\br)\,\delta(t-t_0)$, hence
+$\dot S_{ij}=\mathcal{S}_{ij}\,\delta'(t-t_0)$ and
+\begin{equation}
+  L_{\rm GW}(t_1,t_2)
+  = \frac{G}{2\pi}\!\int\!\frac{d^3r_1\,d^3r_2}{r_1\,r_2}\,
+  \bigl\langle \mathcal{S}_{ij}(\br_1)\,\mathcal{S}_{ij}(\br_2)\bigr\rangle\,
+  \delta'(t_1-r_1-t_0)\,\delta'(t_2-r_2-t_0).
+  \label{eq:rs2-impulse}
+\end{equation}
+Write the source amplitude in Fourier space,
+$\mathcal{S}_{ij}(\br)=\int\frac{d^3k}{(2\pi)^3}e^{i\mathbf{k}\cdot\br}\mathcal{S}_{ij}(\mathbf{k})$,
+and each impulse derivative as
+\begin{equation}
+  \delta'(t_a-r_a-t_0)
+  = \int\!\frac{d\omega}{2\pi}\,(-i\omega)\,e^{-i\omega(t_a-r_a-t_0)},
+  \label{eq:rs2-deltaprime}
+\end{equation}
+where $\omega$ is the \emph{source frequency}, conjugate to the burst's emission
+time. The angular part of each $d^3r_a$ integral gives $4\pi\sin(kr_a)/kr_a$, and the
+radial part is
+\begin{equation}
+  \frac{4\pi}{k}\!\int_0^\infty\!\!dr\,\sin(kr)\,e^{i\omega r}
+  = \frac{4\pi}{k^2-(\omega+i\epsilon)^2},
+  \label{eq:rs2-prop}
+\end{equation}
+the retarded GW propagator. \emph{Its pole at $\omega=k$ is the GW frequency}: of all
+the source frequencies the impulse supplies, only $\omega=k$ propagates. Collecting
+both legs,
+\begin{equation}
+  L_{\rm GW}(t_1,t_2)
+  = 8\pi G\!\int\!\frac{d^3k}{(2\pi)^3}\,
+  \bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle\,
+  \Phi(t_1)\,\Phi(t_2),
+  \qquad
+  \Phi(t_a)=\int\!\frac{d\omega}{2\pi}\,
+  \frac{(-i\omega)\,e^{-i\omega(t_a-t_0)}}{k^2-(\omega+i\epsilon)^2},
+  \label{eq:rs2-collect}
+\end{equation}
+with $\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle$ the spatial Fourier
+power of the burst. Closing the $\omega$ contour in the lower half-plane for
+$t_a>t_0$ picks up the poles at $\omega=\pm k$ and gives
+$\Phi(t_a)=\cos[k(t_a-t_0)]\,\Theta(t_a-t_0)$, so
+\begin{equation}
+  \boxed{\;
+  L_{\rm GW}(t_1,t_2)
+  = 8\pi G\!\int\!\frac{d^3k}{(2\pi)^3}\,
+  \bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle\,
+  \cos[k(t_1-t_0)]\,\cos[k(t_2-t_0)]\,\Theta(t_1-t_0)\,\Theta(t_2-t_0).
+  \;}
+  \label{eq:rs2-LGWfinal}
+\end{equation}
+After the burst each mode oscillates at the GW frequency $k$, independently of the
+source frequencies $\omega$ that fed it: the impulse is white in $\omega$, and the
+propagator alone selects $\omega=k$.
+
+\subsection{Energy density and spectrum}
+\label{sec:rs2-spectrum}
+
+The GW energy density is the equal-time limit $\rho_{\rm GW}=L_{\rm GW}(t_1,t_1)$;
+averaging $\cos^2\to\tfrac12$ over the GW oscillation,
+\begin{equation}
+  \rho_{\rm GW}
+  = 4\pi G\!\int\!\frac{d^3k}{(2\pi)^3}\,\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle
+  = \frac{2G}{\pi}\!\int_0^\infty\!dk\,k^2\,\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle,
+\end{equation}
+so that
+\begin{equation}
+  \boxed{\;
+  \frac{d\rho_{\rm GW}}{d\ln k}
+  = \frac{2G}{\pi}\,k^3\,\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle.
+  \;}
+  \label{eq:rs2-master}
+\end{equation}
+The $k^3$ is the GW phase space at the GW frequency $k$, while
+$\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle$ is the source power sampled
+on-shell, the source frequency having been integrated out against the propagator. No
+source-frequency weighting survives because the impulse is white in $\omega$. This is
+the configuration-space derivation of the Fourier-space result
+Eq.~\eqref{eq:impulsive-temporal}, with
+$\bigl\langle|\mathcal{S}_{ij}(\mathbf{k})|^2\bigr\rangle$ the same TT-projected
+stress power $P(k)$ computed there.
+
 \section{\texorpdfstring{Numerical results: $f_{\rm peak}^{\rm GW}(\tau_\ast, M_0)$}{Numerical results: f\_peak\^GW(tau, M0)}}
 \label{sec:fpeak-numerical}
 
