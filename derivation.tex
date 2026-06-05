@@ -677,6 +677,74 @@ below; it confirms a source-scale peak $p\simeq2.4$, nearly independent of $M$,
 but traces it to the \emph{shape} of the decaying temporal correlation rather
 than to the impulsive onset emphasised here.
 
+\subsection{Physical units and what the collapse hides}
+\label{sec:peak-units}
+
+\paragraph{Dimensional dictionary.}
+The kernel works in the dimensionless pair $\{p=k/k_0,\,M\}$; the observable
+spectrum is the characteristic strain $h_c(f)$ at the redshifted frequency $f$
+today. The two are connected by the standard cosmological map
+\cite{2008Kahniashvili,2007Gogoberidze}. A comoving mode is observed at
+\begin{equation}
+  f \;=\; \frac{\hat\omega}{2\pi}\,f_H,\qquad
+  f_H \simeq 1.6\times10^{-5}\,\mathrm{Hz}\,
+  \Big(\frac{g_*}{100}\Big)^{1/6}\frac{T_*}{100\,\mathrm{GeV}},
+  \label{eq:fH}
+\end{equation}
+with $\hat\omega=\omega/H_*$ and $f_H=H_*(a_*/a_0)$ the Hubble frequency today.
+The stirring scale in Hubble units is $\hat k_0=2\pi/\gamma$, where
+$\gamma\equiv l_0 H_*$ is the largest-eddy size in Hubble radii, so on the GW cone
+$\hat\omega=\hat k=\hat k_0\,p$ and
+\begin{equation}
+  f \;=\; f_0\,p,\qquad f_0\equiv\frac{f_H}{\gamma},
+  \label{eq:f0}
+\end{equation}
+i.e.\ $p=k/k_0$ is simply the frequency measured in units of the stirring-scale
+frequency $f_0$. Inverting, the abscissa of the standard strain figures,
+$(f/\mathrm{Hz})(g_*/100)^{-1/6}(\gamma/0.01)(T_*/100\,\mathrm{GeV})^{-1}$,
+equals $p$ up to the fixed constant $1.6\times10^{-3}$ and \emph{carries no $M$}.
+For the amplitude, $\Omega_{\rm GW}=p^2 h_c^2$ with $h_c^2(p)=p\,H(p,p)$, while the
+physical strain (Kahniashvili Eq.~51) is
+$h_c=2\times10^{-14}(100\,\mathrm{GeV}/T_*)(100/g_*)^{1/3}\,(\hat\omega\,\hat\tau_T
+\hat H_{ijij})^{1/2}$. Multiplying $h_c$ by $(g_*/100)^{1/3}(T_*/100\,\mathrm{GeV})$
+cancels the cosmological prefactor, and the further factors
+$(\gamma/0.01)^{-3/2}(\zeta/0.01)^{-1/2}$ remove the stirring-scale and
+source-energy ($\zeta$) normalisations, leaving a quantity that depends only on
+$M$ and $p$. Both axes of the published figure are therefore our dimensionless
+$(p,\,h_c)$ with every \emph{scenario} parameter $(g_*,T_*,\gamma,\zeta)$ scaled
+out; the single remaining knob is $M$.
+
+\paragraph{Collapsing one axis versus two.}
+Once the scenario parameters are removed, two distinct normalisations of the
+\emph{Mach} dependence are possible, and they answer different questions.
+\emph{(i) Amplitude-only ($y$-axis) collapse.} Dividing the strain by $M^{3/2}$
+(equivalently $\Omega_{\rm GW}/M^3$) while keeping the physical frequency
+$f\propto p$ on the $x$-axis. From $h_c^2=M^3 p\,G(p/M)$ this gives
+$h_c\,M^{-3/2}=\sqrt{p\,G(p/M)}$, which is $M$-independent \emph{only} in the
+infrared ($G\!\to\!1$): the causal rises stack, but the peaks remain at their true
+frequencies $f_{\rm peak}=f_0\,(1.47\,M)$ and \emph{slide} with $M$. This is the
+convention of the standard strain plots (e.g.\ the $h_c\,M^{-3/2}$ ordinate of
+\cite{2007Gogoberidze}): it preserves the physical observable---where in the GW
+band each model peaks---which is exactly what one needs to confront a detector.
+\emph{(ii) Full (both-axis) collapse.} Additionally rescaling the frequency by
+$M$, $x\to\xi=p/M=f/(M f_0)$. Because $h_c^2=\Omega_{\rm GW}/p^2$ and
+$\Omega_{\rm GW}=M^6\,U(\xi)$ with $f^2\propto(Mf_0)^2\xi^2$, the strain
+compensation must change from $M^{3/2}$ to $M^{2}$:
+\begin{equation}
+  \frac{h_c}{M^{2}}=\frac{\sqrt{U(\xi)}}{\xi}=\text{function of }\xi\text{ alone}
+  \qquad\Longleftrightarrow\qquad \frac{\Omega_{\rm GW}}{M^{6}}=U(\xi),
+  \label{eq:strain-collapse}
+\end{equation}
+collapsing infrared rise \emph{and} peak onto one curve
+(Fig.~\ref{fig:peak_xM}). The extra power---$3/2\!\to\!2$ in strain,
+$3\!\to\!6$ in $\Omega_{\rm GW}$---is precisely the $M^3$ that the $p^3$ rise
+contributes once the abscissa is measured in units of $M f_0$ rather than $f_0$.
+This collapse is the right diagnostic for the \emph{theory}: it exhibits the
+self-similarity and proves the cutoff is a function of $p/M$ only. It necessarily
+\emph{discards} the physical peak frequency---the very information the
+amplitude-only plot keeps. The two views are thus complementary: $y$-only for
+observation, both-axis for the scaling argument.
+
 \begin{figure*}[ht]
   \centering
   \includegraphics[width=\textwidth]{stationary_peak_analysis}
