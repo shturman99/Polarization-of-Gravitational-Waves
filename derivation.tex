@@ -567,59 +567,50 @@ show here that the analytic peak is fixed instead by the \emph{temporal}
 (sweeping) decorrelation, giving $p_{\rm peak}\simeq1.47\,M$, and that the
 ``$k\simeq2k_0$'' expectation is recovered only in the transonic limit.
 
-\paragraph{A one-parameter scaling.}
+\paragraph{Self-similar Mach scaling.}
 In the dimensionless kernel of Eq.~\eqref{eq:Hijij-AppA-dimless} the Mach number
 enters \emph{only} through the sweeping rate $\eta_k\propto M k^{2/3}$, i.e.\
 through the Gaussian $\exp[-\tfrac{2xy}{x+y}q^2/M^2]$ (and its accompanying erfc)
-evaluated on the GW cone $q=p$ of Eq.~\eqref{eq:omega-diag}. The geometric kernel
-and the triangle-inequality integration bounds carry no $M$. The on-cone spectrum
-must therefore take the self-similar form
+evaluated on the GW cone $q=p$ of Eq.~\eqref{eq:omega-diag}; the geometric kernel
+and the triangle-inequality bounds carry no $M$. Together with the explicit $M^3$
+prefactor of Eq.~\eqref{eq:Hijij-AppA-dimless}, the on-cone kernel must therefore
+collapse to a single function of the sweeping variable $\xi\equiv p/M=k/(Mk_0)$,
 \begin{equation}
-  \Omega_{\rm GW}(p;M)\;=\;A\,M^3\,p^3\,G\!\left(\frac{p}{M}\right),
+  H_{ijij}(p,p;M)\;=\;M^{3}\,\widetilde H_{ijij}(\xi),\qquad \xi\equiv\frac{p}{M},
   \label{eq:peak-ansatz}
 \end{equation}
-in which $A\,M^3 p^3$ is the universal causal infrared rise
-(Sec.~\ref{sec:framework-shape}, with the $M^3$ prefactor of
-Eq.~\eqref{eq:Hijij-AppA-dimless}) and $G$ is a cutoff of the single combination
-$\xi\equiv p/M$, with $G(0)=1$ and $G(\xi\!\to\!\infty)\to0$.
+where $\widetilde H_{ijij}$ is the \emph{compensated kernel}: an infrared plateau
+$\widetilde H_{ijij}(0)\equiv A\simeq2.1\times10^{-2}$ (the universal causal rise,
+Sec.~\ref{sec:framework-shape}) that rolls off once $\xi\gtrsim1$, where the
+sweeping cutoff switches on. The energy density and characteristic strain follow as
+\begin{equation}
+  \Omega_{\rm GW}=p^3H_{ijij}=M^{3}p^{3}\,\widetilde H_{ijij}(\xi),
+  \qquad
+  h_c^{2}=p\,H_{ijij}=M^{3}p\,\widetilde H_{ijij}(\xi).
+  \label{eq:peak-OmegaHc}
+\end{equation}
 
 \paragraph{Numerical proof of the collapse.}
 Equation~\eqref{eq:peak-ansatz} is verified directly in
-Fig.~\ref{fig:peak_analysis}. Panel~(b) plots $\Omega_{\rm GW}/(M^3p^3)$ against
-$\xi=p/M$ for $M=0.03$--$3$: the curves collapse onto a single cutoff
-$A\,G(\xi)$, with infrared plateau $A\simeq2.1\times10^{-2}$ and $<13\%$ residual
-spread dominated by the transonic $M=3$ case. The decorrelation cutoff thus
-depends on $p$ and $M$ \emph{only} through $p/M$---the unambiguous signature of
-the sweeping rate---and switches on at $\xi\sim1$, i.e.\ $p\sim M$.
-
-\paragraph{Complete single-variable collapse.}
-Equation~\eqref{eq:peak-ansatz} can be cast as an exact one-variable scaling. Writing
-the spectrum on the sweeping variable $\xi=p/M=k/(M k_0)$ and using $p=M\xi$,
-\begin{equation}
-  \Omega_{\rm GW}(p;M)\;=\;A\,M^3(M\xi)^3\,G(\xi)\;=\;M^{6}\,\big[A\,\xi^3 G(\xi)\big],
-  \label{eq:M6-collapse}
-\end{equation}
-so that $\Omega_{\rm GW}/M^{6}$ is a function of $\xi$ \emph{alone}: the $p^3$
-infrared rise carries an extra factor $M^3$ beyond the $M^3$ prefactor, and the
-correct compensation on the $\xi$ axis is therefore $M^{6}$, not $M^{3}$. This is
-the strongest form of the scaling, collapsing the infrared rise \emph{and} the peak
-onto the single universal curve $A\,\xi^3 G(\xi)$.
-Figure~\ref{fig:peak_xM} demonstrates it: plotted against $\xi=k/(M k_0)$, the
-$M^{6}$-compensated spectra for $M=0.03$--$1$ coincide over their entire range,
-peaking together at $\xi_\ast\simeq1.47$; only the transonic $M=3$ curve departs,
-as expected from the saturation discussed below. Equivalently, the natural
-wavenumber variable for the stationary spectrum is not $k/k_0$ but the
-sweeping-scaled $k/(M k_0)$, the ratio that holds the peak fixed.
+Fig.~\ref{fig:peak_analysis}(b): the compensated kernel $H_{ijij}(p,p;M)/M^3$
+plotted against $\xi=p/M$ for $M=0.03$--$3$ falls on the single curve
+$\widetilde H_{ijij}(\xi)$, with infrared plateau $A\simeq2.1\times10^{-2}$ and
+$<13\%$ residual spread dominated by the transonic $M=3$ case. The cutoff thus
+depends on $p$ and $M$ \emph{only} through $\xi=p/M$---the unambiguous signature of
+the sweeping rate---and switches on at $\xi\sim1$, i.e.\ $p\sim M$. (How this
+single scaling is best displayed---compensating one axis or both---is taken up in
+Sec.~\ref{sec:peak-units}.)
 
 \paragraph{Peak condition and raw peak location.}
-Differentiating Eq.~\eqref{eq:peak-ansatz} on the cone,
+Differentiating $\Omega_{\rm GW}=M^{3}p^{3}\widetilde H_{ijij}(\xi)$
+[Eq.~\eqref{eq:peak-OmegaHc}] on the cone,
 \begin{equation}
-  \frac{d\ln\Omega_{\rm GW}}{d\ln p}\;=\;3+\frac{d\ln G}{d\ln\xi}\;=\;0
+  \frac{d\ln\Omega_{\rm GW}}{d\ln p}\;=\;3+\frac{d\ln\widetilde H_{ijij}}{d\ln\xi}\;=\;0
   \quad\Longrightarrow\quad
-  \frac{d\ln G}{d\ln\xi}\bigg|_{\xi_\ast}=-3,\qquad p_{\rm peak}=\xi_\ast\,M,
+  \frac{d\ln\widetilde H_{ijij}}{d\ln\xi}\bigg|_{\xi_\ast}=-3,\qquad p_{\rm peak}=\xi_\ast\,M,
   \label{eq:peak-condition}
 \end{equation}
-so the peak sits where the cutoff has logarithmic slope $-3$, at a fixed
+so the peak sits where the compensated kernel has logarithmic slope $-3$, at a fixed
 $\xi_\ast$ independent of $M$. Reading the peak directly from each computed
 spectrum (Fig.~\ref{fig:peak_analysis}c; sub-grid argmax, no model fit) gives a
 location linear in $M$ across the entire subsonic--transonic range,
@@ -703,7 +694,7 @@ i.e.\ $p=k/k_0$ is simply the frequency measured in units of the stirring-scale
 frequency $f_0$. Inverting, the abscissa of the standard strain figures,
 $(f/\mathrm{Hz})(g_*/100)^{-1/6}(\gamma/0.01)(T_*/100\,\mathrm{GeV})^{-1}$,
 equals $p$ up to the fixed constant $1.6\times10^{-3}$ and \emph{carries no $M$}.
-For the amplitude, $\Omega_{\rm GW}=p^2 h_c^2$ with $h_c^2(p)=p\,H(p,p)$, while the
+For the amplitude, $\Omega_{\rm GW}=p^2 h_c^2$ with $h_c^2=p\,H_{ijij}(p,p)$, while the
 physical strain (Kahniashvili Eq.~51) is
 $h_c=2\times10^{-14}(100\,\mathrm{GeV}/T_*)(100/g_*)^{1/3}\,(\hat\omega\,\hat\tau_T
 \hat H_{ijij})^{1/2}$. Multiplying $h_c$ by $(g_*/100)^{1/3}(T_*/100\,\mathrm{GeV})$
@@ -714,36 +705,38 @@ $M$ and $p$. Both axes of the published figure are therefore our dimensionless
 $(p,\,h_c)$ with every \emph{scenario} parameter $(g_*,T_*,\gamma,\zeta)$ scaled
 out; the single remaining knob is $M$.
 
-\paragraph{Collapsing one axis versus two.}
-Once the scenario parameters are removed, two distinct normalisations of the
-\emph{Mach} dependence are possible, and they answer different questions.
-\emph{(i) Amplitude-only ($y$-axis) collapse.} Dividing the strain by $M^{3/2}$
-(equivalently $\Omega_{\rm GW}/M^3$) while keeping the physical frequency
-$f\propto p$ on the $x$-axis. From $h_c^2=M^3 p\,G(p/M)$ this gives
-$h_c\,M^{-3/2}=\sqrt{p\,G(p/M)}$, which is $M$-independent \emph{only} in the
-infrared ($G\!\to\!1$): the causal rises stack, but the peaks remain at their true
-frequencies $f_{\rm peak}=f_0\,(1.47\,M)$ and \emph{slide} with $M$. This is the
-convention of the standard strain plots (e.g.\ the $h_c\,M^{-3/2}$ ordinate of
-\cite{2007Gogoberidze}): it preserves the physical observable---where in the GW
-band each model peaks---which is exactly what one needs to confront a detector.
-\emph{(ii) Full (both-axis) collapse.} Additionally rescaling the frequency by
-$M$, $x\to\xi=p/M=f/(M f_0)$. Because $h_c^2=\Omega_{\rm GW}/p^2$ and
-$\Omega_{\rm GW}=M^6\,U(\xi)$ with $f^2\propto(Mf_0)^2\xi^2$, the strain
-compensation must change from $M^{3/2}$ to $M^{2}$:
+\paragraph{Normalising the Mach dependence: one axis or two.}
+With the scenario parameters removed, the residual Mach dependence of
+Eq.~\eqref{eq:peak-OmegaHc} can be scaled out in two inequivalent ways, which
+answer different questions.
+
+\emph{(i) Amplitude only ($y$-axis).} Divide the strain by $M^{3/2}$ (equivalently
+$\Omega_{\rm GW}$ by $M^3$) but keep the physical frequency $f\propto p$ on the
+abscissa. From Eq.~\eqref{eq:peak-OmegaHc},
+$h_c\,M^{-3/2}=\sqrt{p\,\widetilde H_{ijij}(p/M)}$, which is $M$-independent
+\emph{only} in the infrared, where $\widetilde H_{ijij}\!\to\!A$: the causal rises
+stack, but the peaks stay at their true frequencies $f_{\rm peak}=f_0\,(1.47\,M)$
+and \emph{slide} with $M$. This is the convention of the published strain plots
+(the $h_c\,M^{-3/2}$ ordinate of \cite{2007Gogoberidze}); it preserves the
+observable---where in the band each model peaks---needed to confront a detector.
+
+\emph{(ii) Both axes.} Additionally measure the frequency in sweeping units,
+$x\to\xi=p/M=f/(M f_0)$. Substituting $p=M\xi$ in Eq.~\eqref{eq:peak-OmegaHc},
 \begin{equation}
-  \frac{h_c}{M^{2}}=\frac{\sqrt{U(\xi)}}{\xi}=\text{function of }\xi\text{ alone}
-  \qquad\Longleftrightarrow\qquad \frac{\Omega_{\rm GW}}{M^{6}}=U(\xi),
-  \label{eq:strain-collapse}
+  \frac{\Omega_{\rm GW}}{M^{6}}=\xi^{3}\,\widetilde H_{ijij}(\xi),
+  \qquad
+  \frac{h_c}{M^{2}}=\sqrt{\xi\,\widetilde H_{ijij}(\xi)},
+  \label{eq:M6-collapse}
 \end{equation}
-collapsing infrared rise \emph{and} peak onto one curve
-(Fig.~\ref{fig:peak_xM}). The extra power---$3/2\!\to\!2$ in strain,
-$3\!\to\!6$ in $\Omega_{\rm GW}$---is precisely the $M^3$ that the $p^3$ rise
-contributes once the abscissa is measured in units of $M f_0$ rather than $f_0$.
-This collapse is the right diagnostic for the \emph{theory}: it exhibits the
-self-similarity and proves the cutoff is a function of $p/M$ only. It necessarily
-\emph{discards} the physical peak frequency---the very information the
-amplitude-only plot keeps. The two views are thus complementary: $y$-only for
-observation, both-axis for the scaling argument.
+both functions of $\xi$ \emph{alone}: the infrared rise \emph{and} the peak
+collapse onto one curve (Fig.~\ref{fig:peak_xM}). The compensation rises from
+$M^{3}$ to $M^{6}$ ($M^{3/2}\!\to\!M^{2}$ in strain) because the $p^3$ rise
+contributes an extra $M^3$ once the abscissa is measured in units of $Mf_0$ rather
+than $f_0$. This is the right diagnostic for the \emph{theory}---it exhibits the
+self-similarity and proves the cutoff is a function of $p/M$ only---but it
+necessarily \emph{discards} the physical peak frequency that view~(i) keeps. The
+two are complementary: $y$-only for observation, both-axis for the scaling
+argument.
 
 \begin{figure*}[ht]
   \centering
@@ -753,9 +746,10 @@ observation, both-axis for the scaling argument.
   $\Omega_{\rm GW}(p)=p^3H_{ijij}(p,p;M,R)$ [Eq.~\eqref{eq:Hijij-AppA-dimless},
   $R=10^4$]. (a)~Each spectrum (solid) follows its causal infrared asymptote
   $A\,M^3p^3$ (dotted) and rolls over at the peak (dot) where the sweeping cutoff
-  switches on. (b)~Collapse: $\Omega_{\rm GW}/(M^3p^3)$ versus $\xi=p/M$ falls on a
-  single curve $A\,G(\xi)$ for every $M$, proving the cutoff depends only on $p/M$
-  [Eq.~\eqref{eq:peak-ansatz}]; the universal peak position is $\xi_\ast=1.47$.
+  switches on. (b)~Collapse: $\Omega_{\rm GW}/(M^3p^3)=H_{ijij}(p,p;M)/M^3$ versus
+  $\xi=p/M$ falls on the single compensated kernel $\widetilde H_{ijij}(\xi)$ for
+  every $M$, proving the cutoff depends only on $p/M$ [Eq.~\eqref{eq:peak-ansatz}];
+  the universal peak position is $\xi_\ast=1.47$.
   (c)~Peak location read directly from each computed spectrum (points) versus $M$:
   a power law $p_{\rm peak}=1.48\,M^{1.00}$ (line) [Eq.~\eqref{eq:peak-fit}],
   coincident with $\xi_\ast M$ (dashed), that bends below it toward the $p=2$
@@ -773,8 +767,8 @@ observation, both-axis for the scaling argument.
   peaks of all Mach numbers stack on the vertical line $\xi_\ast\simeq1.47$, only
   their amplitudes differ ($\propto M^3$). (b)~$M^{6}$-compensated spectra
   $\Omega_{\rm GW}/M^{6}$ versus $\xi$ collapse onto the single universal curve
-  $A\,\xi^3 G(\xi)$ of Eq.~\eqref{eq:M6-collapse}---infrared rise and peak
-  together---because the $p^3$ rise contributes an extra $M^3$ on the $\xi$ axis.
+  $\xi^3\widetilde H_{ijij}(\xi)$ of Eq.~\eqref{eq:M6-collapse}---infrared rise and
+  peak together---because the $p^3$ rise contributes an extra $M^3$ on the $\xi$ axis.
   The subsonic curves ($M=0.03$--$1$) coincide; only the transonic $M=3$ curve
   (peak $\xi\simeq0.85$) departs, where the sweeping cutoff yields to the
   inertial-range/triangle edge. Generated by
