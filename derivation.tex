@@ -860,6 +860,41 @@ responsible for displacing the peak to the source scale. Restoring the finite
 source duration (the self-similar slow-time integration) modifies the amplitude
 and overall normalisation but leaves this peak displacement intact.
 
+\paragraph{Caveat: the peak displacement rests on a cusp that simulations dispute.}
+This mechanism is more fragile than it looks, and the fragility is sharply localised.
+The heavy tail is controlled by a \emph{single} number---the one-sided slope of the
+squared correlator at zero lag. For any $f$ with $f(0)$ finite the standard Fourier
+result is
+\begin{equation}
+  T(\omega)=2\!\int_{0}^{\infty}\!d\tau\,\cos(\omega\tau)f(\tau)
+  \;\longrightarrow\;-\frac{2f'(0^{+})}{\omega^{2}},
+  \label{eq:cusp-tail}
+\end{equation}
+so the $\omega^{-2}$ tail exists if and only if the correlator has a \emph{cusp} at
+$\tau=0$. The BK2016 power law does: $f'(0^{+})=-4/3$ for the squared correlation,
+which reproduces the coefficient $8/3$ of Eq.~\eqref{eq:cosT-limits} exactly. A
+Gaussian does not: $f'(0^{+})=0$, and its tail then falls faster than any power.
+
+This matters because Auclair et al.~\cite{2022Auclair} find from direct hydrodynamic
+simulations that the unequal-time correlator of the velocity field is \emph{Gaussian in
+the time difference}, $P_{v}\simeq P_{v}\exp[-\tfrac12k^{2}v_{\rm sw}^{2}(\tau-\zeta)^{2}]$
+with $v_{\rm sw}^{2}\simeq\bar v^{2}/3$, as predicted by Kraichnan's random-sweeping
+model, and explicitly reject power-law decorrelation built on scale-dependent
+eddy-turnover times. Under that UETC the tail is super-exponential and the peak-pinning
+argument of this section does not go through; the peak would revert to the sweeping
+scale of Sec.~\ref{sec:peak-location}.
+
+It should be stressed that combining the two does \emph{not} resolve the question. One
+might expect a Gaussian sweeping factor to regulate the power law's cusp, but it cannot:
+a Gaussian has zero slope at the origin, so multiplying by it leaves $f'(0^{+})$---and
+hence the $\omega^{-2}$ tail---unchanged (we verify slopes $-1.97$ to $-2.13$ for
+sweeping widths spanning a decade). The question is therefore irreducibly the one
+Eq.~\eqref{eq:cusp-tail} poses: does the true unequal-time correlator of a freely
+decaying, genuinely non-stationary flow carry a $|\tau|$ kink at zero lag? The sweeping
+literature says no for the short-lag Eulerian correlation; whether the secular decay of
+the amplitude contributes one is, to our knowledge, unsettled, and the source-scale peak
+of Sec.~\ref{sec:decaying-peak} should be read as conditional on it.
+
 \paragraph{Amplitude: an extra power of $M$.}
 The same kernel fixes the amplitude as cleanly as the peak. The Mach number enters
 the full-spatial decaying kernel in only two places: the prefactor $\propto M^3$ of
@@ -1153,7 +1188,89 @@ dedicated MHD calculation.
   \label{tab:three-works}
 \end{table*}
 
+\subsection{Reproduction of the universal infrared theorem}
+\label{sec:cps-reproduction}
+
+The causal $k^{3}$ invoked repeatedly above is not a property of our kernels but a
+theorem. Cai, Pi and Sasaki~\cite{2020CaiPiSasaki} prove that
+$\Omega_{\rm GW}\propto k^{3}$ in the infrared for any source satisfying
+\begin{enumerate}\itemsep0pt
+  \item[(I)] $0<\int d\ell\,[\text{source spectra}]^{2}<\infty$ (finiteness);
+  \item[(II)] $k$ lies below \emph{every} scale associated with the source---its peak
+    $k_{*}$, its spectral width $\Delta k$, \emph{and} the inverse duration
+    $\Delta t_{s}^{-1}=(a_{*}\Delta\eta_{s})^{-1}$;
+  \item[(III)] the modes re-enter the horizon during radiation domination.
+\end{enumerate}
+The exponent itself is pure counting: at horizon crossing of $1/k_{*}$ there are
+$N=(k_{*}/k)^{3}$ causally disconnected patches, so Poisson statistics give
+$\langle h_{k}h_{k}\rangle=N^{-1}|h_{*}|^{2}=(k/k_{*})^{3}|h_{*}|^{2}$, and the $k^{3}$
+follows from the dimensionality of space alone, independently of the later evolution.
+
+This matters here because \emph{both} of the exceptions they identify are realised by
+models in this paper, so the theorem is an external check rather than a restatement of
+our own kernels. We therefore reproduce it directly, from scratch and independently of
+Sec.~\ref{sec:monochromatic-white} (Fig.~\ref{fig:cps-reproduction}).
+
+\paragraph{Spectral width, and why a monochromatic source gives $k^{2}$.}
+The anisotropic stress is the convolution of two source shells, which in one dimension
+carries an explicit pole,
+\begin{equation}
+  \Pi(k)=\frac{2\pi}{k}\int\!dp\,p\,P(p)\!\int_{|k-p|}^{k+p}\!\!dq\,q\,P(q).
+  \label{eq:stress-convolution-1d}
+\end{equation}
+For a source of finite width the inner interval shrinks as $2k$ when $k\to0$, cancelling
+the $1/k$ and leaving $\Pi(0)$ finite, so $\Omega_{\rm GW}\propto k^{3}$. For a
+$\delta$-shell the inner integral does not shrink; the pole survives, and
+$\Omega_{\rm GW}\propto k^{3}\cdot k^{-1}=k^{2}$. Numerically, a shell of log-width
+$\sigma$ gives slope $3.000$ for $k\ll\sigma$ and $2.000$ in the unscreened band
+$\sigma\ll k\ll k_{*}$ (measured for $\sigma=10^{-2}$ and $10^{-3}$), while an exact
+$\delta$-shell gives $2.000$ over the whole infrared---a zero-width source has no lower
+scale, which is precisely the violation of condition~(II). This is the same $1/p$ pole
+that appears in our monochromatic kernel as $\mathcal{K}_{0}(p)/p$, and it is why both
+panels of Fig.~\ref{fig:spectrum_delta_k_pair} show slope $\mathbf{2}$ rather than
+$\mathbf{3}$: the monochromatic models are Cai--Pi--Sasaki's $\delta$-function exception,
+not an anomaly of our temporal treatment.
+
+\paragraph{Duration, and the intermediate $k^{1}$ band.}
+Condition~(II) also bounds $k$ by the inverse duration. For a source coherent over a
+window $\Delta\eta$ the temporal factor is
+\begin{equation}
+  \Bigl|\int_{0}^{\Delta\eta}\!d\eta\,e^{ik\eta}\Bigr|^{2}
+  =\frac{4\sin^{2}(k\Delta\eta/2)}{k^{2}}
+  \;\longrightarrow\;
+  \begin{cases}
+    \Delta\eta^{2}, & k\Delta\eta\ll1,\\[2pt]
+    2/k^{2}, & k\Delta\eta\gg1\ \text{(oscillation-averaged)},
+  \end{cases}
+  \label{eq:window-factor}
+\end{equation}
+so the spectrum measures slope $+2.999$ below $1/\Delta\eta$ and exactly $+1.000$ above
+it: the finite emission window removes two powers. The $k^{1}$ that appears at
+intermediate wavenumbers is therefore not a violation of causality but condition~(II)
+being read outside its domain---$k^{3}$ is the asymptotic law for $k\ll1/\Delta\eta$,
+and $k^{1}$ is the finite-window band above it. (Cai--Pi--Sasaki quote $k^{9}$ above
+$1/\Delta\eta$ for acoustic sources, where a coherent \emph{oscillating} source resonates
+with the Green function; for an incoherent window such as ours the loss is two powers.)
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{cai_pi_sasaki_reproduction}
+  \caption{Independent reproduction of the two exceptions to the universal $k^{3}$
+  infrared theorem of \cite{2020CaiPiSasaki}, computed from
+  Eqs.~\eqref{eq:stress-convolution-1d} and \eqref{eq:window-factor} with no input from
+  the kernels of this paper. \emph{(a)} Shells of log-width $\sigma_{\ln k}=10^{-2}$ and
+  $10^{-3}$ (dash-dotted verticals mark $k=\sigma$) against an exact $\delta$-shell: the
+  finite-width curves follow $k^{3}$ for $k\ll\sigma$ and $k^{2}$ in the band
+  $\sigma\ll k\ll k_{*}$, while the $\delta$-shell follows $k^{2}$ throughout, having no
+  lower scale. \emph{(b)} Finite emission window $\Delta\eta$: the spectrum follows
+  $k^{3}$ below $k=1/\Delta\eta$ and, once the $\sin^{2}$ oscillations are averaged,
+  $k^{1}$ above. Measured slopes are $3.000/2.000$ and $2.999/1.000$ respectively.
+  Generated by \texttt{Notebooks/cai\_pi\_sasaki\_reproduction.py}.}
+  \label{fig:cps-reproduction}
+\end{figure}
+
 \section{Monochromatic and White-Noise Spectra}
+\label{sec:monochromatic-white}
 
 We now consider two alternative models for the turbulence power spectrum and carry out the same GW-kernel derivation in each case. The first model replaces the Kolmogorov spectrum by a monochromatic (delta-function) distribution in wavenumber; the second takes the real-space two-point function to be spatially uncorrelated (delta function in $\br$), which corresponds to a flat (white-noise) spectrum in $k$-space. For each spatial model we work out both the Kraichnan stationary decorrelation and the decaying-turbulence temporal model, giving four cases in total.
 
