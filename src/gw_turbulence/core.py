@@ -608,29 +608,96 @@ def H_delta_k_kraichnan(p, Omega):
     return float(result) if result.ndim == 0 else result
 
 
+def ft_product_decay(q: float, tau_a: float = 1.0, tau_b: float = 1.0) -> float:
+    """Cosine transform of the PRODUCT of two decay correlations.
+
+        F(q; tau_a, tau_b) = 2 int_0^inf ds cos(q s)
+                                 (1 + s/tau_a)^{-2/3} (1 + s/tau_b)^{-2/3}
+
+    This is the convolution-theorem form of the frequency convolution
+    int dq1 g(q1) g(q - q1): the transform of a PRODUCT of time-domain
+    correlations rather than the convolution of their transforms.
+
+    For the equal-scale case tau_a == tau_b the product collapses to the single
+    power (1 + s/tau)^{-4/3} and the transform has the same closed form as
+    g_decaying with the exponent 2/3 -> 4/3, which is used directly (exact at
+    every q, including q -> 0 where an oscillatory quadrature struggles).
+    Unequal scales fall back to the oscillatory quadrature.
+    """
+    if tau_a <= 0 or tau_b <= 0:
+        return 0.0
+
+    if abs(tau_a - tau_b) <= 1e-12 * max(tau_a, tau_b):
+        return _cos_transform_sq_decay(abs(q) * tau_a) * tau_a
+
+    def amplitude(s: float) -> float:
+        return (1.0 + s / tau_a) ** (-2.0 / 3.0) * (1.0 + s / tau_b) ** (-2.0 / 3.0)
+
+    if q == 0.0:
+        # cos(0) = 1; the plain integral converges but the weight='cos'
+        # machinery is undefined at wvar=0.
+        value, _ = integrate.quad(amplitude, 0.0, np.inf, limit=400,
+                                  epsabs=1e-12, epsrel=1e-10)
+    else:
+        value, _ = integrate.quad(amplitude, 0.0, np.inf, weight="cos", wvar=abs(q),
+                                  limit=400, epsabs=1e-12, epsrel=1e-10)
+    return 2.0 * value
+
+
+@lru_cache(maxsize=4096)
+def _cos_transform_sq_decay(q: float) -> float:
+    """2 int_0^inf cos(q s) (1+s)^{-4/3} ds, in closed form.
+
+    Same derivation as _g_decaying_scalar but for the SQUARED correlation, i.e.
+    power alpha = 4/3 instead of 2/3:
+
+        int_0^inf e^{+i q s} (1+s)^{-4/3} ds = e^{-i q} (-i q)^{1/3} Gamma(-1/3, -i q)
+
+    and the cosine transform is twice its real part.  At q = 0 this reduces to
+    2 * int_0^inf (1+s)^{-4/3} ds = 6.
+    """
+    if q == 0.0:
+        return 6.0
+    arg = -1j * q
+    gamma_upper = mp.gammainc(-1.0 / 3.0, arg)
+    return 2.0 * complex(mp.e ** (-1j * q) * (arg ** (1.0 / 3.0)) * gamma_upper).real
+
+
 def _temporal_conv_decay(
     q: float,
     q_bound: float | None = None,
     split_width: float | None = None,
     n_points: int = 200,
 ) -> float:
-    """1-D convolution  int dq1 g(q1) * g(q - q1)  for the decay temporal model.
+    """Temporal factor  int dq1 g(q1) * g(q - q1)  for the decay model.
 
     g is the dimensionless decay kernel from g_decaying.  This is the pure
     temporal factor shared by H_delta_k_decay and H_white_decay.
+
+    Evaluated via the convolution theorem, NOT by quadrature in q1.  Because
+    g(q) ~ i/q as q -> inf, the integrand decays only as 1/q1^2 and the old
+    truncation at q_bound = |q| + 20 left an O(1/q_bound) additive error; since
+    the true value falls as 8/(3 q^2), that error dominated the UV (a factor ~2
+    low by q = 8, sign-flipped by q = 16).  The two integrable q^{-1/3} endpoint
+    cusps at q1 = 0, q were also under-resolved by a 200-point trapezoid.
+
+    The identity used is exact:  writing h = f * Theta for the one-sided
+    correlation f(s) = (1+s)^{-2/3}, the convolution theorem gives
+    (g*g)(q) = 2 pi FT[h^2](q), whose real part is
+
+        int dq1 Re[g(q1) g(q-q1)] = 2 pi int_0^inf ds cos(q s) f(s)^2
+                                  = pi * cosT(q),
+
+    with cosT the cosine transform of the SQUARED two-sided correlation.  The
+    one-sided/two-sided distinction is therefore only the q-independent factor
+    pi, and the normalisation of the old (converged) definition is preserved
+    exactly -- this fix changes the shape in the UV, not the overall scale.
+
+    ``q_bound``, ``split_width`` and ``n_points`` are accepted for backwards
+    compatibility and ignored; the quadrature is now adaptive.
     """
-    if q_bound is None:
-        q_bound = max(abs(q) + 20.0, 30.0)
-    if split_width is None:
-        split_width = max(1e-8, 1e-6 * max(1.0, abs(q)))
-    conv_val = 0.0
-    for lower, upper in _conv_intervals(q, q_bound, split_width):
-        if lower >= upper:
-            continue
-        q1_vals = _cosine_grid(lower, upper, max(n_points, 32))
-        vals = (g_decaying(q1_vals) * g_decaying(q - q1_vals)).real
-        conv_val += np.trapz(vals, q1_vals)
-    return conv_val
+    del q_bound, split_width, n_points  # legacy quadrature knobs, no longer used
+    return np.pi * ft_product_decay(abs(q))
 
 
 def H_delta_k_decay(

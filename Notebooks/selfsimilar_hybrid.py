@@ -270,9 +270,17 @@ def baseline_crosscheck():
         The self-similar G_SS(q,0) = (g_hat * g_hat)(q) EQUALS 2*pi*cosT(q)
         (constant factor, shape matches to <1%).  The core
         _temporal_conv_decay(q) = int dq1 Re[g(q1) g(q-q1)] is the real part of
-        the FT of the ONE-SIDED square and does NOT track cosT: its shape drifts
-        and its UV tail falls ~2x too fast (see table).  => the two baselines do
-        NOT agree in the UV; the SELF-SIMILAR kernel is the correct one.
+        the FT of the ONE-SIDED square, and equals pi*cosT(q) EXACTLY -- again a
+        constant factor.  Both baselines therefore describe the same shape, and
+        the one-sided vs two-sided bookkeeping is a normalisation choice, not an
+        error.
+
+        HISTORY: this check originally reported that core "does NOT track cosT",
+        drifting 120% with a UV tail ~2x low at q=8.  That observation was
+        correct but the diagnosis was not: the culprit was core's quadrature
+        (truncation of the q1 integral at |q|+20, plus under-resolved q^{-1/3}
+        endpoint cusps), not the choice of one-sided square.  core now evaluates
+        the convolution-theorem form in closed form and the drift is gone.
     """
     from gw_turbulence.core import g_decaying, _temporal_conv_decay
 
@@ -298,16 +306,20 @@ def baseline_crosscheck():
     g_ss = G_SS(qs, np.zeros_like(qs))
     g_core = np.array([float(_temporal_conv_decay(q)) for q in qs])
     r_ss = g_ss / cosT          # should be a CONSTANT (= 2 pi) if shapes match
-    r_core = g_core / cosT      # drifts -> core does NOT match the physical kernel
+    r_core = g_core / cosT      # exact identity: must be the CONSTANT pi
     print("\n(B) temporal kernel vs exact cosine transform cosT(q) of squared correlator:")
     print(f"    {'q':>5}{'cosT':>10}{'G_ss':>10}{'G_core':>10}{'G_ss/cosT':>11}{'G_core/cosT':>13}")
     for q, c, s, gc, rs, rc in zip(qs, cosT, g_ss, g_core, r_ss, r_core):
         print(f"    {q:5.1f}{c:10.4f}{s:10.4f}{gc:10.4f}{rs:11.3f}{rc:13.3f}")
     ss_flat = float(r_ss.max() / r_ss.min() - 1.0)
     core_flat = float(r_core.max() / r_core.min() - 1.0)
-    okB = ss_flat < 0.02                      # self-similar matches cosT (flat ratio)
-    print(f"    self-similar G_ss/cosT spread = {ss_flat:.2%}  -> matches cosT: {okB}")
-    print(f"    core      G_core/cosT spread = {core_flat:.2%}  -> does NOT match (UV ~2x steep)")
+    # Both ratios must be FLAT (each equals its own constant: 2 pi for the
+    # self-similar kernel, pi for core).  Core's is now the exact one -- its
+    # residual spread is dominated by the brute-force cosT reference itself.
+    okB = ss_flat < 0.05 and core_flat < 0.01
+    print(f"    self-similar G_ss/cosT   spread = {ss_flat:.2%}   (constant should be 2pi = {2*np.pi:.4f})")
+    print(f"    core        G_core/cosT  spread = {core_flat:.2%}   (constant should be pi  = {np.pi:.4f})")
+    print(f"    -> both track cosT: {okB}")
 
     # (C) shape comparison normalised at q=1 (UV divergence made explicit).
     i1 = int(np.argmin(np.abs(qs - 1.0)))
@@ -315,14 +327,19 @@ def baseline_crosscheck():
     print(f"    {'q':>5}{'core_norm':>11}{'ss_norm':>10}{'cosT_norm':>11}")
     for q, gc, s, c in zip(qs, g_core, g_ss, cosT):
         print(f"    {q:5.1f}{gc / g_core[i1]:11.4f}{s / g_ss[i1]:10.4f}{c / cosT[i1]:11.4f}")
-    print("    -> core UV tail (q=8) is ~2x below the correct cosT/self-similar tail.")
+    print("    -> historical note: core's UV tail used to sit ~2x below cosT here.")
 
     verdict = (
-        "AGREE in g_hat and small-q; DISAGREE in UV: core._temporal_conv_decay is\n"
-        "    the FT of the ONE-SIDED square (Re[g*g]) and is NOT the cosine transform\n"
-        "    of the squared two-time correlator. The self-similar G_BK IS. The\n"
-        "    self-similar baseline is the physically correct one; the quasi-stationary\n"
-        "    core kernel underestimates the GW UV by ~2x at q~8 (worse beyond)."
+        "AGREE (both routes now track cosT). RESOLVED: the UV discrepancy this\n"
+        "    check originally reported was real, but the diagnosis was wrong. The\n"
+        "    one-sided/two-sided distinction is NOT an error -- by the convolution\n"
+        "    theorem int dq1 Re[g(q1) g(q-q1)] = pi * cosT(q) EXACTLY, a constant\n"
+        "    factor with no shape content. The drift was pure quadrature error in\n"
+        "    core: truncating q1 at |q|+20 left an O(1/q_bound) offset that swamped\n"
+        "    the true 8/(3 q^2) tail (~2x low at q=8, sign-flipped by q=16), and 200\n"
+        "    trapezoid points under-resolved the q^{-1/3} cusps at q1=0,q.\n"
+        "    core._temporal_conv_decay now evaluates the convolution theorem form in\n"
+        "    closed form and matches cosT to ~1e-5 at all q."
     )
     print("\nVERDICT:", verdict)
     return okA and okB

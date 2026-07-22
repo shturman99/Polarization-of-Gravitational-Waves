@@ -94,14 +94,27 @@ class TestDecayingExtensionKernel(unittest.TestCase):
         self.assertIn((0.01, 0.99), intervals)
         self.assertIn((1.01, 5.0), intervals)
 
-    def test_decaying_temporal_convolution_uses_negative_q1_interval(self):
+    def test_decaying_temporal_factor_reproduces_full_line_q1_convolution(self):
+        # _temporal_conv_decay now evaluates the convolution theorem form rather
+        # than quadrature in q1.  Pin that identity against a well-converged
+        # DIRECT evaluation of the defining integral int dq1 Re[g(q1) g(q-q1)]
+        # over the full line -- the two routes must agree.
         q = 1.0
+        direct = 0.0
+        for lower, upper in _conv_intervals(q, q_bound=100.0, split_width=1e-6):
+            if lower >= upper:
+                continue
+            grid = _cosine_grid(lower, upper, 1500)
+            direct += np.trapz((g_decaying(grid) * g_decaying(q - grid)).real, grid)
+        self.assertAlmostEqual(direct / _temporal_conv_decay(q), 1.0, delta=5e-3)
+
+        # ...and that the negative-q1 half is a necessary part of that value: a
+        # convolution restricted to [0, q] is a materially different number.
         positive_only = 0.0
         for lower, upper in ((0.01, 0.99), (1.01, 5.0)):
             grid = _cosine_grid(lower, upper, 200)
             positive_only += np.trapz((g_decaying(grid) * g_decaying(q - grid)).real, grid)
-        full_line = _temporal_conv_decay(q, q_bound=5.0, split_width=0.01, n_points=200)
-        self.assertGreater(abs(full_line - positive_only), 1e-2)
+        self.assertGreater(abs(_temporal_conv_decay(q) - positive_only), 1e-2)
 
     def test_decaying_kernel_is_finite_and_conjugate_symmetric(self):
         zgrid = np.r_[np.linspace(-8, -1e-3, 20), np.linspace(1e-3, 8, 20)]

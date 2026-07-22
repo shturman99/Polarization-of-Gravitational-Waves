@@ -70,6 +70,61 @@ class TestCoreHelpers(unittest.TestCase):
             self.assertLess(abs(val), 50.0)
             self.assertGreater(abs(val), 1e-3)
 
+    def test_temporal_conv_decay_matches_independent_cosine_transform(self):
+        # Regression pin for the UV-tail defect.  The temporal factor must equal
+        # pi * cosT(q), with cosT the cosine transform of the SQUARED two-sided
+        # correlation [(1+|tau|)^{-2/3}]^2.  Reference is a brute-force
+        # real-space trapezoid -- deliberately a different quadrature from the
+        # weight='cos' route in core, so this is an independent check.
+        #
+        # The old truncated q1-convolution passed at small q but failed in the
+        # UV: ~2x low at q=8 and sign-flipped by q=16.  q=8,16,32 are the pins
+        # that matter; a regression there reintroduces the bug.
+        tau = np.linspace(-4000.0, 4000.0, 8_000_001)
+        squared = (1.0 + np.abs(tau)) ** (-4.0 / 3.0)
+        for q in (0.3, 1.0, 4.0, 8.0, 16.0, 32.0):
+            reference = np.pi * float(np.trapz(squared * np.cos(q * tau), tau))
+            value = float(core._temporal_conv_decay(q))
+            self.assertAlmostEqual(value / reference, 1.0, delta=2e-3, msg=f"q={q}")
+            self.assertGreater(value, 0.0, msg=f"q={q} must stay positive")
+
+    def test_temporal_conv_decay_uv_tail_follows_eight_thirds_over_q_squared(self):
+        # The cusp of (1+|tau|)^{-4/3} at tau=0 fixes the UV tail analytically:
+        # cosT(q) -> (8/3)/q^2, so the temporal factor -> pi*(8/3)/q^2.  The
+        # truncated convolution decayed far faster than this and changed sign.
+        for q in (50.0, 100.0, 200.0):
+            self.assertAlmostEqual(
+                q**2 * float(core._temporal_conv_decay(q)) / (np.pi * 8.0 / 3.0),
+                1.0,
+                delta=0.01,
+                msg=f"q={q}",
+            )
+
+    def test_ft_product_decay_closed_form_matches_quadrature_branch(self):
+        # Equal tau takes the closed form, unequal tau the oscillatory
+        # quadrature.  Approaching tau_b -> tau_a the two must meet.
+        for q in (0.5, 3.0, 11.0):
+            closed = core.ft_product_decay(q, 1.0, 1.0)
+            quad = core.ft_product_decay(q, 1.0, 1.0 + 1e-7)
+            self.assertAlmostEqual(closed / quad, 1.0, delta=1e-5, msg=f"q={q}")
+
+    def test_ft_product_decay_zero_frequency_and_tau_scaling(self):
+        # F(0) = 2 int_0^inf (1+s)^{-4/3} ds = 6, and s -> tau*u gives the
+        # scaling F(q; tau, tau) = tau * F(q*tau; 1, 1).
+        self.assertAlmostEqual(core.ft_product_decay(0.0), 6.0, places=6)
+        # The approach to 6 is only O(q^{1/3}) -- slow, but a clean power law.
+        # Pin the exponent: a decade in q must shrink the deficit by 10^{1/3}.
+        deficits = [6.0 - core.ft_product_decay(q) for q in (1e-6, 1e-7, 1e-8, 1e-9)]
+        for coarse, fine in zip(deficits, deficits[1:]):
+            self.assertAlmostEqual(coarse / fine, 10.0 ** (1.0 / 3.0), delta=0.01)
+        for tau, q in ((2.0, 1.5), (0.3, 7.0)):
+            self.assertAlmostEqual(
+                core.ft_product_decay(q, tau, tau),
+                tau * core.ft_product_decay(q * tau),
+                places=9,
+                msg=f"tau={tau}",
+            )
+
     def test_integration_bounds_return_none_for_empty_region(self):
         self.assertIsNone(core._integration_bounds(x=1.0, p=5.0, R=1.0))
 

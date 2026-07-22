@@ -12,17 +12,22 @@ Mach-number fix (k-dependent sweeping rate eta_k = (M/sqrt(2pi)) k0^{1/3} k^{2/3
 Decay temporal factor — IMPORTANT
 ---------------------------------
 The boxed decay kernels are written as the frequency convolution
-int dq1 g(q1) g(qbar - q1).  Computed naively this DIVERGES: g(q) ~ |q|^{-5/3}
-is singular at the origin and the discrete convolution scales with grid spacing.
+int dq1 g(q1) g(qbar - q1).  That integral CONVERGES (g(q) ~ Gamma(1/3) q^{-1/3}
+at the origin, ~ i/q at infinity, so the integrand falls as 1/q1^2), but it is
+badly behaved numerically: truncating the q1 range leaves an O(1/q_bound)
+additive error that swamps the true UV value, which falls as 8/(3 q^2).  An
+earlier note here claimed g ~ |q|^{-5/3} and outright divergence; that was the
+pre-fix exponent (see core._g_decaying_scalar) and is no longer true.
+
 By the convolution theorem the convolution equals 2*pi times the FT of the
 PRODUCT of the time-domain correlations, which is finite and smooth:
 
     int dq1 g(.tau_a) g(.tau_b) = 2 int_0^inf dsigma cos(q sigma)
                                     (1 + sigma/tau_a)^{-2/3} (1 + sigma/tau_b)^{-2/3}
 
-with f(t) = (1 + t/tau)^{-2/3} the decaying-turbulence correlation.  We evaluate
-the decay factors this way (the divergent core.py `_temporal_conv_decay` should
-not be used).
+with f(t) = (1 + t/tau)^{-2/3} the decaying-turbulence correlation.  This is now
+core.ft_product_decay, which core._temporal_conv_decay also uses, so the two
+routes agree by construction and this module no longer keeps its own copy.
 
 Smoothness: the (z,y) integrals use Gauss-Legendre quadrature on the *exact*
 [a,b] intervals so the nodes track the moving bounds (a fixed linspace jitters
@@ -40,7 +45,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from gw_turbulence.core import K0_p  # noqa: E402
+from gw_turbulence.core import K0_p, ft_product_decay  # noqa: E402
 from gw_turbulence.plot_style import (  # noqa: E402
     FIGSIZES,
     PALETTE,
@@ -85,13 +90,14 @@ def Ktilde(p, z, y):
 
 
 def _ft_product(q, tau_a, tau_b):
-    """2 int_0^inf cos(q s) (1+s/tau_a)^{-2/3}(1+s/tau_b)^{-2/3} ds  (finite, smooth)."""
-    integrand = (
-        np.cos(q * _SIG)
-        * (1.0 + _SIG / tau_a) ** (-2.0 / 3.0)
-        * (1.0 + _SIG / tau_b) ** (-2.0 / 3.0)
-    )
-    return 2.0 * float(_trapz(integrand, _SIG))
+    """2 int_0^inf cos(q s) (1+s/tau_a)^{-2/3}(1+s/tau_b)^{-2/3} ds  (finite, smooth).
+
+    Delegates to core so this module and core._temporal_conv_decay cannot drift
+    apart.  The previous local version used a fixed trapezoid on sigma <= 400,
+    which under-resolved cos(q sigma) at large q and truncated the algebraic
+    tail; core evaluates the equal-tau case in closed form.
+    """
+    return ft_product_decay(q, tau_a, tau_b)
 
 
 # ---------------------------------------------------------------------------
