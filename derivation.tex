@@ -202,6 +202,93 @@ The UV slope is precisely where the four UETC models derived below
 ($\delta$-spectrum vs.\ white-noise, Kraichnan vs.\ decay) differ, which is the
 focus of the remainder of the paper.
 
+\subsection{The model space, and a uniform notation for the kernels}
+\label{sec:model-space}
+
+Every kernel derived in this paper is a choice of two independent ingredients,
+and it is worth making the factorisation explicit at the outset because most of
+the disagreements in the literature---and every discrepancy discussed below---trace
+to one axis or the other rather than to the derivation itself.
+
+\paragraph{Axis 1: the spatial source model $S$.} What the fluid two-point
+function is taken to be. We use four:
+\begin{itemize}\itemsep0pt
+  \item $S_{\rm K41}$: Kolmogorov inertial range, $E(k)\propto k^{-5/3}$ on
+    $k_0<k<k_d$, with $R=(k_d/k_0)^{4/3}$ the Reynolds number
+    (Sec.~\ref{sec:kraichnan-k41});
+  \item $S_{\delta k}$: monochromatic, $E(k)=E_0\delta(k-k_0)$
+    (Sec.~\ref{sec:delta-k});
+  \item $S_{\delta r}$: real-space white noise, $R_{ij}\propto\delta^{(3)}(\br)$,
+    equivalently $E(k)\propto k^{2}$ (Sec.~\ref{sec:white});
+  \item $S_{\rm full}$: a full input spectrum---a Batchelor or Saffman infrared
+    band joined to the Kolmogorov inertial range (Sec.~\ref{sec:omega-over-k}).
+\end{itemize}
+
+\paragraph{Axis 2: the temporal model $T$.} What the unequal-time correlator
+(UETC) of the source is taken to be. We use four:
+\begin{itemize}\itemsep0pt
+  \item $T_{\rm sw}$: Kraichnan sweeping, a \emph{Gaussian} in the time
+    difference, $f(\tau)=\exp(-\tfrac{\pi}{4}\eta_k^2\tau^2)$ with
+    $\eta_k\propto\varepsilon^{1/3}k^{2/3}$;
+  \item $T_{\rm dec}$: BK2016 decaying turbulence, a \emph{power law}
+    $f(\tau)=(1+|\tau|/\tau_k)^{-2/3}$;
+  \item $T_{\rm imp}$: impulsive, $\delta$-correlated in time
+    (Sec.~\ref{sec:impulsive});
+  \item $T_{\rm burst}$: a source of finite duration $\Delta t$
+    (Sec.~\ref{sec:burst}).
+\end{itemize}
+
+\paragraph{Notation.} We write the resulting dimensionless kernel as
+\begin{equation}
+  H[S,T](p,q;M,R),
+  \qquad p=\frac{k}{k_0},\quad q=\frac{\omega}{k_0},
+  \label{eq:kernel-notation}
+\end{equation}
+suppressing $M$ or $R$ where the kernel does not depend on them, and the GW
+spectrum on the sound-cone diagonal is always
+$\Omega_{\rm GW}(p)\propto p^{3}H[S,T](p,p)$. Table~\ref{tab:model-grid} lists
+every combination derived here, its defining equation, and its analytic
+structure; Sec.~\ref{sec:model-differences} then compares them systematically.
+Two entries of the grid deserve a warning before any spectrum is read off them:
+$S_{\delta k}$ has zero spectral width and $S_{\delta r}$ has no infrared power
+at all, so both violate the hypotheses of the universal infrared theorem
+(Sec.~\ref{sec:cps-reproduction}) and neither should be expected to show $k^{3}$.
+
+\begin{table*}[ht]
+  \centering
+  \begin{tabular}{llll}
+  \hline
+  Kernel & Defining equation & Analytic structure & Sec. \\
+  \hline
+  $H[S_{\rm K41},T_{\rm sw}]$   & Eq.~\eqref{eq:Hijij-AppA-dimless}
+    & 2-D wavevector integral, Gaussian temporal factor & \ref{sec:kraichnan-k41} \\
+  $H[S_{\rm K41},T_{\rm dec}]$  & Eq.~\eqref{eq:ft-of-product}
+    & 2-D wavevector $\times$ 1-D Feynman parameter & \ref{sec:decaying-peak} \\
+  $H[S_{\delta k},T_{\rm sw}]$  & Eq.~\eqref{eq:dimless-delta-Kraichnan}
+    & closed form; $M$ in the frequency scale only & \ref{sec:delta-kraichnan} \\
+  $H[S_{\delta k},T_{\rm dec}]$ & Eq.~\eqref{eq:dimless-delta-decay}
+    & closed form, Eq.~\eqref{eq:conv-equals-cosT} & \ref{sec:delta-decay} \\
+  $H[S_{\delta r},T_{\rm sw}]$  & Eq.~\eqref{eq:dimless-white-Kraichnan}
+    & 2-D wavevector integral; $M$-cutoff in the bounds & \ref{sec:white} \\
+  $H[S_{\delta r},T_{\rm dec}]$ & Eq.~\eqref{eq:dimless-white-decay}
+    & 2-D wavevector $\times$ Eq.~\eqref{eq:two-scale-feynman} & \ref{sec:white} \\
+  $H[S_{\delta k},T_{\rm imp}]$ & Eq.~\eqref{eq:dimless-impulsive}
+    & closed form; no $M$ or $q$ dependence & \ref{sec:impulsive} \\
+  $H[S_{\delta k},T_{\rm burst}]$ & Eq.~\eqref{eq:rs2-spectrum-dt}
+    & closed form; window factor $\sin^{2}$ & \ref{sec:burst} \\
+  $H[S_{\rm full},T_{\rm sw}]$  & Eq.~\eqref{eq:full-input-spectrum}
+    & as $S_{\rm K41}$ with a shape factor $S(k)$ & \ref{sec:omega-over-k} \\
+  \hline
+  \end{tabular}
+  \caption{The model grid. Each kernel is a (spatial source, temporal UETC)
+  pair in the notation of Eq.~\eqref{eq:kernel-notation}. The analytic structure
+  column is what actually has to be evaluated: note that the two decaying
+  entries are closed-form or single-integral rather than the frequency
+  convolutions they are usually written as, by
+  Eqs.~\eqref{eq:conv-equals-cosT} and \eqref{eq:two-scale-feynman}.}
+  \label{tab:model-grid}
+\end{table*}
+
 \section{Kraichnan--K41 Model (Gogoberidze 2007)}
 \label{sec:kraichnan-k41}
 
@@ -367,6 +454,7 @@ and a measured IR exponent $d\ln H/d\ln M\to3.00$ as $p\to0$).
 \end{figure*}
 
 \subsection{Spectra in the $\Omega(k)/k$ convention: comparison with simulations}
+\label{sec:omega-over-k}
 \label{sec:roperpol-convention}
 
 To compare the analytic kernel with the direct numerical simulations of
@@ -1277,6 +1365,7 @@ We now consider two alternative models for the turbulence power spectrum and car
 The derivation follows the same sequence of steps as in Sec.~\ref{sec:kraichnan-k41}: (i) write $H_{ijij}$ as a double convolution in both $\kb$ and $\omega$, (ii) insert the spectral model, (iii) perform the tensor contractions to get $\mathcal{K}$, (iv) switch to spherical coordinates and the variable $u=|\kb-\kb_1|$, (v) evaluate or simplify the temporal integral, and (vi) introduce dimensionless variables.
 
 \subsection{\texorpdfstring{Monochromatic energy spectrum $E(k)=E_0\delta(k-k_0)$}{Monochromatic energy spectrum E(k)=E0 delta(k-k0)}}
+\label{sec:delta-k}
 
 Set $E(k)=E_0\,\delta(k-k_0)$ so that $A(k) = E_0\,\delta(k-k_0)/(4\pi k^2)$ and the spectral tensor reads
 \begin{equation}
@@ -1312,13 +1401,14 @@ Substituting Eqs.~\eqref{eq:angular-delta}--\eqref{eq:K0} in Eq.~\eqref{eq: H-wi
 All spatial structure has been resolved in closed form; only the temporal convolution $I_\omega$ remains. Because both wavevectors are pinned to $k_0$ by the two $\delta$-functions, there is no leftover wavenumber integration: the only spatial constraint is the $M$-independent triangle inequality $\Theta(2-p)$. The Mach number therefore cannot reshape any spatial integration \emph{bounds} here; it enters solely through the temporal decorrelation rate at the fixed scale $k_0$, which we tie to $M$ via $\eta_{k_0}=\tfrac{M}{\sqrt{2\pi}}k_0$ (cf.\ Eq.~\eqref{eq:appA-dimless}). This contrasts with the white-noise case of Sec.~\ref{sec:white}, where $M$ does enter the surviving wavenumber integral.
 
 \subsubsection{Kraichnan decorrelation}
+\label{sec:delta-kraichnan}
 
 For $\tf(\omega)=(2/\eta_0)e^{-\omega^2/\pi\eta_0^2}$ with $\eta_0\equiv\eta_{k_0}=M k_0/\sqrt{2\pi}$, the Gaussian convolution gives $I_\omega(\omega) = (2\sqrt{2}\pi/\eta_0)e^{-\omega^2/(2\pi\eta_0^2)}$. With $q\equiv\omega/k_0$ the exponent becomes $\omega^2/(2\pi\eta_0^2)=q^2/M^2$, so Eq.~\eqref{eq:H-delta-k} separates into a dimensional prefactor and the boxed dimensionless kernel
 \begin{equation}
   H_{ijij}(\kb,\omega) = \frac{\sqrt{2}\,E_0^2}{(2\pi)^7\,k k_0^2\,\eta_0}\,\mathcal{K}_0(p)\,\Theta(2-p)\,e^{-q^2/M^2},
   \qquad
   \boxed{
-  \mathfrak{H}^{(\delta k)}_{\rm Kraichnan}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,e^{-q^2/M^2}.
+  H[S_{\delta k},T_{\rm sw}](p,q;M)\;\equiv\;\mathfrak{H}^{(\delta k)}_{\rm Kraichnan}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,e^{-q^2/M^2}.
   }
   \label{eq:dimless-delta-Kraichnan}
 \end{equation}
@@ -1330,7 +1420,7 @@ There is no remaining integral. The $p$-shape is fixed; $M$ acts only as the Gau
 For decaying turbulence, $\tf(\omega)=\hat g(\omega\tau_1)$ with $\hat g(\bar q)=e^{-i\bar q}(-i\bar q)^{-1/3}\Gamma(\tfrac{1}{3},-i\bar q)$ and $\tau_1=1/\eta_0=\sqrt{2\pi}/(M k_0)$ the decay time at scale $k_0$. With $q=\omega/k_0$ the natural temporal argument is $\bar q\equiv\omega\tau_1=\sqrt{2\pi}\,q/M$; changing variables in Eq.~\eqref{eq:H-delta-k}, the temporal factor becomes $I_\omega=(1/\tau_1)\!\int dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\hat g(\bar q-q_1)\bigr]$. The real part is essential and not cosmetic: the convolution is genuinely complex (its imaginary part exceeds its real part already at $\bar q\simeq1$), and it is the real part that carries the spectrum. The dimensionless result is
 \begin{equation}
   \boxed{
-  \mathfrak{H}^{(\delta k)}_{\rm decay}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,\int_{-\infty}^\infty\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\,\hat g(\bar q-q_1)\bigr],
+  H[S_{\delta k},T_{\rm dec}](p,q;M)\;\equiv\;\mathfrak{H}^{(\delta k)}_{\rm decay}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,\int_{-\infty}^\infty\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\,\hat g(\bar q-q_1)\bigr],
   \qquad \bar q=\frac{\sqrt{2\pi}\,q}{M}.
   }
   \label{eq:dimless-delta-decay}
@@ -1407,7 +1497,7 @@ With $\widetilde T(\eta_k,\omega)=(2/\eta_k)e^{-\omega^2/\pi\eta_k^2}$ the convo
 Inserting this into Eq.~\eqref{eq:H-white} and absorbing the constants into the dimensional prefactor gives the boxed dimensionless kernel
 \begin{equation}
   \boxed{
-  \mathfrak{H}^{(\delta r)}_{\rm Kraichnan}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,(z^{4/3}+y^{4/3})^{-1/2}\,e^{-2q^2/[M^2(z^{4/3}+y^{4/3})]}.
+  H[S_{\delta r},T_{\rm sw}](p,q;M,R)\;\equiv\;\mathfrak{H}^{(\delta r)}_{\rm Kraichnan}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,(z^{4/3}+y^{4/3})^{-1/2}\,e^{-2q^2/[M^2(z^{4/3}+y^{4/3})]}.
   }
   \label{eq:dimless-white-Kraichnan}
 \end{equation}
@@ -1418,7 +1508,7 @@ The exponential now acts as an $M$-dependent effective cutoff on the wavenumber 
 For decaying turbulence $\widetilde T(\eta_k,\omega)=\hat g(\omega\tau_k)$ with the same $\hat g(q)=e^{-iq}(-iq)^{-1/3}\Gamma(\tfrac13,-iq)$ as Sec.~\ref{sec:delta-decay}, but now with the $k$-dependent decay time $\tau_k=1/\eta_k=\sqrt{2\pi}/(M k_0^{1/3}k^{2/3})$. The temporal factor is the convolution $J(\omega;k_1,u)=\int d\omega_1\,\mathrm{Re}\bigl[\hat g(\omega_1\tau_{k_1})\hat g((\omega-\omega_1)\tau_u)\bigr]$ which, because $\tau_{k_1},\tau_u$ depend on the wavenumbers, must remain \emph{inside} the spatial integral. Writing $\tilde J(q;z,y,M)$ for this convolution with the per-mode dimensionless frequencies fixed by $\tau_{k_1},\tau_u\propto 1/M$, the boxed result is
 \begin{equation}
   \boxed{
-  \mathfrak{H}^{(\delta r)}_{\rm decay}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,\tilde J(q;z,y,M).
+  H[S_{\delta r},T_{\rm dec}](p,q;M,R)\;\equiv\;\mathfrak{H}^{(\delta r)}_{\rm decay}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,\tilde J(q;z,y,M).
   }
   \label{eq:dimless-white-decay}
 \end{equation}
@@ -1802,6 +1892,7 @@ The peak GW frequency is the inverse coherence length of the burst, with no refe
 to when it fired.
 
 \subsection{Burst of finite duration \texorpdfstring{$\Delta t$}{Dt}}
+\label{sec:burst}
 \label{sec:rs2-duration}
 
 Now let the stress switch on over a finite interval rather than an instant,
@@ -1999,6 +2090,125 @@ display the ratio rather than the eight individual heatmaps.
 \end{figure*}
 
 
+\section{Differences among the models}
+\label{sec:model-differences}
+
+With every kernel of Table~\ref{tab:model-grid} in hand we can now say precisely
+what distinguishes them, and---more usefully---which of the two axes of
+Sec.~\ref{sec:model-space} each difference belongs to. The summary is
+Table~\ref{tab:model-differences}; the reasoning follows. Throughout,
+$\Omega_{\rm GW}(p)\propto p^{3}H[S,T](p,p)$ and all numbers are measured by
+\texttt{Notebooks/model\_grid\_survey.py} at $M=1$, $R=10^{4}$.
+
+\paragraph{The infrared belongs to the spatial axis alone.}
+Every kernel with a spatially extended source gives the causal $k^{3}$, and
+every kernel with a monochromatic source gives $k^{2}$, \emph{irrespective of
+the temporal model}: we measure $3.00$ for $H[S_{\rm K41},T_{\rm sw}]$ and
+$2.97$ for $H[S_{\rm K41},T_{\rm dec}]$, against $2.00$ and $1.97$ for the two
+$\delta k$ kernels and $2.00$ for the impulsive one. This is not a coincidence
+of our kernels but the universal theorem of Sec.~\ref{sec:cps-reproduction}: the
+infrared is fixed by whether the source spectrum has finite width, and a
+$\delta$-function source violates that hypothesis by exactly one power through
+the $1/p$ pole of $\mathcal{K}_{0}(p)/p$. The temporal factor cannot contribute,
+because as $p\to0$ it tends to a constant---$\pi\,\mathcal{C}(0)=6\pi$ for
+$T_{\rm dec}$ by Eq.~\eqref{eq:cosT-limits}, unity for $T_{\rm sw}$---and a
+constant carries no slope. \emph{Corollary:} no choice of UETC can be tuned to
+reproduce the simulated $k^{1}$ of Sec.~\ref{sec:principal-discrepancy}. That
+tension is not resolvable on the temporal axis, which is precisely why it
+survives every treatment in Table~\ref{tab:three-works}.
+
+\paragraph{The ultraviolet belongs to the temporal axis alone.}
+Here the roles reverse, and the discriminant is sharp: it is whether the UETC
+has a \emph{cusp} at zero lag. By Eq.~\eqref{eq:cusp-tail} the temporal factor
+falls as $-2f'(0^{+})/\omega^{2}$, so
+\begin{itemize}\itemsep0pt
+  \item $T_{\rm sw}$ (Gaussian, $f'(0^{+})=0$): no cusp, and the cutoff is
+    super-exponential. Fitting a power law to it is meaningless---the apparent
+    ``slope'' merely records where the fit window was placed, which is why
+    $H[S_{\delta r},T_{\rm sw}]$ returns $-46.6$ and
+    $H[S_{\rm K41},T_{\rm sw}]$ returns $-4.75$ on the same window.
+  \item $T_{\rm dec}$ (power law, $f'(0^{+})=-4/3$): a genuine heavy tail
+    $\propto\omega^{-2}$, with the coefficient $8/3$ of
+    Eq.~\eqref{eq:cosT-limits}. The measured GW slope is mildly $M$-dependent
+    ($-1.65$ at $M=0.05$ rising to $-1.28$ at $M=3$) because the tail sets in
+    only above $q\sim M$.
+  \item $T_{\rm imp}$, $T_{\rm burst}$: white and window-modulated respectively,
+    the latter carrying the $\sin^{2}$ factor of Eq.~\eqref{eq:window-factor}.
+\end{itemize}
+This single dichotomy---cusp or no cusp---is what the caveat of
+Sec.~\ref{sec:decaying-peak} turns on, and it is worth emphasising that it is
+\emph{not} a matter of degree: the two behaviours differ by fourteen orders of
+magnitude by $q=4$.
+
+\paragraph{The peak is where the two axes compete.}
+The peak is the one property neither axis owns outright, which is why it has
+been the most contested quantity in the literature. With $T_{\rm sw}$ the
+spectrum is cut off at the sweeping frequency and the peak sits at
+$p\simeq1.47M$ (measured $1.53$ at $M=1$), \emph{below} the source scale for
+subsonic turbulence. With $T_{\rm dec}$ the heavy tail survives past that
+cutoff, and the peak is instead pinned by the spatial structure at
+$p\simeq2.3$, essentially independent of $M$ (measured $2.32$ for
+$M\le1$, drifting to $2.79$ by $M=3$). The two temporal models therefore
+disagree about the peak by a factor $\sim1/M$, which for the subsonic
+simulations is an order of magnitude---this is exactly the
+Gogoberidze-versus-Roper~Pol tension of Sec.~\ref{sec:peak-location}. Note that
+the $\delta k$ and $\delta r$ kernels have no dynamical peak at all: the former
+is truncated at $p=2$ by the triangle inequality, and the latter, having
+$E\propto k^{2}$, is ultraviolet-dominated and simply rises to the dissipation
+cutoff. Their tabulated ``peaks'' are cutoffs, not physics.
+
+\paragraph{Positivity is a property of the temporal axis, and not automatic.}
+The temporal factor must be non-negative at every frequency, since it is the
+power spectrum of a real correlation; a UETC that fails this yields negative
+gravitational-wave energy. This is not a hypothetical failure mode---it is the
+defect that led Caprini et al.\ to discard a Gaussian straining-time model in
+favour of a top-hat, and that motivates the positive-definite Gibbs kernel of
+\cite{2022Auclair}. Both temporal models used here are safe, and for
+$T_{\rm dec}$ provably so: $(1+s)^{-4/3}$ is completely monotone, hence by
+Bernstein's theorem a superposition of decaying exponentials, whose cosine
+transforms $2a/(a^{2}+\omega^{2})$ are individually positive; products of
+completely monotone functions are completely monotone, so the two-scale factor
+Eq.~\eqref{eq:two-scale-feynman} inherits the property. We verify
+$\mathcal{C}>0$ over $10^{-8}<q<10^{4}$.
+
+\paragraph{Analytic structure.} Finally, the models differ in what must actually
+be computed, and the reduction is larger than the usual presentation suggests.
+The decaying kernels are conventionally written as frequency convolutions of the
+singular $\hat g$, which is both expensive and numerically treacherous; by
+Eqs.~\eqref{eq:conv-equals-cosT} and \eqref{eq:two-scale-feynman} the
+single-scale case is closed-form and the two-scale case is a single smooth
+Gauss--Jacobi quadrature over the closed form. The decaying kernels are
+therefore no harder than the Gaussian ones.
+
+\begin{table*}[ht]
+  \centering
+  \begin{tabular}{lccccl}
+  \hline
+  Kernel & IR slope & Peak $p$ & UV & Positive & Literature counterpart \\
+  \hline
+  $H[S_{\rm K41},T_{\rm sw}]$   & $3.00$ & $1.47M$ & super-exp & yes & Gogoberidze et al.~\cite{2007Gogoberidze} \\
+  $H[S_{\rm K41},T_{\rm dec}]$  & $2.97$ & $2.32$ & $\omega^{-2}$ & yes & Roper Pol et al.~\cite{2019RoperPol} (peak) \\
+  $H[S_{\delta k},T_{\rm sw}]$  & $2.00$ & cutoff & none & yes & --- \\
+  $H[S_{\delta k},T_{\rm dec}]$ & $1.97$ & cutoff & none & yes & --- \\
+  $H[S_{\delta r},T_{\rm sw}]$  & $3.00$ & cutoff & super-exp & yes & --- \\
+  $H[S_{\delta r},T_{\rm dec}]$ & $2.97$ & cutoff & $\omega^{-2}$ & yes & --- \\
+  $H[S_{\delta k},T_{\rm imp}]$ & $2.00$ & cutoff & none & yes & --- \\
+  \hline
+  \end{tabular}
+  \caption{Systematic comparison of the kernels of Table~\ref{tab:model-grid},
+  measured at $M=1$, $R=10^{4}$ on the diagonal $q=p$ by
+  \texttt{Notebooks/model\_grid\_survey.py}. The infrared slope tracks the
+  \emph{spatial} axis only ($3$ for extended sources, $2$ for monochromatic
+  ones, per Sec.~\ref{sec:cps-reproduction}); the ultraviolet tracks the
+  \emph{temporal} axis only (a power-law tail iff the UETC has a cusp at zero
+  lag, Eq.~\eqref{eq:cusp-tail}); only the peak depends on both. ``cutoff''
+  denotes models with no dynamical peak---the $\delta k$ kernels are truncated
+  at $p=2$ by the triangle inequality and the $\delta r$ kernels are
+  ultraviolet-dominated. ``super-exp'' denotes a Gaussian cutoff, for which no
+  power-law slope exists.}
+  \label{tab:model-differences}
+\end{table*}
+
 \section{Spectrum survey for all derived models}
 \label{sec:spectrum-survey}
 
@@ -2008,16 +2218,24 @@ energy-density spectrum
   \Omega_{\rm GW}(p) \;\propto\; p^{3}\,H(p,p),
   \qquad p = k_{\rm GW}/k_0,
 \end{equation}
-along the sound-cone diagonal $q = p$ for every model derived in this paper.
-The $p^{2}$ factor relative to the characteristic strain
-$h_c^{2}(p) = p\,H(p,p)$ is the phase-space measure $d^{3}k$; together with
-causality and a finite white-noise source it predicts $\Omega_{\rm GW}\sim
-p^{3}$ in the IR, followed by a peak near $p\sim 1$ and a decay in the UV.
-A dotted grey line shows the $p^{3}$ reference; cases whose IR slope deviates
-from $3$ by more than $\pm 0.5$ are flagged in the build log of
-\texttt{Notebooks/all\_spectra.py}.  Models with a $1/p$ pole at the origin
-(monochromatic $E_0\,\delta(k-k_0)$ source) cannot satisfy the universal
-scaling because the fluid itself carries no IR power.
+along the sound-cone diagonal $q = p$ for every model derived in this paper,
+in the uniform notation $H[S,T]$ of Sec.~\ref{sec:model-space}. The $p^{2}$
+factor relative to the characteristic strain $h_c^{2}(p) = p\,H(p,p)$ is the
+phase-space measure $d^{3}k$; together with causality and a source of finite
+spectral width it predicts $\Omega_{\rm GW}\sim p^{3}$ in the IR, followed by a
+peak and a decay in the UV. A dotted grey line shows the $p^{3}$ reference.
+
+These plots are the graphical form of Table~\ref{tab:model-differences}, and
+should be read with its two organising facts in mind: the infrared slope is
+fixed by the \emph{spatial} model alone and the ultraviolet by the
+\emph{temporal} model alone. In particular the monochromatic panels sit at
+$p^{2}$ rather than $p^{3}$ not because of anything in their temporal treatment
+but because a zero-width source carries a $1/p$ pole,
+$\mathcal{K}_{0}(p)/p$, which is exactly the $\delta$-function exception to the
+universal infrared theorem reproduced in Sec.~\ref{sec:cps-reproduction}. The
+build log of \texttt{Notebooks/all\_spectra.py} flags cases whose IR slope
+departs from $3$ by more than $\pm0.5$; the monochromatic models are expected
+to be flagged, and are not anomalies.
 
 \begin{figure}[ht]
   \centering

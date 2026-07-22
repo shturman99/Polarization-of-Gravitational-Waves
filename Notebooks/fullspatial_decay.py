@@ -60,6 +60,7 @@ from gw_turbulence.core import (  # noqa: E402
     H_pq,
     _h_prefactor,
     _integration_bounds,
+    ft_product_decay,
     kernel_bracket,
 )
 
@@ -67,11 +68,15 @@ from gw_turbulence.core import (  # noqa: E402
 def _conv_ftprod(q: float, tau1: float, tau2: float) -> float:
     """Temporal factor = (2 pi / tau1 tau2) int_0^inf cos(q t) R1 R2 dt, R_i=(1+t/tau_i)^{-2/3}.
 
-    Equals core's frequency-convolution conv_val (convolution theorem), but smooth/fast.
+    Equals core's frequency convolution by the convolution theorem.  Delegates to
+    core.ft_product_decay (which returns 2*int_0^inf cos(q t) R1 R2 dt), so this
+    module no longer keeps its own copy: the previous local version used
+    scipy's weight='cos' quadrature, which is unreliable when the cosine period
+    1/q dwarfs tau1, tau2 -- exactly the deep infrared, where it emitted "bad
+    integrand behavior within the cycles".  core evaluates the same integral
+    with a Feynman parameter and no oscillatory quadrature at all.
     """
-    f = lambda t: (1.0 + t / tau1) ** (-2 / 3) * (1.0 + t / tau2) ** (-2 / 3)
-    val, _ = integrate.quad(f, 0.0, np.inf, weight="cos", wvar=q, limit=200)
-    return 2.0 * np.pi / (tau1 * tau2) * val
+    return np.pi / (tau1 * tau2) * ft_product_decay(q, tau1, tau2)
 
 
 # --- IR band (large-scale fluid spectrum) ------------------------------------
