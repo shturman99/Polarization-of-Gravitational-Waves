@@ -1,4 +1,101 @@
-"""Numerical kernels for stationary and decaying turbulence models."""
+r"""Numerical kernels for stationary and decaying turbulence models.
+
+===========================================================================
+THE DECAYING TEMPORAL FACTOR -- definitions, identities, and what they cost
+===========================================================================
+
+Read this before touching g_decaying, ft_product_decay, _temporal_conv_decay
+or integrand_y_decaying.  Every one of them is a different face of the same
+object, and the relations between them are exact -- if a change breaks one of
+the identities below, the change is wrong.
+
+Definitions
+-----------
+The BK2016 two-time velocity decorrelation on a single stress leg, and its
+one-sided forward transform (derivation.tex Sec. delta-decay):
+
+    f(s)   = (1 + s/tau)^{-2/3},                        s >= 0
+    g(z)   = int_0^inf e^{+i z s} (1+s)^{-2/3} ds
+           = e^{-i z} (-i z)^{-1/3} Gamma(1/3, -i z)     [_g_decaying_scalar]
+
+The GW source is QUADRATIC in the velocity, so under quasi-normal closure its
+two-time correlator carries f SQUARED.  The object the spectrum actually needs
+is therefore the cosine transform of the squared correlation:
+
+    cosT(q) = int_{-inf}^{inf} dtau cos(q tau) [f(|tau|)]^2
+            = 2 int_0^inf ds cos(q s) (1+s)^{-4/3}
+            = 2 Re[ e^{-i q} (-i q)^{1/3} Gamma(-1/3, -i q) ]
+                                                 [_cos_transform_sq_decay]
+
+Note this is the SAME closed form as g, with the exponent 2/3 -> 4/3.  That is
+the whole content of "squaring the correlation".
+
+Identity 1 (single scale) -- EXACT
+----------------------------------
+    int dq1 Re[g(q1) g(q-q1)] = pi * cosT(q)             [_temporal_conv_decay]
+
+By the convolution theorem, with h = f * Theta the one-sided correlation,
+(g*g)(q) = 2 pi FT[h^2](q); taking the real part halves it into the one-sided
+cosine integral, giving the factor pi.  CONSEQUENCE: the one-sided-vs-two-sided
+bookkeeping is a CONSTANT, not a shape.  It cannot bend a spectrum, and any
+claim that it does is a numerical artefact somewhere else.
+
+Identity 2 (two scales) -- EXACT
+--------------------------------
+    int dq1 Re[g(a q1) g(b(q-q1))] = (pi/(a b)) * F(q; a, b)
+                                                        [integrand_y_decaying]
+
+    F(q; a, b) = 2 int_0^inf ds cos(q s)
+                     (1+s/a)^{-2/3} (1+s/b)^{-2/3}        [ft_product_decay]
+
+with a = sqrt(x)/M, b = sqrt(y)/M the sweeping eddy times of the two stress
+legs.  This is Eq.(ft-of-product) of derivation.tex.  F is evaluated by a
+Feynman parameter that collapses the two -2/3 powers onto one -4/3 power,
+
+    A^{-2/3} B^{-2/3} = C int_0^1 dt [t(1-t)]^{-1/3} [tA + (1-t)B]^{-4/3},
+    C = Gamma(4/3)/Gamma(2/3)^2,
+
+so that, with 1/tau(t) = t/a + (1-t)/b,
+
+    F(q; a, b) = C int_0^1 dt [t(1-t)]^{-1/3} tau(t) cosT(q tau(t)).
+
+The t-integrand is smooth and non-oscillatory (cosT is positive and monotone
+decreasing) and its endpoint singularities are exactly the Gauss-Jacobi weight,
+so a fixed 48-node rule is converged to ~10 digits.  At a == b it collapses to
+Identity 1, since C * B(2/3, 2/3) = 1.
+
+Limits -- use these to sanity-check any reimplementation
+--------------------------------------------------------
+    cosT(0)          = 6                       (= 2 * int_0^inf (1+s)^{-4/3})
+    cosT(q -> 0)     = 6 - 3 sqrt(3) Gamma(2/3) q^{1/3}     (cube-root, slow)
+    cosT(q -> inf)   = (8/3) / q^2             (from the cusp of f^2 at s=0)
+
+The q^{-2} UV tail is the physically important one: it is a HEAVY power law,
+unlike the stationary Kraichnan model's Gaussian cutoff, and it is what lets
+the decaying GW spectrum extend past the sweeping cutoff so that its peak is
+pinned at the source scale.  Getting this tail wrong changes physics.
+
+Why none of this is computed as a frequency convolution
+-------------------------------------------------------
+Both temporal factors were once evaluated by direct quadrature in q1, and both
+were wrong in the UV.  g(z) ~ i/z as z -> inf, so the integrand falls only as
+1/q1^2 and truncating the q1 range at q_bound leaves an O(1/q_bound) ADDITIVE
+error.  Since the true value falls as 8/(3 q^2), that fixed offset overwhelms
+it: the old kernels were ~2x low by q = 8 and SIGN-FLIPPED by q = 16.  The two
+integrable q^{-1/3} cusps at q1 = 0 and q1 = q were under-resolved as well, and
+in the deep IR (where they merge) the error reached ~3x.
+
+Evaluating F directly as a written integral is also poorly conditioned: the
+amplitude varies on a, b while the cosine varies on 1/q, and at small q those
+are separated by many decades.  scipy's weight='cos' fails outright there, and
+mpmath's quadosc returns SILENTLY WRONG values (0.30x against a case where the
+closed form above is known).  Hence the Feynman-parameter route, which has no
+oscillatory quadrature anywhere.
+
+cosT itself is tabulated once as a spline in log q (exact asymptotics outside
+[1e-6, 1e7]) because the closed form costs an mpmath incomplete gamma per
+point, far too slow inside a 48-node rule inside a 2-D integral.
+"""
 
 from __future__ import annotations
 
@@ -75,7 +172,12 @@ def integrand_y(y: float, x: float, p: float, q: float, M: float) -> float:
 
 
 def g_decaying(z):
-    """Dimensionless temporal kernel for the decaying-spectrum model."""
+    """Dimensionless temporal kernel for the decaying-spectrum model.
+
+    One-sided forward transform of the UNSQUARED correlation; see "Definitions"
+    in the module docstring.  For the squared correlation that the GW spectrum
+    actually needs, use _cos_transform_sq_decay / ft_product_decay.
+    """
     if np.isscalar(z):
         return _g_decaying_scalar(complex(z))
     array = np.asarray(z)
@@ -151,23 +253,16 @@ def integrand_y_decaying(
 ) -> float:
     """Inner-y integrand of the decaying kernel.
 
-    The temporal factor is the two-scale frequency convolution
+    Its temporal factor is the two-scale convolution
 
-        C(q; a, b) = int dq1 Re[ g(a q1) g(b (q - q1)) ],   a = sqrt(x)/M,
-                                                            b = sqrt(y)/M,
+        C(q; a, b) = int dq1 Re[ g(a q1) g(b (q - q1)) ]
+                   = (pi / (a b)) * ft_product_decay(q, a, b),
 
-    which is evaluated by the convolution theorem rather than by quadrature in
-    q1.  Writing g(a .) = FT[h_a] with h_a(sigma) = (1/a)(1 + sigma/a)^{-2/3}
-    on sigma >= 0, the theorem gives (A*B)(q) = 2 pi FT[h_a h_b](q), so
-
-        C(q; a, b) = (pi / (a b)) * ft_product_decay(q, a, b).
-
-    This is the same correction applied to _temporal_conv_decay, and for the
-    same reason: g(z) ~ i/z at large z, so the q1 integrand decays only as
-    1/q1^2 and the old truncation at q_bound = |q| + 10 sqrt(x y)/M left an
-    O(1/q_bound) additive error that swamped the true UV tail (a factor ~0.37
-    at q = 8, sign-flipped by q = 16), while the integrable q^{-1/3} cusps at
-    q1 = 0, q were under-resolved by the 160-point trapezoid.
+    with a = sqrt(x)/M, b = sqrt(y)/M the sweeping eddy times of the two stress
+    legs.  EXACT -- see "Identity 2" in the module docstring; this is the
+    right-hand side of Eq.(ft-of-product) in derivation.tex, which the old
+    truncated q1-quadrature approximated badly (a factor ~0.37 at q = 8,
+    sign-flipped by q = 16).
 
     ``epsabs``, ``epsrel``, ``convolution_method`` and ``convolution_points``
     are retained for signature compatibility (they are passed positionally by
@@ -591,20 +686,16 @@ def H_delta_k_kraichnan(p, Omega):
 
 
 def ft_product_decay(q: float, tau_a: float = 1.0, tau_b: float = 1.0) -> float:
-    """Cosine transform of the PRODUCT of two decay correlations.
+    """F(q; tau_a, tau_b), the cosine transform of the PRODUCT of two decay
+    correlations -- Eq.(ft-of-product) of derivation.tex.
 
         F(q; tau_a, tau_b) = 2 int_0^inf ds cos(q s)
                                  (1 + s/tau_a)^{-2/3} (1 + s/tau_b)^{-2/3}
 
-    This is the convolution-theorem form of the frequency convolution
-    int dq1 g(q1) g(q - q1): the transform of a PRODUCT of time-domain
-    correlations rather than the convolution of their transforms.
-
-    For the equal-scale case tau_a == tau_b the product collapses to the single
-    power (1 + s/tau)^{-4/3} and the transform has the same closed form as
-    g_decaying with the exponent 2/3 -> 4/3, which is used directly (exact at
-    every q, including q -> 0 where an oscillatory quadrature struggles).
-    Unequal scales fall back to the oscillatory quadrature.
+    See "Identity 2" in the module docstring for the derivation and for why this
+    is never evaluated as a frequency convolution or as a written oscillatory
+    integral.  Equal scales take the exact closed form; unequal scales take the
+    Feynman-parameter Gauss-Jacobi rule, and the two agree by construction.
     """
     if tau_a <= 0 or tau_b <= 0:
         return 0.0
@@ -612,27 +703,8 @@ def ft_product_decay(q: float, tau_a: float = 1.0, tau_b: float = 1.0) -> float:
     if abs(tau_a - tau_b) <= 1e-12 * max(tau_a, tau_b):
         return _cos_transform_sq_decay(abs(q) * tau_a) * tau_a
 
-    # Unequal scales.  A direct oscillatory quadrature is badly conditioned here:
-    # the amplitude varies on the scales tau_a, tau_b while the cosine varies on
-    # 1/q, and for small q those are separated by many decades (scipy's
-    # weight='cos' reports "bad integrand behavior within the cycles"; mpmath's
-    # quadosc returns silently wrong values).  Instead collapse the product onto
-    # the single-power case with a Feynman parameter,
-    #
-    #   A^{-2/3} B^{-2/3} = C int_0^1 dt [t(1-t)]^{-1/3} [t A + (1-t) B]^{-4/3},
-    #   C = Gamma(4/3)/Gamma(2/3)^2,
-    #
-    # with A = 1 + s/tau_a, B = 1 + s/tau_b, so that t A + (1-t) B = 1 + s/tau(t)
-    # and 1/tau(t) = t/tau_a + (1-t)/tau_b.  The s-integral is then exactly the
-    # closed form above at the single scale tau(t):
-    #
-    #   F(q; tau_a, tau_b) = C int_0^1 dt [t(1-t)]^{-1/3} tau(t) cosT(q tau(t)).
-    #
-    # The t-integrand is smooth and non-oscillatory (cosT is positive and
-    # monotonically decreasing), and the [t(1-t)]^{-1/3} endpoint singularities
-    # are exactly the Gauss-Jacobi weight, so a fixed 48-node rule is converged
-    # to ~10 digits.  At tau_a == tau_b it reduces to the closed form, since
-    # C * B(2/3, 2/3) = 1.
+    # F = C int_0^1 dt [t(1-t)]^{-1/3} tau(t) cosT(q tau(t)),
+    #     1/tau(t) = t/tau_a + (1-t)/tau_b.     (module docstring, Identity 2)
     nodes, weights = _gauss_jacobi_feynman()
     tau = 1.0 / (nodes / tau_a + (1.0 - nodes) / tau_b)
     return float(_FEYNMAN_C * np.sum(weights * tau * _cos_transform_sq_decay_many(abs(q) * tau)))
@@ -682,15 +754,15 @@ def _cos_transform_sq_decay_many(z) -> np.ndarray:
 
 @lru_cache(maxsize=4096)
 def _cos_transform_sq_decay(q: float) -> float:
-    """2 int_0^inf cos(q s) (1+s)^{-4/3} ds, in closed form.
+    """cosT(q) = 2 int_0^inf cos(q s) (1+s)^{-4/3} ds, in closed form.
 
-    Same derivation as _g_decaying_scalar but for the SQUARED correlation, i.e.
-    power alpha = 4/3 instead of 2/3:
+    The transform of the SQUARED correlation -- the object the GW spectrum
+    needs.  Same closed form as _g_decaying_scalar with the power 2/3 -> 4/3
+    (module docstring, "Definitions"):
 
         int_0^inf e^{+i q s} (1+s)^{-4/3} ds = e^{-i q} (-i q)^{1/3} Gamma(-1/3, -i q)
 
-    and the cosine transform is twice its real part.  At q = 0 this reduces to
-    2 * int_0^inf (1+s)^{-4/3} ds = 6.
+    and cosT is twice its real part.  Limits: cosT(0) = 6, cosT -> (8/3)/q^2.
     """
     if q == 0.0:
         return 6.0
@@ -705,32 +777,18 @@ def _temporal_conv_decay(
     split_width: float | None = None,
     n_points: int = 200,
 ) -> float:
-    """Temporal factor  int dq1 g(q1) * g(q - q1)  for the decay model.
+    """Single-scale temporal factor, shared by H_delta_k_decay and H_white_decay.
 
-    g is the dimensionless decay kernel from g_decaying.  This is the pure
-    temporal factor shared by H_delta_k_decay and H_white_decay.
+        int dq1 Re[g(q1) g(q - q1)] = pi * cosT(q)
 
-    Evaluated via the convolution theorem, NOT by quadrature in q1.  Because
-    g(q) ~ i/q as q -> inf, the integrand decays only as 1/q1^2 and the old
-    truncation at q_bound = |q| + 20 left an O(1/q_bound) additive error; since
-    the true value falls as 8/(3 q^2), that error dominated the UV (a factor ~2
-    low by q = 8, sign-flipped by q = 16).  The two integrable q^{-1/3} endpoint
-    cusps at q1 = 0, q were also under-resolved by a 200-point trapezoid.
-
-    The identity used is exact:  writing h = f * Theta for the one-sided
-    correlation f(s) = (1+s)^{-2/3}, the convolution theorem gives
-    (g*g)(q) = 2 pi FT[h^2](q), whose real part is
-
-        int dq1 Re[g(q1) g(q-q1)] = 2 pi int_0^inf ds cos(q s) f(s)^2
-                                  = pi * cosT(q),
-
-    with cosT the cosine transform of the SQUARED two-sided correlation.  The
-    one-sided/two-sided distinction is therefore only the q-independent factor
-    pi, and the normalisation of the old (converged) definition is preserved
-    exactly -- this fix changes the shape in the UV, not the overall scale.
+    EXACT -- see "Identity 1" in the module docstring.  The one-sided/two-sided
+    bookkeeping is the constant pi and carries no shape, so this preserves the
+    normalisation of the old (converged) definition exactly; what it changes is
+    the UV shape, where the old truncated q1-quadrature was ~2x low by q = 8 and
+    sign-flipped by q = 16.
 
     ``q_bound``, ``split_width`` and ``n_points`` are accepted for backwards
-    compatibility and ignored; the quadrature is now adaptive.
+    compatibility and ignored; there is no longer any quadrature in q1.
     """
     del q_bound, split_width, n_points  # legacy quadrature knobs, no longer used
     return np.pi * ft_product_decay(abs(q))

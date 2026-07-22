@@ -1210,15 +1210,55 @@ There is no remaining integral. The $p$-shape is fixed; $M$ acts only as the Gau
 \subsubsection{Decay model}
 \label{sec:delta-decay}
 
-For decaying turbulence, $\tf(\omega)=\hat g(\omega\tau_1)$ with $\hat g(\bar q)=e^{-i\bar q}(-i\bar q)^{-1/3}\Gamma(\tfrac{1}{3},-i\bar q)$ and $\tau_1=1/\eta_0=\sqrt{2\pi}/(M k_0)$ the decay time at scale $k_0$. With $q=\omega/k_0$ the natural temporal argument is $\bar q\equiv\omega\tau_1=\sqrt{2\pi}\,q/M$; changing variables in Eq.~\eqref{eq:H-delta-k}, the temporal factor becomes $I_\omega=(1/\tau_1)\!\int dq_1\,\hat g(q_1)\hat g(\bar q-q_1)$, which has no closed form. The dimensionless result is
+For decaying turbulence, $\tf(\omega)=\hat g(\omega\tau_1)$ with $\hat g(\bar q)=e^{-i\bar q}(-i\bar q)^{-1/3}\Gamma(\tfrac{1}{3},-i\bar q)$ and $\tau_1=1/\eta_0=\sqrt{2\pi}/(M k_0)$ the decay time at scale $k_0$. With $q=\omega/k_0$ the natural temporal argument is $\bar q\equiv\omega\tau_1=\sqrt{2\pi}\,q/M$; changing variables in Eq.~\eqref{eq:H-delta-k}, the temporal factor becomes $I_\omega=(1/\tau_1)\!\int dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\hat g(\bar q-q_1)\bigr]$. The real part is essential and not cosmetic: the convolution is genuinely complex (its imaginary part exceeds its real part already at $\bar q\simeq1$), and it is the real part that carries the spectrum. The dimensionless result is
 \begin{equation}
   \boxed{
-  \mathfrak{H}^{(\delta k)}_{\rm decay}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,\int_{-\infty}^\infty\!dq_1\,\hat g(q_1)\,\hat g(\bar q-q_1),
+  \mathfrak{H}^{(\delta k)}_{\rm decay}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,\int_{-\infty}^\infty\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\,\hat g(\bar q-q_1)\bigr],
   \qquad \bar q=\frac{\sqrt{2\pi}\,q}{M}.
   }
   \label{eq:dimless-delta-decay}
 \end{equation}
 The spatial part is fully resolved by the two $\delta$-functions; only a 1-D frequency integral remains, and $M$ enters it solely through the rescaled frequency $\bar q$.
+
+\paragraph{The frequency convolution in closed form.}
+Contrary to what the singular appearance of $\hat g$ suggests, this convolution
+\emph{does} have a closed form, and evaluating it as a written $q_1$ integral is
+both unnecessary and numerically treacherous. The GW source is quadratic in the
+velocity, so under quasi-normal closure the object the spectrum needs is the
+transform of the \emph{squared} two-time correlation,
+\begin{equation}
+  \mathcal{C}(\bar q)\;\equiv\;\int_{-\infty}^{\infty}\!d\tau\,\cos(\bar q\tau)\,
+  \bigl[(1+|\tau|)^{-2/3}\bigr]^{2}
+  \;=\;2\,\mathrm{Re}\Bigl[e^{-i\bar q}(-i\bar q)^{1/3}\,
+        \Gamma\bigl(-\tfrac13,-i\bar q\bigr)\Bigr],
+  \label{eq:cosT-closed}
+\end{equation}
+which is the \emph{same} closed form as $\hat g$ with the power $2/3\to4/3$ --- squaring
+the correlation simply shifts the exponent. Writing $h=f\Theta$ for the one-sided
+correlation $f(s)=(1+s)^{-2/3}$, the convolution theorem gives $(\hat g*\hat g)(\bar q)=2\pi\,\mathcal{F}[h^{2}](\bar q)$,
+whose real part halves into the one-sided cosine integral. Hence the exact identity
+\begin{equation}
+  \int_{-\infty}^{\infty}\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\hat g(\bar q-q_1)\bigr]
+  \;=\;\pi\,\mathcal{C}(\bar q).
+  \label{eq:conv-equals-cosT}
+\end{equation}
+Two consequences are worth stating explicitly. First, the one-sided/two-sided
+bookkeeping that distinguishes $\hat g$ from the two-sided kernel enters only as the
+constant $\pi$: it carries \emph{no} shape information and therefore cannot bend a
+spectral slope. Second, the limits of $\mathcal{C}$ are elementary,
+\begin{equation}
+  \mathcal{C}(0)=6,
+  \qquad
+  \mathcal{C}(\bar q)\xrightarrow[\bar q\to0]{}6-3\sqrt{3}\,\Gamma(\tfrac23)\,\bar q^{\,1/3},
+  \qquad
+  \mathcal{C}(\bar q)\xrightarrow[\bar q\to\infty]{}\frac{8}{3\bar q^{\,2}},
+  \label{eq:cosT-limits}
+\end{equation}
+the last following from the cusp of $f^{2}$ at $\tau=0$. This $\bar q^{-2}$ ultraviolet
+tail is the physically decisive one: it is a \emph{heavy power law}, in contrast to the
+Gaussian cutoff of the stationary Kraichnan model, and it is what allows the decaying
+GW spectrum to extend past the sweeping cutoff so that its peak is pinned at the source
+scale (Sec.~\ref{sec:mach-discussion}).
 
 \subsection{Real-space delta-function correlations}
 \label{sec:white}
@@ -1258,7 +1298,7 @@ The exponential now acts as an $M$-dependent effective cutoff on the wavenumber 
 
 \subsubsection{Decay model}
 
-For decaying turbulence $\widetilde T(\eta_k,\omega)=\hat g(\omega\tau_k)$ with the same $\hat g(q)=e^{-iq}(-iq)^{-1/3}\Gamma(\tfrac13,-iq)$ as Sec.~\ref{sec:delta-decay}, but now with the $k$-dependent decay time $\tau_k=1/\eta_k=\sqrt{2\pi}/(M k_0^{1/3}k^{2/3})$. The temporal factor is the convolution $J(\omega;k_1,u)=\int d\omega_1\,\hat g(\omega_1\tau_{k_1})\hat g((\omega-\omega_1)\tau_u)$, which has no closed form and, because $\tau_{k_1},\tau_u$ depend on the wavenumbers, must remain \emph{inside} the spatial integral. Writing $\tilde J(q;z,y,M)$ for this convolution with the per-mode dimensionless frequencies fixed by $\tau_{k_1},\tau_u\propto 1/M$, the boxed result is
+For decaying turbulence $\widetilde T(\eta_k,\omega)=\hat g(\omega\tau_k)$ with the same $\hat g(q)=e^{-iq}(-iq)^{-1/3}\Gamma(\tfrac13,-iq)$ as Sec.~\ref{sec:delta-decay}, but now with the $k$-dependent decay time $\tau_k=1/\eta_k=\sqrt{2\pi}/(M k_0^{1/3}k^{2/3})$. The temporal factor is the convolution $J(\omega;k_1,u)=\int d\omega_1\,\mathrm{Re}\bigl[\hat g(\omega_1\tau_{k_1})\hat g((\omega-\omega_1)\tau_u)\bigr]$ which, because $\tau_{k_1},\tau_u$ depend on the wavenumbers, must remain \emph{inside} the spatial integral. Writing $\tilde J(q;z,y,M)$ for this convolution with the per-mode dimensionless frequencies fixed by $\tau_{k_1},\tau_u\propto 1/M$, the boxed result is
 \begin{equation}
   \boxed{
   \mathfrak{H}^{(\delta r)}_{\rm decay}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,\tilde J(q;z,y,M).
@@ -1266,6 +1306,40 @@ For decaying turbulence $\widetilde T(\eta_k,\omega)=\hat g(\omega\tau_k)$ with 
   \label{eq:dimless-white-decay}
 \end{equation}
 The decay rates scale as $\eta_k\propto M k_0^{1/3}k^{2/3}$, so $M$ again sets the effective wavenumber support. Unlike the fixed-$\eta_0$ case, the three integrals no longer factorize: the $k$-dependence of the decay rate couples the frequency convolution to the wavenumber integration, mirroring the behavior of Eq.~\eqref{eq:Hijij-AppA}.
+
+\paragraph{Reduction of the two-scale factor.}
+The two-scale convolution $\tilde J$ admits no elementary closed form, but it reduces
+exactly to a one-dimensional integral over the single-scale form
+Eq.~\eqref{eq:cosT-closed}, and it is evaluated that way throughout. By the convolution
+theorem it is first the transform of the time-domain \emph{product},
+Eq.~\eqref{eq:ft-of-product}; a Feynman parameter then collapses the product of two
+$-2/3$ powers onto a single $-4/3$ power,
+\begin{equation}
+  A^{-2/3}B^{-2/3}
+  = \frac{\Gamma(4/3)}{\Gamma(2/3)^{2}}\int_{0}^{1}\!\frac{dt}{[t(1-t)]^{1/3}}\,
+    \bigl[tA+(1-t)B\bigr]^{-4/3},
+  \label{eq:feynman-param}
+\end{equation}
+so that, with $A=1+\tau/\tau_1$, $B=1+\tau/\tau_2$ and
+$1/\tau_\ast(t)=t/\tau_1+(1-t)/\tau_2$,
+\begin{equation}
+  \int_{-\infty}^{\infty}\!d\omega_1\,
+    \mathrm{Re}\bigl[\hat g(\omega_1\tau_1)\hat g((\omega-\omega_1)\tau_2)\bigr]
+  = \frac{\pi}{\tau_1\tau_2}\,\frac{\Gamma(4/3)}{\Gamma(2/3)^{2}}
+    \int_{0}^{1}\!\frac{dt}{[t(1-t)]^{1/3}}\,
+    \tau_\ast(t)\,\mathcal{C}\bigl(\omega\,\tau_\ast(t)\bigr).
+  \label{eq:two-scale-feynman}
+\end{equation}
+The $t$-integrand is smooth and non-oscillatory ($\mathcal{C}$ is positive and
+monotonically decreasing), and its endpoint singularities are exactly the Gauss--Jacobi
+weight, so a fixed $48$-node rule is converged to ten digits; at $\tau_1=\tau_2$ it
+collapses back to Eq.~\eqref{eq:conv-equals-cosT}, since
+$[\Gamma(4/3)/\Gamma(2/3)^{2}]\,B(2/3,2/3)=1$. This matters numerically as well as
+formally: evaluated as a written oscillatory integral the amplitude varies on
+$\tau_1,\tau_2$ while the cosine varies on $1/\omega$, and at small $\omega$ those scales
+are separated by many decades, so standard oscillatory quadratures either fail outright
+or return silently incorrect values. Eq.~\eqref{eq:two-scale-feynman} contains no
+oscillatory quadrature at all.
 
 \subsection*{Summary of the four dimensionless integrals}
 
@@ -1866,8 +1940,10 @@ scaling because the fluid itself carries no IR power.
   p^{3}\,K_{0}(p)/p\,\Theta(2-p)\,e^{-p^{2}/(2\pi)}$ with IR slope
   $\mathbf{2}$ (flagged: $1/p$ pole from the monochromatic source removes
   one power of $p$ from the universal scaling).  Panel (b): decay temporal
-  convolution, IR slope $\mathbf{0.3}$ (flagged: the temporal-tail extra
-  suppression further reduces the IR power).}
+  factor, Eq.~\eqref{eq:conv-equals-cosT}, IR slope $\mathbf{2}$ --- the
+  \emph{same} slope as panel (a), as it must be, since the temporal factor
+  tends to the constant $\pi\,\mathcal{C}(0)$ as $p\to0$ and so cannot alter
+  the infrared scaling.}
   \label{fig:spectrum_delta_k_pair}
 \end{figure}
 
@@ -1887,8 +1963,9 @@ scaling because the fluid itself carries no IR power.
   $R_{ij}\propto\delta^{(3)}(\br)$.  Three curves per panel correspond to
   $R = 10^{3},\, 10^{4},\, 10^{5}$.  Panel (a): Kraichnan decorrelation,
   matches the universal IR slope $\mathbf{3}$.  Panel (b): decay temporal
-  model, IR slope $\mathbf{1.3}$ (flagged: temporal-convolution tails pull
-  power down at small $p$).}
+  model, IR slope $\mathbf{3}$ as well, for all three $R$ --- the decaying
+  and Kraichnan models share the universal causal infrared, the temporal
+  factor affecting only the amplitude and the ultraviolet tail.}
   \label{fig:spectrum_white_pair}
 \end{figure}
 
