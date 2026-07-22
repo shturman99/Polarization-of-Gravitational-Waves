@@ -2,8 +2,13 @@
 r"""Full-spatial decaying GW spectrum via FT-of-product; the decaying GW peak vs M.
 
 The full-spatial (k_GW != 0) Gogoberidze kernel for the decaying (BK2016) temporal
-model is core.H_pq_decaying, but it evaluates the temporal factor as a *frequency
-convolution* of the singular kernels g_decaying -- ~72 s/call and poorly converged.
+model is core.H_pq_decaying.  This module was written because core USED TO evaluate
+the temporal factor as a *frequency convolution* of the singular kernels g_decaying
+-- ~72 s/call and poorly converged (truncating the q1 range left an O(1/q_bound)
+error that swamped the true q^{-2} tail, ~0.37x at q=8 and sign-flipped by q=16).
+core has since been corrected to evaluate the same FT-of-product identity used here,
+so the two are now independent implementations of the same expression and agree to
+the level of this module's fixed (x,y) grid -- see _validate().
 
 By the convolution theorem that factor equals the Fourier transform of the
 time-domain PRODUCT of the two decorrelations (cf. project_mach_coupling: "compute
@@ -15,8 +20,10 @@ as FT-of-product instead"):
 
 with the per-mode decorrelation times tau1 = sqrt(x)/M, tau2 = sqrt(y)/M (the
 sweeping eddy times of the two stress legs).  The time-domain integral is smooth
-and non-singular -> ~0.2 s/call, converged, and matches core.H_pq_decaying to ~6%
-(core's conv=160 is the under-converged one).
+and non-singular -> ~0.2 s/call and converged.  This is Eq.(ft-of-product) of
+derivation.tex; core.integrand_y_decaying now evaluates the same right-hand side
+(in closed form, via a Feynman parameter), so the residual difference is this
+module's fixed geomspace grid: ~1.5% at x=y=28, falling to ~0.2% by x=y=200.
 
 Everything else (the geometric kernel, the x,y substitution, the triangle bounds,
 the prefactor) is reused verbatim from core.
@@ -186,10 +193,14 @@ def _validate():
     print("=" * 70)
     print("VALIDATION")
     print("=" * 70)
-    print("\n(1) FT-of-product vs core.H_pq_decaying (slow convolution) at p=q=0.8, M=1:")
-    fast = H_decay_fast(0.8, 0.8, M=1.0, R=1e4)
-    print(f"    H_decay_fast = {fast:.4e}  (~0.2 s, converged)")
-    print("    core ref     ~ 4.69e-2   (conv=160, ~72 s, under-converged) -> agree ~6%")
+    print("\n(1) FT-of-product vs core.H_pq_decaying at p=q=0.8, M=1:")
+    print("    (core now evaluates the same identity; this is a genuine")
+    print("     two-implementation cross-check, limited by the grid below)")
+    core_ref = H_pq_decaying(0.8, 0.8, M=1.0, R=1e4)
+    print(f"    core.H_pq_decaying = {core_ref:.5e}  (adaptive)")
+    for n in (28, 60, 200):
+        fast_n = H_decay_fast(0.8, 0.8, M=1.0, R=1e4, x_points=n, y_points=n)
+        print(f"    H_decay_fast x=y={n:3d} = {fast_n:.5e}   core/fast = {core_ref / fast_n:.4f}")
 
     print("\n(2) resolution + R independence of the decaying peak (M=1):")
     for n in (20, 28, 40):

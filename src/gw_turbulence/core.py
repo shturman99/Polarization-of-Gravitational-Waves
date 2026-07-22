@@ -9,7 +9,7 @@ from multiprocessing import Pool
 
 import mpmath as mp
 import numpy as np
-from scipy import integrate, special
+from scipy import integrate, interpolate, special
 
 from .mpi import gather_grid, get_mpi_context, split_row_indices
 
@@ -149,64 +149,46 @@ def integrand_y_decaying(
     convolution_method: str = "trapz",
     convolution_points: int = 160,
 ) -> float:
+    """Inner-y integrand of the decaying kernel.
+
+    The temporal factor is the two-scale frequency convolution
+
+        C(q; a, b) = int dq1 Re[ g(a q1) g(b (q - q1)) ],   a = sqrt(x)/M,
+                                                            b = sqrt(y)/M,
+
+    which is evaluated by the convolution theorem rather than by quadrature in
+    q1.  Writing g(a .) = FT[h_a] with h_a(sigma) = (1/a)(1 + sigma/a)^{-2/3}
+    on sigma >= 0, the theorem gives (A*B)(q) = 2 pi FT[h_a h_b](q), so
+
+        C(q; a, b) = (pi / (a b)) * ft_product_decay(q, a, b).
+
+    This is the same correction applied to _temporal_conv_decay, and for the
+    same reason: g(z) ~ i/z at large z, so the q1 integrand decays only as
+    1/q1^2 and the old truncation at q_bound = |q| + 10 sqrt(x y)/M left an
+    O(1/q_bound) additive error that swamped the true UV tail (a factor ~0.37
+    at q = 8, sign-flipped by q = 16), while the integrable q^{-1/3} cusps at
+    q1 = 0, q were under-resolved by the 160-point trapezoid.
+
+    ``epsabs``, ``epsrel``, ``convolution_method`` and ``convolution_points``
+    are retained for signature compatibility (they are passed positionally by
+    H_pq_decaying and the CLI) but no longer affect the temporal factor, which
+    is now exact.
+    """
+    del epsabs, epsrel, convolution_points  # legacy convolution knobs
+    if convolution_method not in ("trapz", "quad"):
+        raise ValueError(f"Unknown convolution_method: {convolution_method}")
+
     s = x + y
-    if s <= 0:
+    if s <= 0 or M <= 0:
         return 0.0
     pref = y**0.75 * s**(-0.5) * x**0.75
     bracket = kernel_bracket(p, x, y)
     if abs(bracket) < 1e-12 or abs(pref) < 1e-14:
         return 0.0
 
-    scale = np.sqrt(x * y) / M if M > 0 else 1.0
-    q_bound = max(abs(q) + 10.0 * scale, 20.0)
-    split_width = max(1e-8, 1e-6 * max(1.0, abs(q)))
-
-    def conv_integrand(q1: float) -> float:
-        z1 = q1 * np.sqrt(x) / M
-        z2 = (q - q1) * np.sqrt(y) / M
-        # The kernel is integrably singular at q1=0 and q1=q. Avoid evaluating
-        # exactly at those points while still resolving the nearby behavior.
-        if z1 == 0:
-            z1 = (split_width * np.sqrt(x) / M) * 1j
-        if z2 == 0:
-            z2 = (split_width * np.sqrt(y) / M) * 1j
-        return (g_decaying(z1) * g_decaying(z2)).real
-
-    try:
-        conv_val = 0.0
-        if convolution_method == "trapz":
-            for lower, upper in _conv_intervals(q, q_bound, split_width):
-                if lower >= upper:
-                    continue
-                q1_values = _cosine_grid(lower, upper, max(convolution_points, 32))
-                z1 = q1_values * np.sqrt(x) / M
-                z2 = (q - q1_values) * np.sqrt(y) / M
-                values = (g_decaying(z1) * g_decaying(z2)).real
-                conv_val += np.trapz(values, q1_values)
-        elif convolution_method == "quad":
-            for lower, upper in _conv_intervals(q, q_bound, split_width):
-                if lower >= upper:
-                    continue
-                part, _ = integrate.quad(
-                    conv_integrand,
-                    lower,
-                    upper,
-                    epsabs=epsabs,
-                    epsrel=epsrel,
-                    limit=100,
-                )
-                conv_val += part
-        else:
-            raise ValueError(f"Unknown convolution_method: {convolution_method}")
-    except ValueError:
-        raise
-    except Exception as exc:
-        warnings.warn(
-            f"Convolution integration failed at x={x:.3e}, y={y:.3e}, q={q:.3e}: {exc}",
-            RuntimeWarning,
-            stacklevel=2,
-        )
-        conv_val = 0.0
+    a = np.sqrt(x) / M
+    b = np.sqrt(y) / M
+    conv_val = np.pi / (a * b) * ft_product_decay(abs(q), a, b)
 
     return pref * bracket * conv_val
 
@@ -630,18 +612,72 @@ def ft_product_decay(q: float, tau_a: float = 1.0, tau_b: float = 1.0) -> float:
     if abs(tau_a - tau_b) <= 1e-12 * max(tau_a, tau_b):
         return _cos_transform_sq_decay(abs(q) * tau_a) * tau_a
 
-    def amplitude(s: float) -> float:
-        return (1.0 + s / tau_a) ** (-2.0 / 3.0) * (1.0 + s / tau_b) ** (-2.0 / 3.0)
+    # Unequal scales.  A direct oscillatory quadrature is badly conditioned here:
+    # the amplitude varies on the scales tau_a, tau_b while the cosine varies on
+    # 1/q, and for small q those are separated by many decades (scipy's
+    # weight='cos' reports "bad integrand behavior within the cycles"; mpmath's
+    # quadosc returns silently wrong values).  Instead collapse the product onto
+    # the single-power case with a Feynman parameter,
+    #
+    #   A^{-2/3} B^{-2/3} = C int_0^1 dt [t(1-t)]^{-1/3} [t A + (1-t) B]^{-4/3},
+    #   C = Gamma(4/3)/Gamma(2/3)^2,
+    #
+    # with A = 1 + s/tau_a, B = 1 + s/tau_b, so that t A + (1-t) B = 1 + s/tau(t)
+    # and 1/tau(t) = t/tau_a + (1-t)/tau_b.  The s-integral is then exactly the
+    # closed form above at the single scale tau(t):
+    #
+    #   F(q; tau_a, tau_b) = C int_0^1 dt [t(1-t)]^{-1/3} tau(t) cosT(q tau(t)).
+    #
+    # The t-integrand is smooth and non-oscillatory (cosT is positive and
+    # monotonically decreasing), and the [t(1-t)]^{-1/3} endpoint singularities
+    # are exactly the Gauss-Jacobi weight, so a fixed 48-node rule is converged
+    # to ~10 digits.  At tau_a == tau_b it reduces to the closed form, since
+    # C * B(2/3, 2/3) = 1.
+    nodes, weights = _gauss_jacobi_feynman()
+    tau = 1.0 / (nodes / tau_a + (1.0 - nodes) / tau_b)
+    return float(_FEYNMAN_C * np.sum(weights * tau * _cos_transform_sq_decay_many(abs(q) * tau)))
 
-    if q == 0.0:
-        # cos(0) = 1; the plain integral converges but the weight='cos'
-        # machinery is undefined at wvar=0.
-        value, _ = integrate.quad(amplitude, 0.0, np.inf, limit=400,
-                                  epsabs=1e-12, epsrel=1e-10)
-    else:
-        value, _ = integrate.quad(amplitude, 0.0, np.inf, weight="cos", wvar=abs(q),
-                                  limit=400, epsabs=1e-12, epsrel=1e-10)
-    return 2.0 * value
+
+_FEYNMAN_C = float(special.gamma(4.0 / 3.0) / special.gamma(2.0 / 3.0) ** 2)
+
+# Leading small-z behaviour of _cos_transform_sq_decay: cosT(z) -> 6 - k z^{1/3},
+# with k = 3 sqrt(3) Gamma(2/3) (from Gamma(-1/3, z) ~ Gamma(-1/3) + 3 z^{-1/3}).
+_COST_SMALL_Z_SLOPE = float(3.0 * np.sqrt(3.0) * special.gamma(2.0 / 3.0))
+
+
+@lru_cache(maxsize=1)
+def _gauss_jacobi_feynman(n: int = 48) -> tuple[np.ndarray, np.ndarray]:
+    """Gauss-Jacobi nodes/weights for int_0^1 dt t^{-1/3} (1-t)^{-1/3} f(t)."""
+    x, w = special.roots_jacobi(n, -1.0 / 3.0, -1.0 / 3.0)
+    # t = (1+x)/2 maps [-1,1] -> [0,1]; the weight picks up (1/2)^(alpha+beta+1).
+    return (x + 1.0) / 2.0, w * 0.5 ** (1.0 / 3.0)
+
+
+@lru_cache(maxsize=1)
+def _cost_spline():
+    """Cubic spline of _cos_transform_sq_decay in log z, for vectorised use.
+
+    The exact evaluation is an mpmath incomplete gamma per point, far too slow
+    inside a 48-node quadrature that itself sits inside a 2-D integral.  cosT is
+    a single universal function of one variable, so it is tabulated once.
+    """
+    log_z = np.linspace(np.log(1e-6), np.log(1e7), 8000)
+    values = np.array([_cos_transform_sq_decay(float(z)) for z in np.exp(log_z)])
+    return interpolate.CubicSpline(log_z, values)
+
+
+def _cos_transform_sq_decay_many(z) -> np.ndarray:
+    """Vectorised _cos_transform_sq_decay, via spline plus exact asymptotics."""
+    z = np.atleast_1d(np.asarray(z, dtype=float))
+    out = np.empty_like(z)
+    small = z < 1e-6
+    large = z > 1e7
+    mid = ~(small | large)
+    out[small] = 6.0 - _COST_SMALL_Z_SLOPE * np.cbrt(z[small])
+    out[large] = 8.0 / (3.0 * z[large] ** 2)
+    if np.any(mid):
+        out[mid] = _cost_spline()(np.log(z[mid]))
+    return out
 
 
 @lru_cache(maxsize=4096)

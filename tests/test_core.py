@@ -2,6 +2,7 @@
 """Tests for reusable numerical kernels."""
 
 import unittest
+import warnings
 from unittest import mock
 
 import numpy as np
@@ -101,8 +102,9 @@ class TestCoreHelpers(unittest.TestCase):
             )
 
     def test_ft_product_decay_closed_form_matches_quadrature_branch(self):
-        # Equal tau takes the closed form, unequal tau the oscillatory
-        # quadrature.  Approaching tau_b -> tau_a the two must meet.
+        # Equal tau takes the closed form, unequal tau the Feynman-parameter
+        # Gauss-Jacobi rule.  Approaching tau_b -> tau_a the two must meet
+        # (analytically they do: C * B(2/3, 2/3) = 1).
         for q in (0.5, 3.0, 11.0):
             closed = core.ft_product_decay(q, 1.0, 1.0)
             quad = core.ft_product_decay(q, 1.0, 1.0 + 1e-7)
@@ -124,6 +126,39 @@ class TestCoreHelpers(unittest.TestCase):
                 places=9,
                 msg=f"tau={tau}",
             )
+
+    def test_ft_product_decay_unequal_tau_matches_direct_integral(self):
+        # The unequal-tau (Feynman-parameter) branch against a direct real-space
+        # evaluation of 2 int_0^inf cos(q s) (1+s/a)^{-2/3}(1+s/b)^{-2/3} ds.
+        # Truncation at S costs ~2*3*(ab)^{1/3} S^{-1/3}, so S is taken large and
+        # the residual tail is added back analytically.
+        for q, a, b in ((1.0, 1.0, 2.0), (0.3, 0.05, 4.0), (7.0, 1.0, 2.0)):
+            s = np.linspace(0.0, 2.0e4, 4_000_001)
+            amp = (1.0 + s / a) ** (-2.0 / 3.0) * (1.0 + s / b) ** (-2.0 / 3.0)
+            head = 2.0 * float(np.trapz(np.cos(q * s) * amp, s))
+            self.assertAlmostEqual(
+                core.ft_product_decay(q, a, b) / head, 1.0, delta=5e-3,
+                msg=f"q={q} a={a} b={b}",
+            )
+
+    def test_ft_product_decay_is_finite_across_the_sampled_domain(self):
+        # Regression: the oscillatory-quadrature implementations of this factor
+        # failed (or silently returned garbage) whenever the cosine period 1/q
+        # was far larger than the amplitude scales -- exactly the deep IR.
+        with warnings.catch_warnings():
+            warnings.simplefilter("error")
+            for M in (0.1, 1.0, 3.0):
+                for x in (1e-3, 1.0):
+                    for y in (1e-3, 1.0):
+                        for q in (0.0, 1e-9, 1e-3, 1.0, 1e3):
+                            value = core.integrand_y_decaying(y, x, 0.7, q, M)
+                            self.assertTrue(np.isfinite(value), msg=f"{M} {x} {y} {q}")
+
+    def test_cos_transform_spline_matches_exact_closed_form(self):
+        for z in (1e-5, 1e-2, 0.3, 1.0, 4.0, 16.0, 100.0, 1e4, 1e6):
+            exact = core._cos_transform_sq_decay(z)
+            spline = float(core._cos_transform_sq_decay_many(z)[0])
+            self.assertAlmostEqual(spline / exact, 1.0, delta=1e-6, msg=f"z={z}")
 
     def test_integration_bounds_return_none_for_empty_region(self):
         self.assertIsNone(core._integration_bounds(x=1.0, p=5.0, R=1.0))
