@@ -116,5 +116,45 @@ def uv_is_power_law(label):
     return "decay" in label and "delta(k)" not in label
 
 
+def peak_mach_exponent(machs=(0.1, 0.2, 0.4, 0.8, 1.6)):
+    """Mach exponent d ln p_peak / d ln M, at FIXED k0, for each temporal model.
+
+    This is the regime diagnostic of Sec.(mach-exponent) in derivation.tex: it
+    separates sources whose temporal factor imposes a frequency cutoff at q ~ M
+    (the peak then tracks the cutoff, exponent 1) from those whose does not (the
+    peak is then pinned by the spatial structure, exponent 0).
+    """
+    machs = np.asarray(machs, dtype=float)
+    models = [
+        ("stationary (Kraichnan sweeping)", lambda p, M: H_pq(p, p, M=M, R=R_REF)),
+        ("decaying   (BK2016 power law)", lambda p, M: H_decay_fast(p, p, M=M, R=R_REF)),
+        ("impulsive  (delta-in-time)", lambda p, M: K0_p(p) / p if 0 < p <= 2 else 0.0),
+    ]
+    print("\n" + "=" * 78)
+    print("MACH EXPONENT OF THE PEAK  (fixed k0)")
+    print("=" * 78)
+    print(f"  {'model':<34}{'d ln p_peak / d ln M':>22}   p_peak(M)")
+    out = {}
+    for label, fn in models:
+        ps = np.geomspace(1e-3, 60.0, 700)
+        peaks = []
+        for M in machs:
+            spec = np.array([p**3 * fn(p, M) for p in ps])
+            peaks.append(ps[np.argmax(spec)])
+        peaks = np.array(peaks)
+        exponent = float(np.polyfit(np.log(machs), np.log(peaks), 1)[0])
+        out[label] = exponent
+        print(f"  {label:<34}{exponent:>+22.3f}   "
+              + " ".join(f"{v:.2f}" for v in peaks))
+    print("\n  Gogoberidze et al. (2007) state f_peak ~ M k0 -- the stationary row.")
+    print("  Auclair et al. (2022) find the peak pinned to the integral scale,")
+    print("  independent of velocity -- the decaying AND impulsive rows.")
+    print("  NOTE the impulsive kernel contains no M at all, so its exponent is")
+    print("  identically 0: velocity-independence is NOT specific to the power-law")
+    print("  UETC, and the diagnostic reads 'is there a q ~ M cutoff', not 'which UETC'.")
+    return out
+
+
 if __name__ == "__main__":
     survey()
+    peak_mach_exponent()

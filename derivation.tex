@@ -2171,6 +2171,77 @@ completely monotone functions are completely monotone, so the two-scale factor
 Eq.~\eqref{eq:two-scale-feynman} inherits the property. We verify
 $\mathcal{C}>0$ over $10^{-8}<q<10^{4}$.
 
+\subsection{The Mach exponent of the peak as a regime diagnostic}
+\label{sec:mach-exponent}
+
+The peak's dependence on the Mach number deserves separating out, because it is
+the one place where the two temporal models make a \emph{qualitatively}
+different prediction rather than a quantitatively different one. Measuring
+$d\ln p_{\rm peak}/d\ln M$ at fixed $k_0$ over $M\in[0.1,1.6]$ gives
+\begin{center}
+\begin{tabular}{lc}
+\hline
+Temporal model & $d\ln p_{\rm peak}/d\ln M$ \\
+\hline
+$T_{\rm sw}$ (Kraichnan sweeping) & $+0.974$ \\
+$T_{\rm dec}$ (BK2016 power law)  & $+0.048$ \\
+$T_{\rm imp}$ ($\delta$-in-time)  & $\phantom{+}0.000$ \\
+\hline
+\end{tabular}
+\end{center}
+a clean split between unity and zero. The mechanism is transparent: $T_{\rm sw}$
+multiplies the spectrum by $e^{-q^{2}/M^{2}}$, a cutoff at $q\sim M$, so the peak
+simply tracks that cutoff; $T_{\rm dec}$ and $T_{\rm imp}$ impose no such
+frequency scale, so the peak falls back on the spatial structure. Strikingly,
+the integrated energy is nearly \emph{blind} to this distinction---we measure
+$E_{\rm tot}\propto M^{5.8}$ and $M^{5.6}$ for the two---so it is the peak, not
+the amplitude, that carries the information.
+
+\paragraph{What is and is not new here.} Both halves of this contrast are
+already in the literature, and neither is ours. Gogoberidze et al.\
+\cite{2007Gogoberidze} state that the peak frequency scales linearly with the
+characteristic velocity, i.e.\ $f_{\rm peak}\propto Mk_{0}$---our stationary row,
+of which the coefficient $1.47$ of Sec.~\ref{sec:peak-location} is a
+quantitative refinement. Auclair et al.\ \cite{2022Auclair} find instead that the
+peak is pinned to the integral scale independently of the velocity---our
+decaying and impulsive rows. What appears not to have been said is that the two
+sit on a single axis and that the exponent itself is therefore a diagnostic:
+\cite{2022Auclair} in particular does not contrast the velocity dependence
+between decorrelating and coherent sources.
+
+\paragraph{What the diagnostic actually diagnoses.} It is tempting to read the
+table as evidence for the power-law UETC specifically, and that reading is
+wrong. The impulsive kernel contains no $M$ anywhere, so its exponent is
+identically zero while having no heavy tail, no power law, and indeed no
+temporal structure at all; and \cite{2022Auclair} obtain a velocity-independent
+peak while using Kraichnan \emph{sweeping}, because in a freely decaying flow the
+integral scale itself evolves. Velocity-independence of the peak is therefore a
+property of a whole class of sources, not a signature of
+Eq.~\eqref{eq:cosT-closed}. The exponent answers ``does the temporal factor
+impose a cutoff at $q\sim M$?''---not ``which UETC is it?''. Read that way it is
+a genuine diagnostic; read as support for the decaying model in particular it
+proves much less than it appears to, and the peak-based argument of
+Sec.~\ref{sec:decaying-peak} should be weighted accordingly.
+
+\paragraph{The aeroacoustic precedent.} That the Mach scaling is regime-dependent
+is classical, and the relevant distinction is precisely a temporal one.
+Lighthill's eighth-power law \cite{Lighthill1952} ($P\propto U^{8}$, fixed
+velocity and geometry) and Proudman's \cite{Proudman1952}
+($P\propto\rho\varepsilon M^{5}$, isotropic turbulence at fixed dissipation
+rate) differ in what is held fixed---the same ambiguity that flips our own peak
+scaling between $1.47M$ at fixed $k_{0}$ and $1.47/M^{2}$ at fixed $\varepsilon$.
+More pointedly, Proudman's $M^{5}$ rests on \emph{neglecting retarded-time
+differences}, replacing the retarded covariance of the stress by the simultaneous
+one---that is, on treating the source as temporally coherent---and Lilley
+\cite{Lilley1994} later rederived the result retaining them. The coherent versus
+decorrelating axis that separates our two rows is thus the Proudman--Lilley
+question transposed into a cosmological setting, and our integrated
+$M^{5.6}$--$M^{5.8}$ sits near Proudman's $M^{5}$. The contribution here is not
+the existence of a regime dependence but its sharpening into a spectral
+observable: an exponent one reads off the peak rather than off the total power.
+(The two integrated exponents are approximate; the stationary kernel emits
+convergence warnings over this sweep.)
+
 \paragraph{Analytic structure.} Finally, the models differ in what must actually
 be computed, and the reduction is larger than the usual presentation suggests.
 The decaying kernels are conventionally written as frequency convolutions of the
