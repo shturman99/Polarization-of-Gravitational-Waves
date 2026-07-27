@@ -116,6 +116,35 @@ def load(run: str):
     return kk, tG[good], EGk[good], ESk[good]
 
 
+def mach_series(run: str):
+    """Return (t, urms) from the run's time_series.dat.
+
+    In the simulation's units c=1, so urms is the Mach number M=u_0/c directly
+    (the acoustic Mach is sqrt(3) larger, c_s=c/sqrt(3)).  Legend column order:
+    it t dt EEK EEM EEGW hrms urms brms ... -> urms is column index 7.
+    """
+    d = RUNS[run][0]
+    out = _CACHE / run
+    out.mkdir(parents=True, exist_ok=True)
+    dest = out / "time_series.dat"
+    if not dest.exists() or dest.stat().st_size == 0:
+        print(f"downloading {run}/time_series.dat ...")
+        urllib.request.urlretrieve(f"{_BASE}/{d}/data/time_series.dat", dest)
+    a = np.loadtxt(dest, comments="#")
+    return a[:, 1], a[:, 7]
+
+
+def gw_peak_track(run: str):
+    """(t, M(t), k_GWpeak/k0) for a run: the GW peak (Omega_GW=k E_GW convention)
+    in units of the instantaneous magnetic peak k0(t), and M(t)=u_rms(t)."""
+    kk, tG, EGk, ESk = load(run)
+    k0 = kk[np.argmax(ESk, axis=1)]
+    OmGW = kk * EGk                      # Omega_GW = k E_GW
+    kpk = kk[np.argmax(OmGW, axis=1)]
+    tt, ur = mach_series(run)
+    return tG, np.interp(tG, tt, ur), kpk / k0
+
+
 def fig_gallery():
     apply_paper_style(grid=False)
     fig, axes = plt.subplots(4, 3, figsize=(8.0, 9.0), constrained_layout=True)
