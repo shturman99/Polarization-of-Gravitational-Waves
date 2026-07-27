@@ -176,6 +176,50 @@ def fig_gallery():
     print(f"saved {out}")
 
 
+def fig_source_gw_gallery():
+    """4x3 grid, one panel per run, showing BOTH spectra together (Roper Pol Fig.1
+    style): the source (magnetic or kinetic, grey) and the GW spectrum (class
+    colour), each at several times, on one axis spanning the full dynamic range."""
+    apply_paper_style(grid=False)
+    fig, axes = plt.subplots(4, 3, figsize=(8.0, 9.6), constrained_layout=True)
+    for ax, run in zip(axes.flat, RUNS):
+        kk, tG, EGk, ESk = load(run)
+        cls = RUNS[run][1]
+        base = _CLASS_COLOR[cls]
+        src = "mag" if RUNS[run][2] == "power_mag.dat" else "kin"
+        idx = np.linspace(0, len(tG) - 1, 4).astype(int)
+        shades = np.linspace(0.30, 0.95, len(idx))
+        for j, i in enumerate(idx):
+            Es = ESk[i].astype(float).copy(); Es[Es <= 0] = np.nan
+            Eg = EGk[i].astype(float).copy(); Eg[Eg <= 0] = np.nan
+            ax.loglog(kk, Es, color="0.45", alpha=shades[j], lw=1.0)   # source: grey
+            ax.loglog(kk, Eg, color=base, alpha=shades[j], lw=1.0)     # GW: class colour
+        k0 = kk[np.argmax(ESk[-1])]
+        ax.axvline(k0, color="0.7", lw=0.6, ls=":")
+        # y-range: from ~7 decades below the GW peak up to just above the source
+        # peak, a fixed physical window (Roper Pol Fig.1 spans ~14 decades) that
+        # avoids the deep GW noise floor of the forced runs.
+        gwpeak, srcpeak = EGk[EGk > 0].max(), ESk[ESk > 0].max()
+        ax.set_ylim(gwpeak * 1e-7, srcpeak * 5)
+        ax.set_xlim(1.2, 1.15 * kk.max())
+        # label the two bands inside the panel
+        ax.text(0.94, 0.94, rf"$\Omega_{{\rm {src}}}/k$", transform=ax.transAxes,
+                fontsize=6, color="0.35", ha="right", va="top")
+        ax.text(0.94, 0.44, r"$\Omega_{\rm GW}/k$", transform=ax.transAxes,
+                fontsize=6, color=base, ha="right", va="top")
+        ax.set_title(rf"\texttt{{{run}}} ({cls})", fontsize=8)
+        ax.tick_params(labelsize=6.5)
+        apply_max_ticks(ax)
+    for ax in axes[-1, :]:
+        ax.set_xlabel(r"$k$", fontsize=9)
+    for ax in axes[:, 0]:
+        ax.set_ylabel(r"$\Omega/k$  (source, GW)", fontsize=8)
+    fig.suptitle(r"source (grey) and GW (coloured) spectra vs time; "
+                 r"shade $=$ time, dotted $=k_0$", fontsize=9)
+    out = save_figure(fig, "roperpol_source_gw_gallery")
+    print(f"saved {out}")
+
+
 def fig_energy():
     apply_paper_style()
     fig, ax = plt.subplots(figsize=(5.6, 4.0), constrained_layout=True)
@@ -204,6 +248,7 @@ def fig_energy():
 
 def main():
     fig_gallery()
+    fig_source_gw_gallery()
     fig_energy()
 
 
