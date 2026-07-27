@@ -121,22 +121,33 @@ def main():
 
     fig, (ax1, ax2) = plt_subplots()
 
-    # (a) GW spectra at several times: causal transient -> flat plateau
+    # (a) GW spectra at several times: causal transient -> flat plateau.
+    # Axes span the FULL data: every k shell (to the Nyquist k~575) and the whole
+    # dynamic range from the peak down to the ultraviolet tail / noise floor.
     snaps = [(np.argmin(np.abs(tG - t)), t) for t in (1.00, 1.02, 1.06, 1.20, 1.40)]
     for j, (i, t) in enumerate(snaps):
-        ax1.loglog(kk, EGk[i], color=PALETTE[j + 1], lw=1.3, label=rf"$t={tG[i]:.2f}$")
-    kref = np.array([1.3, 6.0])
-    ax1.loglog(kref, 6e-14 * (kref / kref[0])**2, color=PALETTE[0], ls=":", lw=1.1)
-    ax1.text(2.6, 9e-13, r"$E_{\rm GW}\!\sim\!k^2$" + "\n" + r"($\Omega_{\rm GW}\!\sim\!k^3$)",
-             fontsize=6.5, color=PALETTE[0])
-    ax1.loglog([1.3, 6.0], [2.2e-13, 2.2e-13], color=PALETTE[0], ls="--", lw=1.1)
-    ax1.text(1.5, 2.7e-13, r"flat ($\Omega_{\rm GW}\!\sim\!k^1$)", fontsize=6.5, color=PALETTE[0])
+        E = EGk[i].astype(float).copy()
+        E[E <= 0] = np.nan
+        ax1.loglog(kk, E, color=PALETTE[j + 1], lw=1.1, label=rf"$t={tG[i]:.2f}$")
+    pos = EGk[EGk > 0]
+    kmax = kk.max()
+    ax1.set_xlim(1.2, 1.15 * kmax)
+    ax1.set_ylim(pos.min() / 3, pos.max() * 3)
+    # IR guide lines (below the peak, k ~ 1.3-8): causal k^2 vs flat
+    kref = np.array([1.3, 8.0])
+    ax1.loglog(kref, 8e-16 * (kref / kref[0])**2, color=PALETTE[0], ls=":", lw=1.1)
+    ax1.text(2.7, 2.0e-14, r"$E_{\rm GW}\!\sim\!k^2$ ($\Omega_{\rm GW}\!\sim\!k^3$)",
+             fontsize=6.5, color=PALETTE[0], rotation=32)
+    ax1.loglog(kref, [1.9e-13, 1.9e-13], color=PALETTE[0], ls="--", lw=1.1)
+    ax1.text(1.4, 2.6e-13, r"flat ($\Omega_{\rm GW}\!\sim\!k^1$)", fontsize=6.5, color=PALETTE[0])
+    # UV inertial-range guide: Omega_GW ~ k^-11/3 => E_GW ~ k^-14/3
+    kuv = np.array([20.0, kmax])
+    ax1.loglog(kuv, 6e-14 * (kuv / kuv[0])**(-14.0 / 3.0), color=PALETTE[0], ls="-.", lw=1.0)
+    ax1.text(45, 3e-16, r"$\Omega_{\rm GW}\!\sim\!k^{-11/3}$", fontsize=6.5, color=PALETTE[0])
     ax1.set_xlabel(r"$k$")
     ax1.set_ylabel(r"$E_{\rm GW}(k)=\Omega_{\rm GW}(k)/k$")
-    ax1.set_xlim(1.2, 60)
-    ax1.set_ylim(1e-16, 4e-12)
     ax1.set_title(r"(a) GW spectrum builds up", fontsize=10)
-    ax1.legend(fontsize=6.5, frameon=False, loc="lower left")
+    ax1.legend(fontsize=6.5, frameon=False, loc="lower left", ncol=2, columnspacing=1.0)
     apply_max_ticks(ax1)
 
     # (b) energies + IR slope vs time (steady oscillatory state)
