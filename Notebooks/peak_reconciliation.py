@@ -15,9 +15,14 @@ quadratic-stress scale ~2 k0, independent of M) that an impulsively-sourced,
 decaying source -- e.g. the Roper Pol simulations -- follows. It is drawn as a
 labelled band so it cannot be mistaken for either our analytic curve or real data.
 
-The two pictures coincide in the transonic band (M ~ 1), where every current
-simulation sits, and diverge only in the subsonic corner -- which no simulation
-has tested.
+Convention: M = u0/c (Gogoberidze), so the transonic point u0 = c_s = c/sqrt(3)
+is at M = 1/sqrt(3) ~ 0.58 and the luminal ceiling u0 = c is at M = 1; M > 1 is
+superluminal and unphysical for a relativistic plasma. The sweeping peak 1.47 M
+enters the source-scale band [1,2] only at M ~ 0.68-1.36, i.e. near or beyond the
+luminal limit, so the two pictures DIVERGE across the entire physical range and
+converge only formally. Current simulations are deeply subsonic (M ~ 0.05), the
+regime of maximal divergence, and there the data follow the source-scale (not the
+sweeping) peak.
 """
 
 from __future__ import annotations
@@ -88,10 +93,22 @@ def main(name: str = "peak_reconciliation"):
     ax.text(0.022, 1.42, "source-scale peak\n(impulsive: Roper Pol, Caprini)",
             fontsize=8, color=PALETTE[5], va="center")
 
-    # transonic band where the two pictures coincide and simulations sit
-    ax.axvspan(m_lo, m_hi, color="0.5", alpha=0.12, lw=0)
-    ax.text(np.sqrt(m_lo * m_hi), 6.5, "transonic\n(simulations)", fontsize=8,
-            color="0.35", ha="center", va="top")
+    # superluminal region M > 1 (u0 > c): formal, unphysical
+    ax.axvspan(1.0, MACH.max(), color=PALETTE[1], alpha=0.10, lw=0)
+    ax.text(np.sqrt(1.0 * MACH.max()), 0.03, "superluminal\n$u_0>c$ (formal)",
+            fontsize=7.5, color=PALETTE[1], ha="center", va="bottom")
+    # transonic point and luminal ceiling
+    M_TRANS = 1.0 / np.sqrt(3.0)
+    ax.axvline(M_TRANS, color="0.5", lw=0.9, ls=":")
+    ax.text(M_TRANS * 1.04, 0.028, "transonic\n$u_0=c_s$", fontsize=7,
+            color="0.4", ha="left", va="bottom")
+    ax.axvline(1.0, color="0.35", lw=0.9, ls="-.")
+    ax.text(1.02, 5.5, "luminal\n$u_0=c$", fontsize=7, color="0.3",
+            ha="left", va="top")
+    # crossover band where the sweeping peak enters the source band (near/above luminal)
+    ax.axvspan(m_lo, m_hi, color="0.5", alpha=0.10, lw=0)
+    ax.text(np.sqrt(m_lo * m_hi), 6.5, "sweeping peak reaches\nsource band (near-luminal)",
+            fontsize=7, color="0.35", ha="center", va="top")
 
     # stationary / sweeping prediction: computed peaks + linear law
     mline = np.logspace(np.log10(MACH.min()), np.log10(MACH.max()), 60)
@@ -100,13 +117,17 @@ def main(name: str = "peak_reconciliation"):
     ax.loglog(MACH, peaks, "o", color=PALETTE[6], ms=5,
               label=r"stationary kernel (this work)")
 
-    # annotate the divergence in the subsonic corner
-    ax.annotate("predictions diverge\n(subsonic, untested)",
-                xy=(0.1, 0.15), xytext=(0.12, 0.9),
-                fontsize=8, color="0.2", ha="left",
+    # mark where current (subsonic) simulations sit: the data follow the source band
+    M_SIM = 0.05
+    ax.axvline(M_SIM, color=PALETTE[3], lw=1.0)
+    ax.plot([M_SIM], [1.84], "D", color=PALETTE[3], ms=6,
+            label=r"Roper Pol peak ($M\simeq0.05$, data)")
+    ax.annotate("simulations here:\nsweeping predicts $\\sim$0.07,\ndata follow source band",
+                xy=(M_SIM, 0.075), xytext=(0.021, 0.32),
+                fontsize=7.5, color="0.2", ha="left",
                 arrowprops=dict(arrowstyle="->", color="0.4", lw=0.9))
 
-    ax.set_xlabel(r"$M$ (turbulent Mach number)")
+    ax.set_xlabel(r"$M=u_0/c$ (turbulent Mach number)")
     ax.set_ylabel(r"$p_{\rm peak}=k_{\rm peak}/k_0$")
     ax.set_xlim(0.02, 6.0)
     ax.set_ylim(0.02, 10.0)

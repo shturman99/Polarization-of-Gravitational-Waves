@@ -149,6 +149,8 @@ def peak_mach_exponent(machs=(0.1, 0.2, 0.4, 0.8, 1.6)):
     print("\n  Gogoberidze et al. (2007) state f_peak ~ M k0 -- the stationary row.")
     print("  Auclair et al. (2022) find the peak pinned to the integral scale,")
     print("  independent of velocity -- the decaying AND impulsive rows.")
+    print("  (M up to 1.6 is used to pin the exponent; M>1 is formally superluminal,")
+    print("   u0>c, since M=u0/c in the Gogoberidze convention.)")
     print("  NOTE the impulsive kernel contains no M at all, so its exponent is")
     print("  identically 0: velocity-independence is NOT specific to the power-law")
     print("  UETC, and the diagnostic reads 'is there a q ~ M cutoff', not 'which UETC'.")

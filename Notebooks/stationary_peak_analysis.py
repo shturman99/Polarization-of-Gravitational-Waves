@@ -24,7 +24,7 @@ sweeping Gaussian  exp(-2 xy/(x+y) * q^2/M^2)  in core.integrand_y, so the cutof
 
 (c) RAW PEAK SCALING.  The peak measured directly from each computed spectrum
     (parabolic refinement of the argmax) versus M, with a power-law fit
-    p_peak = a M^b.  Subsonic-to-transonic gives b ~ 1; it saturates near the
+    p_peak = a M^b.  Across the physical range M<=1 (u0<=c) b ~ 1; it saturates as
     outer scale at large M.
 
 All spectra use a dense p-grid for smoothness; the peak numbers are raw (read
@@ -119,7 +119,7 @@ def main(name: str = "stationary_peak_analysis"):
     scan_M = np.array(scan_M)
     scan_pk = np.array(scan_pk)
 
-    # power-law fit over the clean (subsonic--transonic) regime M <= 1
+    # power-law fit over the physical (subluminal) regime M <= 1
     fit_mask = scan_M <= 1.0
     b, lna = np.polyfit(np.log(scan_M[fit_mask]), np.log(scan_pk[fit_mask]), 1)
     a = np.exp(lna)

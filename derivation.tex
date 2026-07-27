@@ -414,10 +414,15 @@ $\eta_k\propto M\,k^{2/3}$, i.e.\ through the Gaussian
 $\exp[-\tfrac{2xy}{x+y}\,q^2/M^2]$ and the accompanying erfc in
 Eq.~\eqref{eq:Hijij-AppA-dimless}. This factor is a soft cutoff that suppresses
 the integrand once $p\gtrsim M$, so the spectral peak tracks the Mach number,
-$p_{\rm peak}\sim M$, until it saturates near the outer scale at large $M$.
+$p_{\rm peak}\sim M$, until it saturates near the outer scale as $M\to1$ (the
+luminal ceiling $u_0=c$; see Sec.~\ref{sec:mach-discussion}). In the convention
+of Eq.~\eqref{eq:appA-dimless} $M=u_0/c$, so curves with $M>1$ correspond to
+$u_0>c$ and are formal extrapolations beyond the luminal limit, unphysical for a
+relativistic plasma but retained throughout to expose the $M$-scaling and its
+aeroacoustic ($U^8$) connection.
 Figure~\ref{fig:stationary_mach_peak} shows this directly: the peak slides from
-$p_{\rm peak}\simeq0.05$ at $M=0.03$ to $p_{\rm peak}\simeq2.6$ at $M=3$, while
-the amplitude climbs steeply (the $M^3$ prefactor of
+$p_{\rm peak}\simeq0.05$ at $M=0.03$ to $p_{\rm peak}\simeq2.6$ at the formal
+$M=3$, while the amplitude climbs steeply (the $M^3$ prefactor of
 Eq.~\eqref{eq:Hijij-AppA-dimless} times the widening $M$-support of the
 integral). The infrared rise is the universal causal slope
 $\Omega_{\rm GW}\propto p^3$ (Sec.~\ref{sec:framework-shape}), common to all $M$;
@@ -442,8 +447,9 @@ and a measured IR exponent $d\ln H/d\ln M\to3.00$ as $p\to0$).
   Eq.~\eqref{eq:Hijij-AppA-dimless} on the on-shell diagonal of
   Eq.~\eqref{eq:omega-diag}, at $R=10^4$. The five curves are
   $M=0.03,0.1,0.3,1,3$, ordered by increasing amplitude and peak frequency
-  (lowest, leftmost curve is $M=0.03$; highest, rightmost is $M=3$); dots mark
-  each peak.
+  (lowest, leftmost curve is $M=0.03$; highest, rightmost is the formal $M=3$);
+  dots mark each peak. In the convention $M=u_0/c$ the curves with $M>1$ lie
+  beyond the luminal limit and are formal extrapolations (Sec.~\ref{sec:mach-discussion}).
   (a)~Absolute: shared IR slope $p^3$, amplitude growing $\sim M^3$, peak moving
   right with $M$ ($p_{\rm peak}\sim M$ in the inertial range, bending over near
   the outer scale). (b)~$M^3$-compensated, $\Omega_{\rm GW}/M^3$: since the IR
@@ -667,7 +673,8 @@ $k_0$ one expects the stress---and hence the radiation---to peak near $k\sim k_0
 with spatial support extending to at most $k=2k_0$ by the triangle inequality. We
 show here that the analytic peak is fixed instead by the \emph{temporal}
 (sweeping) decorrelation, giving $p_{\rm peak}\simeq1.47\,M$, and that the
-``$k\simeq2k_0$'' expectation is recovered only in the transonic limit.
+``$k\simeq2k_0$'' expectation is approached only as $M\to1$ (the luminal limit)
+and is never reached for physical subsonic or transonic turbulence.
 
 \paragraph{Self-similar Mach scaling.}
 In the dimensionless kernel of Eq.~\eqref{eq:Hijij-AppA-dimless} the Mach number
@@ -697,7 +704,8 @@ Equation~\eqref{eq:peak-ansatz} is verified directly in
 Fig.~\ref{fig:peak_analysis}(b): the compensated kernel $H_{ijij}(p,p;M)/M^3$
 plotted against $\xi=p/M$ for $M=0.03$--$3$ falls on the single curve
 $\widetilde H_{ijij}(\xi)$, with infrared plateau $A\simeq2.1\times10^{-2}$ and
-$<13\%$ residual spread dominated by the transonic $M=3$ case. The cutoff thus
+$<13\%$ residual spread dominated by the formal $M=3$ case (superluminal, shown
+to expose the trend). The cutoff thus
 depends on $p$ and $M$ \emph{only} through $\xi=p/M$---the unambiguous signature of
 the sweeping rate---and switches on at $\xi\sim1$, i.e.\ $p\sim M$. (How this
 single scaling is best displayed---compensating one axis or both---is taken up in
@@ -715,16 +723,19 @@ Differentiating $\Omega_{\rm GW}=M^{3}p^{3}\widetilde H_{ijij}(\xi)$
 so the peak sits where the compensated kernel has logarithmic slope $-3$, at a fixed
 $\xi_\ast$ independent of $M$. Reading the peak directly from each computed
 spectrum (Fig.~\ref{fig:peak_analysis}c; sub-grid argmax, no model fit) gives a
-location linear in $M$ across the entire subsonic--transonic range,
+location linear in $M$ across the entire physical range,
 \begin{equation}
   p_{\rm peak}\;=\;1.48\,M^{1.00}\qquad(M\lesssim1),
   \label{eq:peak-fit}
 \end{equation}
 with $\xi_\ast=1.47$ read from the collapsed shape, consistent with
-Eq.~\eqref{eq:peak-condition}. Above $M\simeq1$ the peak runs into the outer
-scale and the linear law saturates: $p_{\rm peak}/M$ falls from $1.49$ at $M=1$
-to $0.77$ at $M=3.4$. The peak reaches the ``source-scale'' value $p\simeq2$ only
-at transonic $M\simeq1.4$.
+Eq.~\eqref{eq:peak-condition}. Only as $M\to1$ (the luminal ceiling) does the peak
+begin to run into the outer scale and the linear law saturate: $p_{\rm peak}/M$
+falls from $1.49$ at $M=1$ to $0.77$ at the formal $M=3.4$. Reaching the
+``source-scale'' value $p\simeq2$ would require $M\simeq1.4$, i.e.\ $u_0\simeq1.4c$;
+the stationary sweeping peak therefore \emph{never} reaches the source scale for
+any physical (subluminal) turbulence, and is far below it throughout the subsonic
+range where cosmological flows lie.
 
 \paragraph{Resolution.}
 The naive ``$k\simeq2k_0$'' is a purely \emph{spatial} statement: it is the
@@ -756,10 +767,16 @@ stationary kernel does not contain. Because the spatial stress is far more power
 at the outer scale $k_0$ than at $M k_0$, this broadband component pins the GW peak
 near the \emph{spatial} stress scale, $p\sim1$--$2$, almost independently of $M$.
 This is what the direct simulations of \cite{2019RoperPol} display, and it is the
-spatial-scale picture of Sec.~\ref{sec:mach-discussion}. The two predictions
-therefore \emph{coincide} in the transonic band $M\sim1$, where all current
-simulations sit, and \emph{diverge} only in the subsonic corner $M\ll1$, which no
-simulation has yet probed (Fig.~\ref{fig:peak_reconciliation}). This peak
+spatial-scale picture of Sec.~\ref{sec:mach-discussion}. In the convention
+$M=u_0/c$ the sweeping peak $1.47M$ approaches the spatial band $p\sim1$--$2$ only
+as $u_0\to c$, and would coincide with $p\simeq2$ only at the superluminal
+$M\simeq1.4$; the two predictions therefore \emph{diverge across the entire
+physical range} and converge only formally beyond the luminal limit
+(Fig.~\ref{fig:peak_reconciliation}). Current simulations, far from sitting in a
+band where the pictures agree, are \emph{deeply subsonic}
+($M\simeq\sqrt{\Omega_{\rm M}}\sim0.05$, Sec.~\ref{sec:principal-discrepancy}),
+which is exactly the regime of maximal divergence---and there the data follow the
+source-scale (impulsive/decaying) peak, not the sweeping one. This peak
 displacement is the spatial counterpart of the amplitude deficit noted in
 Sec.~\ref{sec:mach-discussion}---the stationary kernel gives
 $\Omega_{\rm GW}\propto M^4$ rather than the $M^{5\text{--}6}$ recovered once the
@@ -855,7 +872,8 @@ argument.
   (c)~Peak location read directly from each computed spectrum (points) versus $M$:
   a power law $p_{\rm peak}=1.48\,M^{1.00}$ (line) [Eq.~\eqref{eq:peak-fit}],
   coincident with $\xi_\ast M$ (dashed), that bends below it toward the $p=2$
-  source scale (dotted) only at transonic $M$. Generated by
+  source scale (dotted) only as $M\to1$ (the luminal limit; $M>1$ is superluminal).
+  Generated by
   \texttt{Notebooks/stationary\_peak\_analysis.py}.}
   \label{fig:peak_analysis}
 \end{figure*}
@@ -871,9 +889,9 @@ argument.
   $\Omega_{\rm GW}/M^{6}$ versus $\xi$ collapse onto the single universal curve
   $\xi^3\widetilde H_{ijij}(\xi)$ of Eq.~\eqref{eq:M6-collapse}---infrared rise and
   peak together---because the $p^3$ rise contributes an extra $M^3$ on the $\xi$ axis.
-  The subsonic curves ($M=0.03$--$1$) coincide; only the transonic $M=3$ curve
-  (peak $\xi\simeq0.85$) departs, where the sweeping cutoff yields to the
-  inertial-range/triangle edge. Generated by
+  The subluminal curves ($M=0.03$--$1$) coincide; only the formal $M=3$ curve
+  (peak $\xi\simeq0.85$; superluminal, $u_0=3c$) departs, where the sweeping cutoff
+  yields to the inertial-range/triangle edge. Generated by
   \texttt{Notebooks/stationary\_mach\_peak\_xM.py}.}
   \label{fig:peak_xM}
 \end{figure*}
@@ -889,10 +907,15 @@ argument.
   competing spatial-scale picture, in which an impulsively sourced, decaying flow
   radiates at the stress scale independently of $M$
   (Roper Pol et al.~\cite{2019RoperPol}; Caprini et al.~\cite{Caprini:2018mtu})---a
-  schematic, \emph{not} computed here and not data. The two coincide in the
-  transonic band (vertical strip), where current simulations sit, and diverge only
-  for subsonic $M\ll1$. Generated by
-  \texttt{Notebooks/peak\_reconciliation.py}.}
+  schematic, \emph{not} computed here and not data. In the convention $M=u_0/c$
+  the sweeping law enters the source band only at $M\simeq0.67$--$1.35$ (grey
+  strip), i.e.\ near or beyond the luminal ceiling $M=1$ (dash-dotted; $M>1$ is
+  superluminal, shaded); the transonic point $u_0=c_s$ is at $M=1/\sqrt3\simeq0.58$
+  (dotted). The two pictures therefore diverge across the whole physical range.
+  Current simulations sit at $M\simeq0.05$ (green line/diamond, Roper Pol peak
+  $1.84$), deeply subsonic, where the sweeping law predicts $p\simeq0.07$ but the
+  data follow the source band---the regime of maximal divergence, not of
+  coincidence. Generated by \texttt{Notebooks/peak\_reconciliation.py}.}
   \label{fig:peak_reconciliation}
 \end{figure}
 
@@ -1039,7 +1062,8 @@ $M^4$ versus $M^3$, not the peak height.)
   $p\simeq2$--$2.6$ (shaded) for both $M$, whereas the stationary peaks shift with
   $M$. (b)~Peak location versus $M$: the decaying peak is flat at
   $p_{\rm peak}\simeq2.4$ [Eq.~\eqref{eq:decay-peak}], while the stationary peak
-  follows $p_{\rm peak}=1.47\,M$ (dotted) until it saturates near transonic $M$.
+  follows $p_{\rm peak}=1.47\,M$ (dotted) until it saturates only as $M\to1$
+  (the luminal limit).
   Computed with the full-spatial kernel via the FT-of-product
   Eq.~\eqref{eq:ft-of-product}; generated by
   \texttt{Notebooks/fullspatial\_decay.py}.}
@@ -2144,8 +2168,8 @@ falls as $-2f'(0^{+})/\omega^{2}$, so
   \item $T_{\rm dec}$ (power law, $f'(0^{+})=-4/3$): a genuine heavy tail
     $\propto\omega^{-2}$, with the coefficient $8/3$ of
     Eq.~\eqref{eq:cosT-limits}. The measured GW slope is mildly $M$-dependent
-    ($-1.65$ at $M=0.05$ rising to $-1.28$ at $M=3$) because the tail sets in
-    only above $q\sim M$.
+    ($-1.65$ at $M=0.05$ rising to $-1.28$ at the formal $M=3$) because the tail
+    sets in only above $q\sim M$.
   \item $T_{\rm imp}$, $T_{\rm burst}$: white and window-modulated respectively,
     the latter carrying the $\sin^{2}$ factor of Eq.~\eqref{eq:window-factor}.
 \end{itemize}
@@ -2162,7 +2186,7 @@ $p\simeq1.47M$ (measured $1.53$ at $M=1$), \emph{below} the source scale for
 subsonic turbulence. With $T_{\rm dec}$ the heavy tail survives past that
 cutoff, and the peak is instead pinned by the spatial structure at
 $p\simeq2.3$, essentially independent of $M$ (measured $2.32$ for
-$M\le1$, drifting to $2.79$ by $M=3$). The two temporal models therefore
+$M\le1$, drifting to $2.79$ by the formal $M=3$). The two temporal models therefore
 disagree about the peak by a factor $\sim1/M$, which for the subsonic
 simulations is an order of magnitude---this is exactly the
 Gogoberidze-versus-Roper~Pol tension of Sec.~\ref{sec:peak-location}. Note that
@@ -2191,7 +2215,8 @@ $\mathcal{C}>0$ over $10^{-8}<q<10^{4}$.
 The peak's dependence on the Mach number deserves separating out, because it is
 the one place where the two temporal models make a \emph{qualitatively}
 different prediction rather than a quantitatively different one. Measuring
-$d\ln p_{\rm peak}/d\ln M$ at fixed $k_0$ over $M\in[0.1,1.6]$ gives
+$d\ln p_{\rm peak}/d\ln M$ at fixed $k_0$ over $M\in[0.1,1.6]$ (the upper end
+formal, $M>1$ being superluminal, but included to pin the exponent) gives
 \begin{center}
 \begin{tabular}{lc}
 \hline
