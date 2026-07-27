@@ -379,12 +379,12 @@ $k_0$ is the outer scale and $k_d$ the dissipation scale; the integration window
 
 Define the dimensionless parameters
 \begin{equation}
-  M=\Bigl(\frac{\varepsilon}{k_0}\Bigr)^{1/3},\quad \frac{k_d}{k_0}=R^{3/4},\quad p=\frac{k}{k_0},\quad q=\frac{\omega}{k_0},
+  M=\frac{1}{c}\Bigl(\frac{\varepsilon}{k_0}\Bigr)^{1/3},\quad \frac{k_d}{k_0}=R^{3/4},\quad p=\frac{k}{k_0},\quad q=\frac{\omega}{c\,k_0},
   \qquad
   x=\bigl(\tfrac{k_1}{k_0}\bigr)^{-4/3},\ \ y=\bigl(\tfrac{u}{k_0}\bigr)^{-4/3},
   \label{eq:appA-dimless}
 \end{equation}
-where $M=(\varepsilon/k_0)^{1/3}$ is the outer-scale turbulent Mach number (sound speed set to unity), equal to the rms eddy velocity $u_0$. The Mach number enters the GW kernel through the $k$-dependent sweeping rate $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}=\tfrac{M}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, which couples frequency to wavenumber in the Gaussian factor of Eq.~\eqref{eq:Hijij-AppA}. As a result $M$ sets the \emph{effective} wavenumber support of the integral: the exponential $\exp[-2q^2/(M^2(z^{4/3}+y^{4/3}))]$ (with $z=k_1/k_0$) cuts off contributions with $z^{4/3}+y^{4/3}\lesssim 2q^2/M^2$, so the peak of the GW spectrum shifts with $M$.
+where $M=u_0/c=(\varepsilon/k_0)^{1/3}/c$ is the outer-scale eddy velocity in units of the speed of light, following Gogoberidze et al.~\cite{2007Gogoberidze} (this is normalised to $c$, not to the sound speed; see Sec.~\ref{sec:mach-discussion}). We keep $c$ explicit throughout and set $c=1$ only when evaluating numerically. The Mach number enters the GW kernel through the $k$-dependent sweeping rate $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}=\tfrac{Mc}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, which couples frequency to wavenumber in the Gaussian factor of Eq.~\eqref{eq:Hijij-AppA}. As a result $M$ sets the \emph{effective} wavenumber support of the integral: the exponential $\exp[-2q^2/(M^2(z^{4/3}+y^{4/3}))]$ (with $z=k_1/k_0$) cuts off contributions with $z^{4/3}+y^{4/3}\lesssim 2q^2/M^2$, so the peak of the GW spectrum shifts with $M$. Note that the kernel depends on frequency and Mach number only through the ratio $q/M=\omega/(k_0 u_0)$, in which $c$ cancels: $c$ appears in the \emph{definitions} of $q$ and $M$ but not in the dimensionless kernel, so its numerical value is immaterial and setting $c=1$ is exact rather than an approximation.
 The substitution $k_1=k_0 x^{-3/4}$, $u=k_0 y^{-3/4}$ gives $dk_1\,k_1^{-10/3}=-(3/4)k_0^{-7/3}x^{3/4}dx$ and $(k_1^{-4/3}+u^{-4/3})^{-1/2}=k_0^{2/3}(x+y)^{-1/2}$; the integration limits become $x\in[R^{-1},1]$ and $y\in[y_{\min}(x),y_{\max}(x)]$ with
 \begin{equation}
   y_{\max}(x)=\min(|x^{-3/4}-p|^{-4/3},\,1),
@@ -557,47 +557,61 @@ $M$ is, why the conflicting definitions in the literature are the \emph{same}
 quantity, and what about the spectrum does and does not respond to it.
 
 \paragraph{Explicit formulation.}
-Throughout we use
+Throughout we use, following Gogoberidze et al.~\cite{2007Gogoberidze},
 \begin{equation}
-  M=\Bigl(\frac{\varepsilon}{k_0}\Bigr)^{1/3}=u_0,\qquad (c_s\equiv1),
+  M=\frac{u_0}{c}=\frac{1}{c}\Bigl(\frac{\varepsilon}{k_0}\Bigr)^{1/3},
+  \qquad q=\frac{\omega}{c\,k_0},
   \label{eq:mach-def}
 \end{equation}
-the outer-scale eddy velocity in units of the sound speed
-(Eq.~\eqref{eq:appA-dimless}). The grouping is fixed by dimensions: with
-$[\varepsilon]=L^2T^{-3}$ and $[k_0]=L^{-1}$ one has
-$\varepsilon/k_0=(L/T)^3$, so $(\varepsilon/k_0)^{1/3}$ is a velocity and the
-inverse grouping $(k_0/\varepsilon)^{1/3}$ — which appears occasionally in the
-literature — is an \emph{inverse} velocity and cannot be a Mach number. $M$
-does not enter Eq.~\eqref{eq:Hijij-AppA} as a free amplitude; it enters
-\emph{only} through the $k$-dependent sweeping rate
+the outer-scale eddy velocity in units of the speed of light. We retain $c$ in
+every expression and set $c=1$ only for numerical evaluation; because the kernel
+depends on frequency and Mach number solely through $q/M=\omega/(k_0u_0)$, in
+which $c$ cancels (Eq.~\eqref{eq:appA-dimless}), this choice is exact and not an
+approximation. The grouping is fixed by dimensions: with $[\varepsilon]=L^2T^{-3}$
+and $[k_0]=L^{-1}$ one has $\varepsilon/k_0=(L/T)^3$, so $(\varepsilon/k_0)^{1/3}$
+is a velocity and the inverse grouping $(k_0/\varepsilon)^{1/3}$ — which appears
+occasionally in the literature — is an \emph{inverse} velocity and cannot be a
+Mach number. $M$ does not enter Eq.~\eqref{eq:Hijij-AppA} as a free amplitude; it
+enters \emph{only} through the $k$-dependent sweeping rate
 $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}
-=\tfrac{M}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, hence only through the Gaussian
+=\tfrac{Mc}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, hence only through the Gaussian
 $\exp[-\tfrac{2xy}{x+y}q^2/M^2]$ and the accompanying erfc of
 Eq.~\eqref{eq:Hijij-AppA-dimless}.
 
-\paragraph{Two definitions, one quantity.}
-The literature quotes the Mach number either as a velocity ratio
-$M=u_{\rm rms}/c_s$ or as the cascade combination $(\varepsilon/k_0)^{1/3}$
-\cite{2007Gogoberidze}. For fully developed Kolmogorov turbulence these are the
-same quantity: setting $c_s=1$ and using the inertial-range relation
-$\varepsilon\sim u_0^3 k_0$ turns the first into the second. The equivalence
-rests on three assumptions: (i) a stationary, constant-flux cascade with a
-well-defined $\varepsilon$ across an inertial range of width
-$k_d/k_0=R^{3/4}\gg1$; (ii) energy concentrated at the outer scale, which the
-$E(k)\propto k^{-5/3}$ slope guarantees because
-$\int_{k_0}^{\infty}\!E\,dk=\tfrac32 C_K(\varepsilon/k_0)^{2/3}$ converges at
-$k_0$; and (iii) absorbing the resulting $\mathcal O(1)$ constant, so that
+\paragraph{Normalisation to $c$, not to the sound speed.}
+Two points of convention need care, because both have caused numerical
+disagreements between papers for the same physical flow. First, our $M$ is a
+velocity ratio to the \emph{speed of light}, not to the sound speed. A
+relativistic plasma has $c_s=c/\sqrt3$, so the true acoustic Mach number is
+\begin{equation}
+  M_s=\frac{u_0}{c_s}=\sqrt3\,\frac{u_0}{c}=\sqrt3\,M,
+  \label{eq:acoustic-mach}
+\end{equation}
+larger than $M$ by $\sqrt3$. The transonic point $u_0=c_s$ therefore sits at
+$M=1/\sqrt3\simeq0.58$ in our normalisation, and the luminal ceiling $u_0=c$ at
+$M=1$; a purely vortical velocity field can in principle approach the latter,
+whereas $M_s\sim1$ (genuine transonic turbulence) corresponds to $M\simeq0.58$.
+This is the convention of Gogoberidze et al.~\cite{2007Gogoberidze}, who define
+$M=(\varepsilon/k_0)^{1/3}$ in units $c=1$ and note separately that the plasma
+sound speed is $c/\sqrt3$; it is \emph{not} the same as the acoustic $M_s$ used
+elsewhere, and the two differ by the fixed factor $\sqrt3$.
+
+Second, and independently of the first, $u_0=(\varepsilon/k_0)^{1/3}$ is the
+single-eddy outer velocity, which differs from the integrated rms by an
+$\mathcal O(1)$ cascade constant: for a Kolmogorov spectrum
+$\int_{k_0}^{\infty}\!E\,dk=\tfrac32 C_K(\varepsilon/k_0)^{2/3}$, so
 $u_{\rm rms}=\sqrt{\tfrac32 C_K}\,(\varepsilon/k_0)^{1/3}\approx(1.5\text{--}2)\,
-(\varepsilon/k_0)^{1/3}$ depending on $C_K$ and on whether one normalises
-$\int E\,dk$ to $\langle u^2\rangle$ or $\tfrac12\langle u^2\rangle$. The bare
-$(\varepsilon/k_0)^{1/3}$ is thus the single-eddy outer velocity, smaller than
-the integrated rms by this convention-dependent factor — the dominant source of
-numerical disagreement between papers for the same physical flow. The two
-definitions \emph{diverge} when the assumptions fail: for non-Kolmogorov
-spectra in which the energy integral is ultraviolet-dominated (the white-noise
-/ Batchelor model of Sec.~\ref{sec:white}, $E\propto k^2$), where
-$(\varepsilon/k_0)^{1/3}$ no longer measures $u_{\rm rms}$; for decaying
-turbulence, where $\varepsilon\to\varepsilon(t)$ and $M\to M(t)$
+(\varepsilon/k_0)^{1/3}$, depending on $C_K$ and on whether one normalises
+$\int E\,dk$ to $\langle u^2\rangle$ or $\tfrac12\langle u^2\rangle$. This
+$\mathcal O(1)$ factor and the $\sqrt3$ above are distinct and multiply: a paper
+quoting $M_s=u_{\rm rms}/c_s$ and one quoting our
+$M=(\varepsilon/k_0)^{1/3}/c$ describe the same flow with Mach numbers differing
+by $\sqrt3\times(1.5\text{--}2)$. Both identifications further \emph{break down}
+when the cascade picture fails: for spectra whose energy integral is
+ultraviolet-dominated (the white-noise / Batchelor model of
+Sec.~\ref{sec:white}, $E\propto k^2$), where $(\varepsilon/k_0)^{1/3}$ no longer
+measures $u_{\rm rms}$; for decaying turbulence, where
+$\varepsilon\to\varepsilon(t)$ and $M\to M(t)$
 (Sec.~\ref{sec:fpeak-numerical}); and in MHD, where the relevant ratio is often
 the Alfv\'enic $M_A=u_{\rm rms}/v_A$ rather than the acoustic $M$
 \cite{2008Kahniashvili,2021Kahniashvili}.
