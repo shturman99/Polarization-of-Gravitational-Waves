@@ -44,3 +44,4 @@ src/outputs/*.npz
 *.snm
 *.vrb
 Notebooks/roperpol_ini2_data/
+Notebooks/roperpol_runs_data/
