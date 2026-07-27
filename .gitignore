@@ -43,3 +43,4 @@ src/outputs/*.npz
 *.nav
 *.snm
 *.vrb
+Notebooks/roperpol_ini2_data/

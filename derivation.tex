@@ -1127,6 +1127,41 @@ $k_0$, whereas the simulated peak---like the decaying kernel---lies above it. Th
 simulated GW spectrum therefore peaks where the decaying, source-scale picture predicts,
 not where the stationary sweeping picture does.
 
+\paragraph{Amplitude and efficiency.} The overall amplitude is a genuine efficiency, not a
+free normalisation: the saturated GW energy scales quadratically with the source energy,
+$\Omega_{\rm GW}\propto\Omega_{\rm M}^2$, times the square of the dominant length scale, so
+that on dimensional grounds $\Omega_{\rm GW}\sim\Omega_{\rm M}^2(\mathcal H_\ast/k_0)^2$ up to
+an $\mathcal O(1)$--$\mathcal O(10^2)$ prefactor that depends on the driving. From the run
+\texttt{ini2} spectra we measure a dimensionless efficiency
+$\Omega_{\rm GW}/\Omega_{\rm M}^2\simeq(2$--$6)\times10^{-5}$ (Fig.~\ref{fig:roperpol_timeseries}b),
+consistent with the digitized late-time value $1.7\times10^{-5}$ used to normalise
+Fig.~\ref{fig:roperpol_comparison}. Roper Pol et al.\ find the efficiency itself depends
+strongly on the driving---forced acoustic and forced magnetic turbulence radiate
+$\sim\!200\times$ and $\sim\!10\times$ more than an initially imposed, freely decaying field of
+the same energy---and that LISA detectability of electroweak-scale turbulence needs
+$\sim0.1$--$10\%$ of the plasma energy in motions or magnetic fields \cite{2019RoperPol}. This
+is why the amplitude is set by an energy fraction and a length scale, and why a decaying source
+(our and their \texttt{ini2} case) is the least efficient of the drivings.
+
+\paragraph{Steady oscillatory state.} A caveat on what ``the'' spectrum means here. After the
+magnetic source decays, GW \emph{production} stops but the modes do not: each GW mode free-rings
+at its frequency, so the spectrum shown (theirs and ours) is a \emph{late-time time-average}
+over at least one oscillation period, once the energy fluctuates about a steady mean rather than
+growing. Our reanalysis makes this concrete
+(Fig.~\ref{fig:roperpol_timeseries}b): $\Omega_{\rm GW,tot}$ becomes steady to $\pm4\%$ for
+$t>1.15$ while $\Omega_{\rm M,tot}$ is still falling. The stationary and decaying kernels of
+this paper both target this time-averaged steady state, not an instantaneous snapshot.
+
+\paragraph{Viscosity.} The simulations run at magnetic Prandtl number $\nu/\eta=1$ and at the
+smallest viscosity the resolution allows---far above the physical value---so their Reynolds
+number is modest. In our kernels this enters only as the inertial-range width
+$R=(k_d/k_0)^{4/3}$, which sets the dissipation cutoff $k_d$ and hence the upper end of the
+$k^{-11/3}$ tail; it does \emph{not} set the tail's slope, which is the Kolmogorov inertial-range
+value. Consistently, the decaying peak we compute drifts only from $2.40$ to $2.60$ as $R$ runs
+over $10^3$--$10^5$ (a dissipation-set peak would scale as $R^{3/4}$), confirming that the peak
+and the infrared are viscosity-insensitive and that viscosity is a purely ultraviolet,
+dissipation-range effect on the GW spectrum.
+
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\columnwidth]{roperpol_comparison}
@@ -1257,18 +1292,59 @@ steepening to $3$ as $p\to0$) and essentially \emph{independent of the decay rat
 $2.57$, $2.51$ for $\varepsilon_0=0,\,1,\,4$ [Fig.~\ref{fig:ir_resolution}]. The finite
 duration of a decaying source does not flatten the infrared.
 
-\paragraph{What the discrepancy points to.} The causal $k^3$ is therefore robust for
-incompressible, freely decaying hydrodynamic turbulence---the stationary, decaying, and
-self-similar kernels of this paper all give it. The simulated $k^1$ of \cite{2019RoperPol}
-must then originate in physics absent from this hydrodynamic, self-similar description, most
-plausibly the \emph{magnetic} dynamics of the MHD source: magnetic-helicity conservation
-drives an inverse transfer that grows and sustains a coherent large-scale field, so the
-magnetic stress can remain coherent over the emission window in a way a decaying Kolmogorov
-velocity field cannot. The shallow $k^1$ would then be a signature of a sustained, coherent
-(inverse-transferred) source. On this reading the analytic--simulation tension is genuine:
-restoring the finite duration of a decaying source does not remove it but localises the
-missing ingredient in the long-time coherence of the magnetic source---a target for a
-dedicated MHD calculation.
+\paragraph{Roper Pol's own explanation, and a time-domain reconciliation.}
+Before attributing the $k^1$ to physics missing from our kernels, it is worth taking
+seriously the explanation given by \cite{2019RoperPol} themselves, which is both simpler
+and---as we verify below---correct. They observe that the GW source is the \emph{quadratic}
+magnetic stress $\sim B_iB_j$, and that the spectrum of $B^2$ ``can never be steeper than
+that of white noise'': a causal (Batchelor) magnetic field with $E_M\propto k^4$ produces a
+stress spectrum that flattens to $E_T\propto k^2$ at large scales, and the GW spectrum
+inherits this white-noise ceiling rather than the naive causal $k^3$. This is the same
+convolution mechanism that makes our own white-noise model
+(Sec.~\ref{sec:white}, $E\propto k^2$) analytic in the infrared, read one power of $k$
+shallower.
+
+Crucially, \cite{2019RoperPol} add that the causal $k^3$ is not absent but \emph{transient}:
+a flat spectrum reaching arbitrarily large scales would be acausal, so at the very largest
+scales and earliest times the spectrum grows as $k^3$ before saturating to the flat $k^1$
+plateau, and this transition ``is much shorter than the time it takes for the GW spectrum to
+become stationary.'' We confirm this directly by reanalysing the public time-resolved spectra
+of their run \texttt{ini2} (Fig.~\ref{fig:roperpol_timeseries}; data from
+\cite{2019RoperPol} via Zenodo). At source switch-on the infrared slope is the causal
+$\Omega_{\rm GW}\sim k^{3}$ (measured $k^{3.3}$ at $t=1.00$), and within $\Delta t\sim0.02$
+it flattens to the saturated $\Omega_{\rm GW}\sim k^{1}$ shown in the paper's Fig.~1. The
+total GW energy then fluctuates about a constant mean---the ``steady oscillatory state'' of
+the freely ringing GW field---while the magnetic energy keeps decaying; and the magnetic
+peak $k_0(t)$ migrates to smaller $k$, the signature of the helical inverse transfer.
+
+\paragraph{What the discrepancy points to.} This reframes the tension considerably. The
+causal $k^3$ of our quasi-stationary and self-similar kernels is not contradicted by the
+simulation: it is the early-time transient, and the discrepancy with the simulated $k^1$ is a
+comparison of an \emph{asymptotic} analytic slope with a \emph{time-saturated} simulated one
+(the same axis mismatch anticipated for the finite-window band, Sec.~\ref{sec:cps-reproduction}).
+Two ingredients set the saturated slope---the white-noise ceiling of the quadratic stress, and
+the sustained coherence of the inverse-transferred magnetic field visible in
+Fig.~\ref{fig:roperpol_timeseries}---neither of which is captured by a single-time
+hydrodynamic kernel. The honest statement is therefore weaker than a genuine failure of
+causality and stronger than a mere convention: our kernels give the correct transient
+infrared, and reproducing the stationary $k^1$ requires following the source through its
+saturation, a target for a dedicated time-dependent MHD calculation.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\columnwidth]{roperpol_timeseries}
+  \caption{Time-series reanalysis of the Roper Pol et al.~\cite{2019RoperPol} run
+  \texttt{ini2} (public Pencil Code spectra, Zenodo 10.5281/zenodo.3692072), the run of their
+  Fig.~1. \emph{(a)}~The GW energy spectrum $E_{\rm GW}=\Omega_{\rm GW}/k$ at successive times:
+  at switch-on ($t\simeq1.0$) the infrared follows the causal $E_{\rm GW}\sim k^2$
+  ($\Omega_{\rm GW}\sim k^3$) and within $\Delta t\sim0.02$ saturates to the flat plateau
+  ($\Omega_{\rm GW}\sim k^1$) of their Fig.~1. \emph{(b)}~Total energies versus time: the GW
+  energy rises while the source acts, then fluctuates about a steady mean (grey band; the
+  ``steady oscillatory state''), while the magnetic energy keeps decaying; the right axis (green)
+  shows the measured GW infrared slope crossing from the causal $k^3$ to the saturated $k^1$.
+  Generated by \texttt{Notebooks/roperpol\_timeseries.py}, which auto-downloads the data.}
+  \label{fig:roperpol_timeseries}
+\end{figure}
 
 \begin{figure}[ht]
   \centering
@@ -1515,7 +1591,29 @@ Take the spatial part of $R_{ij}$ to be a $\delta^{(3)}(\br)$, with velocity var
   \tilde F_{ij}(\kb,\omega) = v_0^2\,P_{ij}(\khat)\,\widetilde T(\eta_k,\omega),
   \label{eq:Fwhite}
 \end{equation}
-so $A(k)=v_0^2$ is $k$-independent (i.e.\ $E(k)\propto k^2$, ultraviolet-dominated); the integrals must be cut off between $k_0$ and $k_d$. Crucially, we adopt the same $k$-dependent sweeping rate as in Sec.~\ref{sec:kraichnan-k41}, $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}=\tfrac{M}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, so that $\widetilde T$ depends on the wavenumber and the temporal factor no longer decouples from the spatial integral. With $A(k_1)=A(u)=v_0^2$ in Eq.~\eqref{eq: H-after-r} and dimensionless variables $z=k_1/k_0$, $y=u/k_0$, $p=k/k_0$, $q=\omega/k_0$, $R^{3/4}=k_d/k_0$,
+so $A(k)=v_0^2$ is $k$-independent (i.e.\ $E(k)\propto k^2$, ultraviolet-dominated); the integrals must be cut off between $k_0$ and $k_d$.
+
+\paragraph{Physical relevance: an uncorrelated magnetic field.}
+This model is not merely a mathematical limit. It is the natural description of a
+\emph{spatially uncorrelated} source---a magnetic field with no correlation beyond a
+microscopic scale, $\langle B_i(\br_1)B_j(\br_2)\rangle\propto\delta^{(3)}(\br_1-\br_2)$,
+which is exactly the kind of field left by an uncorrelated causal process at a phase
+transition. A natural question, and one the user of such a model should confront, is how a
+source that is uncorrelated at large scales can radiate a \emph{correlated} gravitational-wave
+signal there at all. The answer is that the GW source is not $B$ but the \emph{quadratic}
+stress $T_{ij}\sim B_iB_j$, whose two-point function is a \emph{convolution} of two field
+spectra [Eqs.~\eqref{eq: H-after-r}--\eqref{eq: H-convolution}]. The convolution of two
+structureless (white) spectra is not white: as $k\to0$ its value tends to the finite constant
+$\int\!d^3q\,P_B(q)^2$, so the stress---and hence the GW spectrum---is smooth and analytic in
+the infrared even though the field is not. Large-scale correlation of the \emph{signal} is
+manufactured by the quadratic coupling, and its correlation length is set by the convolution,
+not by the (vanishing) correlation length of $B$. This is the same $1/p$ pole and shell--shell
+convolution that governs the universal infrared theorem (Eq.~\eqref{eq:stress-convolution-1d}),
+and it is why a causal (Batchelor $E_M\propto k^4$) magnetic field yields a GW spectrum whose
+stress cannot be steeper than white noise---the mechanism \cite{2019RoperPol} invoke for the
+flat plateau of their Fig.~1 (Sec.~\ref{sec:principal-discrepancy}).
+
+Crucially, we adopt the same $k$-dependent sweeping rate as in Sec.~\ref{sec:kraichnan-k41}, $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}=\tfrac{M}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, so that $\widetilde T$ depends on the wavenumber and the temporal factor no longer decouples from the spatial integral. With $A(k_1)=A(u)=v_0^2$ in Eq.~\eqref{eq: H-after-r} and dimensionless variables $z=k_1/k_0$, $y=u/k_0$, $p=k/k_0$, $q=\omega/k_0$, $R^{3/4}=k_d/k_0$,
 \begin{equation}
   H_{ijij}(\kb,\omega) = \frac{v_0^4 k_0^2}{(2\pi)^7}\!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,J(\omega;k_1,u),
   \qquad
