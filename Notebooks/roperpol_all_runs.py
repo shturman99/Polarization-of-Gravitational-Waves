@@ -176,14 +176,19 @@ def fig_gallery():
     print(f"saved {out}")
 
 
-def fig_gallery_fixed(which="gw"):
-    """4x3 gallery with SHARED (identical) x and y axes across all panels, so the
-    runs are directly comparable in amplitude and peak position.
+# Common target times: all 12 runs overlap only on t in [1.0, 1.17] (the shortest
+# runs, hel1/ac2, end at 1.17), so equal-time snapshots must be taken there.
+_COMMON_TIMES = (1.02, 1.06, 1.10, 1.15)
+
+
+def fig_gallery_fixed(which="gw", times=_COMMON_TIMES):
+    """4x3 gallery with SHARED (identical) x and y axes across all panels AND the
+    spectra taken at the SAME absolute times in every run (closest available
+    snapshot to each target in `times`), so panels are comparable both in scale
+    and in evolutionary stage.
 
     which="gw"     -> GW spectrum E_GW(k)=Omega_GW/k
     which="source" -> source spectrum (magnetic for M/F runs, kinetic for ac runs)
-    Both use the same k-axis; each uses a fixed y-window spanning the peaks plus a
-    physical tail (the deep noise floors of the forced runs fall off the bottom).
     """
     apply_paper_style(grid=False)
     if which == "gw":
@@ -199,34 +204,37 @@ def fig_gallery_fixed(which="gw"):
 
     fig, axes = plt.subplots(4, 3, figsize=(8.0, 9.3), sharex=True, sharey=True,
                              constrained_layout=True)
+    shades = np.linspace(0.30, 0.95, len(times))
     kmax = 575.0
+    max_dt = 0.0
     for ax, run in zip(axes.flat, RUNS):
         kk, tG, EGk, ESk = load(run)
         cls = RUNS[run][1]
         base = _CLASS_COLOR[cls]
         E = pick(EGk, ESk)
-        idx = np.linspace(0, len(tG) - 1, 4).astype(int)
-        shades = np.linspace(0.30, 0.95, len(idx))
-        for j, i in enumerate(idx):
+        for j, ttarget in enumerate(times):
+            i = int(np.argmin(np.abs(tG - ttarget)))       # closest available snapshot
+            max_dt = max(max_dt, abs(tG[i] - ttarget))
             y = E[i].astype(float).copy()
             y[y <= 0] = np.nan
-            ax.loglog(kk, y, color=base, alpha=shades[j], lw=1.0)
+            ax.loglog(kk, y, color=base, alpha=shades[j], lw=1.0,
+                      label=rf"$t={ttarget:.2f}$")
         k0 = kk[np.argmax(ESk[-1])]
         ax.axvline(k0, color="0.7", lw=0.6, ls=":")
         ax.set_title(rf"\texttt{{{run}}} ({cls})", fontsize=8)
         ax.tick_params(labelsize=6.5)
         kmax = kk.max()
-    # shared limits (sharex/sharey -> setting one sets all)
     axes[0, 0].set_xlim(1.2, 1.15 * kmax)
     axes[0, 0].set_ylim(*ylim)
+    axes[0, 0].legend(fontsize=5.5, frameon=False, loc="lower left", handlelength=1.0)
     for ax in axes[-1, :]:
         ax.set_xlabel(r"$k$", fontsize=9)
     for ax in axes[:, 0]:
         ax.set_ylabel(ylab, fontsize=8)
-    fig.suptitle(ttl + r"  ---  fixed (shared) axes; shade $=$ time, dotted $=k_0$",
-                 fontsize=9)
+    fig.suptitle(ttl + r"  ---  fixed axes, same times $t=1.02,1.06,1.10,1.15$; "
+                 r"dotted $=k_0$", fontsize=9)
     out = save_figure(fig, name)
-    print(f"saved {out}")
+    print(f"saved {out}  (max |t_snapshot - t_target| across runs = {max_dt:.3f})")
 
 
 def fig_source_gw_gallery():
