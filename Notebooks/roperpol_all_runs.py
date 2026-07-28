@@ -176,6 +176,59 @@ def fig_gallery():
     print(f"saved {out}")
 
 
+def fig_gallery_fixed(which="gw"):
+    """4x3 gallery with SHARED (identical) x and y axes across all panels, so the
+    runs are directly comparable in amplitude and peak position.
+
+    which="gw"     -> GW spectrum E_GW(k)=Omega_GW/k
+    which="source" -> source spectrum (magnetic for M/F runs, kinetic for ac runs)
+    Both use the same k-axis; each uses a fixed y-window spanning the peaks plus a
+    physical tail (the deep noise floors of the forced runs fall off the bottom).
+    """
+    apply_paper_style(grid=False)
+    if which == "gw":
+        pick = lambda EGk, ESk: EGk
+        ylab = r"$E_{\rm GW}(k)=\Omega_{\rm GW}/k$"
+        ylim = (1e-16, 1e-7)
+        name, ttl = "roperpol_gw_gallery_fixed", "GW spectra"
+    else:
+        pick = lambda EGk, ESk: ESk
+        ylab = r"$\Omega_{\rm src}/k$  (magnetic / kinetic)"
+        ylim = (1e-9, 1e-1)
+        name, ttl = "roperpol_source_gallery_fixed", "source (magnetic / kinetic) spectra"
+
+    fig, axes = plt.subplots(4, 3, figsize=(8.0, 9.3), sharex=True, sharey=True,
+                             constrained_layout=True)
+    kmax = 575.0
+    for ax, run in zip(axes.flat, RUNS):
+        kk, tG, EGk, ESk = load(run)
+        cls = RUNS[run][1]
+        base = _CLASS_COLOR[cls]
+        E = pick(EGk, ESk)
+        idx = np.linspace(0, len(tG) - 1, 4).astype(int)
+        shades = np.linspace(0.30, 0.95, len(idx))
+        for j, i in enumerate(idx):
+            y = E[i].astype(float).copy()
+            y[y <= 0] = np.nan
+            ax.loglog(kk, y, color=base, alpha=shades[j], lw=1.0)
+        k0 = kk[np.argmax(ESk[-1])]
+        ax.axvline(k0, color="0.7", lw=0.6, ls=":")
+        ax.set_title(rf"\texttt{{{run}}} ({cls})", fontsize=8)
+        ax.tick_params(labelsize=6.5)
+        kmax = kk.max()
+    # shared limits (sharex/sharey -> setting one sets all)
+    axes[0, 0].set_xlim(1.2, 1.15 * kmax)
+    axes[0, 0].set_ylim(*ylim)
+    for ax in axes[-1, :]:
+        ax.set_xlabel(r"$k$", fontsize=9)
+    for ax in axes[:, 0]:
+        ax.set_ylabel(ylab, fontsize=8)
+    fig.suptitle(ttl + r"  ---  fixed (shared) axes; shade $=$ time, dotted $=k_0$",
+                 fontsize=9)
+    out = save_figure(fig, name)
+    print(f"saved {out}")
+
+
 def fig_source_gw_gallery():
     """4x3 grid, one panel per run, showing BOTH spectra together (Roper Pol Fig.1
     style): the source (magnetic or kinetic, grey) and the GW spectrum (class
@@ -249,6 +302,8 @@ def fig_energy():
 def main():
     fig_gallery()
     fig_source_gw_gallery()
+    fig_gallery_fixed("gw")
+    fig_gallery_fixed("source")
     fig_energy()
 
 
