@@ -2528,202 +2528,472 @@ to be flagged, and are not anomalies.
 \end{figure}
 
 
+\subsection{All nine kernels side by side}
+\label{sec:kernel-grid}
+
+Figure~\ref{fig:kernel_comparison_grid} places every entry of
+Table~\ref{tab:model-grid} on one figure, at matched parameters, with the
+abscissa in units of the initial-power peak $k_0$ throughout. The comparison is
+organised by a single control common to all nine panels, the source coherence
+time in units of the light-crossing time of the source scale,
+\begin{equation}
+  \hat\tau \;\equiv\; \tau_c\,k_0 ,
+  \qquad
+  \omega\tau_c\big|_{\omega=k}=p\,\hat\tau ,
+  \label{eq:that}
+\end{equation}
+so that the dimensionless temporal argument of every kernel is the same
+function $p\hat\tau$ of the plotted abscissa. For the sweeping models
+$\tau_c=\tau_{k_0}=\sqrt{2\pi}/(Mk_0)$, i.e.\ $M=\sqrt{2\pi}/\hat\tau$; for the
+finite burst $\tau_c=\Delta t$, giving the low-pass $|\tilde
+g|^2=e^{-p^2\hat\tau^2}$ of Eq.~\eqref{eq:rs2-spectrum-dt}. The stationary and
+time-independent kernels ($T_{\rm sw}$, $T_{\rm imp}$) carry a single line at
+$\hat\tau=1$; the time-dependent ones ($T_{\rm dec}$, $T_{\rm burst}$) are shown
+at $\hat\tau=0.01,0.1,1,10,100$.
+
+Three things are visible at a glance, and each is the graphical form of a
+statement made analytically above.
+
+\emph{The infrared is set by the spatial model alone.} Every $S_{\rm K41}$,
+$S_{\rm full}$ and $S_{\delta r}$ panel sits on $p^{3}$ ($2.91$--$3.00$
+measured) regardless of which temporal model multiplies it and regardless of
+$\hat\tau$, while every $S_{\delta k}$ panel sits on $p^{2}$ ($1.91$--$2.00$).
+The one power of difference is the $1/p$ pole of $\mathcal{K}_0(p)/p$ carried by
+a zero-width source, the $\delta$-function exception to the universal infrared
+theorem of Sec.~\ref{sec:cps-reproduction}. Changing $\hat\tau$ by four decades
+moves the infrared amplitude but never its slope, which is
+Eq.~\eqref{AR:IR} restated: as $p\to0$ the temporal factor tends to a constant
+[$\mathcal{C}(0)=6$, Eq.~\eqref{A:Climits}] and cannot alter the infrared
+scaling.
+
+\emph{The ultraviolet is set by the temporal model alone.} Only the three
+$T_{\rm dec}$ panels have a power-law tail, inherited from the
+$\bar q^{-2}$ cusp tail of Eq.~\eqref{eq:cosT-limits}; the sweeping and burst
+kernels cut off as Gaussians, for which a fitted log-log slope is a property of
+the fitting window and not of the model, and is therefore reported as
+``Gaussian'' rather than as a number. The monochromatic panels terminate
+at $p=2$ on the triangle inequality $\Theta(2-p)$ instead.
+
+\emph{The peak responds to both, and in opposite ways.} At $\hat\tau=1$ the
+peaks cluster at $p_{\rm pk}=2.0$--$3.2$, i.e.\ at the source scale. Lengthening
+the coherence time drives them apart: the $T_{\rm burst}$ peak slides down as
+$p_{\rm pk}\simeq1/\hat\tau$, the duration-limited branch of
+Eq.~\eqref{eq:rs2-fpeak-dt}, whereas the $T_{\rm dec}$ peaks stay pinned near
+the source scale because the heavy $\bar q^{-2}$ tail keeps supplying power at
+$\omega=k$ (Sec.~\ref{sec:decaying-peak}). $H[S_{\delta r},T_{\rm dec}]$ has no
+peak at all in the plotted range: a white spatial source is ultraviolet
+dominated by construction ($E\propto k^{2}$) and its maximum is set by the
+dissipation cutoff $R^{3/4}$, not by any dynamical scale, which is why the
+panel is labelled UV-limited rather than assigned a peak.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\columnwidth]{kernel_comparison_grid}
+  \caption{The nine kernels of Table~\ref{tab:model-grid} at matched
+  parameters, $\Omega_{\rm GW}(p)\propto p^{3}H[S,T](p,p)$ on the sound-cone
+  diagonal, $p=k/k_0$, at $R=10^{4}$ (and $R_{\rm IR}=10^{2}$ with a Batchelor
+  infrared band for $S_{\rm full}$). Rows group the temporal model: sweeping
+  (top), decaying (middle), and the full-spectrum, impulsive and burst cases
+  (bottom). Curves are indexed by $\hat\tau=\tau_ck_0$ of Eq.~\eqref{eq:that};
+  stationary and time-independent kernels carry the single reference line
+  $\hat\tau=1$ (equivalently $M=\sqrt{2\pi}=2.51$ for the sweeping panels), the
+  time-dependent ones the five values $\hat\tau=0.01,0.1,1,10,100$
+  (equivalently $M=251,25.1,2.51,0.251,0.0251$; the small-$\hat\tau$ members are
+  formal extrapolations past the luminal limit, retained as in
+  Fig.~\ref{fig:stationary_mach_peak} to expose the scaling). Each panel is
+  normalised by its own maximum over all its curves, since the boxed kernels
+  drop different dimensional prefactors and absolute amplitudes are not
+  comparable between panels; within a panel the $\hat\tau$ dependence of the
+  amplitude is preserved. All nine panels share identical axes, set from the
+  data so that the peak of every curve is on scale: the floor lies four decades
+  below the faintest peak (the $\hat\tau=100$ member of
+  $H[S_{\rm K41},T_{\rm dec}]$, suppressed as $M^{4}$ by
+  Eq.~\eqref{eq:decay-amplitude}), which costs $24$ decades of ordinate. The
+  deep dives of the Gaussian-cutoff kernels leave the frame by design and
+  carry no information: the $\hat\tau=100$ burst reaches $10^{-277}$ before the
+  triangle inequality terminates it. Dots mark peaks, the dotted grey line is
+  the causal $p^{3}$ reference, and the annotations give the measured infrared
+  slope, the ultraviolet behaviour and the peak of the $\hat\tau=1$ curve.
+  Generated by \texttt{Notebooks/kernel\_comparison\_grid.py}.}
+  \label{fig:kernel_comparison_grid}
+\end{figure}
+
+\clearpage
 \appendix
 \section{Table of symbols}
 \label{sec:symbols}
 
-% \begingroup
-% \renewcommand{\arraystretch}{1.25}
-% \begin{longtable}{@{}p{0.15\textwidth} p{0.63\textwidth} p{0.18\textwidth}@{}}
-% \caption{Symbols used in this paper. Glyphs flagged \textbf{[MULTI]} carry more
-% than one meaning depending on the case and are disambiguated in place.}
-% \label{tab:variables}\\
-% \hline\hline
-% Symbol & Definition & Introduced \\
-% \hline
-% \endfirsthead
-% \hline\hline
-% Symbol & Definition & Introduced \\
-% \hline
-% \endhead
-% \hline
-% \endfoot
-% \hline\hline
-% \endlastfoot
+\begingroup
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{@{}p{0.15\textwidth} p{0.63\textwidth} p{0.18\textwidth}@{}}
+\caption{Symbols used in this paper. Glyphs flagged \textbf{[MULTI]} carry more
+than one meaning depending on the case and are disambiguated in place.}
+\label{tab:variables}\\
+\hline\hline
+Symbol & Definition & Introduced \\
+\hline
+\endfirsthead
+\hline\hline
+Symbol & Definition & Introduced \\
+\hline
+\endhead
+\hline
+\endfoot
+\hline\hline
+\endlastfoot
 
-% \multicolumn{3}{@{}l}{\emph{Gravitational-wave field and source}}\\
-% $h_{ij}$              & Transverse--traceless metric (strain) perturbation & \eqref{eq:metric-tt}\\
-% $h_c(p)$              & Characteristic strain, $h_c^2(p)=p\,H(p,p)$ & \eqref{eq:omega-diag}\\
-% $\Pi_{ij}^{\rm TT}$   & TT part of the anisotropic (Reynolds) stress source & \eqref{eq:source-tt}\\
-% $\Lambda_{ij,lm}$     & TT projection operator, $P_{il}P_{jm}-\tfrac12P_{ij}P_{lm}$ & \eqref{eq:source-tt}\\
-% $P_{ij}$              & Transverse projector, $\delta_{ij}-\hat k_i\hat k_j$ & \eqref{eq:source-tt}\\
-% $T_{lm}$              & Reynolds stress, $T_{lm}=w\,v_lv_m$ & \eqref{eq:source-tt}\\
-% $w$                   & Enthalpy density, $w=\bar\rho+\bar p$ & \eqref{eq:source-tt}\\
-% $v_i$                 & Turbulent (incompressible) velocity field & \eqref{eq:source-tt}\\
-% $\rho_{\rm GW}$       & GW energy density (Isaacson), $\langle\dot h_{ij}\dot h_{ij}\rangle/32\pi G$ & \eqref{A:uetc}\\
-% $\Pi(k;\tau_1,\tau_2)$ & Unequal-time correlator (UETC) of the TT stress & \eqref{eq:uetc}\\
-% $\widetilde\Pi(k,\omega)$ & Temporal transform of the UETC, $=H_{ijij}$ for a stationary source & \eqref{A:stationary}\\
-% $G$                   & Newton's gravitational constant & \eqref{eq:gw-wave}\\
-% $c$                   & Speed of light; set to $1$ only when evaluating numerically & \eqref{eq:appA-dimless}\\
-% $\Omega_{\rm GW}(p)$  & GW energy spectrum, $d\rho_{\rm GW}/d\ln k$ (dimensionless) & \eqref{eq:omega-diag}\\
-% $\Omega_{\rm M}$      & Magnetic (source) energy fraction; $M\simeq\sqrt{\Omega_{\rm M}}$ & \eqref{eq:omega-over-k}\\
-% $\Omega_K$            & Kinetic-energy fraction of the source & Sec.~\ref{sec:framework-shape}\\
-% $H_{ijij}(\kb,\omega)$ & Contracted source spatio-temporal correlator (the GW kernel) & \eqref{eq: main}\\
-% $H[S,T](p,q;M,R)$     & The kernel labelled by its (spatial, temporal) model pair & \eqref{eq:kernel-notation}\\
-% $A^{\rm TT}_{ij}(\kb)$ & Spatial amplitude of an impulsive burst & \eqref{eq:impulsive-stress}\\
-% $P(k)$                & Spatial power of the burst amplitude & \eqref{eq:Pk-impulsive}\\
-% $T_{\rm src}$         & Source duration (statistically stationary case) & \eqref{A:stationary}\\
-% $T_{\rm em}$          & Finite emission window of the self-similar source & \eqref{eq:duration-kernel}\\
+\multicolumn{3}{@{}l}{\emph{Gravitational-wave field and source}}\\
+$h_{ij}$              & Transverse--traceless metric (strain) perturbation & \eqref{eq:metric-tt}\\
+$h_c(p)$              & Characteristic strain, $h_c^2(p)=p\,H(p,p)$ & \eqref{eq:omega-diag}\\
+$\Pi_{ij}^{\rm TT}$   & TT part of the anisotropic (Reynolds) stress source & \eqref{eq:source-tt}\\
+$\Lambda_{ij,lm}$     & TT projection operator, $P_{il}P_{jm}-\tfrac12P_{ij}P_{lm}$ & \eqref{eq:source-tt}\\
+$P_{ij}$              & Transverse projector, $\delta_{ij}-\hat k_i\hat k_j$ & \eqref{eq:source-tt}\\
+$T_{lm}$              & Reynolds stress, $T_{lm}=w\,v_lv_m$ & \eqref{eq:source-tt}\\
+$w$                   & Enthalpy density, $w=\bar\rho+\bar p$ & \eqref{eq:source-tt}\\
+$v_i$                 & Turbulent (incompressible) velocity field & \eqref{eq:source-tt}\\
+$\rho_{\rm GW}$       & GW energy density (Isaacson), $\langle\dot h_{ij}\dot h_{ij}\rangle/32\pi G$ & \eqref{AR:L}\\
+$\Pi(k;\tau_1,\tau_2)$ & Unequal-time correlator (UETC) of the TT stress & \eqref{eq:uetc}\\
+$\widetilde\Pi(k,\omega)$ & Temporal transform of the UETC, $=H_{ijij}$ for a stationary source & \eqref{A:stationary}\\
+$G$                   & Newton's gravitational constant & \eqref{eq:gw-wave}\\
+$c$                   & Speed of light; set to $1$ only when evaluating numerically & \eqref{eq:appA-dimless}\\
+$\Omega_{\rm GW}(p)$  & GW energy spectrum, $d\rho_{\rm GW}/d\ln k$ (dimensionless) & \eqref{eq:omega-diag}\\
+$\Omega_{\rm M}$      & Magnetic (source) energy fraction; $M\simeq\sqrt{\Omega_{\rm M}}$ & \eqref{eq:omega-over-k}\\
+$\Omega_K$            & Kinetic-energy fraction of the source & Sec.~\ref{sec:framework-shape}\\
+$H_{ijij}(\kb,\omega)$ & Contracted source spatio-temporal correlator (the GW kernel) & \eqref{eq: main}\\
+$H[S,T](p,q;M,R)$     & The kernel labelled by its (spatial, temporal) model pair & \eqref{eq:kernel-notation}\\
+$A^{\rm TT}_{ij}(\kb)$ & Spatial amplitude of an impulsive burst & \eqref{eq:impulsive-stress}\\
+$P(k)$                & Spatial power of the burst amplitude & \eqref{eq:Pk-impulsive}\\
+$T_{\rm src}$         & Source duration (statistically stationary case) & \eqref{A:stationary}\\
+$T_{\rm em}$          & Finite emission window of the self-similar source & \eqref{eq:duration-kernel}\\
 
-% \multicolumn{3}{@{}l}{\emph{Model grid (Sec.~\ref{sec:model-space})}}\\
-% $S_{\rm K41}$         & Kolmogorov inertial range, $E(k)\propto k^{-5/3}$ on $k_0<k<k_d$ & Sec.~\ref{sec:kraichnan-k41}\\
-% $S_{\delta k}$        & Monochromatic spatial source, $E(k)=E_0\delta(k-k_0)$ & \eqref{eq:Fij-delta-k}\\
-% $S_{\delta r}$        & Real-space white noise, $R_{ij}\propto\delta^{(3)}(\br)$, i.e.\ $E(k)\propto k^2$ & \eqref{eq:Fwhite}\\
-% $S_{\rm full}$        & Batchelor/Saffman infrared band joined to the Kolmogorov range & \eqref{eq:full-input-spectrum}\\
-% $T_{\rm sw}$          & Kraichnan sweeping: Gaussian in the time difference & \eqref{eq:Fij-iso}\\
-% $T_{\rm dec}$         & BK2016 decaying turbulence: power law $(1+|\tau|/\tau_k)^{-2/3}$ & \eqref{A:decf}\\
-% $T_{\rm imp}$         & Impulsive, $\delta$-correlated in time & \eqref{eq:impulsive-stress}\\
-% $T_{\rm burst}$       & Source of finite duration $\Delta t$ & \eqref{eq:rs2-spectrum-dt}\\
+\multicolumn{3}{@{}l}{\emph{Model grid (Sec.~\ref{sec:model-space})}}\\
+$S_{\rm K41}$         & Kolmogorov inertial range, $E(k)\propto k^{-5/3}$ on $k_0<k<k_d$ & Sec.~\ref{sec:kraichnan-k41}\\
+$S_{\delta k}$        & Monochromatic spatial source, $E(k)=E_0\delta(k-k_0)$ & \eqref{eq:Fij-delta-k}\\
+$S_{\delta r}$        & Real-space white noise, $R_{ij}\propto\delta^{(3)}(\br)$, i.e.\ $E(k)\propto k^2$ & \eqref{eq:Fwhite}\\
+$S_{\rm full}$        & Batchelor/Saffman infrared band joined to the Kolmogorov range & \eqref{eq:full-input-spectrum}\\
+$T_{\rm sw}$          & Kraichnan sweeping: Gaussian in the time difference & \eqref{eq:Fij-iso}\\
+$T_{\rm dec}$         & BK2016 decaying turbulence: power law $(1+|\tau|/\tau_k)^{-2/3}$ & \eqref{A:decf}\\
+$T_{\rm imp}$         & Impulsive, $\delta$-correlated in time & \eqref{eq:impulsive-stress}\\
+$T_{\rm burst}$       & Source of finite duration $\Delta t$ & \eqref{eq:rs2-spectrum-dt}\\
 
-% \multicolumn{3}{@{}l}{\emph{Background / cosmology}}\\
-% $a(\tau)$             & FLRW scale factor & \eqref{eq:metric-tt}\\
-% $\tau$\;[MULTI]       & Conformal time.\quad\textbf{[also:} time lag $\tau=\tau_1-\tau_2$ in UETCs/decorrelation\textbf{]} & \eqref{eq:metric-tt}\\
-% $\Delta\tau$          & Time lag $\tau_1-\tau_2$ in the master integral & \eqref{eq:master}\\
-% $H_\ast$, $\mathcal{H}_\ast$ & Hubble rate at GW production (physical, conformal) & \eqref{eq:fH}\\
-% $f_H$                 & Hubble frequency today, $f_H=H_\ast(a_\ast/a_0)$ & \eqref{eq:fH}\\
-% $f$, $f_0$            & Observed GW frequency; stirring-scale frequency, $f=f_0\,p$ & \eqref{eq:f0}\\
-% $\gamma$              & Largest-eddy size in Hubble radii, $\gamma\equiv l_0H_\ast$; $\hat k_0=2\pi/\gamma$ & \eqref{eq:f0}\\
-% $\hat\omega$, $\hat k$ & Frequency/wavenumber in Hubble units, $\hat\omega=\omega/H_\ast$ & \eqref{eq:fH}\\
+\multicolumn{3}{@{}l}{\emph{Background / cosmology}}\\
+$a(\tau)$             & FLRW scale factor & \eqref{eq:metric-tt}\\
+$\tau$\;[MULTI]       & Conformal time.\quad\textbf{[also:} time lag $\tau=\tau_1-\tau_2$ in UETCs/decorrelation\textbf{]} & \eqref{eq:metric-tt}\\
+$\Delta\tau$          & Time lag $\tau_1-\tau_2$ in the master integral & \eqref{eq:master}\\
+$H_\ast$, $\mathcal{H}_\ast$ & Hubble rate at GW production (physical, conformal) & \eqref{eq:fH}\\
+$f_H$                 & Hubble frequency today, $f_H=H_\ast(a_\ast/a_0)$ & \eqref{eq:fH}\\
+$f$, $f_0$            & Observed GW frequency; stirring-scale frequency, $f=f_0\,p$ & \eqref{eq:f0}\\
+$\gamma$              & Largest-eddy size in Hubble radii, $\gamma\equiv l_0H_\ast$; $\hat k_0=2\pi/\gamma$ & \eqref{eq:f0}\\
+$\hat\omega$, $\hat k$ & Frequency/wavenumber in Hubble units, $\hat\omega=\omega/H_\ast$ & \eqref{eq:fH}\\
 
-% \multicolumn{3}{@{}l}{\emph{Spatial turbulence spectrum}}\\
-% $R_{ij}(\br,\tau)$    & Real-space two-point velocity correlator & \eqref{A:pairs}\\
-% $F_{ij}(\kb,\tau)$    & Spectral (Fourier) two-point velocity correlator & \eqref{eq:Fij-iso}\\
-% $A(k)$                & Spectral amplitude, $A(k)=E(k)/4\pi k^2$ & \eqref{eq:Fij-iso}\\
-% $E(k)$, $E_k$         & Kinetic energy spectrum; $E_k=C_k\varepsilon^{2/3}k^{-5/3}$ (Kolmogorov) & \eqref{eq: g-def}\\
-% $E_0$                 & Total energy of the monochromatic source, $\int_0^\infty\!E(k)\,dk=E_0$ & \eqref{eq:Fij-delta-k}\\
-% $v_0^2$               & Velocity variance of the white-noise source & \eqref{eq:Fwhite}\\
-% $C_k$                 & Kolmogorov constant & \eqref{eq:Fij-iso}\\
-% $\varepsilon$         & Turbulent energy dissipation (cascade) rate; $\varepsilon=c^3M^3k_0$ & \eqref{eq:Fij-iso}\\
-% $\mathcal{K}(k,k_1,u)$ & Geometric (tensor-contraction) kernel & \eqref{eq: K-kernel}\\
-% $\widetilde{\mathcal{K}}$ & $\mathcal{K}$ in dimensionless arguments (homogeneous of degree zero) & \eqref{eq: H-compact}\\
-% $\mathcal{K}_0(p)$    & Monochromatic geometric kernel, $\tfrac{14}{3}-\tfrac{p^2}{3}+\tfrac{p^4}{12}$ & \eqref{eq:K0}\\
-% $\Theta$              & Heaviside step (triangle-inequality constraint $p\le2$) & \eqref{eq:angular-delta}\\
-% $\Sigma(r)$           & Real-space stress correlator, $\langle\mathcal{S}_{ij}(\br_1)\mathcal{S}_{ij}(\br_2)\rangle$ & \eqref{eq:rs2-spectrum}\\
-% $\mathcal{S}_{ij}(\br)$ & Spatial profile of the real-space burst source & \eqref{A:rsburst}\\
-% $\ell$                & Spatial coherence length of $\Sigma(r)$ & \eqref{eq:rs2-fpeak-dt}\\
+\multicolumn{3}{@{}l}{\emph{Spatial turbulence spectrum}}\\
+$F_{ij}(\kb,\tau)$    & Spectral (Fourier) two-point velocity correlator & \eqref{eq:Fij-iso}\\
+$A(k)$                & Spectral amplitude, $A(k)=E(k)/4\pi k^2$ & \eqref{eq:Fij-iso}\\
+$E(k)$, $E_k$         & Kinetic energy spectrum; $E_k=C_k\varepsilon^{2/3}k^{-5/3}$ (Kolmogorov) & \eqref{eq: g-def}\\
+$E_0$                 & Total energy of the monochromatic source, $\int_0^\infty\!E(k)\,dk=E_0$ & \eqref{eq:Fij-delta-k}\\
+$v_0^2$               & Velocity variance of the white-noise source & \eqref{eq:Fwhite}\\
+$C_k$                 & Kolmogorov constant & \eqref{eq:Fij-iso}\\
+$\varepsilon$         & Turbulent energy dissipation (cascade) rate; $\varepsilon=c^3M^3k_0$ & \eqref{eq:Fij-iso}\\
+$\mathcal{K}(k,k_1,u)$ & Geometric (tensor-contraction) kernel & \eqref{eq: K-kernel}\\
+$\widetilde{\mathcal{K}}$ & $\mathcal{K}$ in dimensionless arguments (homogeneous of degree zero) & \eqref{eq: H-compact}\\
+$\mathcal{K}_0(p)$    & Monochromatic geometric kernel, $\tfrac{14}{3}-\tfrac{p^2}{3}+\tfrac{p^4}{12}$ & \eqref{eq:K0}\\
+$\Theta$              & Heaviside step (triangle-inequality constraint $p\le2$) & \eqref{eq:angular-delta}\\
+$\mathcal{S}_{ij}(\br)$ & Spatial profile of the real-space burst source & \eqref{A:rsburst}\\
+$\ell$                & Spatial coherence length of $\Sigma(r)$ & \eqref{eq:rs2-fpeak-dt}\\
 
-% \multicolumn{3}{@{}l}{\emph{Wavenumbers}}\\
-% $k$                   & GW / Fourier wavenumber magnitude & \eqref{eq: main}\\
-% $k_0$, $k_\ast$       & Outer (integral / stirring) scale wavenumber & \eqref{eq:Hijij-AppA}\\
-% $k_d$                 & Dissipation-scale wavenumber, $k_d/k_0=R^{3/4}$ & \eqref{eq:appA-dimless}\\
-% $k_1$                 & First source wavevector magnitude & \eqref{eq: H-after-r}\\
-% $u$                   & Second source wavevector magnitude, $u=|\kb-\kb_1|$ & \eqref{A:udef}\\
-% $\mu$                 & Cosine of the source angle, $\hat\kb\cdot\hat\kb_1$ & \eqref{A:spherical}\\
-% $k_{\rm peak}$, $p_{\rm peak}$ & Wavenumber of the GW spectral peak & Sec.~\ref{sec:peak-location}\\
-% $\omega_{\rm peak}$   & Peak frequency of the real-space burst spectrum & \eqref{eq:rs2-fpeak-dt}\\
+\multicolumn{3}{@{}l}{\emph{Real-space lane} (App.~\ref{sec:chain-realspace})}\\
+$G_{\rm ret}$          & Retarded Green function, $\delta(t-t'-|\xb-\xb'|)/4\pi|\xb-\xb'|$ & \eqref{AR:green}\\
+$\n$                   & Local propagation direction, $\n=(\xb-\xb')/|\xb-\xb'|$; the TT projection is taken along it & \eqref{AR:TT}\\
+$R_{ij}(\br,\tau)$     & Real-space two-point velocity correlator, $\langle v_i(\mathbf{y},t)v_j(\mathbf{y}+\br,t+\tau)\rangle$ & \eqref{AR:Rij}\\
+$R_L$, $R_N$           & Longitudinal / transverse correlation functions; $R_N=R_L+\tfrac r2\pa_rR_L$ (incompressible) & \eqref{AR:isotropic}\\
+$R_{ijij}(\br,\tau)$   & Contracted real-space source correlator, $R_{ii}R_{jj}+\tfrac13R_{ij}R_{ij}=\tfrac{14}{3}R_N^2+4R_NR_L+\tfrac43R_L^2$ & \eqref{AR:contract}\\
+$\Sigma(r,\tau)$       & Real-space TT-stress correlator, $\Sigma=w^2R_{ijij}$ & \eqref{AR:Sigma}\\
+$\widehat\Sigma(r,\omega)$ & Temporal transform of $\Sigma$ at fixed separation $r$ (space stays real) & \eqref{AR:temporal}\\
+$\widetilde\Sigma(k,\omega)$ & Spatial transform of $\widehat\Sigma$; $\widetilde\Sigma(k,k)=T_{\rm src}\widetilde\Pi(k,k)$ & \eqref{A:bridge-ft}\\
+$L(\xb,\tau)$          & Unequal-time GW correlator, $\langle\dot h_{ij}(\xb,t)\dot h_{ij}(\xb,t+\tau)\rangle/32\pi G$ & \eqref{AR:L}\\
+$I(\xb,\omega)$        & Spectral energy density, $(2\pi)^{-1}\!\int\!d\tau\,e^{i\omega\tau}L$; $d\rho_{\rm GW}/d\ln\omega=\omega I$ & \eqref{AR:I}\\
 
-% \multicolumn{3}{@{}l}{\emph{Temporal / decorrelation model}}\\
-% $f(\eta_k,\tau)$      & Temporal decorrelation function; Kraichnan $\exp(-\tfrac{\pi}{4}\eta_k^2\tau^2)$ & \eqref{eq:Fij-iso}\\
-% $\tf(\eta_k,\omega)$  & Frequency transform of $f$; Kraichnan $(2/\eta_k)\exp(-\omega^2/\pi\eta_k^2)$ & \eqref{eq: g-def}\\
-% $\eta_k$              & Kraichnan eddy/sweeping rate, $\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}$ & \eqref{eq:Fij-iso}\\
-% $\eta_0$              & Sweeping rate at the outer scale, $\eta_0\equiv\eta_{k_0}=Mk_0/\sqrt{2\pi}$ & \eqref{eq:dimless-delta-Kraichnan}\\
-% $g(k,\omega)$         & Combined spectral$\,\times\,$temporal factor, $A(k)\tf(\eta_k,\omega)$ & \eqref{eq: g-def}\\
-% $\tau_k$              & Sweeping/eddy decorrelation time, $1/\eta_k=\sqrt{2\pi}/(Mk_0^{1/3}k^{2/3})$ & \eqref{A:decf}\\
-% $\tau_1,\tau_2$\;[MULTI] & The two legs' decorrelation times, $\sqrt{x}/M$, $\sqrt{y}/M$.\quad\textbf{[also:} the two integration times $\tau_1,\tau_2$ of the master formula \eqref{eq:master}\textbf{]} & \eqref{A:decf}\\
-% $\tau_\ast(t)$        & Feynman-combined time, $1/\tau_\ast=t/\tau_1+(1-t)/\tau_2$ & \eqref{A:taustar}\\
-% $\tau_s$, $t_0$       & Epoch of the impulsive burst & \eqref{eq:impulsive-stress}\\
-% $\Delta t$            & Duration of a finite burst; $g\to\delta$ as $\Delta t\to0$ & \eqref{eq:rs2-spectrum-dt}\\
-% $g(t)$, $\tilde g(\omega)$\;[MULTI] & Burst temporal profile and its transform.\quad\textbf{[distinct from} $g(k,\omega)$ \textbf{and} $\hat g$\textbf{]} & \eqref{A:rsg}\\
-% $\hat g(\bar q)$      & Decaying-turbulence temporal kernel, $e^{-i\bar q}(-i\bar q)^{-1/3}\Gamma(\tfrac13,-i\bar q)$ & \eqref{A:ghat}\\
-% $\mathcal{C}(\bar q)$ & Transform of the \emph{squared} decorrelation; $\mathcal{C}(0)=6$, tail $8/3\bar q^2$ & \eqref{eq:cosT-closed}\\
-% $I_\omega(\omega)$    & Temporal convolution for the monochromatic source & \eqref{eq:H-delta-k}\\
-% $J$, $\tilde J$       & Temporal convolution retained inside the white-noise spatial integral & \eqref{eq:H-white}\\
-% $L(\br,\tau)$, $I(\br,\omega)$ & Real-space GW correlator at lag $\tau$ and its temporal transform & \eqref{eq:rs2-L}\\
+\multicolumn{3}{@{}l}{\emph{Wavenumbers}}\\
+$k$                   & GW / Fourier wavenumber magnitude & \eqref{eq: main}\\
+$k_0$, $k_\ast$       & Outer (integral / stirring) scale wavenumber & \eqref{eq:Hijij-AppA}\\
+$k_d$                 & Dissipation-scale wavenumber, $k_d/k_0=R^{3/4}$ & \eqref{eq:appA-dimless}\\
+$k_1$                 & First source wavevector magnitude & \eqref{eq: H-after-r}\\
+$u$                   & Second source wavevector magnitude, $u=|\kb-\kb_1|$ & \eqref{A:udef}\\
+$\mu$                 & Cosine of the source angle, $\hat\kb\cdot\hat\kb_1$ & \eqref{A:spherical}\\
+$k_{\rm peak}$, $p_{\rm peak}$ & Wavenumber of the GW spectral peak & Sec.~\ref{sec:peak-location}\\
+$\omega_{\rm peak}$   & Peak frequency of the real-space burst spectrum & \eqref{eq:rs2-fpeak-dt}\\
 
-% \multicolumn{3}{@{}l}{\emph{Dimensionless variables} (note the heavy reuse of $p,q,s,\Omega,x,\Phi$)}\\
-% $p$                   & Dimensionless wavenumber, $p=k/k_0$ & \eqref{eq:omega-diag}\\
-% $q$\;[MULTI]          & Dimensionless frequency $q=\omega/(c\,k_0)$; on-shell $q=p$.\quad\textbf{[also:} $q=k_1/k$ in \eqref{eq: H-compact}\textbf{]} & \eqref{eq:omega-diag}\\
-% $\bar q$              & Rescaled frequency of the decay kernel, $\bar q=\omega\tau_1=\sqrt{2\pi}\,q/M$ & \eqref{eq:dimless-delta-decay}\\
-% $q_1$, $\omega_1$     & Convolution frequency (integration variable) & \eqref{eq: H-convolution}\\
-% $s$                   & $s=u/k$ & \eqref{eq: H-compact}\\
-% $\Omega$\;[MULTI]     & Dimensionless frequency $\omega/(\varepsilon^{1/3}k^{2/3})$.\quad\textbf{[distinct from} $\Omega_{\rm GW},\Omega_{\rm M},\Omega_K$\textbf{]} & \eqref{eq: H-compact}\\
-% $\Omega_1$            & $\omega_1/(\varepsilon^{1/3}k^{2/3})$ & \eqref{eq: H-compact}\\
-% $\Phi$\;[MULTI]       & Gaussian envelope of the scaling form \eqref{A:Phi}.\quad\textbf{[also:} $\Phi_{\rm eq}$ = equal-time velocity spectral correlator\textbf{]} & \eqref{eq: H-compact}\\
-% $\mathfrak{H}(\Omega)$ & Dimensionless scaling function of the K41 kernel & \eqref{eq: H-compact}\\
-% $x$\;[MULTI]          & Substitution variable $(k_1/k_0)^{-4/3}$.\quad\textbf{[also:} comoving coordinate $x^i$ in \eqref{eq:metric-tt}\textbf{]} & \eqref{eq:appA-dimless}\\
-% $y$\;[MULTI]          & Substitution variable $(u/k_0)^{-4/3}$.\quad\textbf{[also:} $y=u/k_0$ in the white-noise model \eqref{eq:H-white}\textbf{]} & \eqref{eq:appA-dimless}\\
-% $z$                   & $z=k_1/k_0$ (white-noise model) & \eqref{eq:H-white}\\
-% $t$\;[MULTI]          & Feynman parameter on $[0,1]$.\quad\textbf{[also:} cosmic/simulation time\textbf{]} & \eqref{eq:feynman-param}\\
-% $M$                   & Outer-scale turbulent Mach number, $M=u_0/c=(\varepsilon/k_0)^{1/3}/c$ & \eqref{eq:appA-dimless}\\
-% $u_0$                 & Outer-scale eddy velocity; $u_0=Mc$, luminal ceiling $u_0=c$ & \eqref{eq:appA-dimless}\\
-% $R$                   & Reynolds-like inertial-range width, $k_d/k_0=R^{3/4}$ & \eqref{eq:appA-dimless}\\
-% $\xi$                 & Sweeping collapse variable, $\xi\equiv p/M=k/(Mk_0)$ & \eqref{eq:peak-ansatz}\\
-% $\Psi(p,p/M)$         & $M$-independent rescaled spatial integral, $\Omega_{\rm GW}=M^4p^3\Psi$ & \eqref{eq:decay-amplitude}\\
-% $y_{\min},y_{\max}$   & Triangle-inequality bounds of the $y$ integration & \eqref{eq:appA-y-bounds}\\
+\multicolumn{3}{@{}l}{\emph{Temporal / decorrelation model}}\\
+$f(\eta_k,\tau)$      & Temporal decorrelation function; Kraichnan $\exp(-\tfrac{\pi}{4}\eta_k^2\tau^2)$ & \eqref{eq:Fij-iso}\\
+$\tf(\eta_k,\omega)$  & Frequency transform of $f$; Kraichnan $(2/\eta_k)\exp(-\omega^2/\pi\eta_k^2)$ & \eqref{eq: g-def}\\
+$\eta_k$              & Kraichnan eddy/sweeping rate, $\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}$ & \eqref{eq:Fij-iso}\\
+$\eta_0$              & Sweeping rate at the outer scale, $\eta_0\equiv\eta_{k_0}=Mk_0/\sqrt{2\pi}$ & \eqref{eq:dimless-delta-Kraichnan}\\
+$g(k,\omega)$         & Combined spectral$\,\times\,$temporal factor, $A(k)\tf(\eta_k,\omega)$ & \eqref{eq: g-def}\\
+$\tau_k$              & Sweeping/eddy decorrelation time, $1/\eta_k=\sqrt{2\pi}/(Mk_0^{1/3}k^{2/3})$ & \eqref{A:decf}\\
+$\tau_1,\tau_2$\;[MULTI] & The two legs' decorrelation times, $\sqrt{x}/M$, $\sqrt{y}/M$.\quad\textbf{[also:} the two integration times $\tau_1,\tau_2$ of the master formula \eqref{eq:master}\textbf{]} & \eqref{A:decf}\\
+$\tau_\ast(t)$        & Feynman-combined time, $1/\tau_\ast=t/\tau_1+(1-t)/\tau_2$ & \eqref{A:taustar}\\
+$\tau_s$, $t_0$       & Epoch of the impulsive burst & \eqref{eq:impulsive-stress}\\
+$\Delta t$            & Duration of a finite burst; $g\to\delta$ as $\Delta t\to0$ & \eqref{eq:rs2-spectrum-dt}\\
+$g(t)$, $\tilde g(\omega)$\;[MULTI] & Burst temporal profile and its transform.\quad\textbf{[distinct from} $g(k,\omega)$ \textbf{and} $\hat g$\textbf{]} & \eqref{A:rsg}\\
+$\hat g(\bar q)$      & Decaying-turbulence temporal kernel, $e^{-i\bar q}(-i\bar q)^{-1/3}\Gamma(\tfrac13,-i\bar q)$ & \eqref{A:ghat}\\
+$\mathcal{C}(\bar q)$ & Transform of the \emph{squared} decorrelation; $\mathcal{C}(0)=6$, tail $8/3\bar q^2$ & \eqref{eq:cosT-closed}\\
+$I_\omega(\omega)$    & Temporal convolution for the monochromatic source & \eqref{eq:H-delta-k}\\
+$J$, $\tilde J$       & Temporal convolution retained inside the white-noise spatial integral & \eqref{eq:H-white}\\
 
-% \multicolumn{3}{@{}l}{\emph{Decaying-turbulence (self-similar) parameters}}\\
-% $\tau_c(k)$           & Source correlation time at wavenumber $k$, $1/(\varepsilon^{1/3}k^{2/3})$ & Sec.~\ref{sec:principal-discrepancy}\\
-% $\tau_{\rm st}$       & Self-similar decay time, $\tau_{\rm st}\sim L/u$ & Sec.~\ref{sec:principal-discrepancy}\\
-% $\tau_{\rm eddy}$     & Outer-scale eddy turnover time & Sec.~\ref{sec:principal-discrepancy}\\
-% $\varepsilon_0$       & Dimensionless decay rate, $\varepsilon_0=\tau_{\rm eddy}/\tau_{\rm st}=O(1)$ & Sec.~\ref{sec:principal-discrepancy}\\
-% $\Phi_{\rm eq}(k,t)$  & Equal-time velocity spectral correlator, $\propto(1+t/\tau_{\rm st})^{-34/21}$ & Sec.~\ref{sec:principal-discrepancy}\\
+\multicolumn{3}{@{}l}{\emph{Dimensionless variables} (note the heavy reuse of $p,q,s,\Omega,x,\Phi$)}\\
+$p$                   & Dimensionless wavenumber, $p=k/k_0$ & \eqref{eq:omega-diag}\\
+$q$\;[MULTI]          & Dimensionless frequency $q=\omega/(c\,k_0)$; on-shell $q=p$.\quad\textbf{[also:} $q=k_1/k$ in \eqref{eq: H-compact}\textbf{]} & \eqref{eq:omega-diag}\\
+$\bar q$              & Rescaled frequency of the decay kernel, $\bar q=\omega\tau_1=\sqrt{2\pi}\,q/M$ & \eqref{eq:dimless-delta-decay}\\
+$q_1$, $\omega_1$     & Convolution frequency (integration variable) & \eqref{eq: H-convolution}\\
+$s$                   & $s=u/k$ & \eqref{eq: H-compact}\\
+$\Omega$\;[MULTI]     & Dimensionless frequency $\omega/(\varepsilon^{1/3}k^{2/3})$.\quad\textbf{[distinct from} $\Omega_{\rm GW},\Omega_{\rm M},\Omega_K$\textbf{]} & \eqref{eq: H-compact}\\
+$\Omega_1$            & $\omega_1/(\varepsilon^{1/3}k^{2/3})$ & \eqref{eq: H-compact}\\
+$\Phi$\;[MULTI]       & Gaussian envelope of the scaling form \eqref{A:Phi}.\quad\textbf{[also:} $\Phi_{\rm eq}$ = equal-time velocity spectral correlator\textbf{]} & \eqref{eq: H-compact}\\
+$\mathfrak{H}(\Omega)$ & Dimensionless scaling function of the K41 kernel & \eqref{eq: H-compact}\\
+$x$\;[MULTI]          & Substitution variable $(k_1/k_0)^{-4/3}$.\quad\textbf{[also:} comoving coordinate $x^i$ in \eqref{eq:metric-tt}\textbf{]} & \eqref{eq:appA-dimless}\\
+$y$\;[MULTI]          & Substitution variable $(u/k_0)^{-4/3}$.\quad\textbf{[also:} $y=u/k_0$ in the white-noise model \eqref{eq:H-white}\textbf{]} & \eqref{eq:appA-dimless}\\
+$z$                   & $z=k_1/k_0$ (white-noise model) & \eqref{eq:H-white}\\
+$t$\;[MULTI]          & Feynman parameter on $[0,1]$.\quad\textbf{[also:} cosmic/simulation time\textbf{]} & \eqref{eq:feynman-param}\\
+$M$                   & Outer-scale turbulent Mach number, $M=u_0/c=(\varepsilon/k_0)^{1/3}/c$ & \eqref{eq:appA-dimless}\\
+$u_0$                 & Outer-scale eddy velocity; $u_0=Mc$, luminal ceiling $u_0=c$ & \eqref{eq:appA-dimless}\\
+$R$                   & Reynolds-like inertial-range width, $k_d/k_0=R^{3/4}$ & \eqref{eq:appA-dimless}\\
+$\xi$                 & Sweeping collapse variable, $\xi\equiv p/M=k/(Mk_0)$ & \eqref{eq:peak-ansatz}\\
+$\Psi(p,p/M)$         & $M$-independent rescaled spatial integral, $\Omega_{\rm GW}=M^4p^3\Psi$ & \eqref{eq:decay-amplitude}\\
+$y_{\min},y_{\max}$   & Triangle-inequality bounds of the $y$ integration & \eqref{eq:appA-y-bounds}\\
 
-% \end{longtable}
-% \endgroup
+\multicolumn{3}{@{}l}{\emph{Decaying-turbulence (self-similar) parameters}}\\
+$\tau_c(k)$           & Source correlation time at wavenumber $k$, $1/(\varepsilon^{1/3}k^{2/3})$ & Sec.~\ref{sec:principal-discrepancy}\\
+$\tau_{\rm st}$       & Self-similar decay time, $\tau_{\rm st}\sim L/u$ & Sec.~\ref{sec:principal-discrepancy}\\
+$\tau_{\rm eddy}$     & Outer-scale eddy turnover time & Sec.~\ref{sec:principal-discrepancy}\\
+$\varepsilon_0$       & Dimensionless decay rate, $\varepsilon_0=\tau_{\rm eddy}/\tau_{\rm st}=O(1)$ & Sec.~\ref{sec:principal-discrepancy}\\
+$\Phi_{\rm eq}(k,t)$  & Equal-time velocity spectral correlator, $\propto(1+t/\tau_{\rm st})^{-34/21}$ & Sec.~\ref{sec:principal-discrepancy}\\
+
+\end{longtable}
+\endgroup
 
 \section{Consolidated derivation chain}
 \label{sec:chain}
 
-\subsection{Framework}
-\label{sec:chain-framework}
+\subsection{Framework in real space}
+\label{sec:chain-realspace}
 
 \begin{equation}
-  ds^2 = a^2(\tau)\bigl[-d\tau^2+(\delta_{ij}+h_{ij})\,dx^idx^j\bigr],
-  \qquad \pa_i h_{ij}=h_{ii}=0
-  \label{A:metric}
+  ds^2=a^2(\tau)\bigl[-d\tau^2+(\delta_{ij}+h_{ij})dx^idx^j\bigr],
+  \qquad \pa_ih_{ij}=h_{ii}=0,
+  \qquad a\to1
+  \label{AR:metric}
 \end{equation}
 \begin{equation}
-  h_{ij}''+2\frac{a'}{a}h_{ij}'-\nabla^2h_{ij}=16\pi G\,a^2\,\Pi^{\rm TT}_{ij}
-  \label{A:wave}
+  \Box\,h_{ij}(\xb,t)=16\pi G\,\Pi^{\rm TT}_{ij}(\xb,t),
+  \qquad \Box=\pa_t^2-\nabla^2
+  \label{AR:wave}
 \end{equation}
 \begin{equation}
-  \Pi^{\rm TT}_{ij}(\kb,\tau)=\Lambda_{ij,lm}(\khat)\,T_{lm}(\kb,\tau),
-  \quad T_{lm}=w\,v_lv_m,
-  \quad \Lambda_{ij,lm}=P_{il}P_{jm}-\tfrac12P_{ij}P_{lm},
-  \quad P_{ij}=\delta_{ij}-\khat_i\khat_j
-  \label{A:source}
-\end{equation}
-\begin{equation}
-  a\to1:\qquad h_{ij}''(\kb,\tau)+k^2h_{ij}(\kb,\tau)=16\pi G\,\Pi^{\rm TT}_{ij}(\kb,\tau)
-  \label{A:osc}
-\end{equation}
-\begin{equation}
-  h_{ij}(\kb,\tau)=\frac{16\pi G}{k}\!\int_{\tau_i}^{\tau}\!\!d\tau'\,\sin[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau'),
+  \Box\,G_{\rm ret}(\xb-\xb',t-t')=-\delta^{(3)}(\xb-\xb')\,\delta(t-t'),
   \qquad
-  \dot h_{ij}(\kb,\tau)=16\pi G\!\int_{\tau_i}^{\tau}\!\!d\tau'\,\cos[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau')
-  \label{A:green}
+  G_{\rm ret}=\frac{\delta\bigl(t-t'-|\xb-\xb'|\bigr)}{4\pi|\xb-\xb'|}
+  \label{AR:green}
 \end{equation}
 \begin{equation}
-  \rho_{\rm GW}=\frac{\langle\dot h_{ij}\dot h_{ij}\rangle}{32\pi G},
+  h_{ij}(\xb,t)=4G\!\int\!d^3x'\,
+  \frac{\Pi^{\rm TT}_{ij}\bigl(\xb',\,t-|\xb-\xb'|\bigr)}{|\xb-\xb'|},
   \qquad
-  \bigl\langle\Pi^{\rm TT}_{ij}(\kb,\tau_1)\Pi^{{\rm TT}*}_{ij}(\kb',\tau_2)\bigr\rangle
-  =(2\pi)^3\delta^{(3)}(\kb-\kb')\,\Pi(k;\tau_1,\tau_2)
-  \label{A:uetc}
+  \dot h_{ij}(\xb,t)=4G\!\int\!d^3x'\,
+  \frac{\dot\Pi^{\rm TT}_{ij}\bigl(\xb',\,t-|\xb-\xb'|\bigr)}{|\xb-\xb'|}
+  \label{AR:hdot}
 \end{equation}
 \begin{equation}
-  \cos[k(\tau-\tau_1)]\cos[k(\tau-\tau_2)]\;\longrightarrow\;\tfrac12\cos[k(\tau_1-\tau_2)]
-  \label{A:average}
+  \n=\frac{\xb-\xb'}{|\xb-\xb'|},
+  \qquad
+  P_{ij}(\n)=\delta_{ij}-\n_i\n_j,
+  \qquad
+  \Lambda_{ij,lm}(\n)=P_{il}P_{jm}-\tfrac12P_{ij}P_{lm},
+  \qquad
+  \Pi^{\rm TT}_{ij}=\Lambda_{ij,lm}(\n)\,T_{lm},
+  \qquad
+  T_{lm}=w\,v_lv_m
+  \label{AR:TT}
 \end{equation}
 \begin{equation}
-  \frac{d\rho_{\rm GW}}{d\ln k}\simeq\frac{2G\,k^3}{\pi}\!\int\!d\tau_1\!\int\!d\tau_2\,
-  \cos[k(\tau_1-\tau_2)]\,\Pi(k;\tau_1,\tau_2)
-  \label{A:master}
+  R_{ij}(\br,\tau)\equiv\bigl\langle v_i(\mathbf{y},t)\,v_j(\mathbf{y}+\br,t+\tau)\bigr\rangle
+  \qquad\text{(homogeneous: independent of }\mathbf{y}\text{)}
+  \label{AR:Rij}
 \end{equation}
 \begin{equation}
-  \Pi(k;\tau_1,\tau_2)=\Pi(k;\tau_1-\tau_2)
+  R_{ij}(\br,\tau)=R_N(r,\tau)\,\delta_{ij}
+  +\bigl[R_L(r,\tau)-R_N(r,\tau)\bigr]\,\rhat_i\rhat_j,
+  \qquad \rhat=\br/r,\quad r=|\br|
+  \label{AR:isotropic}
+\end{equation}
+\begin{equation}
+  \pa_iR_{ij}=0
   \;\Longrightarrow\;
-  \widetilde\Pi(k,\omega)=\!\int\!d(\Delta\tau)\,e^{i\omega\Delta\tau}\Pi(k;\Delta\tau)=H_{ijij}(\kb,\omega)
-  \label{A:stationary}
+  R_N=R_L+\frac{r}{2}\frac{\pa R_L}{\pa r},
+  \qquad
+  R_L(0,0)=R_N(0,0)=\tfrac13\langle v^2\rangle,
+  \qquad
+  R_{ii}(0,0)=\langle v^2\rangle
+  \label{AR:kh}
+\end{equation}
+\begin{equation}
+  \bigl\langle v_iv_jv_kv_l\bigr\rangle
+  =\langle v_iv_j\rangle\langle v_kv_l\rangle
+  +\langle v_iv_k\rangle\langle v_jv_l\rangle
+  +\langle v_iv_l\rangle\langle v_jv_k\rangle
+  \label{AR:wick}
+\end{equation}
+\begin{equation}
+  \Lambda_{ij,lm}\Lambda_{ij,l'm'}\otimes\eqref{AR:wick}
+  \;\Longrightarrow\;
+  R_{ijij}(\br,\tau)\equiv
+  R_{ii}(\br,\tau)R_{jj}(\br,\tau)+\tfrac13R_{ij}(\br,\tau)R_{ij}(\br,\tau)
+  \label{AR:contract}
+\end{equation}
+\begin{align}
+  R_{ii}&=2R_N+R_L,
+  \qquad
+  R_{ij}R_{ij}=2R_N^2+R_L^2
+  \nonumber\\
+  R_{ijij}(r,\tau)&=(2R_N+R_L)^2+\tfrac13\bigl(2R_N^2+R_L^2\bigr)
+   =\tfrac{14}{3}R_N^2+4R_NR_L+\tfrac43R_L^2
+  \label{AR:Rijij}
+\end{align}
+\begin{equation}
+  r\to0,\ \tau\to0:\qquad
+  R_{ijij}\to\tfrac{10}{9}\langle v^2\rangle^2
+  \label{AR:Rijij0}
+\end{equation}
+\begin{equation}
+  \Sigma(r,\tau)\equiv w^2\,R_{ijij}(r,\tau)
+  =\bigl\langle\Pi^{\rm TT}_{ij}(\mathbf{y},t)\,\Pi^{\rm TT}_{ij}(\mathbf{y}+\br,t+\tau)\bigr\rangle
+  \label{AR:Sigma}
+\end{equation}
+\begin{equation}
+  \rho_{\rm GW}(\xb)=\frac{\bigl\langle\dot h_{ij}\dot h_{ij}\bigr\rangle}{32\pi G},
+  \qquad
+  L(\xb,\tau)\equiv\frac{1}{32\pi G}
+  \bigl\langle\dot h_{ij}(\xb,t)\,\dot h_{ij}(\xb,t+\tau)\bigr\rangle,
+  \qquad
+  \rho_{\rm GW}(\xb)=L(\xb,0)
+  \label{AR:L}
+\end{equation}
+\begin{equation}
+  \frac{(4G)^2}{32\pi G}=\frac{G}{2\pi}:
+  \qquad
+  L(\xb,\tau)=\frac{G}{2\pi}\!\int\!\!\int\!
+  \frac{d^3x_1\,d^3x_2}{|\xb-\xb_1|\,|\xb-\xb_2|}\,
+  \bigl\langle\dot\Pi^{\rm TT}_{ij}(\xb_1,t_1)\,\dot\Pi^{\rm TT}_{ij}(\xb_2,t_2)\bigr\rangle,
+  \quad
+  \begin{aligned}
+    t_1&=t-|\xb-\xb_1|\\
+    t_2&=t+\tau-|\xb-\xb_2|
+  \end{aligned}
+  \label{AR:Lret}
+\end{equation}
+\begin{equation}
+  \bigl\langle\dot\Pi^{\rm TT}_{ij}(\xb_1,t_1)\dot\Pi^{\rm TT}_{ij}(\xb_2,t_2)\bigr\rangle
+  =-\pa_\tau^2\,\bigl\langle\Pi^{\rm TT}_{ij}(\xb_1,t_1)\Pi^{\rm TT}_{ij}(\xb_2,t_2)\bigr\rangle
+  =-\pa_\tau^2\,\Sigma\bigl(|\xb_1-\xb_2|,\;t_2-t_1\bigr)
+  \label{AR:ddot}
+\end{equation}
+\begin{equation}
+  I(\xb,\omega)\equiv\frac{1}{2\pi}\!\int\!d\tau\,e^{i\omega\tau}L(\xb,\tau),
+  \qquad
+  \rho_{\rm GW}(\xb)=\!\int\!d\omega\,I(\xb,\omega),
+  \qquad
+  \frac{d\rho_{\rm GW}}{d\ln\omega}=\omega\,I(\xb,\omega)
+  \label{AR:I}
+\end{equation}
+\begin{equation}
+  \int\!d\tau\,e^{i\omega\tau}\bigl(-\pa_\tau^2\bigr)(\cdot)=\omega^2\!\int\!d\tau\,e^{i\omega\tau}(\cdot)
+  \label{AR:byparts}
+\end{equation}
+\begin{equation}
+  I(\xb,\omega)=\frac{G\,\omega^2}{(2\pi)^2}\!\int\!\!\int\!
+  \frac{d^3x_1\,d^3x_2}{|\xb-\xb_1|\,|\xb-\xb_2|}
+  \!\int\!d\tau\,e^{i\omega\tau}\,
+  \Sigma\bigl(|\xb_1-\xb_2|,\;t_2-t_1\bigr)
+  \label{AR:Iw}
+\end{equation}
+\begin{equation}
+  \xb=0,\quad x_a=|\xb_a|,\quad \br=\xb_1-\xb_2,\quad r=|\br|:
+  \qquad
+  t_2-t_1=\tau-(x_2-x_1)
+  \label{AR:shells}
+\end{equation}
+\begin{equation}
+  \widehat\Sigma(r,\omega)\equiv\!\int\!ds\,e^{i\omega s}\,\Sigma(r,s)
+  \;\Longrightarrow\;
+  \int\!d\tau\,e^{i\omega\tau}\Sigma\bigl(r,\tau-(x_2-x_1)\bigr)
+  =e^{i\omega(x_2-x_1)}\,\widehat\Sigma(r,\omega)
+  \label{AR:temporal}
+\end{equation}
+\begin{equation}
+  x_2-x_1\;\longrightarrow\;-\,\n\cdot\br,
+  \qquad
+  \bigl\langle e^{-i\omega\,\n\cdot\br}\bigr\rangle_{\n}
+  =\frac{\sin(\omega r)}{\omega r}
+  \label{AR:angular}
+\end{equation}
+\begin{equation}
+  \boxed{\;
+  \frac{d\rho_{\rm GW}}{d\ln\omega}
+  =8G\,\omega^2\!\int_0^{\infty}\!\!dr\;r\,\sin(\omega r)\,\widehat\Sigma(r,\omega)\;}
+  \label{AR:master}
+\end{equation}
+\begin{equation}
+  \Sigma(r,s)=\Sigma(r)\,\delta(s)
+  \;\Longrightarrow\;
+  \widehat\Sigma(r,\omega)=\Sigma(r)
+  \;\Longrightarrow\;
+  \eqref{AR:master}=\eqref{A:rsspectrum}
+  \label{AR:impulsive}
+\end{equation}
+\begin{equation}
+  \Sigma(r,s)=\Sigma(r)\,g_{\rm c}(s),\quad \tilde g_{\rm c}=|\tilde g|^2
+  \;\Longrightarrow\;
+  \eqref{AR:master}=\eqref{A:rsspectrumdt}
+  \label{AR:burst}
+\end{equation}
+\begin{equation}
+  \omega r\ll1:\ \sin(\omega r)\to\omega r
+  \;\Longrightarrow\;
+  \frac{d\rho_{\rm GW}}{d\ln\omega}\to
+  8G\,\omega^3\!\int_0^{\infty}\!\!dr\,r^2\,\widehat\Sigma(r,0)
+  \;\propto\;\omega^3
+  \label{AR:IR}
+\end{equation}
+
+\subsection{From the real-space lane to the spectral kernel}
+\label{sec:chain-bridge}
+
+\begin{equation}
+  \widetilde\Sigma(k,\omega)\equiv\!\int\!d^3r\,e^{-i\kb\cdot\br}\,\widehat\Sigma(r,\omega),
+  \qquad
+  \int\!d\Omega_{\rhat}\,e^{-ikr\cos\theta}=\frac{4\pi\sin(kr)}{kr}
+  \;\Longrightarrow\;
+  \widetilde\Sigma(k,\omega)=\frac{4\pi}{k}\!\int_0^{\infty}\!\!dr\,r\sin(kr)\,\widehat\Sigma(r,\omega)
+  \label{A:bridge-ft}
+\end{equation}
+\begin{equation}
+  \int_0^{\infty}\!\!dr\,r\sin(\omega r)\,\widehat\Sigma(r,\omega)
+  =\frac{\omega}{4\pi}\,\widetilde\Sigma(\omega,\omega)
+  \label{A:bridge-radial}
+\end{equation}
+\begin{equation}
+  \eqref{AR:master}
+  \;\Longrightarrow\;
+  \frac{d\rho_{\rm GW}}{d\ln\omega}
+  =8G\omega^2\cdot\frac{\omega}{4\pi}\widetilde\Sigma(\omega,\omega)
+  =\frac{2G}{\pi}\,\omega^3\,\widetilde\Sigma(\omega,\omega)
+  \label{A:bridge-master}
+\end{equation}
+\begin{equation}
+  \widetilde\Sigma(k,\omega)=w^2\,\widetilde{R_{ijij}}(k,\omega),
+  \qquad
+  H_{ijij}(\kb,\omega)\equiv\frac{1}{(2\pi)^4}\!\int\!d\tau\,d^3\bxi\;
+  e^{i\omega\tau-i\kb\cdot\bxi}\,R_{ijij}(\bxi,\tau)
+  \label{A:bridge-H}
 \end{equation}
 \begin{equation}
   \frac{d\rho_{\rm GW}}{d\ln k}\propto k^3H_{ijij}(\kb,\omega)\big|_{\omega=k}
@@ -2734,9 +3004,63 @@ to be flagged, and are not anomalies.
   \label{A:diagonal}
 \end{equation}
 
+\medskip
+\noindent\emph{Equivalent spectral route (independent check of the coefficient).}
+
+\begin{equation}
+  h_{ij}''(\kb,\tau)+k^2h_{ij}(\kb,\tau)=16\pi G\,\Pi^{\rm TT}_{ij}(\kb,\tau)
+  \label{A:osc}
+\end{equation}
+\begin{equation}
+  h_{ij}(\kb,\tau)=\frac{16\pi G}{k}\!\int_{\tau_i}^{\tau}\!\!d\tau'\,\sin[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau'),
+  \qquad
+  \dot h_{ij}(\kb,\tau)=16\pi G\!\int_{\tau_i}^{\tau}\!\!d\tau'\,\cos[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau')
+  \label{A:green}
+\end{equation}
+\begin{equation}
+  \bigl\langle\Pi^{\rm TT}_{ij}(\kb,\tau_1)\Pi^{{\rm TT}*}_{ij}(\kb',\tau_2)\bigr\rangle
+  =(2\pi)^3\delta^{(3)}(\kb-\kb')\,\Pi(k;\tau_1,\tau_2)
+  \label{A:uetc}
+\end{equation}
+\begin{equation}
+  \cos[k(\tau-\tau_1)]\cos[k(\tau-\tau_2)]\;\longrightarrow\;\tfrac12\cos[k(\tau_1-\tau_2)]
+  \label{A:average}
+\end{equation}
+\begin{equation}
+  \frac{1}{32\pi G}(16\pi G)^2\cdot\frac12\cdot\frac{k^3}{2\pi^2}=\frac{2Gk^3}{\pi}
+  \;\Longrightarrow\;
+  \frac{d\rho_{\rm GW}}{d\ln k}\simeq\frac{2G\,k^3}{\pi}\!\int\!d\tau_1\!\int\!d\tau_2\,
+  \cos[k(\tau_1-\tau_2)]\,\Pi(k;\tau_1,\tau_2)
+  \label{A:master}
+\end{equation}
+\begin{equation}
+  \Pi(k;\tau_1,\tau_2)=\Pi(k;\tau_1-\tau_2)
+  \;\Longrightarrow\;
+  \int\!d\tau_1\!\int\!d\tau_2=T_{\rm src}\!\int\!d(\Delta\tau),
+  \qquad
+  \widetilde\Pi(k,\omega)=\!\int\!d(\Delta\tau)\,e^{i\omega\Delta\tau}\Pi(k;\Delta\tau)
+  \label{A:stationary}
+\end{equation}
+\begin{equation}
+  \frac{2Gk^3}{\pi}T_{\rm src}\widetilde\Pi(k,k)
+  \;=\;\frac{2G}{\pi}\omega^3\widetilde\Sigma(\omega,\omega)\Big|_{\omega=k}
+  \;\Longrightarrow\;
+  \widetilde\Sigma(k,k)=T_{\rm src}\,\widetilde\Pi(k,k)
+  \label{A:consistency}
+\end{equation}
+
+
 \subsection{Spatial reduction}
 \label{sec:chain-spatial}
 
+\begin{equation}
+  R_{ijij}(\br,\tau)
+  \;\overset{\eqref{AR:contract}}{=}\;R_{ii}R_{jj}+\tfrac13R_{ij}R_{ij}
+  \;\overset{\eqref{AR:Rijij}}{=}\;\tfrac{14}{3}R_N^2+4R_NR_L+\tfrac43R_L^2,
+  \qquad
+  H_{ijij}\;\overset{\eqref{A:bridge-H}}{=}\;\mathcal{F}_{\bxi,\tau}\bigl[R_{ijij}\bigr]
+  \label{A:link}
+\end{equation}
 \begin{equation}
   R_{ij}(\br,\tau)=\!\int\!\frac{d^3k}{(2\pi)^3}e^{i\kb\cdot\br}F_{ij}(\kb,\tau),
   \qquad
