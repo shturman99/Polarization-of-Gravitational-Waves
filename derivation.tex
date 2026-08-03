@@ -2533,6 +2533,614 @@ to be flagged, and are not anomalies.
 \label{sec:symbols}
 %\input{variables_table}
 
+\section{Consolidated derivation chain}
+\label{sec:chain}
+
+\subsection{Framework}
+\label{sec:chain-framework}
+
+\begin{equation}
+  ds^2 = a^2(\tau)\bigl[-d\tau^2+(\delta_{ij}+h_{ij})\,dx^idx^j\bigr],
+  \qquad \pa_i h_{ij}=h_{ii}=0
+  \label{A:metric}
+\end{equation}
+\begin{equation}
+  h_{ij}''+2\frac{a'}{a}h_{ij}'-\nabla^2h_{ij}=16\pi G\,a^2\,\Pi^{\rm TT}_{ij}
+  \label{A:wave}
+\end{equation}
+\begin{equation}
+  \Pi^{\rm TT}_{ij}(\kb,\tau)=\Lambda_{ij,lm}(\khat)\,T_{lm}(\kb,\tau),
+  \quad T_{lm}=w\,v_lv_m,
+  \quad \Lambda_{ij,lm}=P_{il}P_{jm}-\tfrac12P_{ij}P_{lm},
+  \quad P_{ij}=\delta_{ij}-\khat_i\khat_j
+  \label{A:source}
+\end{equation}
+\begin{equation}
+  a\to1:\qquad h_{ij}''(\kb,\tau)+k^2h_{ij}(\kb,\tau)=16\pi G\,\Pi^{\rm TT}_{ij}(\kb,\tau)
+  \label{A:osc}
+\end{equation}
+\begin{equation}
+  h_{ij}(\kb,\tau)=\frac{16\pi G}{k}\!\int_{\tau_i}^{\tau}\!\!d\tau'\,\sin[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau'),
+  \qquad
+  \dot h_{ij}(\kb,\tau)=16\pi G\!\int_{\tau_i}^{\tau}\!\!d\tau'\,\cos[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau')
+  \label{A:green}
+\end{equation}
+\begin{equation}
+  \rho_{\rm GW}=\frac{\langle\dot h_{ij}\dot h_{ij}\rangle}{32\pi G},
+  \qquad
+  \bigl\langle\Pi^{\rm TT}_{ij}(\kb,\tau_1)\Pi^{{\rm TT}*}_{ij}(\kb',\tau_2)\bigr\rangle
+  =(2\pi)^3\delta^{(3)}(\kb-\kb')\,\Pi(k;\tau_1,\tau_2)
+  \label{A:uetc}
+\end{equation}
+\begin{equation}
+  \cos[k(\tau-\tau_1)]\cos[k(\tau-\tau_2)]\;\longrightarrow\;\tfrac12\cos[k(\tau_1-\tau_2)]
+  \label{A:average}
+\end{equation}
+\begin{equation}
+  \frac{d\rho_{\rm GW}}{d\ln k}\simeq\frac{2G\,k^3}{\pi}\!\int\!d\tau_1\!\int\!d\tau_2\,
+  \cos[k(\tau_1-\tau_2)]\,\Pi(k;\tau_1,\tau_2)
+  \label{A:master}
+\end{equation}
+\begin{equation}
+  \Pi(k;\tau_1,\tau_2)=\Pi(k;\tau_1-\tau_2)
+  \;\Longrightarrow\;
+  \widetilde\Pi(k,\omega)=\!\int\!d(\Delta\tau)\,e^{i\omega\Delta\tau}\Pi(k;\Delta\tau)=H_{ijij}(\kb,\omega)
+  \label{A:stationary}
+\end{equation}
+\begin{equation}
+  \frac{d\rho_{\rm GW}}{d\ln k}\propto k^3H_{ijij}(\kb,\omega)\big|_{\omega=k}
+  \;\Longrightarrow\;
+  \Omgw(p)\propto p^3H(p,p),
+  \qquad p=\frac{k}{k_0},\quad q=\frac{\omega}{c\,k_0},
+  \qquad h_c^2(p)=p\,H(p,p)
+  \label{A:diagonal}
+\end{equation}
+
+\subsection{Spatial reduction}
+\label{sec:chain-spatial}
+
+\begin{equation}
+  R_{ij}(\br,\tau)=\!\int\!\frac{d^3k}{(2\pi)^3}e^{i\kb\cdot\br}F_{ij}(\kb,\tau),
+  \qquad
+  f(\eta_k,\tau)=\!\int\!\frac{d\omega}{2\pi}e^{-i\omega\tau}\tf(\eta_k,\omega)
+  \label{A:pairs}
+\end{equation}
+\begin{equation}
+  F_{ij}(\kb,\tau)=A(k)\,P_{ij}(\khat)\,f(\eta_k,\tau)
+  \label{A:Fij}
+\end{equation}
+\begin{equation}
+  H_{ijij}(\kb,\omega)=\frac{1}{(2\pi)^4}\!\int\!d\tau\,d^3\br\;e^{i\omega\tau-i\kb\cdot\br}
+  \Bigl[R_{ii}(\br,\tau)R_{jj}(\br,\tau)+\tfrac13R_{ij}(\br,\tau)R_{ij}(\br,\tau)\Bigr]
+  \label{A:main}
+\end{equation}
+\begin{equation}
+  \ub\equiv\kb-\kb_1,\quad u\equiv|\ub|
+  \label{A:udef}
+\end{equation}
+\begin{equation}
+  H_{ijij}(\kb,\omega)=\frac{1}{(2\pi)^7}\!\int\!d\tau\,e^{i\omega\tau}d^3k_1
+  \Bigl[F_{ii}(\kb_1,\tau)F_{jj}(\ub,\tau)+\tfrac13F_{ij}(\kb_1,\tau)F_{ij}(\ub,\tau)\Bigr]
+  \label{A:afterr}
+\end{equation}
+\begin{equation}
+  H_{ijij}(\kb,\omega)=\frac{1}{(2\pi)^8}\!\int\!d^3k_1\,d\omega_1
+  \Bigl[\tilde F_{ii}(\kb_1,\omega_1)\tilde F_{jj}(\ub,\omega-\omega_1)
+  +\tfrac13\tilde F_{ij}(\kb_1,\omega_1)\tilde F_{ij}(\ub,\omega-\omega_1)\Bigr]
+  \label{A:conv}
+\end{equation}
+\begin{equation}
+  P_{ii}(\khat)=2,
+  \qquad
+  P_{ij}(\khat_1)P_{ij}(\hat u)=1+(\khat_1\cdot\hat u)^2
+  \label{A:contract}
+\end{equation}
+\begin{equation}
+  H_{ijij}(\kb,\omega)=\frac{1}{(2\pi)^8}\!\int\!d^3k_1\,d\omega_1\,
+  A(k_1)A(u)\,\tf(\eta_{k_1},\omega_1)\tf(\eta_u,\omega-\omega_1)
+  \Bigl[4+\tfrac13\bigl(1+(\khat_1\cdot\hat u)^2\bigr)\Bigr]
+  \label{A:withP}
+\end{equation}
+\begin{equation}
+  \khat_1\cdot\hat u=\frac{k^2-k_1^2-u^2}{2k_1u}
+  \label{A:coslaw}
+\end{equation}
+\begin{align}
+  4+\tfrac13+\tfrac13(\khat_1\cdot\hat u)^2
+  &=\frac{13}{3}+\frac{(k^2-k_1^2-u^2)^2}{12k_1^2u^2}
+  \nonumber\\
+  &=\frac{13}{3}+\frac{1}{6}
+   +\frac{k^4}{12k_1^2u^2}+\frac{k_1^2}{12u^2}+\frac{u^2}{12k_1^2}
+   -\frac{k^2}{6u^2}-\frac{k^2}{6k_1^2}
+  \nonumber\\
+  &\equiv\mathcal{K}(k,k_1,u)
+   =\frac{27}{6}+\frac{k^4}{12k_1^2u^2}+\frac{k_1^2}{12u^2}+\frac{u^2}{12k_1^2}
+   -\frac{k^2}{6u^2}-\frac{k^2}{6k_1^2}
+  \label{A:Kkernel}
+\end{align}
+\begin{equation}
+  d^3k_1=k_1^2\,dk_1\,d\phi\,d\mu,
+  \quad \mu=\khat\cdot\khat_1,
+  \quad \int d\phi=2\pi,
+  \quad u=\sqrt{k^2+k_1^2-2kk_1\mu},
+  \quad u\,du=k\,k_1\,d\mu,
+  \quad u\in[|k-k_1|,\,k+k_1]
+  \label{A:spherical}
+\end{equation}
+\begin{equation}
+  g(k,\omega)\equiv A(k)\,\tf(\eta_k,\omega)
+  \label{A:gdef}
+\end{equation}
+\begin{equation}
+  H_{ijij}(\kb,\omega)=\frac{1}{(2\pi)^7}\!\int_0^\infty\!\frac{k_1\,dk_1}{k}
+  \!\int_{|k-k_1|}^{k+k_1}\!\!u\,du\!\int_{-\infty}^{\infty}\!\!d\omega_1\;
+  g(k_1,\omega_1)\,g(u,\omega-\omega_1)\,\mathcal{K}(k,k_1,u)
+  \label{A:conversion}
+\end{equation}
+
+\subsection{\texorpdfstring{$S_{\rm K41}\times T_{\rm sw}$}{S\_K41 x T\_sw}}
+\label{sec:chain-k41sw}
+
+\begin{equation}
+  A(k)=\frac{C_k\epsilon^{2/3}k^{-11/3}}{4\pi},
+  \qquad
+  E_k=C_k\epsilon^{2/3}k^{-5/3},
+  \qquad
+  k\in[k_0,k_d]
+  \label{A:AK41}
+\end{equation}
+\begin{equation}
+  f(\eta_k,\tau)=e^{-\frac{\pi}{4}\eta_k^2\tau^2},
+  \qquad
+  \tf(\eta_k,\omega)=\frac{2}{\eta_k}e^{-\omega^2/\pi\eta_k^2},
+  \qquad
+  \eta_k=\frac{1}{\sqrt{2\pi}}\epsilon^{1/3}k^{2/3},
+  \qquad
+  \eta_k^2=\frac{\epsilon^{2/3}k^{4/3}}{2\pi}
+  \label{A:etaK41}
+\end{equation}
+\begin{equation}
+  g(k,\omega)=\frac{2E_k}{4\pi k^2\eta_k}\exp\!\left(-\frac{\omega^2}{\pi\eta_k^2}\right)
+  \label{A:gK41}
+\end{equation}
+\begin{equation}
+  q=\frac{k_1}{k},\quad s=\frac{u}{k},\quad
+  \Omega=\frac{\omega}{\epsilon^{1/3}k^{2/3}},\quad
+  \Omega_1=\frac{\omega_1}{\epsilon^{1/3}k^{2/3}},
+  \qquad
+  g(k,\omega)=\frac{C_k\epsilon^{1/3}k^{-13/3}}{\sqrt{2\pi}}e^{-2\Omega^2}
+  \label{A:scaling}
+\end{equation}
+\begin{equation}
+  \Phi(q,\Omega_1;s,\Omega-\Omega_1)
+  =q^{-13/3}s^{-13/3}\exp\!\bigl[-2\Omega_1^2q^{-4/3}-2(\Omega-\Omega_1)^2s^{-4/3}\bigr]
+  \label{A:Phi}
+\end{equation}
+\begin{equation}
+  H_{ijij}(\kb,\omega)=\frac{C_k^2\epsilon}{256\pi^8}\,k^{-5}\,\mathfrak{H}(\Omega),
+  \qquad
+  \mathfrak{H}(\Omega)=\!\int_0^\infty\!\!dq\,q\!\int_{-\infty}^{\infty}\!\!d\Omega_1\!\int_{|1-q|}^{1+q}\!\!ds\,s\;
+  \Phi\,\widetilde{\mathcal{K}}(q,s)
+  \label{A:Hcompact}
+\end{equation}
+\begin{equation}
+  a=\frac{1}{\pi\eta_{k_1}^2},\quad b=\frac{1}{\pi\eta_u^2},
+  \qquad
+  \int_{-\infty}^{\infty}\!\!d\omega_1\,e^{-a\omega_1^2-b(\omega-\omega_1)^2}
+  =\sqrt{\frac{\pi}{a+b}}\;e^{-ab\omega^2/(a+b)}
+  \label{A:gaussid}
+\end{equation}
+\begin{equation}
+  \frac{ab}{a+b}=\frac{1}{\pi(\eta_{k_1}^2+\eta_u^2)},
+  \qquad
+  \eta_{k_1}^2+\eta_u^2=\frac{\epsilon^{2/3}\bigl(k_1^{4/3}+u^{4/3}\bigr)}{2\pi}
+  \;\Longrightarrow\;
+  e^{-ab\omega^2/(a+b)}=\exp\!\left(-\frac{2\epsilon^{-2/3}\omega^2}{k_1^{4/3}+u^{4/3}}\right)
+  \label{A:gaussexp}
+\end{equation}
+\begin{equation}
+  \int_0^{\infty}\!\!dy\,e^{-Ay^2-B(y-x)^2}
+  =\sqrt{\frac{\pi}{4(A+B)}}\;e^{-ABx^2/(A+B)}\,
+  \operatorname{erfc}\!\left[-\frac{Bx}{\sqrt{A+B}}\right]
+  \label{A:erfcid}
+\end{equation}
+% FLAG: the erfc argument below CORRECTS Eq.~\eqref{eq:Hijij-AppA} of the main
+% text, which reads -sqrt2 eps^{-1/3} w /(k1^{-4/3}+u^{-4/3})^{1/2} and is
+% dimensionally inconsistent (that ratio carries L^{-4/3}, not L^0).  Applying
+% the Gaussian-erfc identity Eq.~\eqref{A:erfcid} with A=1/(pi eta_{k1}^2),
+% B=1/(pi eta_u^2), x=w gives B x/sqrt(A+B) = sqrt2 eps^{-1/3} w u^{-4/3}
+% (k1^{-4/3}+u^{-4/3})^{-1/2}, i.e. an extra factor u^{-4/3} -> y.  Main text
+% Eq.~\eqref{eq:Hijij-AppA-dimless} and core.py:integrand_y both still use the
+% uncorrected erfc(-sqrt2 q/(M sqrt(x+y))).  Numerically the difference is
+% <=10% on the diagonal and moves neither the peak nor any slope, so no result
+% in the paper changes; but main text + code should be brought into line.
+% Note also that Eq.~\eqref{eq: conversion} integrates w_1 over (-inf,inf), for
+% which the identity gives NO erfc at all (the factor is exactly 2); the erfc is
+% inherited from the one-sided form of Gogoberidze's Appendix A.
+\begin{align}
+  H_{ijij}(k,\omega)&=\frac{\varepsilon}{24\pi(2\pi)^{3/2}k}
+  \int_{k_0}^{k_d}\!\!dk_1\,k_1^{-10/3}
+  \int_{\max(|k_1-k|,k_0)}^{\min(k_1+k,k_d)}\!\!du\,u^{-10/3}\,
+  \bigl(k_1^{-4/3}+u^{-4/3}\bigr)^{-1/2}
+  \nonumber\\
+  &\quad\times\Bigl[27-\tfrac{k^2}{k_1^2}-\tfrac{k^2}{u^2}
+   +\tfrac{k^4}{2k_1^2u^2}+\tfrac{k_1^2}{2u^2}+\tfrac{u^2}{2k_1^2}\Bigr]
+  \nonumber\\
+  &\quad\times\exp\!\left(-\frac{2\varepsilon^{-2/3}\omega^2}{k_1^{4/3}+u^{4/3}}\right)
+  \operatorname{erfc}\!\left(-\frac{\sqrt2\,\varepsilon^{-1/3}\omega\,u^{-4/3}}
+  {(k_1^{-4/3}+u^{-4/3})^{1/2}}\right)
+  \label{A:AppA}
+\end{align}
+\begin{equation}
+  M=\frac{1}{c}\Bigl(\frac{\varepsilon}{k_0}\Bigr)^{1/3},
+  \qquad
+  \frac{k_d}{k_0}=R^{3/4},
+  \qquad
+  \varepsilon=c^3M^3k_0,
+  \qquad
+  x=\Bigl(\frac{k_1}{k_0}\Bigr)^{-4/3},
+  \qquad
+  y=\Bigl(\frac{u}{k_0}\Bigr)^{-4/3}
+  \label{A:dimless}
+\end{equation}
+\begin{equation}
+  dk_1\,k_1^{-10/3}=-\tfrac34k_0^{-7/3}x^{3/4}dx,
+  \qquad
+  \bigl(k_1^{-4/3}+u^{-4/3}\bigr)^{-1/2}=k_0^{2/3}(x+y)^{-1/2}
+  \label{A:jacobian}
+\end{equation}
+\begin{equation}
+  y_{\max}(x)=\min\bigl(|x^{-3/4}-p|^{-4/3},\,1\bigr),
+  \qquad
+  y_{\min}(x)=\max\bigl((x^{-3/4}+p)^{-4/3},\,R^{-1}\bigr)
+  \label{A:ybounds}
+\end{equation}
+\begin{align}
+  H[S_{\rm K41},T_{\rm sw}](p,q;M,R)&=\frac{3M^3k_0^{-4}}{256(2\pi)^{3/2}\,p}
+  \int_{R^{-1}}^{1}\!\!dx\,x^{3/4}\!\int_{y_{\min}}^{y_{\max}}\!\!dy\,y^{3/4}\,(x+y)^{-1/2}
+  \nonumber\\
+  &\quad\times\Bigl[27-p^2\bigl(x^{3/2}+y^{3/2}\bigr)+\tfrac{p^4}{2}x^{3/2}y^{3/2}
+   +\tfrac12\bigl(x^{-3/2}y^{3/2}+y^{-3/2}x^{3/2}\bigr)\Bigr]
+  \nonumber\\
+  &\quad\times\exp\!\left(-\frac{2xy}{x+y}\frac{q^2}{M^2}\right)
+  \operatorname{erfc}\!\left(-\frac{\sqrt2\,q\,y}{M\sqrt{x+y}}\right)
+  \label{A:AppAdimless}
+\end{align}
+\begin{equation}
+  p\ll M:\quad
+  \exp(\cdot)\to1,\ \operatorname{erfc}(\cdot)\to\text{const}
+  \;\Longrightarrow\;
+  \Omgw\to C\,M^3p^3,
+  \qquad h_c\sim M^{3/2}\sqrt{p}
+  \label{A:IRK41}
+\end{equation}
+\begin{equation}
+  p_{\rm peak}=1.47\,M
+  \label{A:peakK41}
+\end{equation}
+
+\subsection{\texorpdfstring{$S_{\rm K41}\times T_{\rm dec}$}{S\_K41 x T\_dec}}
+\label{sec:chain-k41dec}
+
+\begin{equation}
+  f(\tau)=\Bigl(1+\frac{|\tau|}{\tau_k}\Bigr)^{-2/3},
+  \qquad
+  \tau_k=\frac{1}{\eta_k}=\frac{\sqrt{2\pi}}{M k_0^{1/3}k^{2/3}},
+  \qquad
+  \tau_1=\frac{\sqrt{x}}{M},\quad \tau_2=\frac{\sqrt{y}}{M}
+  \label{A:decf}
+\end{equation}
+\begin{equation}
+  \hat g(\bar q)=\!\int_0^{\infty}\!\!d\sigma\,e^{i\bar q\sigma}(1+\sigma)^{-2/3}
+  =e^{-i\bar q}(-i\bar q)^{-1/3}\,\Gamma\!\bigl(\tfrac13,-i\bar q\bigr)
+  \label{A:ghat}
+\end{equation}
+\begin{equation}
+  \int\!d\omega_1\,\hat g(\omega_1\tau_1)\hat g\bigl((\omega-\omega_1)\tau_2\bigr)
+  =\frac{2\pi}{\tau_1\tau_2}\!\int_0^{\infty}\!\!d\tau\,\cos(\omega\tau)
+  \Bigl(1+\frac{\tau}{\tau_1}\Bigr)^{-2/3}\Bigl(1+\frac{\tau}{\tau_2}\Bigr)^{-2/3}
+  \label{A:ftproduct}
+\end{equation}
+\begin{equation}
+  H[S_{\rm K41},T_{\rm dec}](p,q;M,R):\quad
+  \text{Eq.~\eqref{A:AppAdimless} with }
+  \exp(\cdot)\operatorname{erfc}(\cdot)\;\longrightarrow\;\text{Eq.~\eqref{A:ftproduct}}
+  \label{A:Hk41dec}
+\end{equation}
+\begin{equation}
+  \tau\to\tau/M
+  \;\Longrightarrow\;
+  \text{Eq.~\eqref{A:ftproduct}}=M\,F(\omega/M),
+  \qquad
+  \Omgw(p;M)=M^4\,p^3\,\Psi\!\bigl(p,\,p/M\bigr)
+  \label{A:decamp}
+\end{equation}
+\begin{equation}
+  p/M\to0:\quad \Omgw\propto M^4,
+  \qquad
+  p_{\rm peak}^{\rm decay}\simeq2.4
+  \label{A:decpeak}
+\end{equation}
+
+\subsection{\texorpdfstring{$S_{\delta k}$}{S\_dk}}
+\label{sec:chain-deltak}
+
+\begin{equation}
+  E(k)=E_0\,\delta(k-k_0),
+  \qquad
+  A(k)=\frac{E_0\,\delta(k-k_0)}{4\pi k^2},
+  \qquad
+  \tilde F_{ij}(\kb,\omega)=\frac{E_0\delta(k-k_0)}{4\pi k^2}P_{ij}(\khat)\tf(\omega)
+  \label{A:Fdeltak}
+\end{equation}
+\begin{equation}
+  2\pi\!\int_{-1}^{1}\!\!d\mu\,A(u)=\frac{E_0}{2k\,k_0^2}\,\Theta(2k_0-k)
+  \label{A:angulardelta}
+\end{equation}
+\begin{align}
+  \mathcal{K}_0(p)\equiv\mathcal{K}(k,k_0,k_0)
+  &=\frac{27}{6}+\frac{k^4}{12k_0^4}+\frac{k_0^2}{12k_0^2}+\frac{k_0^2}{12k_0^2}
+   -\frac{k^2}{6k_0^2}-\frac{k^2}{6k_0^2}
+  \nonumber\\
+  &=\frac{27+1+1}{6}+\frac{p^4}{12}-\frac{p^2}{3}
+   =\frac{14}{3}-\frac{p^2}{3}+\frac{p^4}{12}
+  \label{A:K0}
+\end{align}
+\begin{equation}
+  H_{ijij}(\kb,\omega)=\frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,k\,k_0^2}\,\mathcal{K}_0(p)\,I_\omega(\omega),
+  \qquad
+  I_\omega(\omega)\equiv\!\int\!d\omega_1\,\tf(\omega_1)\tf(\omega-\omega_1)
+  \label{A:Hdeltak}
+\end{equation}
+\begin{equation}
+  \eta_0\equiv\eta_{k_0}=\frac{M k_0}{\sqrt{2\pi}},
+  \qquad
+  \tau_1=\frac{1}{\eta_0}=\frac{\sqrt{2\pi}}{M k_0},
+  \qquad
+  q=\frac{\omega}{k_0},
+  \qquad
+  \bar q\equiv\omega\tau_1=\frac{\sqrt{2\pi}\,q}{M}
+  \label{A:eta0}
+\end{equation}
+\begin{equation}
+  \tf(\omega)=\frac{2}{\eta_0}e^{-\omega^2/\pi\eta_0^2}
+  \;\Longrightarrow\;
+  I_\omega(\omega)=\frac{2\sqrt2\,\pi}{\eta_0}e^{-\omega^2/(2\pi\eta_0^2)},
+  \qquad
+  \frac{\omega^2}{2\pi\eta_0^2}=\frac{q^2}{M^2}
+  \label{A:Ideltak}
+\end{equation}
+\begin{equation}
+  \boxed{\;
+  H[S_{\delta k},T_{\rm sw}](p,q;M)=\frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,e^{-q^2/M^2}\;}
+  \label{A:HdeltakSW}
+\end{equation}
+\begin{equation}
+  \tf(\omega)=\hat g(\omega\tau_1)
+  \;\Longrightarrow\;
+  I_\omega=\frac{1}{\tau_1}\!\int\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\hat g(\bar q-q_1)\bigr]
+  \label{A:Ideltakdec}
+\end{equation}
+\begin{equation}
+  \boxed{\;
+  H[S_{\delta k},T_{\rm dec}](p,q;M)=\frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)
+  \!\int_{-\infty}^{\infty}\!\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\hat g(\bar q-q_1)\bigr]\;}
+  \label{A:HdeltakDEC}
+\end{equation}
+\begin{equation}
+  \mathcal{C}(\bar q)\equiv\!\int_{-\infty}^{\infty}\!\!d\tau\,\cos(\bar q\tau)
+  \bigl[(1+|\tau|)^{-2/3}\bigr]^{2}
+  =2\,\mathrm{Re}\Bigl[e^{-i\bar q}(-i\bar q)^{1/3}\,\Gamma\!\bigl(-\tfrac13,-i\bar q\bigr)\Bigr]
+  \label{A:Cclosed}
+\end{equation}
+\begin{equation}
+  h=f\Theta,\quad f(s)=(1+s)^{-2/3}
+  \;\Longrightarrow\;
+  (\hat g*\hat g)(\bar q)=2\pi\,\mathcal{F}[h^2](\bar q)
+  \;\Longrightarrow\;
+  \int_{-\infty}^{\infty}\!\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\hat g(\bar q-q_1)\bigr]=\pi\,\mathcal{C}(\bar q)
+  \label{A:convC}
+\end{equation}
+\begin{equation}
+  \mathcal{C}(0)=6,
+  \qquad
+  \mathcal{C}(\bar q)\xrightarrow[\bar q\to0]{}6-3\sqrt3\,\Gamma(\tfrac23)\,\bar q^{\,1/3},
+  \qquad
+  \mathcal{C}(\bar q)\xrightarrow[\bar q\to\infty]{}\frac{8}{3\bar q^{\,2}}
+  \label{A:Climits}
+\end{equation}
+\begin{equation}
+  T(\omega)=2\!\int_0^{\infty}\!\!d\tau\,\cos(\omega\tau)f(\tau)\;\longrightarrow\;-\frac{2f'(0^+)}{\omega^2},
+  \qquad
+  f=(1+|\tau|)^{-4/3}:\ f'(0^+)=-\tfrac43
+  \label{A:cusp}
+\end{equation}
+
+\subsection{\texorpdfstring{$S_{\delta r}$}{S\_dr}}
+\label{sec:chain-white}
+
+\begin{equation}
+  R_{ij}(\br,\tau)=v_0^2\,\delta^{(3)}(\br)\,P_{ij}\,T(\eta_k,\tau),
+  \qquad
+  \tilde F_{ij}(\kb,\omega)=v_0^2\,P_{ij}(\khat)\,\widetilde T(\eta_k,\omega),
+  \qquad
+  A(k)=v_0^2
+  \label{A:Fwhite}
+\end{equation}
+\begin{equation}
+  z=\frac{k_1}{k_0},\quad y=\frac{u}{k_0},\quad p=\frac{k}{k_0},\quad q=\frac{\omega}{k_0},
+  \quad \frac{k_d}{k_0}=R^{3/4},
+  \qquad
+  \eta_k=\frac{M}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}
+  \label{A:whitevars}
+\end{equation}
+\begin{equation}
+  H_{ijij}(\kb,\omega)=\frac{v_0^4k_0^2}{(2\pi)^7}\!\int_1^{R^{3/4}}\!\!\frac{z\,dz}{p}
+  \!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!\!y\,dy\;\widetilde{\mathcal{K}}(p,z,y)\,J(\omega;k_1,u),
+  \quad
+  J\equiv\!\int\!d\omega_1\,\widetilde T(\eta_{k_1},\omega_1)\widetilde T(\eta_u,\omega-\omega_1)
+  \label{A:Hwhite}
+\end{equation}
+\begin{equation}
+  \eta_{k_1}^2+\eta_u^2=\frac{M^2}{2\pi}k_0^{2/3}\bigl(k_1^{4/3}+u^{4/3}\bigr)
+  \;\Longrightarrow\;
+  J=\frac{4\pi\sqrt{2\pi}}{Mk_0^{1/3}\sqrt{k_1^{4/3}+u^{4/3}}}
+  \exp\!\left(-\frac{2\omega^2}{M^2k_0^{2/3}(k_1^{4/3}+u^{4/3})}\right)
+  \label{A:Jwhite}
+\end{equation}
+\begin{equation}
+  \boxed{\;
+  H[S_{\delta r},T_{\rm sw}](p,q;M,R)=\!\int_1^{R^{3/4}}\!\!\frac{z\,dz}{p}
+  \!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!\!y\,dy\;\widetilde{\mathcal{K}}(p,z,y)\,
+  \bigl(z^{4/3}+y^{4/3}\bigr)^{-1/2}e^{-2q^2/[M^2(z^{4/3}+y^{4/3})]}\;}
+  \label{A:HwhiteSW}
+\end{equation}
+\begin{equation}
+  \tau_k=\frac{1}{\eta_k}=\frac{\sqrt{2\pi}}{Mk_0^{1/3}k^{2/3}},
+  \qquad
+  \tilde J(q;z,y,M)=\!\int\!d\omega_1\,\mathrm{Re}\bigl[\hat g(\omega_1\tau_{k_1})\hat g\bigl((\omega-\omega_1)\tau_u\bigr)\bigr]
+  \label{A:Jtilde}
+\end{equation}
+\begin{equation}
+  \boxed{\;
+  H[S_{\delta r},T_{\rm dec}](p,q;M,R)=\!\int_1^{R^{3/4}}\!\!\frac{z\,dz}{p}
+  \!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!\!y\,dy\;\widetilde{\mathcal{K}}(p,z,y)\,\tilde J(q;z,y,M)\;}
+  \label{A:HwhiteDEC}
+\end{equation}
+\begin{equation}
+  A^{-2/3}B^{-2/3}=\frac{\Gamma(4/3)}{\Gamma(2/3)^2}\!\int_0^1\!\frac{dt}{[t(1-t)]^{1/3}}
+  \bigl[tA+(1-t)B\bigr]^{-4/3}
+  \label{A:feynman}
+\end{equation}
+\begin{equation}
+  A=1+\frac{\tau}{\tau_1},\quad B=1+\frac{\tau}{\tau_2},
+  \qquad
+  \frac{1}{\tau_\ast(t)}=\frac{t}{\tau_1}+\frac{1-t}{\tau_2}
+  \label{A:taustar}
+\end{equation}
+\begin{equation}
+  \tilde J=\frac{\pi}{\tau_1\tau_2}\frac{\Gamma(4/3)}{\Gamma(2/3)^2}
+  \!\int_0^1\!\frac{dt}{[t(1-t)]^{1/3}}\,\tau_\ast(t)\,\mathcal{C}\bigl(\omega\,\tau_\ast(t)\bigr)
+  \label{A:twoscale}
+\end{equation}
+\begin{equation}
+  \tau_1=\tau_2:\quad
+  \frac{\Gamma(4/3)}{\Gamma(2/3)^2}B\bigl(\tfrac23,\tfrac23\bigr)=1
+  \;\Longrightarrow\;
+  \text{Eq.~\eqref{A:twoscale}}\to\text{Eq.~\eqref{A:convC}}
+  \label{A:twoscalecheck}
+\end{equation}
+
+\subsection{\texorpdfstring{$T_{\rm imp}$, $T_{\rm burst}$}{T\_imp, T\_burst}}
+\label{sec:chain-impulsive}
+
+\begin{equation}
+  \Pi^{\rm TT}_{ij}(\kb,\tau)=A^{\rm TT}_{ij}(\kb)\,\delta(\tau-\tau_s),
+  \qquad
+  \bigl\langle A^{\rm TT}_{ij}(\kb)A^{{\rm TT}*}_{ij}(\kb')\bigr\rangle
+  =(2\pi)^3\delta^{(3)}(\kb-\kb')P(k)
+  \label{A:impstress}
+\end{equation}
+\begin{equation}
+  \Pi(k;\tau_1,\tau_2)=P(k)\,\delta(\tau_1-\tau_s)\,\delta(\tau_2-\tau_s)
+  \label{A:impuetc}
+\end{equation}
+\begin{align}
+  \frac{d\rho_{\rm GW}}{d\ln k}
+  &=\frac{2Gk^3}{\pi}\!\int\!d\tau_1\!\int\!d\tau_2\,\cos[k(\tau_1-\tau_2)]\,
+    P(k)\delta(\tau_1-\tau_s)\delta(\tau_2-\tau_s)
+  \nonumber\\
+  &=\frac{2Gk^3}{\pi}P(k)\cos(0)=\frac{2Gk^3}{\pi}P(k)
+  \label{A:imptemporal}
+\end{align}
+\begin{equation}
+  P(k)=\frac{1}{(2\pi)^7}\!\int\!d^3k_1\,A(k_1)A(u)\,\mathcal{K}(k,k_1,u)
+  =\frac{1}{(2\pi)^6}\!\int_0^{\infty}\!\frac{k_1dk_1}{k}\!\int_{|k-k_1|}^{k+k_1}\!\!u\,du\,
+  A(k_1)A(u)\,\mathcal{K}(k,k_1,u)
+  \label{A:Pk}
+\end{equation}
+\begin{equation}
+  \int_0^{\infty}\!\frac{k_1dk_1}{k}\!\int_{|k-k_1|}^{k+k_1}\!\!u\,du\;
+  \frac{E_0\delta(k_1-k_0)}{4\pi k_1^2}\frac{E_0\delta(u-k_0)}{4\pi u^2}
+  =\frac{E_0^2}{16\pi^2}\frac{1}{k_0^2}\frac{1}{k}\,\Theta(2k_0-k)
+  \label{A:angcollapse}
+\end{equation}
+\begin{equation}
+  P(k)=\frac{E_0^2\,\mathcal{K}_0(p)}{(2\pi)^6\cdot16\pi^2\,k\,k_0^2}\,\Theta(2-p)
+  \label{A:Pkresult}
+\end{equation}
+\begin{equation}
+  \boxed{\;
+  H[S_{\delta k},T_{\rm imp}](p)=\frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)
+  =\lim_{q\to0}H[S_{\delta k},T_{\rm sw}](p,q;M)\;}
+  \label{A:Himp}
+\end{equation}
+\begin{equation}
+  \Box h_{ij}=16\pi G\,S_{ij},
+  \quad \Box=\pa_t^2-\nabla^2,
+  \qquad
+  \dot h_{ij}(\br,t)=4G\!\int\!d^3r'\,\frac{\dot S_{ij}(\br',t-|\br-\br'|)}{|\br-\br'|}
+  \label{A:rshdot}
+\end{equation}
+\begin{equation}
+  L(\br,\tau)\equiv\frac{1}{32\pi G}\bigl\langle\dot h_{ij}(\br,t)\dot h_{ij}(\br,t+\tau)\bigr\rangle,
+  \qquad
+  I(\br,\omega)\equiv\frac{1}{2\pi}\!\int\!d\tau\,e^{i\omega\tau}L(\br,\tau),
+  \qquad
+  \frac{d\rho_{\rm GW}}{d\ln\omega}=\omega\,I(\br,\omega)
+  \label{A:rsLI}
+\end{equation}
+\begin{equation}
+  \frac{(4G)^2}{32\pi G}=\frac{G}{2\pi}:
+  \qquad
+  L(\br,\tau)=\frac{G}{2\pi}\!\int\!\frac{d^3r_1d^3r_2}{|\br-\br_1||\br-\br_2|}
+  \bigl\langle\dot S_{ij}(\br_1,t')\dot S_{ij}(\br_2,t'')\bigr\rangle,
+  \quad
+  \begin{aligned}
+    t'&=t-|\br-\br_1|\\
+    t''&=t+\tau-|\br-\br_2|
+  \end{aligned}
+  \label{A:rsLret}
+\end{equation}
+\begin{equation}
+  \bigl\langle\dot S_{ij}(\br_1,t')\dot S_{ij}(\br_2,t'')\bigr\rangle
+  =-\pa_\tau^2\bigl\langle S_{ij}(\br_1,t')S_{ij}(\br_2,t'')\bigr\rangle
+  \;\Longrightarrow\;
+  I(\br,\omega)=\frac{G\omega^2}{(2\pi)^2}\!\int\!\frac{d^3r_1d^3r_2}{|\br-\br_1||\br-\br_2|}
+  \!\int\!d\tau\,e^{i\omega\tau}\bigl\langle S_{ij}S_{ij}\bigr\rangle
+  \label{A:rsIw}
+\end{equation}
+\begin{equation}
+  S_{ij}=\mathcal{S}_{ij}(\br)\delta(t-t_0),
+  \qquad
+  \Sigma(\br_1,\br_2)=\bigl\langle\mathcal{S}_{ij}(\br_1)\mathcal{S}_{ij}(\br_2)\bigr\rangle,
+  \qquad
+  \bigl\langle e^{i\boldsymbol{\omega}\cdot\br}\bigr\rangle=\frac{\sin(\omega r)}{\omega r}
+  \label{A:rsburst}
+\end{equation}
+\begin{equation}
+  \boxed{\;
+  \frac{d\rho_{\rm GW}}{d\ln\omega}=8G\,\omega^2\!\int_0^{\infty}\!\!dr\,r\,\sin(\omega r)\,\Sigma(r)\;}
+  \label{A:rsspectrum}
+\end{equation}
+\begin{equation}
+  S_{ij}(\br,t)=\mathcal{S}_{ij}(\br)\,g(t-t_0),
+  \qquad
+  \tilde g(\omega)=\!\int\!dt\,g(t)e^{i\omega t}
+  \label{A:rsg}
+\end{equation}
+\begin{equation}
+  \boxed{\;
+  \frac{d\rho_{\rm GW}}{d\ln\omega}=8G\,\omega^2\,|\tilde g(\omega)|^2\!
+  \int_0^{\infty}\!\!dr\,r\,\sin(\omega r)\,\Sigma(r)\;}
+  \label{A:rsspectrumdt}
+\end{equation}
+\begin{equation}
+  \boxed{\;\omega_{\rm peak}\simeq\min\!\Bigl(\frac{1}{\ell},\,\frac{1}{\Delta t}\Bigr)\;}
+  \label{A:rsfpeak}
+\end{equation}
+
+
 \bibliography{bib}
 
 \end{document}
