@@ -147,12 +147,29 @@ def _outer_k_grid(k_lo: float, k_hi: float, n: int, p: float,
 # --------------------------------------------------------------------------- #
 def H_band(p: float, q: float, M: float = M_FID, R: float = R_FID,
            R_IR: float = R_IR_FID, ir: str = "batchelor", band: str = "both",
+           temporal: str = "sweeping",
            x_points: int = 320, y_points: int = 240) -> float:
     r"""Stationary GW kernel H(p,q) sourced by ``band`` of the fluid spectrum only.
 
     Identical to ``_fullspectrum_kernel.H_full`` except that the shape factor is
     ``shape_band(..., band)``.  ``R_IR = k0/k_IR``, ``R = (k_d/k0)^{4/3}``.
+
+    ``temporal``:
+      ``"sweeping"``  Kraichnan; the Gaussian, the erfc and the (x+y)^{-1/2}
+                      weight are all present.  ``q`` is used.
+      ``"delta"``     the source fires at a single epoch,
+                      Pi(k;t1,t2) = P(k) delta(t1-t0) delta(t2-t0).  Both deltas
+                      collapse and cos[k(t1-t2)] -> cos 0 = 1, so the temporal
+                      factor is identically unity FOR ANY t0 -- the burst epoch
+                      cancels exactly and ``q`` is ignored.  Note this drops the
+                      (x+y)^{-1/2} weight as well: that factor is the
+                      sqrt(pi/(A+B)) of the Gaussian omega_1 convolution and is
+                      part of the temporal model, not of the spatial one.  Hence
+                      "delta" is NOT the q -> 0 limit of "sweeping"; the two
+                      agree only where k1 and u are pinned to a single shell.
     """
+    if temporal not in ("sweeping", "delta"):
+        raise ValueError(f"temporal must be 'sweeping' or 'delta', got {temporal!r}")
     if band not in BANDS:
         raise ValueError(f"band must be one of {BANDS}, got {band!r}")
     ir_exp = IR_EXPONENTS[ir]
@@ -178,10 +195,14 @@ def H_band(p: float, q: float, M: float = M_FID, R: float = R_FID,
         ys = _split_grid(y_min, y_max, y_points)          # y = (u/k0)^{-4/3}
         s2 = shape_band(ys ** (-0.75), ir_exp, band)      # S(u)
         ss = x + ys
-        geom = ys ** 0.75 * ss ** (-0.5) * x ** 0.75 * kernel_bracket(p, x, ys)
-        expo = np.exp(-2.0 * x * ys / ss * q ** 2 / M ** 2)
-        erfc = special.erfc(-np.sqrt(2.0) * q / (M * np.sqrt(ss)))
-        x_integrand[i] = np.trapezoid(geom * expo * erfc * s1[i] * s2, ys)
+        geom = ys ** 0.75 * x ** 0.75 * kernel_bracket(p, x, ys)
+        if temporal == "delta":
+            tfac = 1.0
+        else:
+            tfac = (ss ** (-0.5)
+                    * np.exp(-2.0 * x * ys / ss * q ** 2 / M ** 2)
+                    * special.erfc(-np.sqrt(2.0) * q / (M * np.sqrt(ss))))
+        x_integrand[i] = np.trapezoid(geom * tfac * s1[i] * s2, ys)
 
     return _h_prefactor(p, M, 1.0) * float(np.trapezoid(x_integrand, xs))
 
@@ -242,6 +263,15 @@ def main(n_p: int = 46, p_lo: float = 1e-3, p_hi: float = 3e1,
     colours = {"ir": PALETTE[5], "inertial": PALETTE[6], "both": PALETTE[0]}
     styles = {"ir": "--", "inertial": "-.", "both": "-"}
 
+    # Kraichnan sweeping on the diagonal q = p, versus a source that fires at a
+    # single epoch, Pi(k;t1,t2) = P(k) delta(t1-t0) delta(t2-t0).  For the latter
+    # both deltas collapse and cos[k(t1-t2)] -> 1, so the temporal factor is
+    # identically unity FOR ANY t0.  Same spatial integral either way, so the
+    # pair isolates exactly what the temporal model controls.
+    def _omega_delta(ps_, band):
+        return np.array([pp ** 3 * H_band(pp, 0.0, band=band, temporal="delta")
+                         for pp in ps_])
+
     spectra, slopes, peaks = {}, {}, {}
     for band in BANDS:
         print(f"[band_split_gw] computing band={band!r} ...", flush=True)
@@ -251,6 +281,15 @@ def main(n_p: int = 46, p_lo: float = 1e-3, p_hi: float = 3e1,
         print(f"    IR slope over p in [{ir_fit[0]:g}, {ir_fit[1]:g}]"
               f" = {slopes[band]:+.3f}   peak p = {peaks[band]:.3g}"
               f"   Omega(peak) = {np.nanmax(spectra[band]):.3e}", flush=True)
+
+    nocorr, nc_slopes = {}, {}
+    for band in ("ir", "inertial"):
+        print(f"[band_split_gw] computing band={band!r} with delta(t-t0) source ...",
+              flush=True)
+        nocorr[band] = _omega_delta(ps, band)
+        nc_slopes[band] = fit_slope(ps, nocorr[band], *ir_fit)
+        print(f"    IR slope = {nc_slopes[band]:+.3f}"
+              f"   peak p = {peak_position(ps, nocorr[band]):.3g}", flush=True)
 
     def _pos(y):                       # blank out the empty support on a log axis
         y = np.asarray(y, float).copy()
@@ -280,8 +319,11 @@ def main(n_p: int = 46, p_lo: float = 1e-3, p_hi: float = 3e1,
     ax.loglog(ps, _pos(spectra["both"]), "-", color=colours["both"], lw=3.4,
               alpha=0.30, label=rf"{BAND_LABELS['both']}: $p^{{{slopes['both']:.2f}}}$")
     for band in ("ir", "inertial"):
-        ax.loglog(ps, _pos(spectra[band]), styles[band], color=colours[band], lw=1.7,
-                  label=rf"{BAND_LABELS[band]}: $p^{{{slopes[band]:.2f}}}$")
+        ax.loglog(ps, _pos(spectra[band]), "-", color=colours[band], lw=1.7,
+                  label=rf"{BAND_LABELS[band]} $+\,T_{{\rm sw}}$: $p^{{{slopes[band]:.2f}}}$")
+    for band in ("ir", "inertial"):
+        ax.loglog(ps, _pos(nocorr[band]), "--", color=colours[band], lw=1.4, alpha=0.85,
+                  label=rf"{BAND_LABELS[band]} $+\,\delta(t-t_0)$: $p^{{{nc_slopes[band]:.2f}}}$")
     i_ref = int(np.argmin(np.abs(ps - 3e-3)))
     guide = spectra["ir"][i_ref] * (ps / ps[i_ref]) ** 3
     sel = (ps >= 1.2e-3) & (ps <= 4e-2)
@@ -291,9 +333,9 @@ def main(n_p: int = 46, p_lo: float = 1e-3, p_hi: float = 3e1,
     ax.set_xlabel(r"$p = k/k_0$")
     ax.set_ylabel(r"$\Omega_{\rm GW}(p) \propto p^{3}\,H(p,p)$")
     ax.set_title(r"(b) sourced GW spectrum")
-    ax.set_ylim(1e-12, 3e-3)
-    apply_max_ticks(ax)
-    ax.legend(loc="upper left", frameon=False, fontsize=10)
+    ax.set_ylim(1e-12, 3e-1)
+    apply_max_ticks(ax, n=6)
+    ax.legend(loc="upper left", frameon=False, fontsize=7.5)
 
     fig.tight_layout()
     out = save_figure(fig, "band_split_gw")

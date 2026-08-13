@@ -52,9 +52,8 @@
 \newcommand{\tf}{\tilde{f}}
 
 \begin{document}
-\title{Polarization of Gravitational Waves From Turbulence:
-       Tension Between Simulation and Analytic Approaches}
-\date{\today}
+\title{Gravitational Waves from Primordial Turbulence:\\
+       What the Source Determines, and What It Does Not}
 
 \author{Titus Brock}
 \email{tbrock@andrew.cmu.edu}
@@ -72,18 +71,134 @@ Carnegie Mellon University, Pittsburgh, PA 15213, USA}
 Carnegie Mellon University, Pittsburgh, PA 15213, USA}
 \affiliation{School of Natural Sciences and Medicine, Ilia State University, 0194 Tbilisi, Georgia}
 \affiliation{Abastumani Astrophysical Observatory, Tbilisi, GE-0179, Georgia}
-
+\begin{abstract}
+The gravitational-wave (GW) background sourced by turbulence in the early
+Universe is computed from three inputs: the spatial spectrum of the fluid, the
+unequal-time correlator (UETC) of the source, and the dissipation physics that
+terminates the cascade. We show that these three inputs are not on an equal
+footing, and that the pipeline separates cleanly: the infrared slope is fixed by
+the spatial model alone, the ultraviolet by the temporal model alone, and only
+the peak responds to both. Two consequences follow. First, the causal infrared
+$\Omega_{\rm GW}\propto k^{3}$ is a property of the \emph{quadratic} source and
+not of the fluid spectrum: it survives changing the infrared slope of the input,
+its bandwidth, the Mach number, the choice of temporal model, and the removal of
+the temporal sector altogether. We demonstrate this with a band-split experiment
+in which the Kolmogorov range alone---an input with identically zero infrared
+power---still radiates a clean $k^{3}$. The long-standing $k^{3}$-versus-$k^{1}$
+tension between analytic predictions and simulations therefore cannot be resolved
+on the spatial axis, and we localise it instead to a single assumption,
+$\Omega_{T}\propto\Omega_{M}$, which the self-convolution of the stress forbids.
+Second, the displacement of the GW peak to the source scale requires only that the
+source correlator have a kink at zero time lag, a condition met by any source with
+a finite lifetime and not specific to any decorrelation model. We close by arguing
+that the remaining freedom in the pipeline lies almost entirely in the third
+input: the dissipation microphysics of the early Universe is neither
+Navier--Stokes nor unit magnetic Prandtl number, and no existing calculation or
+simulation of the GW signal uses the correct one.
+\end{abstract}
 
 \maketitle
 
 \tableofcontents
 
+\section{Introduction}
+\label{sec:intro}
+
+A turbulent or magnetically turbulent early Universe radiates gravitational waves,
+and the shape of that background is one of the few observables that carries
+information about the fluid state of the plasma at the electroweak or QCD epoch
+\cite{Kosowsky:2001xp,Gogoberidze:2007an,Kahniashvili:2008pe,Caprini:2018mtu}. The question
+has acquired an observational edge: pulsar-timing arrays now report evidence for a
+stochastic background in the nanohertz band \cite{NANOGrav:2023gor}, for which a
+cosmological turbulent source at the QCD epoch is among the candidate
+interpretations \cite{RoperPol:2022iel}, while LISA is expected to probe the
+millihertz band where an electroweak-scale source would peak
+\cite{Caprini:2019egz}. Independently, the case for a primordial magnetic field
+capable of driving such turbulence rests on blazar observations
+\cite{Neronov:2010gir} and is bounded from above by the cosmic microwave background
+\cite{Paoletti:2022gsn}; the generation and subsequent evolution of such fields is
+reviewed in Refs.~\cite{Enqvist:1998fw,Durrer:2013pga,Subramanian:2015lua}.
+Turbulence is one of three
+sources a first-order transition is expected to produce, alongside bubble
+collisions and the longer-lived acoustic phase \cite{Hindmarsh:2013xza}; it is
+the least well characterised of the three, and the only one whose prediction
+depends on a closure assumption about the source statistics. Extracting
+that information requires a calculation with three separable inputs. One must
+specify the \emph{spatial} spectrum of the source, the \emph{temporal} correlation
+of the source with itself at unequal times, and the \emph{dissipation} physics
+that sets where the cascade terminates. The literature has treated these three
+very unequally: the spatial spectrum is argued over in detail, the temporal
+correlator has been modelled by a coherent (separable) kernel
+\cite{Caprini:2006jb,Caprini:2009yp}, by Kraichnan's random-sweeping
+approximation \cite{Kraichnan:1959,Kraichnan:1965,Kraichnan:1977,Gogoberidze:2007an},
+and most recently measured directly in simulations \cite{Auclair:2022jod}; whereas
+dissipation is almost universally reduced to a single number $\nu$ entering
+through a cutoff wavenumber whose precise form is then argued to be unimportant
+\cite{Niksa:2018ofa}, or dropped altogether \cite{Auclair:2022jod}.
+
+This paper is an attempt to say precisely which features of the GW spectrum each
+input controls, and---more usefully---which features no choice of input can
+change. The organising result, developed in Sec.~\ref{sec:model-space} and
+verified model by model throughout, is that the pipeline factorises: the infrared
+slope is determined by the spatial model alone, the ultraviolet slope by the
+temporal model alone, and the peak is the only feature that responds to both. That
+statement is not a modelling convenience but a consequence of the source being
+quadratic in the fields, and it converts several open disagreements in the
+literature into questions with definite answers.
+
+The most prominent of those disagreements is the infrared slope. Analytic
+treatments give a causal $\Omega_{\rm GW}\propto k^{3}$ below the peak, a slope
+which follows from the analyticity of the stress correlator at long wavelength and
+is in that sense model-independent
+\cite{Caprini:2006jb,Caprini:2018mtu,Cai:2019cdl}; the simulations of
+Ref.~\cite{RoperPol:2019wvy} reports a much flatter $k^{1}$. We show in
+Sec.~\ref{sec:principal-discrepancy} that both sides in fact use the same relation
+between the GW and the stress spectrum, so the disagreement cannot be about the
+gravitational-wave step at all; it is about the stress, and it reduces to a single
+assumption, $\Omega_{T}\propto\Omega_{M}$, which is inconsistent with the stress
+being a self-convolution of the fluid spectrum. The convolution floors at white
+noise below the peak no matter how steep the fluid infrared is, and it does so
+even for a Gaussian field.
+
+We then test that claim as directly as we can, by splitting the input spectrum
+into its causal $k^{4}$ band and its Kolmogorov $k^{-5/3}$ band and sourcing GWs
+from each alone (Sec.~\ref{sec:band-split}). The inertial band, whose input has no
+infrared power whatsoever, still radiates a clean $k^{3}$. Neither band's infrared
+slope, nor the bandwidth, nor the Mach number, nor the temporal model---nor
+deleting the temporal sector entirely---moves the exponent. The practical
+consequence is negative and worth stating plainly: no spatial modification of the
+source can bend the analytic $k^{3}$ towards the simulated $k^{1}$.
+
+Sec.~\ref{sec:peak-location} takes up the second disagreement, the location of the
+peak, where the sweeping prediction $\sim Mk_0$ and the simulated $\sim2k_0$ differ
+by a factor $\sim2/M$. We show that the displacement to the source scale is
+controlled by a single number---the slope of the source correlator at zero
+lag---and therefore that it requires only a kink there, a condition satisfied by
+any source with a finite lifetime. This considerably widens the circumstances under
+which the source-scale peak is expected, and sharpens the question that would
+overturn it.
+
+Finally, Sec.~\ref{sec:outlook} argues that the residual freedom in the pipeline is
+concentrated in the input that has received the least attention. The early Universe
+is not a Navier--Stokes fluid at unit magnetic Prandtl number, which is what every
+GW calculation and every GW simulation assumes; it is a plasma whose momentum
+transport crosses between diffusive and free-streaming regimes, and whose magnetic
+Prandtl number exceeds unity by many orders of magnitude
+\cite{Jedamzik:1996wp,Banerjee:2004df}---a regime in which the magnetic field
+cascades far below the viscous scale of the velocity field
+\cite{Schekochihin:2020aqu}. We set out what that implies and what remains to be
+computed.
+
+Throughout, Appendix~\ref{sec:chain} collects every derivation in this paper as a
+single uninterrupted chain of equations, in real space first and then in the
+spectral representation, so that any step can be checked without reading the
+surrounding prose. Appendix~\ref{sec:symbols} is a table of symbols.
 \section{Gravitational waves from a turbulent source}
 \label{sec:framework}
 
 Before specializing to particular spectral and temporal models, we collect the
 standard analytic derivation of the gravitational-wave (GW) spectrum sourced by
-turbulence \cite{2002Kosowsky,2007Gogoberidze,2008Kahniashvili,Caprini:2018mtu,2007Maggiore}.
+turbulence \cite{Kosowsky:2001xp,Gogoberidze:2007an,Kahniashvili:2008pe,Caprini:2018mtu,Maggiore:2007}.
 This fixes the conventions used throughout and, in particular, shows why the
 remaining sections reduce the problem to computing the contracted source
 correlator $H_{ijij}(\kb,\omega)$ of Eq.~\eqref{eq: main} on the diagonal
@@ -187,19 +302,22 @@ pieces:
 \begin{itemize}
   \item \emph{Infrared ($k\ll k_0$):} causality forces the stress correlator to
   be analytic (white) as $k\to0$, so $H\to\text{const}$ and
-  $\Omega_{\rm GW}\propto k^3$ \cite{Caprini:2018mtu,2008Kahniashvili}.
+  $\Omega_{\rm GW}\propto k^3$ \cite{Caprini:2018mtu,Kahniashvili:2008pe}.
   \item \emph{Peak ($k\sim k_0$):} set by the largest eddies, with parametric
   amplitude $(d\Omega_{\rm GW}/d\ln k)_{\rm peak}\sim (H_\ast/k_0)\,\Omega_K^2$,
   i.e.\ the squared kinetic-energy fraction suppressed by the source-duration
-  factor $H_\ast/k_0\sim H_\ast\tau_{\rm eddy}$ \cite{2002Kosowsky,2008Kahniashvili}.
+  factor $H_\ast/k_0\sim H_\ast\tau_{\rm eddy}$ \cite{Kosowsky:2001xp,Kahniashvili:2008pe}.
   \item \emph{Ultraviolet ($k\gg k_0$):} \emph{model-dependent}, fixed by the
   temporal decorrelation $\Pi(k;\tau_1,\tau_2)$. Kraichnan sweeping gives the
-  Gogoberidze tail \cite{2007Gogoberidze}, while a $\delta$-correlated or a
+  Gogoberidze tail \cite{Gogoberidze:2007an}, while a $\delta$-correlated or a
   decaying-turbulence kernel give different slopes.
 \end{itemize}
-The UV slope is precisely where the four UETC models derived below
-($\delta$-spectrum vs.\ white-noise, Kraichnan vs.\ decay) differ, which is the
-focus of the remainder of the paper.
+The UV slope is precisely where the four UETC models of
+Appendices~\ref{sec:monochromatic-white} and \ref{sec:impulsive}
+($\delta$-spectrum vs.\ white-noise, Kraichnan vs.\ decay) differ. This asymmetry
+between the three regimes---universal infrared, source-set peak, model-dependent
+ultraviolet---is the organising fact of the paper, and
+Sec.~\ref{sec:model-space} makes it precise.
 
 \subsection{The model space, and a uniform notation for the kernels}
 \label{sec:model-space}
@@ -287,11 +405,10 @@ at all, so both violate the hypotheses of the universal infrared theorem
   Eqs.~\eqref{eq:conv-equals-cosT} and \eqref{eq:two-scale-feynman}.}
   \label{tab:model-grid}
 \end{table*}
-
 \section{Kraichnan--K41 Model (Gogoberidze 2007)}
 \label{sec:kraichnan-k41}
 
-We use the spatial/temporal Fourier pair $R_{ij}(\br,\tau) = \int \tfrac{d^3k}{(2\pi)^3}e^{i\kb\cdot\br}F_{ij}(\kb,\tau)$ and $f(\eta_k,\tau)=\int\tfrac{d\omega}{2\pi}e^{-i\omega\tau}\tf(\eta_k,\omega)$, and adopt the isotropic incompressible model of \cite{2007Gogoberidze} (Eqs.~23--26),
+We use the spatial/temporal Fourier pair $R_{ij}(\br,\tau) = \int \tfrac{d^3k}{(2\pi)^3}e^{i\kb\cdot\br}F_{ij}(\kb,\tau)$ and $f(\eta_k,\tau)=\int\tfrac{d\omega}{2\pi}e^{-i\omega\tau}\tf(\eta_k,\omega)$, and adopt the isotropic incompressible model of \cite{Gogoberidze:2007an} (Eqs.~23--26),
 \begin{equation}
   F_{ij}(\kb,\tau) = A(k)\,P_{ij}(\khat)\,f(\eta_k,\tau),
   \qquad
@@ -337,7 +454,7 @@ The law of cosines $\khat_1\cdot\hat u = (k^2-k_1^2-u^2)/(2k_1 u)$ turns the bra
 \begin{equation}
   \mathcal{K}(k,k_1,u)\equiv \frac{27}{6}+\frac{k^4}{12k_1^2u^2}+\frac{k_1^2}{12u^2}+\frac{u^2}{12k_1^2}
   -\frac{k^2}{6u^2}-\frac{k^2}{6k_1^2}
-  \qquad (\text{cf.\ Eq.~29 of \cite{2007Gogoberidze}}).
+  \qquad (\text{cf.\ Eq.~29 of \cite{Gogoberidze:2007an}}).
   \label{eq: K-kernel}
 \end{equation}
 The temporal transform $\tf(\eta_k,\omega) = (2/\eta_k)\exp(-\omega^2/\pi\eta_k^2)$ combines with $A(k)$ into the single spectral factor
@@ -364,7 +481,7 @@ with $\widetilde{\mathcal K}(q,s)=\mathcal K(k,k_1,u)|_{k_1=qk,u=sk}$ (homogeneo
 
 \subsection{Gogoberidze (2007) Appendix~A form}
 
-Using the Gaussian-erfc identity (Eq.~A.1 of \cite{2007Gogoberidze}, $\int_0^\infty dy\,e^{-Ay^2-B(y-x)^2}=\sqrt{\pi/[4(A+B)]}\,e^{-ABx^2/(A+B)}\operatorname{erfc}[-Bx/\sqrt{A+B}]$), the $\omega_1$ integration in Eq.~\eqref{eq: conversion} can be done in closed form, yielding the doubly-bounded form
+Using the Gaussian-erfc identity (Eq.~A.1 of \cite{Gogoberidze:2007an}, $\int_0^\infty dy\,e^{-Ay^2-B(y-x)^2}=\sqrt{\pi/[4(A+B)]}\,e^{-ABx^2/(A+B)}\operatorname{erfc}[-Bx/\sqrt{A+B}]$), the $\omega_1$ integration in Eq.~\eqref{eq: conversion} can be done in closed form, yielding the doubly-bounded form
 \begin{align}
   H_{ijij}(k,\omega) &= \frac{\varepsilon}{24\pi(2\pi)^{3/2} k}
   \int_{k_0}^{k_d}\!\!dk_1\,k_1^{-10/3}
@@ -383,7 +500,7 @@ Define the dimensionless parameters
   x=\bigl(\tfrac{k_1}{k_0}\bigr)^{-4/3},\ \ y=\bigl(\tfrac{u}{k_0}\bigr)^{-4/3},
   \label{eq:appA-dimless}
 \end{equation}
-where $M=u_0/c=(\varepsilon/k_0)^{1/3}/c$ is the outer-scale eddy velocity in units of the speed of light, following Gogoberidze et al.~\cite{2007Gogoberidze} (this is normalised to $c$, not to the sound speed; see Sec.~\ref{sec:mach-discussion}). We keep $c$ explicit throughout and set $c=1$ only when evaluating numerically. The Mach number enters the GW kernel through the $k$-dependent sweeping rate $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}=\tfrac{Mc}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, which couples frequency to wavenumber in the Gaussian factor of Eq.~\eqref{eq:Hijij-AppA}. As a result $M$ sets the \emph{effective} wavenumber support of the integral: the exponential $\exp[-2q^2/(M^2(z^{4/3}+y^{4/3}))]$ (with $z=k_1/k_0$) cuts off contributions with $z^{4/3}+y^{4/3}\lesssim 2q^2/M^2$, so the peak of the GW spectrum shifts with $M$. Note that the kernel depends on frequency and Mach number only through the ratio $q/M=\omega/(k_0 u_0)$, in which $c$ cancels: $c$ appears in the \emph{definitions} of $q$ and $M$ but not in the dimensionless kernel, so its numerical value is immaterial and setting $c=1$ is exact rather than an approximation.
+where $M=u_0/c=(\varepsilon/k_0)^{1/3}/c$ is the outer-scale eddy velocity in units of the speed of light, following Gogoberidze et al.~\cite{Gogoberidze:2007an} (this is normalised to $c$, not to the sound speed; see Sec.~\ref{sec:mach-discussion}). We keep $c$ explicit throughout and set $c=1$ only when evaluating numerically. The Mach number enters the GW kernel through the $k$-dependent sweeping rate $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}=\tfrac{Mc}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, which couples frequency to wavenumber in the Gaussian factor of Eq.~\eqref{eq:Hijij-AppA}. As a result $M$ sets the \emph{effective} wavenumber support of the integral: the exponential $\exp[-2q^2/(M^2(z^{4/3}+y^{4/3}))]$ (with $z=k_1/k_0$) cuts off contributions with $z^{4/3}+y^{4/3}\lesssim 2q^2/M^2$, so the peak of the GW spectrum shifts with $M$. Note that the kernel depends on frequency and Mach number only through the ratio $q/M=\omega/(k_0 u_0)$, in which $c$ cancels: $c$ appears in the \emph{definitions} of $q$ and $M$ but not in the dimensionless kernel, so its numerical value is immaterial and setting $c=1$ is exact rather than an approximation.
 The substitution $k_1=k_0 x^{-3/4}$, $u=k_0 y^{-3/4}$ gives $dk_1\,k_1^{-10/3}=-(3/4)k_0^{-7/3}x^{3/4}dx$ and $(k_1^{-4/3}+u^{-4/3})^{-1/2}=k_0^{2/3}(x+y)^{-1/2}$; the integration limits become $x\in[R^{-1},1]$ and $y\in[y_{\min}(x),y_{\max}(x)]$ with
 \begin{equation}
   y_{\max}(x)=\min(|x^{-3/4}-p|^{-4/3},\,1),
@@ -463,7 +580,7 @@ and a measured IR exponent $d\ln H/d\ln M\to3.00$ as $p\to0$).
 \label{sec:roperpol-convention}
 
 To compare the analytic kernel with the direct numerical simulations of
-Roper Pol et al.~\cite{2019RoperPol} we recast the spectra in their convention.
+Roper Pol et al.~\cite{RoperPol:2019wvy} we recast the spectra in their convention.
 There $\Omega(k)$ denotes the energy \emph{per logarithmic wavenumber},
 $\Omega(k)=d\rho/d\ln k$, so that $\Omega(k)/k=E(k)$ is the ordinary per-$dk$
 spectrum. Our master result $\Omega_{\rm GW}(p)\propto p^3 H_{ijij}(p,p)$ of
@@ -496,8 +613,8 @@ Eq.~\eqref{eq:Hijij-AppA-dimless} identically.
 Figure~\ref{fig:roperpol_convention} shows the resulting GW spectrum at $M=1$ with
 $R_{\rm IR}=100$ (two infrared decades), together with the full fluid input
 spectrum and the two slopes the literature reports for the GW inertial range, drawn
-as reference guides: $k^{-11/3}$ from the simulation of \cite{2019RoperPol} (run
-ini2) and $k^{-9/2}$ from \cite{2007Gogoberidze}. We plot no simulation data points
+as reference guides: $k^{-11/3}$ from the simulation of \cite{RoperPol:2019wvy} (run
+ini2) and $k^{-9/2}$ from \cite{Gogoberidze:2007an}. We plot no simulation data points
 and defer a quantitative data-level comparison to future work. Both curves are
 \emph{dimensionless}: the GW curve is the bare kernel with the source stress
 normalised to unity, so the GW--fluid vertical offset carries no physical meaning
@@ -531,7 +648,7 @@ Sec.~\ref{sec:peak-location} substantially relieves.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\columnwidth]{roperpol_convention_spectra}
-  \caption{Analytic spectra in the Roper Pol et al.~\cite{2019RoperPol} convention
+  \caption{Analytic spectra in the Roper Pol et al.~\cite{RoperPol:2019wvy} convention
   $\Omega(k)/k=E(k)$. Orange (solid): GW spectrum
   $\Omega_{\rm GW}(k)/k=p^2H_{ijij}(p,p;M,R)$ [Eq.~\eqref{eq:omega-over-k}] computed
   from a \emph{full} fluid input spectrum---an infrared band $E\propto k^4$ ($k<k_0$)
@@ -562,7 +679,7 @@ $M$ is, why the conflicting definitions in the literature are the \emph{same}
 quantity, and what about the spectrum does and does not respond to it.
 
 \paragraph{Explicit formulation.}
-Throughout we use, following Gogoberidze et al.~\cite{2007Gogoberidze},
+Throughout we use, following Gogoberidze et al.~\cite{Gogoberidze:2007an},
 \begin{equation}
   M=\frac{u_0}{c}=\frac{1}{c}\Bigl(\frac{\varepsilon}{k_0}\Bigr)^{1/3},
   \qquad q=\frac{\omega}{c\,k_0},
@@ -596,7 +713,7 @@ larger than $M$ by $\sqrt3$. The transonic point $u_0=c_s$ therefore sits at
 $M=1/\sqrt3\simeq0.58$ in our normalisation, and the luminal ceiling $u_0=c$ at
 $M=1$; a purely vortical velocity field can in principle approach the latter,
 whereas $M_s\sim1$ (genuine transonic turbulence) corresponds to $M\simeq0.58$.
-This is the convention of Gogoberidze et al.~\cite{2007Gogoberidze}, who define
+This is the convention of Gogoberidze et al.~\cite{Gogoberidze:2007an}, who define
 $M=(\varepsilon/k_0)^{1/3}$ in units $c=1$ and note separately that the plasma
 sound speed is $c/\sqrt3$; it is \emph{not} the same as the acoustic $M_s$ used
 elsewhere, and the two differ by the fixed factor $\sqrt3$.
@@ -619,7 +736,7 @@ measures $u_{\rm rms}$; for decaying turbulence, where
 $\varepsilon\to\varepsilon(t)$ and $M\to M(t)$
 (Sec.~\ref{sec:fpeak-numerical}); and in MHD, where the relevant ratio is often
 the Alfv\'enic $M_A=u_{\rm rms}/v_A$ rather than the acoustic $M$
-\cite{2008Kahniashvili,2021Kahniashvili}.
+\cite{Kahniashvili:2008pe,Kahniashvili:2020jgm}.
 
 \paragraph{Shape versus peak versus amplitude.}
 It is essential to separate three properties of the spectrum, only one of which
@@ -635,7 +752,7 @@ spatial-scale–anchored treatments the peak is pinned to the source scale $k_0$
 (set by the largest eddy / bubble size), so $p_{\rm peak}=\mathcal O(1)$ and $M$
 controls only the amplitude \cite{Caprini:2018mtu}; in sweeping-anchored
 treatments the peak is tied to the eddy-turnover frequency $u_0 k_0\propto M
-k_0$, so it shifts with $M$ \cite{2007Gogoberidze,2019RoperPol}. Our kernel
+k_0$, so it shifts with $M$ \cite{Gogoberidze:2007an,RoperPol:2019wvy}. Our kernel
 realises the second picture through $\eta_k\propto M k^{2/3}$, giving
 $p_{\rm peak}\sim M$ (Sec.~\ref{sec:kraichnan-mach-peak}). The two are not in
 contradiction: a peak ``at the stirring scale'' is $M$-independent only because
@@ -656,9 +773,6 @@ can only refer to the shape (i); any claim that the peak position and the total
 energy are simultaneously $M$-independent is either a normalised-units artifact
 (dividing by $\Omega_K^2$ and measuring $p$ in units of $k_0$) or a conflation
 of the universal shape with the dimensional peak and amplitude.
-
-
-
 \section{Location of the spectral peak: sweeping versus source scale}
 \label{sec:peak-location}
 
@@ -787,7 +901,7 @@ $k_{\rm GW}(t)\simeq2k_0(t)$ holding instantaneously throughout---which is exact
 behaviour of Fig.~\ref{fig:gw_peak_vs_mach}(a).
 
 The reading of the factor two as the kinematic edge of the self-convolution, and the
-consequences drawn from it in this paragraph, are our interpretation; \cite{2019RoperPol}
+consequences drawn from it in this paragraph, are our interpretation; \cite{RoperPol:2019wvy}
 report the $2k_0$ peak but do not diagnose the mismatch with the analytic $\sim Mk_0$ in
 these terms. Stated this way, though, the two predictions differ by a clean factor
 $\simeq2/M$, and---since the two sensitivities are to \emph{different} variables, the
@@ -807,7 +921,7 @@ broadband temporal power up to $\omega\sim1/\Delta t\sim k_0$, which the single-
 stationary kernel does not contain. Because the spatial stress is far more powerful
 at the outer scale $k_0$ than at $M k_0$, this broadband component pins the GW peak
 near the \emph{spatial} stress scale, $p\sim1$--$2$, almost independently of $M$.
-This is what the direct simulations of \cite{2019RoperPol} display, and it is the
+This is what the direct simulations of \cite{RoperPol:2019wvy} display, and it is the
 spatial-scale picture of Sec.~\ref{sec:mach-discussion}. In the convention
 $M=u_0/c$ the sweeping peak $1.47M$ approaches the spatial band $p\sim1$--$2$ only
 as $u_0\to c$, and would coincide with $p\simeq2$ only at the superluminal
@@ -835,7 +949,7 @@ than to the impulsive onset emphasised here.
 The kernel works in the dimensionless pair $\{p=k/k_0,\,M\}$; the observable
 spectrum is the characteristic strain $h_c(f)$ at the redshifted frequency $f$
 today. The two are connected by the standard cosmological map
-\cite{2008Kahniashvili,2007Gogoberidze}. A comoving mode is observed at
+\cite{Kahniashvili:2008pe,Gogoberidze:2007an}. A comoving mode is observed at
 \begin{equation}
   f \;=\; \frac{\hat\omega}{2\pi}\,f_H,\qquad
   f_H \simeq 1.6\times10^{-5}\,\mathrm{Hz}\,
@@ -877,7 +991,7 @@ $h_c\,M^{-3/2}=\sqrt{p\,\widetilde H_{ijij}(p/M)}$, which is $M$-independent
 \emph{only} in the infrared, where $\widetilde H_{ijij}\!\to\!A$: the causal rises
 stack, but the peaks stay at their true frequencies $f_{\rm peak}=f_0\,(1.47\,M)$
 and \emph{slide} with $M$. This is the convention of the published strain plots
-(the $h_c\,M^{-3/2}$ ordinate of \cite{2007Gogoberidze}); it preserves the
+(the $h_c\,M^{-3/2}$ ordinate of \cite{Gogoberidze:2007an}); it preserves the
 observable---where in the band each model peaks---needed to confront a detector.
 
 \emph{(ii) Both axes.} Additionally measure the frequency in sweeping units,
@@ -947,7 +1061,7 @@ argument.
   $p_{\rm peak}\simeq1.5\,M$. Shaded horizontal band ($p\sim1$--$2$): the
   competing spatial-scale picture, in which an impulsively sourced, decaying flow
   radiates at the stress scale independently of $M$
-  (Roper Pol et al.~\cite{2019RoperPol}; Caprini et al.~\cite{Caprini:2018mtu})---a
+  (Roper Pol et al.~\cite{RoperPol:2019wvy}; Caprini et al.~\cite{Caprini:2018mtu})---a
   schematic, \emph{not} computed here and not data. In the convention $M=u_0/c$
   the sweeping law enters the source band only at $M\simeq0.67$--$1.35$ (grey
   strip), i.e.\ near or beyond the luminal ceiling $M=1$ (dash-dotted; $M>1$ is
@@ -1011,7 +1125,7 @@ frequency $\omega=k$ required to radiate at every wavenumber $k$; the spectrum t
 extends past the sweeping cutoff and its peak is fixed by the spatial structure of
 the stress near the source scale $p\simeq2.4$, independently of $M$. This realises
 the spatial-scale picture of Sec.~\ref{sec:mach-discussion} and matches the
-source-scale peak of the decaying simulations \cite{2019RoperPol}; the apparent
+source-scale peak of the decaying simulations \cite{RoperPol:2019wvy}; the apparent
 contradiction with the low Gogoberidze peak dissolves once one recognises that the
 two correspond to opposite limits of the temporal correlation---Gaussian (rapidly
 decorrelating, stationary) versus power law (slowly decorrelating, decaying).
@@ -1041,7 +1155,7 @@ $\tau=0$. The BK2016 power law does: $f'(0^{+})=-4/3$ for the squared correlatio
 which reproduces the coefficient $8/3$ of Eq.~\eqref{eq:cosT-limits} exactly. A
 Gaussian does not: $f'(0^{+})=0$, and its tail then falls faster than any power.
 
-This matters because Auclair et al.~\cite{2022Auclair} find from direct hydrodynamic
+This matters because Auclair et al.~\cite{Auclair:2022jod} find from direct hydrodynamic
 simulations that the unequal-time correlator of the velocity field is \emph{Gaussian in
 the time difference}, $P_{v}\simeq P_{v}\exp[-\tfrac12k^{2}v_{\rm sw}^{2}(\tau-\zeta)^{2}]$
 with $v_{\rm sw}^{2}\simeq\bar v^{2}/3$, as predicted by Kraichnan's random-sweeping
@@ -1060,6 +1174,74 @@ decaying, genuinely non-stationary flow carry a $|\tau|$ kink at zero lag? The s
 literature says no for the short-lag Eulerian correlation; whether the secular decay of
 the amplitude contributes one is, to our knowledge, unsettled, and the source-scale peak
 of Sec.~\ref{sec:decaying-peak} should be read as conditional on it.
+
+\paragraph{A hard finite lifetime supplies the same cusp---and the same peak.}
+The condition Eq.~\eqref{eq:cusp-tail} imposes is weaker than the BK2016 power
+law, and it is worth showing that something far cruder satisfies it. Take a
+source that is simply coherent for a time $\tau_c$ and gone afterwards. The
+na\"ive encoding, a top-hat $f(\tau)=\Theta(\tau_c-|\tau|)$, is not admissible:
+being idempotent it is its own square, and its transform
+$T(\omega)=2\sin(\omega\tau_c)/\omega$ changes sign, so it violates Bochner's
+theorem---a correlation function must have a non-negative transform---and
+delivers a \emph{negative} gravitational-wave energy density over part of the
+spectrum, together with exact nulls at $\omega\tau_c=n\pi$. Measured on
+$\omega\tau_c\in(0,40]$ it is negative on $47\%$ of the axis, and the sourced
+spectrum inherits this, going negative over $20.5\%$ and $25.0\%$ of the
+plotted range at $\hat\tau=10$ and $100$
+[Fig.~\ref{fig:finite-coherence}(b)]. This is the same pathology on which
+Caprini et al.\ discard a candidate unequal-time correlator, and it is a useful
+reminder that ``switch the correlation off after $\tau_c$'' is not a free
+modelling choice.
+
+The admissible version is the triangle
+$f(\tau)=(1-|\tau|/\tau_c)\Theta(\tau_c-|\tau|)$, which is the top-hat convolved
+with itself and therefore the genuine autocorrelation of a source switched on for
+a window $\tau_c$; its transform $\tau_c\,\mathrm{sinc}^2(\omega\tau_c/2)$ is
+non-negative by construction, and we find it positive at every $p$ and every
+$\hat\tau$ tested. What matters here is that it carries a kink,
+$f'(0^+)=-1/\tau_c$, so Eq.~\eqref{eq:cusp-tail} applies and its transform falls
+as $\omega^{-2}$: we measure an ultraviolet envelope slope $-1.95$ against the
+top-hat's $-0.98$, and $T\omega^{2}\to4.05$ against the $4/(\tau_c\omega^{2})$
+that the cusp of the \emph{squared} tent predicts. The consequence is
+Fig.~\ref{fig:finite-coherence}(d): the peak of the triangle-sourced spectrum
+stays between $p=1.3$ and $2.1$ as $\hat\tau$ runs over four decades, close to
+the $p\simeq2.4$ of the decaying kernel, while the sweeping law $1.47M$ falls
+through four decades over the same range and predicts $p_{\rm peak}=0.037$ at
+$\hat\tau=100$, a factor $45$ below what is measured.
+
+The source-scale peak is therefore considerably more robust than
+Sec.~\ref{sec:decaying-peak} claims. It does not require the BK2016 power law,
+nor self-similar decay, nor any particular decorrelation shape: it requires only
+that the correlator have a kink at zero lag, which any source with a hard finite
+lifetime possesses. The Auclair et al.\ objection removes one realisation of the
+cusp, not the mechanism. What would remove the mechanism is a correlator that is
+smooth at the origin---a Gaussian is the obvious example---and the question posed
+after Eq.~\eqref{eq:cusp-tail} is correspondingly sharpened: not whether decaying
+turbulence follows BK2016, but whether its correlator is differentiable at zero
+lag.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\columnwidth]{finite_coherence_gw}
+  \caption{A source with a hard finite coherence time $\tau_c$, at
+  $R=10^4$, $R_{\rm IR}=10^2$, full input spectrum, with
+  $\hat\tau=\tau_ck_0$ as in Eq.~\eqref{eq:that}.
+  \emph{(a)}~The two-leg temporal factors at a single scale, normalised to
+  $T(0)$; vertical grid at $\omega\tau_c=n\pi$. The top-hat crosses zero at every
+  $n\pi$ and is negative between the odd and even multiples; the triangle only
+  touches zero and stays non-negative.
+  \emph{(b)}~Top-hat-sourced spectra. Solid where $\Omega_{\rm GW}>0$, dotted
+  showing $|\Omega_{\rm GW}|$ where it is negative: the curve breaks into
+  disconnected arcs separated by the nulls. This is unphysical output from an
+  inadmissible correlator, shown as a worked example.
+  \emph{(c)}~Triangle-sourced spectra, positive at every $p$ and $\hat\tau$.
+  \emph{(d)}~Peak position against $\hat\tau$, with the decaying kernel's
+  $p\simeq2.4$ (dotted) and the stationary sweeping law $1.47M=1.47\sqrt{2\pi}/
+  \hat\tau$ (dot-dashed) for comparison. The triangle pins the peak at the source
+  scale across four decades of coherence time; the sweeping law does not describe
+  it. Produced by \texttt{Notebooks/finite\_coherence\_gw.py}.}
+  \label{fig:finite-coherence}
+\end{figure}
 
 \paragraph{Amplitude: an extra power of $M$.}
 The same kernel fixes the amplitude as cleanly as the peak. The Mach number enters
@@ -1130,7 +1312,7 @@ $M^4$ versus $M^3$, not the peak height.)
 \label{sec:roperpol-compare}
 
 We now test the two pictures against the relativistic MHD turbulence simulation of
-Roper Pol et al.~\cite{2019RoperPol} (run ini2), whose fluid and GW spectra (their
+Roper Pol et al.~\cite{RoperPol:2019wvy} (run ini2), whose fluid and GW spectra (their
 Fig.~1) we digitize directly from the published figure by pixel extraction---not by
 eyeballed point-reading. The fluid spectrum $\Omega_{\rm M}/k$ shows the expected
 Batchelor infrared $k^4$ joined to a Kolmogorov $k^{-5/3}$ inertial range, peaking at
@@ -1146,7 +1328,7 @@ Each prediction's amplitude is fixed not by a free fit but by the measured energ
 fraction---scaled so that its total GW energy equals the simulated
 $\Omega_{\rm GW}=(\mathcal H_\ast/k_0)\,\Omega_{\rm M}^2$. Normalised this way the three
 curves coincide near the peak, and the simulated ultraviolet slope ($\simeq k^{-11/3}$,
-the value reported in \cite{2019RoperPol}) lies \emph{between} the two kernels: the
+the value reported in \cite{RoperPol:2019wvy}) lies \emph{between} the two kernels: the
 stationary Gaussian-sweeping kernel is too steep ($\simeq k^{-5.5}$, essentially
 $M$-independent across the subsonic range) while the decaying power-law kernel is too
 shallow ($\simeq k^{-2.6}$). The physical decorrelation is intermediate between the
@@ -1184,12 +1366,12 @@ Fig.~\ref{fig:roperpol_comparison}. Roper Pol et al.\ find the efficiency itself
 strongly on the driving---forced acoustic and forced magnetic turbulence radiate
 $\sim\!200\times$ and $\sim\!10\times$ more than an initially imposed, freely decaying field of
 the same energy---and that LISA detectability of electroweak-scale turbulence needs
-$\sim0.1$--$10\%$ of the plasma energy in motions or magnetic fields \cite{2019RoperPol}. This
+$\sim0.1$--$10\%$ of the plasma energy in motions or magnetic fields \cite{RoperPol:2019wvy}. This
 is why the amplitude is set by an energy fraction and a length scale, and why a decaying source
 (our and their \texttt{ini2} case) is the least efficient of the drivings. One caution about
 using amplitudes to adjudicate between the analytic and simulated pictures: absolute
 normalisations on the simulation side were revised between preprint versions (the arXiv
-record for \cite{2019RoperPol} notes a corrected normalisation error), and the analytic
+record for \cite{RoperPol:2019wvy} notes a corrected normalisation error), and the analytic
 amplitude carries its own $\mathcal{O}(1)$--$\mathcal{O}(10^2)$ driving-dependent prefactor.
 The peak \emph{frequency} carries neither ambiguity, which is why we treat it, and not the
 amplitude, as the discriminant.
@@ -1217,7 +1399,7 @@ dissipation-range effect on the GW spectrum.
   \centering
   \includegraphics[width=\columnwidth]{roperpol_comparison}
   \caption{Analytic GW spectra confronted with the digitized Roper Pol et
-  al.~\cite{2019RoperPol} simulation (their Fig.~1, run ini2; pixel-digitized, no
+  al.~\cite{RoperPol:2019wvy} simulation (their Fig.~1, run ini2; pixel-digitized, no
   fabricated points). Black/grey: digitized fluid $\Omega_{\rm M}/k$ and GW
   $\Omega_{\rm GW}/k$. Orange/thin black: our decaying and stationary
   $\Omega_{\rm GW}/k=p^2H_{ijij}(p,p)$ at $M=0.5$ (the ultraviolet slope is
@@ -1236,7 +1418,7 @@ dissipation-range effect on the GW spectrum.
   \caption{The GW spectral peak $k_{\rm peak}/k_0$ (in the $\Omega_{\rm GW}=d\rho/d\ln k$
   convention) \emph{through time} and versus Mach number, from the public
   time-resolved data of the decaying runs \texttt{ini2}/\texttt{ini3}
-  \cite{2019RoperPol} (Zenodo 10.5281/zenodo.3692072).
+  \cite{RoperPol:2019wvy} (Zenodo 10.5281/zenodo.3692072).
   \emph{(a)}~The peak-to-source ratio $k_{\rm peak}^{\rm GW}(t)/k_0(t)$ (points, with
   a running median) holds at the source-scale value $\simeq2.4$ (dashed) throughout
   the run, while the instantaneous Mach number $M(t)=u_{\rm rms}(t)/c$ (dotted, right
@@ -1255,21 +1437,20 @@ dissipation-range effect on the GW spectrum.
   Generated by \texttt{Notebooks/gw\_peak\_vs\_mach.py}.}
   \label{fig:gw_peak_vs_mach}
 \end{figure}
-
 \section{The principal simulation--analytic discrepancy}
 \label{sec:principal-discrepancy}
 
 Setting the two analytic treatments in the literature---the stationary Kraichnan--K41
-model of Gogoberidze et al.~\cite{2007Gogoberidze} and the helical inverse-cascade model
-of Kahniashvili et al.~\cite{2008Kahniashvili}---beside the direct simulations of
-Roper Pol et al.~\cite{2019RoperPol} isolates one discrepancy that is both physically
+model of Gogoberidze et al.~\cite{Gogoberidze:2007an} and the helical inverse-cascade model
+of Kahniashvili et al.~\cite{Kahniashvili:2008pe}---beside the direct simulations of
+Roper Pol et al.~\cite{RoperPol:2019wvy} isolates one discrepancy that is both physically
 significant and shared by \emph{every} analytic estimate, the kernels of this paper
 included. It concerns not the location of the peak (Sec.~\ref{sec:peak-location}) but the
 slope of the spectrum \emph{below} the peak.
 
 \paragraph{Three temporal pictures, three peaks.} The analytic works differ in how they
 model the source's unequal-time correlation, and that choice fixes their spectra. Both
-\cite{2007Gogoberidze} and the direct-cascade stage of \cite{2008Kahniashvili} adopt a
+\cite{Gogoberidze:2007an} and the direct-cascade stage of \cite{Kahniashvili:2008pe} adopt a
 Gaussian decorrelation $f(\tau)=\exp(-\tfrac{\pi}{4}\eta_k^2\tau^2)$ with the eddy-turnover
 rate $\eta_k\propto\varepsilon^{1/3}k^{2/3}$, which radiates predominantly at the turnover
 frequency and places the GW peak near $\omega\sim Mk_0$, below the source scale for subsonic
@@ -1277,7 +1458,7 @@ turbulence. Kahniashvili et al.\ add a second, dominant contribution from the he
 \emph{inverse} cascade: because magnetic helicity is conserved the energy-carrying eddy
 grows, and requiring its cascade time to reach the Hubble time drives the dominant peak down
 to the Hubble frequency $f_H\simeq1.6\times10^{-5}\,$Hz, essentially independent of the
-cascade model. The simulations \cite{2019RoperPol} make no closure assumption---the source
+cascade model. The simulations \cite{RoperPol:2019wvy} make no closure assumption---the source
 is freely decaying MHD turbulence---and find the GW peak at $k_{\rm GW}\simeq2k_0$, twice the
 field scale, the elementary consequence of the source being the \emph{quadratic} stress
 $T_{ij}\sim B_iB_j$ whose spectrum peaks at twice the field peak. These three pictures place
@@ -1287,7 +1468,7 @@ Sec.~\ref{sec:roperpol-compare}.
 
 \paragraph{The discrepancy: $k^3$ versus $k$.} Beneath the peak the disagreement is sharper
 and universal. Every \emph{quasi-stationary} analytic treatment---the aeroacoustic
-Gaussian-closure framework of \cite{2007Gogoberidze,2008Kahniashvili} and both the stationary
+Gaussian-closure framework of \cite{Gogoberidze:2007an,Kahniashvili:2008pe} and both the stationary
 and decaying single-emission-epoch kernels of this paper---gives the \emph{causal} infrared
 slope
 \begin{equation}
@@ -1381,7 +1562,7 @@ a statement about the \emph{temporal} response rather than about the stress.
     $h_c$             & $1/2$ & $-1/2$ & $-7/3$ & $-10/3$ \\
     \hline\hline
   \end{tabular}
-  \caption{Logarithmic slopes $n[X]=d\ln X/d\ln k$ compiled by \cite{2019RoperPol}: the two
+  \caption{Logarithmic slopes $n[X]=d\ln X/d\ln k$ compiled by \cite{RoperPol:2019wvy}: the two
   left columns are the subinertial range as estimated analytically and as measured in the
   simulation, the two right columns the inertial range for a Kolmogorov and a Golitsyn
   magnetic spectrum. The $\Omega_{\rm M}$, $\Omega_{\rm GW}$ and $h_c$ rows are theirs; the
@@ -1448,20 +1629,20 @@ duration of a decaying source does not flatten the infrared.
 
 \paragraph{Roper Pol's own explanation, and a time-domain reconciliation.}
 The white-noise stress floor established above is exactly the explanation
-\cite{2019RoperPol} themselves give---the spectrum of $B^2$ ``can never be steeper than that
+\cite{RoperPol:2019wvy} themselves give---the spectrum of $B^2$ ``can never be steeper than that
 of white noise''---and it accounts for the stress but not, by itself, for the gravitational
 waves: with $\Omega_{\rm T}\propto k^3$ the two response branches of
 Eq.~\eqref{eq:duration-kernel} give $\Omega_{\rm GW}\propto k^3$ and $\Omega_{\rm GW}\propto
 k^1$ respectively, from the \emph{same} stress. Which branch a mode sits in is a question
 about the source's temporal history, and that is where the remaining gap lies.
 
-Crucially, \cite{2019RoperPol} add that the causal $k^3$ is not absent but \emph{transient}:
+Crucially, \cite{RoperPol:2019wvy} add that the causal $k^3$ is not absent but \emph{transient}:
 a flat spectrum reaching arbitrarily large scales would be acausal, so at the very largest
 scales and earliest times the spectrum grows as $k^3$ before saturating to the flat $k^1$
 plateau, and this transition ``is much shorter than the time it takes for the GW spectrum to
 become stationary.'' We confirm this directly by reanalysing the public time-resolved spectra
 of their run \texttt{ini2} (Fig.~\ref{fig:roperpol_timeseries}; data from
-\cite{2019RoperPol} via Zenodo). At source switch-on the infrared slope is the causal
+\cite{RoperPol:2019wvy} via Zenodo). At source switch-on the infrared slope is the causal
 $\Omega_{\rm GW}\sim k^{3}$ (measured $k^{3.3}$ at $t=1.00$), and within $\Delta t\sim0.02$
 it flattens to the saturated $\Omega_{\rm GW}\sim k^{1}$ shown in the paper's Fig.~1. The
 total GW energy then fluctuates about a constant mean---the ``steady oscillatory state'' of
@@ -1553,7 +1734,7 @@ asymptote, and none should be read as excluding it.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\columnwidth]{roperpol_timeseries}
-  \caption{Time-series reanalysis of the Roper Pol et al.~\cite{2019RoperPol} run
+  \caption{Time-series reanalysis of the Roper Pol et al.~\cite{RoperPol:2019wvy} run
   \texttt{ini2} (public Pencil Code spectra, Zenodo 10.5281/zenodo.3692072), the run of their
   Fig.~1. \emph{(a)}~The GW energy spectrum $E_{\rm GW}=\Omega_{\rm GW}/k$ at successive times:
   at switch-on ($t\simeq1.0$) the infrared follows the causal $E_{\rm GW}\sim k^2$
@@ -1587,10 +1768,10 @@ asymptote, and none should be read as excluding it.
     \hline\hline
     treatment & temporal decorrelation & GW peak & infrared $\Omega_{\rm GW}$ & high-$k$ $\Omega_{\rm GW}$ \\
     \hline
-    Gogoberidze 2007 \cite{2007Gogoberidze} & Gaussian, $\eta_k\propto k^{2/3}$  & $\sim M k_0$  & $k^3$ & steep ($\sim k^{-9/2}$) \\
-    Kahniashvili 2008 \cite{2008Kahniashvili} & Gaussian $+$ helical inverse cascade & $\to f_H$ (Hubble scale) & $k^3$  & Kolmogorov input \\
+    Gogoberidze 2007 \cite{Gogoberidze:2007an} & Gaussian, $\eta_k\propto k^{2/3}$  & $\sim M k_0$  & $k^3$ & steep ($\sim k^{-9/2}$) \\
+    Kahniashvili 2008 \cite{Kahniashvili:2008pe} & Gaussian $+$ helical inverse cascade & $\to f_H$ (Hubble scale) & $k^3$  & Kolmogorov input \\
     this paper  & Gaussian / power-law / self-similar decay & $1.47Mk_0$ / $2.4k_0$ & $k^3$ (causal)  & $k^{-5}$ / $k^{-8/3}$ \\
-    Roper Pol 2020 \cite{2019RoperPol} & freely decaying & $2k_0$ & $k^1$ & $k^{-8/3}$ \\
+    Roper Pol 2020 \cite{RoperPol:2019wvy} & freely decaying & $2k_0$ & $k^1$ & $k^{-8/3}$ \\
     \hline\hline
   \end{tabular}
   \caption{Temporal-decorrelation assumption, GW spectral peak, and spectral slopes for the
@@ -1607,7 +1788,7 @@ asymptote, and none should be read as excluding it.
   source forbids, and on both sides the question of which branch of the finite-duration
   response Eq.~\eqref{eq:window-factor} the observed band of $k$ lies in.
   The infrared slope is not quoted explicitly by
-  \cite{2008Kahniashvili} but is the generic causal value of their aeroacoustic
+  \cite{Kahniashvili:2008pe} but is the generic causal value of their aeroacoustic
   Gaussian-closure framework. Slopes are in the $\Omega_{\rm GW}=d\rho_{\rm GW}/d\ln k$
   convention.}
   \label{tab:three-works}
@@ -1617,7 +1798,7 @@ asymptote, and none should be read as excluding it.
 \label{sec:cps-reproduction}
 
 The causal $k^{3}$ invoked repeatedly above is not a property of our kernels but a
-theorem. Cai, Pi and Sasaki~\cite{2020CaiPiSasaki} prove that
+theorem. Cai, Pi and Sasaki~\cite{Cai:2019cdl} prove that
 $\Omega_{\rm GW}\propto k^{3}$ in the infrared for any source satisfying
 \begin{enumerate}\itemsep0pt
   \item[(I)] $0<\int d\ell\,[\text{source spectra}]^{2}<\infty$ (finiteness);
@@ -1701,17 +1882,17 @@ $k_{\rm box}\lesssim k_{\rm break}$
 plus a decade below to fit a slope---a box $10^{2}$--$10^{3}$ times larger at fixed
 small-scale physics, i.e.\ simulating a comoving Hubble volume \emph{while} resolving the
 inertial range, a dynamic range of $10^{4}$--$10^{6}$ per dimension. The universal $k^{3}$ of
-\cite{2020CaiPiSasaki} must accordingly be imported analytically and never expected from a
+\cite{Cai:2019cdl} must accordingly be imported analytically and never expected from a
 measurement, and a simulated infrared slope should never be quoted as contradicting it: the
 two statements are made in disjoint bands of $k$, separated by
 Eq.~\eqref{eq:k-break}. (The estimate of $k_{\rm break}$ relative to $k_1$ is ours, from the
-published run parameters; it is not stated in \cite{2019RoperPol}.)
+published run parameters; it is not stated in \cite{RoperPol:2019wvy}.)
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{cai_pi_sasaki_reproduction}
   \caption{Independent reproduction of the two exceptions to the universal $k^{3}$
-  infrared theorem of \cite{2020CaiPiSasaki}, computed from
+  infrared theorem of \cite{Cai:2019cdl}, computed from
   Eqs.~\eqref{eq:stress-convolution-1d} and \eqref{eq:window-factor} with no input from
   the kernels of this paper. \emph{(a)} Shells of log-width $\sigma_{\ln k}=10^{-2}$ and
   $10^{-3}$ (dash-dotted verticals mark $k=\sigma$) against an exact $\delta$-shell: the
@@ -1796,6 +1977,37 @@ the analytic $k^3$ towards the simulated $k^1$. The causal slope is a property o
 the quadratic source, and the discrepancy must be resolved on the temporal axis,
 not the spatial one.
 
+\paragraph{The same two bands with the source fired at a single epoch.}
+Replace the sweeping correlation by a source that acts at one instant,
+$\Pi(k;\tau_1,\tau_2)=P(k)\,\delta(\tau_1-t_0)\,\delta(\tau_2-t_0)$. Both
+$\delta$'s collapse in Eq.~\eqref{eq:master} and the cosine is evaluated at zero
+lag, so the temporal factor is identically unity \emph{for any} $t_0$: the epoch
+at which the source fires cancels exactly and cannot appear in
+$\Omega_{\rm GW}$. Setting $t_0=1$, or any other value, changes nothing. What is
+left is the bare spatial convolution, and it is worth being explicit that this
+is \emph{not} the $q\to0$ limit of the sweeping kernel. The weight
+$(x+y)^{-1/2}$ in Eq.~\eqref{eq:Hijij-AppA-dimless} is the
+$\sqrt{\pi/(A+B)}$ of the Gaussian $\omega_1$ convolution,
+Eq.~\eqref{A:gaussid}---it belongs to the temporal model, not the spatial one,
+and a $\delta$-in-time source drops it too. The two coincide only where $k_1$
+and $u$ are pinned to a single shell, which is why
+Eq.~\eqref{A:Himp} may be read as a $q\to0$ limit for the monochromatic source
+but not here.
+
+The four curves separate the two axes cleanly. The infrared exponent is
+$3.00$ ($k^4$ band, sweeping), $3.01$ ($k^{-5/3}$ band, sweeping), $2.99$ and
+$2.99$ for the same two bands fired impulsively: neither the band nor the
+presence of a temporal model at all moves it, which is
+Eq.~\eqref{A:bs-floor} in its strongest form---the causal slope survives the
+deletion of the entire temporal sector. Everything else moves. The peak slides
+outward from $p=0.47$ to $1.26$ for the $k^4$ band and from $0.74$ to $2.13$ for
+the inertial band, because the sweeping factor was the only thing cutting the
+source off at $p\gtrsim M$; and the inertial band's ultraviolet tail flattens
+from $p^{-4.5}$ to $p^{-1.4}$, leaving only the fall-off of the spatial
+convolution itself. The $k^4$ band terminates at $p=2$ in both cases: that edge
+is kinematic, Eq.~\eqref{A:bs-support}, and is the one feature no temporal model
+can move.
+
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\columnwidth]{band_split_gw}
@@ -1809,1154 +2021,188 @@ not the spatial one.
   $\Omega_{\rm GW}(p)\propto p^3H_{ijij}(p,p;M,R)$ they source on the sound-cone
   diagonal $q=p$, with the infrared log--log slopes fitted over
   $2\times10^{-3}\le p\le2\times10^{-2}$ quoted in the legend; the dotted guide is
-  $p^3$. All three are causal to better than $2\%$ in the exponent, including the
+  $p^3$. All are causal to better than $2\%$ in the exponent, including the
   inertial-range-only run, whose input has no infrared power at all. The
   Batchelor-only spectrum ends at $p=2$, the kinematic limit of a convolution of
-  two modes with $k<k_0$. Parameters: $M=0.5$, $R=(k_d/k_0)^{4/3}=10^4$,
+  two modes with $k<k_0$. The two dashed curves repeat the single-band runs with
+  the temporal factor removed entirely---evaluated at $q=0$ rather than on the
+  diagonal $q=p$, so that the Gaussian sweeping factor and its erfc in
+  Eq.~\eqref{eq:Hijij-AppA-dimless} are both unity and the source carries no
+  decorrelation and no time dependence at all
+  [the impulsive limit, Eq.~\eqref{A:Himp}]. The spatial integral is otherwise
+  identical, so each solid/dashed pair isolates what the temporal model does and
+  does not control. Parameters: $M=0.5$, $R=(k_d/k_0)^{4/3}=10^4$,
   $R_{\rm IR}=k_0/k_{\rm IR}=10^2$, Batchelor infrared slope $s=4$. Both panels are
   dimensionless and the vertical offset between them carries no physical meaning.
   Produced by \texttt{Notebooks/band\_split\_gw.py}.}
   \label{fig:band-split-gw}
 \end{figure}
 
-\section{Monochromatic and White-Noise Spectra}
-\label{sec:monochromatic-white}
-
-We now consider two alternative models for the turbulence power spectrum and carry out the same GW-kernel derivation in each case. The first model replaces the Kolmogorov spectrum by a monochromatic (delta-function) distribution in wavenumber; the second takes the real-space two-point function to be spatially uncorrelated (delta function in $\br$), which corresponds to a flat (white-noise) spectrum in $k$-space. For each spatial model we work out both the Kraichnan stationary decorrelation and the decaying-turbulence temporal model, giving four cases in total.
-
-The derivation follows the same sequence of steps as in Sec.~\ref{sec:kraichnan-k41}: (i) write $H_{ijij}$ as a double convolution in both $\kb$ and $\omega$, (ii) insert the spectral model, (iii) perform the tensor contractions to get $\mathcal{K}$, (iv) switch to spherical coordinates and the variable $u=|\kb-\kb_1|$, (v) evaluate or simplify the temporal integral, and (vi) introduce dimensionless variables.
-
-\subsection{\texorpdfstring{Monochromatic energy spectrum $E(k)=E_0\delta(k-k_0)$}{Monochromatic energy spectrum E(k)=E0 delta(k-k0)}}
-\label{sec:delta-k}
-
-Set $E(k)=E_0\,\delta(k-k_0)$ so that $A(k) = E_0\,\delta(k-k_0)/(4\pi k^2)$ and the spectral tensor reads
-\begin{equation}
-  \tilde{F}_{ij}(\kb,\omega) = \frac{E_0\,\delta(k-k_0)}{4\pi k^2}\,P_{ij}(\khat)\,\tf(\omega),
-  \qquad \int_0^\infty E(k)\,dk = E_0,
-  \label{eq:Fij-delta-k}
-\end{equation}
-with $\tf(\omega)$ to be specified by the decorrelation model.
-
-Starting from Eq.~\eqref{eq: H-with-P} in spherical coordinates, the radial integral collapses $k_1\to k_0$ via $\delta(k_1-k_0)$, fixing $u=\sqrt{k^2+k_0^2-2kk_0\mu}$. Trading $\mu$ for $u$ (azimuth contributes $2\pi$) and using $\delta(u-k_0)$ from $A(u)$ yields the closed-form spatial reduction
-\begin{equation}
-  2\pi\!\int_{-1}^{1}\!d\mu\,A(u) = \frac{E_0}{2k k_0^2}\,\Theta(2k_0-k),
-  \label{eq:angular-delta}
-\end{equation}
-with the Heaviside factor enforcing the triangle inequality $p \equiv k/k_0 \leq 2$. The geometric kernel at $k_1=u=k_0$ evaluates to
-\begin{equation}
-  \mathcal{K}_0(p) \equiv \mathcal{K}(k,k_0,k_0) = \frac{14}{3} - \frac{p^2}{3} + \frac{p^4}{12}.
-  \label{eq:K0}
-\end{equation}
-% FLAG: 4 pi error in the dimensional prefactor below.
-% int d^3 k_1 A(k_1) A(u) K should give E_0^2 K_0(p) Theta(2-p) / (8 pi k k_0^2).
-% Displayed form below has 1/2 in place of 1/(8 pi) — 4 pi too large. The error
-% propagates through to Eq.~\eqref{eq:H-delta-Kraichnan} (overall 8 pi too
-% large). The boxed mathfrak{H} is unaffected (shape only).
-Substituting Eqs.~\eqref{eq:angular-delta}--\eqref{eq:K0} in Eq.~\eqref{eq: H-with-P},
-\begin{equation}
-  H_{ijij}(\kb,\omega)
-  = \frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,k k_0^2}\;\mathcal{K}_0(p)\;I_\omega(\omega),
-  \qquad
-  I_\omega(\omega)\equiv\!\int\!d\omega_1\,\tf(\omega_1)\tf(\omega-\omega_1).
-  \label{eq:H-delta-k}
-\end{equation}
-All spatial structure has been resolved in closed form; only the temporal convolution $I_\omega$ remains. Because both wavevectors are pinned to $k_0$ by the two $\delta$-functions, there is no leftover wavenumber integration: the only spatial constraint is the $M$-independent triangle inequality $\Theta(2-p)$. The Mach number therefore cannot reshape any spatial integration \emph{bounds} here; it enters solely through the temporal decorrelation rate at the fixed scale $k_0$, which we tie to $M$ via $\eta_{k_0}=\tfrac{M}{\sqrt{2\pi}}k_0$ (cf.\ Eq.~\eqref{eq:appA-dimless}). This contrasts with the white-noise case of Sec.~\ref{sec:white}, where $M$ does enter the surviving wavenumber integral.
-
-\subsubsection{Kraichnan decorrelation}
-\label{sec:delta-kraichnan}
-
-For $\tf(\omega)=(2/\eta_0)e^{-\omega^2/\pi\eta_0^2}$ with $\eta_0\equiv\eta_{k_0}=M k_0/\sqrt{2\pi}$, the Gaussian convolution gives $I_\omega(\omega) = (2\sqrt{2}\pi/\eta_0)e^{-\omega^2/(2\pi\eta_0^2)}$. With $q\equiv\omega/k_0$ the exponent becomes $\omega^2/(2\pi\eta_0^2)=q^2/M^2$, so Eq.~\eqref{eq:H-delta-k} separates into a dimensional prefactor and the boxed dimensionless kernel
-\begin{equation}
-  H_{ijij}(\kb,\omega) = \frac{\sqrt{2}\,E_0^2}{(2\pi)^7\,k k_0^2\,\eta_0}\,\mathcal{K}_0(p)\,\Theta(2-p)\,e^{-q^2/M^2},
-  \qquad
-  \boxed{
-  H[S_{\delta k},T_{\rm sw}](p,q;M)\;\equiv\;\mathfrak{H}^{(\delta k)}_{\rm Kraichnan}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,e^{-q^2/M^2}.
-  }
-  \label{eq:dimless-delta-Kraichnan}
-\end{equation}
-There is no remaining integral. The $p$-shape is fixed; $M$ acts only as the Gaussian width in $q$, so the GW spectrum peaks at $q\sim M$.
-
-\subsubsection{Decay model}
-\label{sec:delta-decay}
-
-For decaying turbulence, $\tf(\omega)=\hat g(\omega\tau_1)$ with $\hat g(\bar q)=e^{-i\bar q}(-i\bar q)^{-1/3}\Gamma(\tfrac{1}{3},-i\bar q)$ and $\tau_1=1/\eta_0=\sqrt{2\pi}/(M k_0)$ the decay time at scale $k_0$. With $q=\omega/k_0$ the natural temporal argument is $\bar q\equiv\omega\tau_1=\sqrt{2\pi}\,q/M$; changing variables in Eq.~\eqref{eq:H-delta-k}, the temporal factor becomes $I_\omega=(1/\tau_1)\!\int dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\hat g(\bar q-q_1)\bigr]$. The real part is essential and not cosmetic: the convolution is genuinely complex (its imaginary part exceeds its real part already at $\bar q\simeq1$), and it is the real part that carries the spectrum. The dimensionless result is
-\begin{equation}
-  \boxed{
-  H[S_{\delta k},T_{\rm dec}](p,q;M)\;\equiv\;\mathfrak{H}^{(\delta k)}_{\rm decay}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,\int_{-\infty}^\infty\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\,\hat g(\bar q-q_1)\bigr],
-  \qquad \bar q=\frac{\sqrt{2\pi}\,q}{M}.
-  }
-  \label{eq:dimless-delta-decay}
-\end{equation}
-The spatial part is fully resolved by the two $\delta$-functions; only a 1-D frequency integral remains, and $M$ enters it solely through the rescaled frequency $\bar q$.
-
-\paragraph{The frequency convolution in closed form.}
-Contrary to what the singular appearance of $\hat g$ suggests, this convolution
-\emph{does} have a closed form, and evaluating it as a written $q_1$ integral is
-both unnecessary and numerically treacherous. The GW source is quadratic in the
-velocity, so under quasi-normal closure the object the spectrum needs is the
-transform of the \emph{squared} two-time correlation,
-\begin{equation}
-  \mathcal{C}(\bar q)\;\equiv\;\int_{-\infty}^{\infty}\!d\tau\,\cos(\bar q\tau)\,
-  \bigl[(1+|\tau|)^{-2/3}\bigr]^{2}
-  \;=\;2\,\mathrm{Re}\Bigl[e^{-i\bar q}(-i\bar q)^{1/3}\,
-        \Gamma\bigl(-\tfrac13,-i\bar q\bigr)\Bigr],
-  \label{eq:cosT-closed}
-\end{equation}
-which is the \emph{same} closed form as $\hat g$ with the power $2/3\to4/3$ --- squaring
-the correlation simply shifts the exponent. Writing $h=f\Theta$ for the one-sided
-correlation $f(s)=(1+s)^{-2/3}$, the convolution theorem gives $(\hat g*\hat g)(\bar q)=2\pi\,\mathcal{F}[h^{2}](\bar q)$,
-whose real part halves into the one-sided cosine integral. Hence the exact identity
-\begin{equation}
-  \int_{-\infty}^{\infty}\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\hat g(\bar q-q_1)\bigr]
-  \;=\;\pi\,\mathcal{C}(\bar q).
-  \label{eq:conv-equals-cosT}
-\end{equation}
-Two consequences are worth stating explicitly. First, the one-sided/two-sided
-bookkeeping that distinguishes $\hat g$ from the two-sided kernel enters only as the
-constant $\pi$: it carries \emph{no} shape information and therefore cannot bend a
-spectral slope. Second, the limits of $\mathcal{C}$ are elementary,
-\begin{equation}
-  \mathcal{C}(0)=6,
-  \qquad
-  \mathcal{C}(\bar q)\xrightarrow[\bar q\to0]{}6-3\sqrt{3}\,\Gamma(\tfrac23)\,\bar q^{\,1/3},
-  \qquad
-  \mathcal{C}(\bar q)\xrightarrow[\bar q\to\infty]{}\frac{8}{3\bar q^{\,2}},
-  \label{eq:cosT-limits}
-\end{equation}
-the last following from the cusp of $f^{2}$ at $\tau=0$. This $\bar q^{-2}$ ultraviolet
-tail is the physically decisive one: it is a \emph{heavy power law}, in contrast to the
-Gaussian cutoff of the stationary Kraichnan model, and it is what allows the decaying
-GW spectrum to extend past the sweeping cutoff so that its peak is pinned at the source
-scale (Sec.~\ref{sec:mach-discussion}).
-
-\subsection{Real-space delta-function correlations}
-\label{sec:white}
-
-Take the spatial part of $R_{ij}$ to be a $\delta^{(3)}(\br)$, with velocity variance $v_0^2$ and temporal decorrelation $T(\eta_k,\tau)$:
-\begin{equation}
-  R_{ij}(\br,\tau) = v_0^2\,\delta^{(3)}(\br)\,P_{ij}\,T(\eta_k,\tau),
-  \qquad
-  \tilde F_{ij}(\kb,\omega) = v_0^2\,P_{ij}(\khat)\,\widetilde T(\eta_k,\omega),
-  \label{eq:Fwhite}
-\end{equation}
-so $A(k)=v_0^2$ is $k$-independent (i.e.\ $E(k)\propto k^2$, ultraviolet-dominated); the integrals must be cut off between $k_0$ and $k_d$.
-
-\paragraph{Physical relevance: an uncorrelated magnetic field.}
-This model is not merely a mathematical limit. It is the natural description of a
-\emph{spatially uncorrelated} source---a magnetic field with no correlation beyond a
-microscopic scale, $\langle B_i(\br_1)B_j(\br_2)\rangle\propto\delta^{(3)}(\br_1-\br_2)$,
-which is exactly the kind of field left by an uncorrelated causal process at a phase
-transition. A natural question, and one the user of such a model should confront, is how a
-source that is uncorrelated at large scales can radiate a \emph{correlated} gravitational-wave
-signal there at all. The answer is that the GW source is not $B$ but the \emph{quadratic}
-stress $T_{ij}\sim B_iB_j$, whose two-point function is a \emph{convolution} of two field
-spectra [Eqs.~\eqref{eq: H-after-r}--\eqref{eq: H-convolution}]. The convolution of two
-structureless (white) spectra is not white: as $k\to0$ its value tends to the finite constant
-$\int\!d^3q\,P_B(q)^2$, so the stress---and hence the GW spectrum---is smooth and analytic in
-the infrared even though the field is not. Large-scale correlation of the \emph{signal} is
-manufactured by the quadratic coupling, and its correlation length is set by the convolution,
-not by the (vanishing) correlation length of $B$. This is the same $1/p$ pole and shell--shell
-convolution that governs the universal infrared theorem (Eq.~\eqref{eq:stress-convolution-1d}),
-and it is why a causal (Batchelor $E_M\propto k^4$) magnetic field yields a GW spectrum whose
-stress cannot be steeper than white noise---the mechanism \cite{2019RoperPol} invoke for the
-flat plateau of their Fig.~1. Read in the opposite direction, the same convolution is what
-forbids the analytic substitution $\Omega_{\rm T}\propto\Omega_{\rm M}$ that
-Sec.~\ref{sec:principal-discrepancy} identifies as the single faulty step behind the
-infrared discrepancy: this subsection is the $k\to0$ limit of that argument, taken with the
-steepest possible field.
-
-Crucially, we adopt the same $k$-dependent sweeping rate as in Sec.~\ref{sec:kraichnan-k41}, $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}=\tfrac{M}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, so that $\widetilde T$ depends on the wavenumber and the temporal factor no longer decouples from the spatial integral. With $A(k_1)=A(u)=v_0^2$ in Eq.~\eqref{eq: H-after-r} and dimensionless variables $z=k_1/k_0$, $y=u/k_0$, $p=k/k_0$, $q=\omega/k_0$, $R^{3/4}=k_d/k_0$,
-\begin{equation}
-  H_{ijij}(\kb,\omega) = \frac{v_0^4 k_0^2}{(2\pi)^7}\!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,J(\omega;k_1,u),
-  \qquad
-  J(\omega;k_1,u)\equiv\!\int\!d\omega_1\,\widetilde T(\eta_{k_1},\omega_1)\widetilde T(\eta_u,\omega-\omega_1),
-  \label{eq:H-white}
-\end{equation}
-where $\widetilde{\mathcal K}(p,z,y) = \mathcal K(k,k_1,u)|_{k_1=zk_0,u=yk_0}$ and the frequency factor $J$ now carries the $k_1,u$ dependence inherited from $\eta_{k_1},\eta_u$.
-
-\subsubsection{Kraichnan decorrelation}
-
-With $\widetilde T(\eta_k,\omega)=(2/\eta_k)e^{-\omega^2/\pi\eta_k^2}$ the convolution combines two Gaussians of \emph{different} widths $\eta_{k_1},\eta_u$; using $\int d\omega_1\,e^{-a\omega_1^2}e^{-b(\omega-\omega_1)^2}=\sqrt{\pi/(a+b)}\,e^{-ab\omega^2/(a+b)}$ with $a=1/\pi\eta_{k_1}^2$, $b=1/\pi\eta_u^2$, and $\eta_{k_1}^2+\eta_u^2=\tfrac{M^2}{2\pi}k_0^{2/3}(k_1^{4/3}+u^{4/3})$, the frequency factor becomes
-\begin{equation}
-  J(\omega;k_1,u) = \frac{4\pi\sqrt{2\pi}}{M k_0^{1/3}\sqrt{k_1^{4/3}+u^{4/3}}}\,
-  \exp\!\Bigl(-\frac{2\,\omega^2}{M^2 k_0^{2/3}(k_1^{4/3}+u^{4/3})}\Bigr).
-  \label{eq:J-white-Kraichnan}
-\end{equation}
-Inserting this into Eq.~\eqref{eq:H-white} and absorbing the constants into the dimensional prefactor gives the boxed dimensionless kernel
-\begin{equation}
-  \boxed{
-  H[S_{\delta r},T_{\rm sw}](p,q;M,R)\;\equiv\;\mathfrak{H}^{(\delta r)}_{\rm Kraichnan}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,(z^{4/3}+y^{4/3})^{-1/2}\,e^{-2q^2/[M^2(z^{4/3}+y^{4/3})]}.
-  }
-  \label{eq:dimless-white-Kraichnan}
-\end{equation}
-The exponential now acts as an $M$-dependent effective cutoff on the wavenumber integration: contributions require $z^{4/3}+y^{4/3}\gtrsim 2q^2/M^2$, so as $M$ grows the effective wavenumber support widens and the GW spectrum peak shifts. This is precisely the structure of the Gogoberidze exponent $\exp[-2\varepsilon^{-2/3}\omega^2/(k_1^{4/3}+u^{4/3})]$ in Eq.~\eqref{eq:Hijij-AppA}; the $k$-dependent sweeping rate, rather than a fixed $\eta_1$, is what makes $M$ control the integration support.
-
-\subsubsection{Decay model}
-
-For decaying turbulence $\widetilde T(\eta_k,\omega)=\hat g(\omega\tau_k)$ with the same $\hat g(q)=e^{-iq}(-iq)^{-1/3}\Gamma(\tfrac13,-iq)$ as Sec.~\ref{sec:delta-decay}, but now with the $k$-dependent decay time $\tau_k=1/\eta_k=\sqrt{2\pi}/(M k_0^{1/3}k^{2/3})$. The temporal factor is the convolution $J(\omega;k_1,u)=\int d\omega_1\,\mathrm{Re}\bigl[\hat g(\omega_1\tau_{k_1})\hat g((\omega-\omega_1)\tau_u)\bigr]$ which, because $\tau_{k_1},\tau_u$ depend on the wavenumbers, must remain \emph{inside} the spatial integral. Writing $\tilde J(q;z,y,M)$ for this convolution with the per-mode dimensionless frequencies fixed by $\tau_{k_1},\tau_u\propto 1/M$, the boxed result is
-\begin{equation}
-  \boxed{
-  H[S_{\delta r},T_{\rm dec}](p,q;M,R)\;\equiv\;\mathfrak{H}^{(\delta r)}_{\rm decay}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,\tilde J(q;z,y,M).
-  }
-  \label{eq:dimless-white-decay}
-\end{equation}
-The decay rates scale as $\eta_k\propto M k_0^{1/3}k^{2/3}$, so $M$ again sets the effective wavenumber support. Unlike the fixed-$\eta_0$ case, the three integrals no longer factorize: the $k$-dependence of the decay rate couples the frequency convolution to the wavenumber integration, mirroring the behavior of Eq.~\eqref{eq:Hijij-AppA}.
-
-\paragraph{Reduction of the two-scale factor.}
-The two-scale convolution $\tilde J$ admits no elementary closed form, but it reduces
-exactly to a one-dimensional integral over the single-scale form
-Eq.~\eqref{eq:cosT-closed}, and it is evaluated that way throughout. By the convolution
-theorem it is first the transform of the time-domain \emph{product},
-Eq.~\eqref{eq:ft-of-product}; a Feynman parameter then collapses the product of two
-$-2/3$ powers onto a single $-4/3$ power,
-\begin{equation}
-  A^{-2/3}B^{-2/3}
-  = \frac{\Gamma(4/3)}{\Gamma(2/3)^{2}}\int_{0}^{1}\!\frac{dt}{[t(1-t)]^{1/3}}\,
-    \bigl[tA+(1-t)B\bigr]^{-4/3},
-  \label{eq:feynman-param}
-\end{equation}
-so that, with $A=1+\tau/\tau_1$, $B=1+\tau/\tau_2$ and
-$1/\tau_\ast(t)=t/\tau_1+(1-t)/\tau_2$,
-\begin{equation}
-  \int_{-\infty}^{\infty}\!d\omega_1\,
-    \mathrm{Re}\bigl[\hat g(\omega_1\tau_1)\hat g((\omega-\omega_1)\tau_2)\bigr]
-  = \frac{\pi}{\tau_1\tau_2}\,\frac{\Gamma(4/3)}{\Gamma(2/3)^{2}}
-    \int_{0}^{1}\!\frac{dt}{[t(1-t)]^{1/3}}\,
-    \tau_\ast(t)\,\mathcal{C}\bigl(\omega\,\tau_\ast(t)\bigr).
-  \label{eq:two-scale-feynman}
-\end{equation}
-The $t$-integrand is smooth and non-oscillatory ($\mathcal{C}$ is positive and
-monotonically decreasing), and its endpoint singularities are exactly the Gauss--Jacobi
-weight, so a fixed $48$-node rule is converged to ten digits; at $\tau_1=\tau_2$ it
-collapses back to Eq.~\eqref{eq:conv-equals-cosT}, since
-$[\Gamma(4/3)/\Gamma(2/3)^{2}]\,B(2/3,2/3)=1$. This matters numerically as well as
-formally: evaluated as a written oscillatory integral the amplitude varies on
-$\tau_1,\tau_2$ while the cosine varies on $1/\omega$, and at small $\omega$ those scales
-are separated by many decades, so standard oscillatory quadratures either fail outright
-or return silently incorrect values. Eq.~\eqref{eq:two-scale-feynman} contains no
-oscillatory quadrature at all.
-
-\subsection*{Summary of the four dimensionless integrals}
-
-\begin{center}
-\begin{tabular}{lll}
-\hline
-Spectrum & Decorrelation & Dimensionless integral \\
-\hline
-$E_0\delta(k-k_0)$ & Kraichnan & Eq.~\eqref{eq:dimless-delta-Kraichnan}: closed form; $M$ in frequency scale only \\
-$E_0\delta(k-k_0)$ & Decay & Eq.~\eqref{eq:dimless-delta-decay}: 1D frequency integral; $M$ in $\bar q$ \\
-$\delta^{(3)}(\br)$ & Kraichnan & Eq.~\eqref{eq:dimless-white-Kraichnan}: 2D wavevector integral; $M$-cutoff in bounds \\
-$\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector $\times$ nested 1D frequency; $M$-cutoff \\
-$E_0\delta(k-k_0)$ & Impulsive $\delta(\tau-\tau_s)$ & Eq.~\eqref{eq:dimless-impulsive}: closed form; no $M$ or $q$ dependence \\
-\hline
-\end{tabular}
-\end{center}
-
-
-\section{Impulsive ($\delta$-in-Time) Source}
-\label{sec:impulsive}
-
-We now consider a source that fires exactly once: the turbulent stress is active
-only at a single conformal time $\tau=\tau_s$ but remains monochromatic in
-wavenumber, $E(k)=E_0\,\delta(k-k_0)$. This idealisation approximates a
-combustion front, a rapid phase transition, or any process whose active lifetime
-is negligible compared with the GW oscillation period $2\pi/k$. Because the
-temporal part of the UETC is an exact double $\delta$-function, the time
-integrals in the master formula collapse \emph{without approximation}, yielding
-a GW spectrum that is purely spatial in character and entirely free of
-Mach-number or decorrelation-time parameters.
-
-\subsection{Source model and UETC}
-\label{sec:impulsive-uetc}
-
-The stress tensor of the impulsive source factorises as
-\begin{equation}
-  \Pi^{\rm TT}_{ij}(\kb,\tau) = A^{\rm TT}_{ij}(\kb)\,\delta(\tau-\tau_s),
-  \label{eq:impulsive-stress}
-\end{equation}
-where $A^{\rm TT}_{ij}(\kb)$ carries the spatial amplitude of the burst and is
-independent of time. The two-point function of the TT stress defines the UETC
-via
-\begin{equation}
-  \bigl\langle\Pi^{\rm TT}_{ij}(\kb,\tau_1)\,
-  \Pi^{\rm TT\,*}_{ij}(\kb',\tau_2)\bigr\rangle
-  = (2\pi)^3\,\delta^{(3)}(\kb-\kb')\,\Pi(k;\tau_1,\tau_2).
-  \label{eq:uetc-def-impulsive}
-\end{equation}
-Inserting the ansatz \eqref{eq:impulsive-stress} and defining the spatial power
-$P(k)$ through
-$\langle A^{\rm TT}_{ij}(\kb)\,A^{\rm TT\,*}_{ij}(\kb')\rangle
-=(2\pi)^3\delta^{(3)}(\kb-\kb')P(k)$, the UETC becomes
-\begin{equation}
-  \Pi(k;\tau_1,\tau_2) = P(k)\,\delta(\tau_1-\tau_s)\,\delta(\tau_2-\tau_s).
-  \label{eq:uetc-impulsive}
-\end{equation}
-No decorrelation model ($\eta_k$, $\hat g$, or any finite coherence time) is
-needed; the UETC is exact and requires no further closure assumption.
-
-\subsection{Temporal integral and master formula}
-\label{sec:impulsive-temporal}
-
-The Isaacson GW energy density $\rho_{\rm GW}=\langle\dot h_{ij}\dot
-h_{ij}\rangle/(32\pi G)$, together with the retarded solution
-\begin{equation}
-  \dot h_{ij}(\kb,\tau) = 16\pi G\!\int_{\tau_i}^{\tau}\!d\tau'\,
-  \cos[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau'),
-  \label{eq:impulsive-hdot}
-\end{equation}
-and time-averaging the fast-oscillation product
-$\cos[k(\tau-\tau_1)]\cos[k(\tau-\tau_2)]\to\tfrac{1}{2}\cos[k(\tau_1-\tau_2)]$,
-gives the master formula
-\begin{equation}
-  \frac{d\rho_{\rm GW}}{d\ln k}
-  \simeq \frac{2G\,k^3}{\pi}
-  \!\int\!d\tau_1\!\int\!d\tau_2\,
-  \cos[k(\tau_1-\tau_2)]\,\Pi(k;\tau_1,\tau_2).
-  \label{eq:master-impulsive}
-\end{equation}
-Substituting the impulsive UETC \eqref{eq:uetc-impulsive},
-\begin{align}
-  \frac{d\rho_{\rm GW}}{d\ln k}
-  &\;=\; \frac{2G\,k^3}{\pi}
-    \!\int\!d\tau_1\!\int\!d\tau_2\;
-    \cos[k(\tau_1-\tau_2)]\;
-    P(k)\,\delta(\tau_1-\tau_s)\,\delta(\tau_2-\tau_s)
-    \nonumber\\
-  &= \frac{2G\,k^3}{\pi}\,P(k)\,\cos[k(\tau_s-\tau_s)]
-  \;=\; \frac{2G\,k^3}{\pi}\,P(k)\,\cos(0)
-  \;=\; \frac{2G\,k^3}{\pi}\,P(k).
-  \label{eq:impulsive-temporal}
-\end{align}
-The temporal factor is identically unity regardless of $k$, $k_0$, or $\tau_s$:
-both $\delta$-functions collapse to set $\tau_1=\tau_2=\tau_s$, so the cosine
-argument vanishes. No approximation is involved. The GW spectrum is therefore
-determined entirely by the instantaneous spatial power $P(k)$ of the burst,
-with no temporal modulation and no on-shell frequency integral.
-
-\subsection{Spatial reduction for monochromatic $E(k)=E_0\,\delta(k-k_0)$}
-\label{sec:impulsive-spatial}
-
-We now compute $P(k)$ for the monochromatic energy spectrum. Adopting the
-isotropic, incompressible velocity model
-$F_{ij}(\kb)=A(k)P_{ij}(\khat)$ with $P_{ij}(\khat)=\delta_{ij}-\khat_i\khat_j$,
-the spatial power of the TT-projected quadratic source reads
-\begin{equation}
-  P(k) = \frac{1}{(2\pi)^7}\!\int\!d^3k_1\,
-  A(k_1)\,A(u)\,\mathcal{K}(k,k_1,u),
-  \qquad \ub\equiv\kb-\kb_1,\quad u\equiv|\ub|,
-  \label{eq:Pk-impulsive}
-\end{equation}
-with the geometric kernel
-\begin{equation}
-  \mathcal{K}(k,k_1,u) = \frac{27}{6}
-  +\frac{k^4}{12k_1^2u^2}+\frac{k_1^2}{12u^2}+\frac{u^2}{12k_1^2}
-  -\frac{k^2}{6u^2}-\frac{k^2}{6k_1^2}.
-  \label{eq:K-impulsive}
-\end{equation}
-For the monochromatic spectrum $E(k)=E_0\,\delta(k-k_0)$, the amplitude is
-$A(k)=E_0\,\delta(k-k_0)/(4\pi k^2)$. Going to spherical coordinates
-$d^3k_1=k_1^2\,dk_1\,d\phi\,d\mu$ with $\mu=\khat\cdot\khat_1$, the azimuthal
-integral gives $2\pi$; trading $\mu$ for
-$u=\sqrt{k^2+k_1^2-2kk_1\mu}$\,(so $u\,du=kk_1\,d\mu$),
-\begin{equation}
-  P(k) = \frac{1}{(2\pi)^6}\!\int_0^\infty\!\frac{k_1\,dk_1}{k}
-  \!\int_{|k-k_1|}^{k+k_1}\!u\,du\;
-  A(k_1)\,A(u)\,\mathcal{K}(k,k_1,u).
-  \label{eq:Pk-spherical}
-\end{equation}
-Inserting $A(k_1)=E_0\delta(k_1-k_0)/(4\pi k_1^2)$, the $k_1$ integral
-collapses to $k_1=k_0$; inserting $A(u)=E_0\delta(u-k_0)/(4\pi u^2)$, the $u$
-integral collapses to $u=k_0$, which is inside the range $[|k-k_0|,k+k_0]$
-only when $k\leq 2k_0$, i.e.\ $p\leq 2$. The angular residue from
-$\delta(u-k_0)$ is $1/(du/d\mu)|_{u=k_0}=u/(kk_1)|_{u=k_0}=k_0/(kk_0)=1/k$,
-so the two-dimensional integration reduces to
-\begin{equation}
-  \int_0^\infty\!\frac{k_1\,dk_1}{k}\!
-  \int_{|k-k_1|}^{k+k_1}\!u\,du\;
-  \frac{E_0\,\delta(k_1-k_0)}{4\pi k_1^2}\cdot
-  \frac{E_0\,\delta(u-k_0)}{4\pi u^2}
-  = \frac{E_0^2}{16\pi^2}\cdot\frac{1}{k_0^2}\cdot\frac{1}{k}\,\Theta(2k_0-k).
-  \label{eq:angular-collapse}
-\end{equation}
-With both momenta pinned at $k_0$, the geometric kernel evaluates to
-\begin{align}
-  \mathcal{K}(k,k_0,k_0)
-  &= \frac{27}{6}
-    +\frac{k^4}{12k_0^4}+\frac{k_0^2}{12k_0^2}+\frac{k_0^2}{12k_0^2}
-    -\frac{k^2}{6k_0^2}-\frac{k^2}{6k_0^2}
-    \nonumber\\
-  &= \frac{27}{6}+\frac{p^4}{12}+\frac{1}{12}+\frac{1}{12}
-    -\frac{p^2}{6}-\frac{p^2}{6}
-    \nonumber\\
-  &= \frac{27+1+1}{6}+\frac{p^4}{12}-\frac{p^2}{3}
-  \;=\; \frac{14}{3}-\frac{p^2}{3}+\frac{p^4}{12}
-  \;\equiv\; \mathcal{K}_0(p).
-  \label{eq:K0-impulsive}
-\end{align}
-Substituting \eqref{eq:angular-collapse} and \eqref{eq:K0-impulsive} into
-\eqref{eq:Pk-spherical} gives
-\begin{equation}
-  P(k) = \frac{E_0^2\,\mathcal{K}_0(p)}{(2\pi)^6\cdot 16\pi^2\,k\,k_0^2}\,\Theta(2-p).
-  \label{eq:Pk-result}
-\end{equation}
-Inserting into \eqref{eq:impulsive-temporal} and collecting the dimensional
-prefactor into an overall constant, we read off the dimensionless kernel
-\begin{equation}
-  \boxed{
-  \mathfrak{H}^{(\delta\tau,\delta k)}(p) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p),
-  \qquad
-  \mathcal{K}_0(p)=\frac{14}{3}-\frac{p^2}{3}+\frac{p^4}{12}.
-  }
-  \label{eq:dimless-impulsive}
-\end{equation}
-There is no remaining integral, no frequency argument $q$, and no Mach number
-$M$: the kernel is a single algebraic expression in $p$. In $p$-shape it
-coincides with the Kraichnan monochromatic kernel of
-Sec.~\ref{sec:kraichnan-k41} evaluated at $q=0$ — setting $q\to0$ in
-$e^{-q^2/M^2}$ trivially reproduces \eqref{eq:dimless-impulsive} — because the
-impulsive source assigns equal weight to every on-shell frequency.
-
-\subsection{GW spectrum: peak, IR and UV slopes}
-\label{sec:impulsive-result}
-
-Using $\Omega_{\rm GW}(p)\propto p^3\,\mathfrak{H}^{(\delta\tau,\delta k)}(p)$,
-\begin{equation}
-  \Omega_{\rm GW}(p) \;\propto\; p^2\,\mathcal{K}_0(p)\,\Theta(2-p).
-  \label{eq:omega-impulsive}
-\end{equation}
-
-\paragraph{Infrared slope.}
-As $p\to0$, $\mathcal{K}_0(p)=\tfrac{14}{3}+O(p^2)$ is constant, so
-\begin{equation}
-  \Omega_{\rm GW}(p) \;\xrightarrow{p\to0}\; \frac{14}{3}\,p^2.
-\end{equation}
-The infrared slope is $p^2$, not the causal $p^3$ of spatially extended
-sources. The extra power of $1/p$ in $\mathfrak{H}$ traces back to the angular
-residue in \eqref{eq:angular-collapse}: pinning both loop momenta to $k_0$ means
-the phase-space measure for small $k$ grows as $k$ rather than $k^2$, which
-demotes $k^3\to k^2$.
-
-\paragraph{Peak.}
-Define $f(p)\equiv p^2\,\mathcal{K}_0(p)=\tfrac{14}{3}\,p^2-\tfrac{p^4}{3}+\tfrac{p^6}{12}$.
-Its derivative is
-\begin{equation}
-  f'(p) = p\!\left(\frac{28}{3} - \frac{4}{3}\,p^2 + \frac{p^4}{2}\right).
-\end{equation}
-Setting the bracket to zero requires $3p^4-8p^2+56=0$, a quadratic in $p^2$
-with discriminant $\Delta=64-4\cdot3\cdot56=-608<0$: no real roots. Since the
-bracket is $56/3>0$ at $p=0$ and $72>0$ at $p=2$, and has no roots on $(0,2)$,
-$f'(p)>0$ throughout the support. The spectrum is strictly increasing and peaks
-at the triangle-inequality cutoff,
-\begin{equation}
-  p_{\rm peak} = 2 \qquad\Longrightarrow\qquad k_{\rm GW}^{\rm peak} = 2k_0.
-  \label{eq:impulsive-peak}
-\end{equation}
-Geometrically, the maximum GW wavenumber from two modes both at $k_0$ is
-$k_0+k_0=2k_0$; the monotone kernel drives all power to this kinematic limit.
-
-\paragraph{Ultraviolet.}
-The Heaviside factor $\Theta(2-p)$ enforces an exact hard cutoff: $\Omega_{\rm
-GW}(p)\equiv0$ for $p>2$. There is no UV power-law tail, in contrast to the
-smooth Gaussian (Kraichnan) or power-law (decay) falloffs of the stationary
-models.
-
-\subsection{Post-burst free propagation}
-\label{sec:impulsive-propagation}
-
-For $\tau>\tau_s$ the source is off. The retarded Green's function gives
-\begin{equation}
-  h_{ij}(\kb,\tau)
-  = \frac{16\pi G}{k}\!\int_{\tau_i}^{\tau}\!d\tau'\,
-    \sin[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau').
-  \label{eq:greens-impulsive}
-\end{equation}
-Substituting $\Pi^{\rm TT}_{ij}(\kb,\tau')=A^{\rm TT}_{ij}(\kb)\,\delta(\tau'-\tau_s)$,
-\begin{equation}
-  h_{ij}(\kb,\tau) = \frac{16\pi G}{k}\,\sin[k(\tau-\tau_s)]\,A^{\rm TT}_{ij}(\kb),
-  \qquad \tau>\tau_s,
-  \label{eq:impulsive-h}
-\end{equation}
-with time derivative
-$\dot h_{ij}(\kb,\tau)=16\pi G\cos[k(\tau-\tau_s)]\,A^{\rm TT}_{ij}(\kb)$.
-The Isaacson energy density
-\begin{equation}
-  \rho_{\rm GW} = \frac{\langle\dot h_{ij}\dot h_{ij}\rangle}{32\pi G}
-  = \frac{(16\pi G)^2}{32\pi G}\cos^2[k(\tau-\tau_s)]\,P(k)
-  \;\xrightarrow{\langle\cos^2\rangle=1/2}\;
-  \frac{(16\pi G)\,k^3}{2\pi}\,P(k)\,\frac{d\ln k}{1},
-  \label{eq:rho-impulsive}
-\end{equation}
-after integrating over $k$-shells, recovers the frozen spectrum
-\eqref{eq:omega-impulsive} without further time evolution. Each mode oscillates
-on-shell at $\omega=k$ with amplitude set at $\tau_s$; the GW background
-decouples from the source permanently and carries a spectrum that never changes.
-
-\section{Impulsive source in real space}
-\label{sec:impulsive-realspace}
-
-We keep every space integral in configuration space and transform in time alone. The
-GW spectrum comes out as a single frequency $\omega$ acting on a purely spatial stress
-correlator. With $a=1$,
-\begin{equation}
-  \Box\,h_{ij}=16\pi G\,S_{ij},\quad \Box=\partial_t^2-\nabla^2;
-  \qquad
-  \dot h_{ij}(\br,t)=4G\!\int\! d^3r'\,\frac{\dot S_{ij}(\br',t-|\br-\br'|)}{|\br-\br'|}.
-  \label{eq:rs2-hdot}
-\end{equation}
-Following the standard turbulence--GW formalism \cite{2002Kosowsky,2007Gogoberidze},
-introduce the unequal-time GW correlator at lag $\tau$ and its temporal transform,
-\begin{equation}
-  L(\br,\tau)\equiv\frac{1}{32\pi G}\bigl\langle\dot h_{ij}(\br,t)\,\dot h_{ij}(\br,t+\tau)\bigr\rangle,
-  \qquad \rho_{\rm GW}(\br)=L(\br,0),
-  \label{eq:rs2-L}
-\end{equation}
-\begin{equation}
-  I(\br,\omega)\equiv\frac{1}{2\pi}\!\int\! d\tau\,e^{i\omega\tau}\,L(\br,\tau),
-  \qquad \rho_{\rm GW}(\br)=\int\! d\omega\,I(\br,\omega),
-  \label{eq:rs2-I}
-\end{equation}
-so $I(\br,\omega)$ is the spectral energy density of the radiation and
-$d\rho_{\rm GW}/d\ln\omega=\omega\,I(\br,\omega)$ (at $\omega>0$). Inserting the
-retarded field \eqref{eq:rs2-hdot} twice ($(4G)^2/32\pi G=G/2\pi$),
-\begin{equation}
-  L(\br,\tau)=\frac{G}{2\pi}\!\int\!
-  \frac{d^3r_1\,d^3r_2}{|\br-\br_1|\,|\br-\br_2|}\,
-  \bigl\langle\dot S_{ij}(\br_1,t')\,\dot S_{ij}(\br_2,t'')\bigr\rangle,
-  \quad t'=t-|\br-\br_1|,\ \ t''=t+\tau-|\br-\br_2|.
-  \label{eq:rs2-Lret}
-\end{equation}
-For turbulence the stress obeys the identity \cite{2007Gogoberidze}
-\begin{equation}
-  \bigl\langle\dot S_{ij}(\br_1,t')\,\dot S_{ij}(\br_2,t'')\bigr\rangle
-  =-\partial_\tau^2\,\bigl\langle S_{ij}(\br_1,t')\,S_{ij}(\br_2,t'')\bigr\rangle,
-  \label{eq:rs2-id}
-\end{equation}
-so under the transform \eqref{eq:rs2-I} the two time-derivatives integrate by parts in
-$\tau$ to a factor $\omega^2$,
-\begin{equation}
-  I(\br,\omega)=\frac{G\,\omega^2}{(2\pi)^2}\!\int\!
-  \frac{d^3r_1\,d^3r_2}{|\br-\br_1|\,|\br-\br_2|}\!\int\! d\tau\,e^{i\omega\tau}\,
-  \bigl\langle S_{ij}(\br_1,t')\,S_{ij}(\br_2,t'')\bigr\rangle.
-  \label{eq:rs2-Iw}
-\end{equation}
-A single burst $S_{ij}=\mathcal{S}_{ij}(\br)\,\delta(t-t_0)$ gives
-$\langle S_{ij}(\br_1,t')S_{ij}(\br_2,t'')\rangle=\Sigma(\br_1,\br_2)\,\delta(t'-t_0)\,\delta(t''-t_0)$
-with $\Sigma(\br_1,\br_2)=\langle\mathcal{S}_{ij}(\br_1)\mathcal{S}_{ij}(\br_2)\rangle$;
-the $\delta$'s fix the retarded shells (so $t_0$ sets only the shell radius, not the
-spectral shape), the $\tau$-integral leaves the phase
-$e^{-i\omega(|\br-\br_1|-|\br-\br_2|)}$, and with $\br=0$ ($|\br-\br_a|=r_a$), the
-isotropic correlator $\Sigma(r)$ ($r=|\br_1-\br_2|$), and the angular average
-$\langle e^{i\boldsymbol{\omega}\cdot\br}\rangle=\sin(\omega r)/(\omega r)$,
-\begin{equation}
-  \boxed{\;
-  \frac{d\rho_{\rm GW}}{d\ln\omega}
-  =8G\,\omega^2\!\int_0^\infty\!dr\,r\,\sin(\omega r)\,\Sigma(r).\;}
-  \label{eq:rs2-spectrum}
-\end{equation}
-The leading $\omega^2$ is exactly the two time-derivatives of the quadrupole source,
-converted by the identity \eqref{eq:rs2-id}.
-
-\subsection{The peak is set by the source, not by \texorpdfstring{$t_0$}{t0}}
-\label{sec:rs2-peak}
-
-The firing time enters \eqref{eq:rs2-Iw} only through the $\delta$'s, which fix the
-radiating shell but leave no $t_0$ in the real spectrum \eqref{eq:rs2-spectrum}:
-\emph{the spectrum is independent of $t_0$}. An instantaneous burst nonetheless radiates a broadband, structured spectrum,
-fixed entirely by the spatial stress correlator
-$\langle\mathcal{S}_{ij}(\br_1)\mathcal{S}_{ij}(\br_2)\rangle$. Let $\ell$ be its
-coherence length (the correlator decays for $|\br_1-\br_2|\gtrsim\ell$). The
-retardation phase $\cos[\omega(r_1-r_2)]$ stays coherent across that volume while
-$\omega\ell\lesssim1$ and averages away above it, so the radial integral is white in
-the infrared and the causal rise $d\rho_{\rm GW}/d\ln\omega\propto\omega^3$ turns over
-at
-\begin{equation}
-  \boxed{\;
-  \omega_{\rm peak}\simeq\frac{1}{\ell}
-  \quad(\text{independent of }t_0),
-  \qquad f_{\rm peak}=\frac{\omega_{\rm peak}}{2\pi}\simeq\frac{1}{2\pi\ell}.\;}
-  \label{eq:rs2-fpeak}
-\end{equation}
-The peak GW frequency is the inverse coherence length of the burst, with no reference
-to when it fired.
-
-\subsection{Burst of finite duration \texorpdfstring{$\Delta t$}{Dt}}
-\label{sec:burst}
-\label{sec:rs2-duration}
-
-Now let the stress switch on over a finite interval rather than an instant,
-$S_{ij}(\br,t)=\mathcal{S}_{ij}(\br)\,g(t-t_0)$, with $g$ a temporal profile of width
-$\Delta t$ (the instantaneous burst is $\Delta t\to0$, $g\to\delta$). The source
-correlator in \eqref{eq:rs2-Iw} now carries $g(t'-t_0)\,g(t''-t_0)$ instead of the two
-$\delta$'s, so the $\tau$-transform multiplies the spectrum by the single temporal
-filter $|\tilde g(\omega)|^2$, $\tilde g(\omega)=\int\!dt\,g(t)e^{i\omega t}$,
-\begin{equation}
-  \boxed{\;
-  \frac{d\rho_{\rm GW}}{d\ln\omega}
-  =8G\,\omega^2\,|\tilde g(\omega)|^2\!
-  \int_0^\infty\!dr\,r\,\sin(\omega r)\,\Sigma(r).\;}
-  \label{eq:rs2-spectrum-dt}
-\end{equation}
-The factor $|\tilde g(\omega)|^2$ is flat for $\omega\Delta t\lesssim1$ and rolls off
-above --- a low-pass at $\omega\sim1/\Delta t$. The spectrum now carries two scales,
-the spatial coherence ($\omega\sim1/\ell$) and the duration ($\omega\sim1/\Delta t$),
-and peaks at the lower of the two,
-\begin{equation}
-  \boxed{\;
-  \omega_{\rm peak}\simeq\min\!\Bigl(\frac{1}{\ell},\,\frac{1}{\Delta t}\Bigr).\;}
-  \label{eq:rs2-fpeak-dt}
-\end{equation}
-A slow burst ($\Delta t\gtrsim\ell$) is duration-limited,
-$\omega_{\rm peak}\simeq1/\Delta t$; a fast burst ($\Delta t\lesssim\ell$) recovers the
-instantaneous, coherence-limited peak $\omega_{\rm peak}\simeq1/\ell$ of
-\eqref{eq:rs2-fpeak}.
-
-\iffalse  % proof-of-concept figure (commented out)
-\begin{figure*}[ht]
-  \centering
-  \includegraphics[width=0.92\textwidth]{impulsive_realspace_spectrum}
-  \caption{Impulsive-source GW spectrum of Sec.~\ref{sec:impulsive-realspace}.
-  \emph{Plotted quantity.} The curves are the GW energy density per logarithmic
-  frequency, Eq.~\eqref{eq:rs2-spectrum} with the duration filter
-  $|\tilde g(\omega)|^2$ of Eq.~\eqref{eq:rs2-spectrum-dt},
-  $d\rho_{\rm GW}/d\ln\omega=8G\,\omega^2\!\int_0^\infty\! dr\,r\sin(\omega r)\,
-  \Sigma(r)\,|\tilde g(\omega)|^2$.
-  \emph{Source model.} The TT-projected stress two-point function is taken isotropic
-  and Gaussian in real space,
-  $\Sigma(r)=\langle\mathcal{S}_{ij}(\br_1)\mathcal{S}_{ij}(\br_2)\rangle
-  =e^{-r^2/2\ell^2}$ with $|\br_1-\br_2|=r$ and coherence length $\ell$ --- a
-  single-scale stand-in for the contracted correlator
-  $R_{aa}R_{bb}+\tfrac13R_{ab}R_{ab}$ (the absolute amplitude is irrelevant: every
-  curve is normalised to unit peak). Its radial transform
-  $P(\omega)=(4\pi/\omega)\!\int_0^\infty\! r\sin(\omega r)\Sigma\,dr
-  =(2\pi)^{3/2}\ell^3 e^{-\omega^2\ell^2/2}$ is used in closed form (verified against
-  the numerical radial quadrature to $\sim\!10^{-15}$ relative).
-  \emph{Temporal profile.} The burst window is Gaussian of width $\Delta t$, giving
-  the on-shell temporal filter $|\tilde g(\omega)|^2=e^{-\omega^2\Delta t^2}$;
-  $\Delta t=0$ is the instantaneous $\delta(t-t_0)$ limit ($|\tilde g|^2=1$, white in
-  source frequency). \emph{Units.} $G=1$, $\ell=1$; the abscissa is $\omega\ell$.
-  \emph{Left:} instantaneous burst ($\Delta t=0$) for firing times
-  $t_0=0,1,5$ --- the three curves coincide exactly, since $t_0$ enters only as the
-  phase $e^{i\omega t_0}$ that cancels in the modulus (Eq.~\eqref{eq:rs2-spectrum});
-  the dash--dotted line is the causal $\omega^3$ infrared law and the dashed vertical
-  marks the peak $\omega_{\rm peak}=\sqrt{3}/\ell$.
-  \emph{Right:} finite duration $\Delta t/\ell=0,0.5,1,2,4,8,16$; dotted verticals are
-  the analytic peaks $\omega_{\rm peak}=\sqrt{3}/\sqrt{\ell^2+2\Delta t^2}$, sliding
-  from the coherence-limited $\sqrt3/\ell$ (fast burst) to the duration-limited
-  $\sqrt{3/2}/\Delta t$ (slow burst), i.e.\ $\omega_{\rm peak}\simeq\min(1/\ell,1/\Delta t)$.
-  Generated by \texttt{Notebooks/impulsive\_realspace\_spectrum.py}.}
-  \label{fig:impulsive-realspace}
-\end{figure*}
-\fi
-
-\subsection{Single-scale limit: deriving the quadrupole factor of two}
-\label{sec:rs2-monochromatic}
-
-The peak tracks whatever scale the source correlations carry; the cleanest limit is a
-fluid coherent at a single length scale $\ell_0$. Here the factor of two relating the
-GW scale to the fluid scale is not an assumption --- it follows from the source being
-the \emph{quadratic} Reynolds stress $\mathcal{S}_{ij}=w\,v_iv_j$, through Wick's
-theorem. For a Gaussian velocity field the connected stress two-point function is
-quadratic in the velocity correlator
-$R_{ab}(\br)=\langle v_a(\br_1)v_b(\br_2)\rangle$ (the disconnected pairing is the
-constant mean stress $\langle\mathcal{S}_{ij}\rangle^2$ and does not radiate):
-\begin{equation}
-  \Sigma(\br)=\bigl\langle\mathcal{S}_{ij}(\br_1)\mathcal{S}_{ij}(\br_2)\bigr\rangle_{\rm c}
-  = w^2\Bigl[R_{aa}(\br)R_{bb}(\br)+\tfrac13 R_{ab}(\br)R_{ab}(\br)\Bigr]
-  \;\propto\; R(\br)^2,
-  \label{eq:rs2-wick}
-\end{equation}
-the TT-contracted form of Eq.~\eqref{eq: main}; the key feature is that $\Sigma$ is the
-\emph{square} of the velocity correlator. A fluid coherent at the single scale $\ell_0$
-has a velocity correlator that oscillates on that scale: for the isotropic single-scale
-field the trace is $R_{aa}(r)\propto\sin(r/\ell_0)/(r/\ell_0)$.%
-\footnote{This is the standard spectral-tensor result for homogeneous isotropic
-turbulence \cite{Batchelor1953,Pope2000,MoninYaglom1975,1959Kraichnan}. Incompressibility
-fixes the velocity correlator's tensor structure, leaving its radial part set by a
-single scalar; the trace transforms as
-$R_{aa}(r)=2\int_0^\infty E(k)\,\frac{\sin kr}{kr}\,dk$ with $E$ the energy spectrum, so
-a fluid carrying a single scale ($E$ concentrated at one $1/\ell_0$) gives
-$R_{aa}(r)\propto\sin(r/\ell_0)/(r/\ell_0)$ and $R_{aa}(0)=\langle v^2\rangle$.
-Physically $\sin(r/\ell_0)/(r/\ell_0)$ is the directional average of a plane wave over
-the sphere of fixed scale --- the correlation of a random field built from equal-size
-eddies pointing every way: it first vanishes at $r=\pi\ell_0$ (points half a wavelength
-apart are anti-correlated) and decays as $\ell_0/r$ as the phases wash out. The same
-angular reduction underlies the GW-from-turbulence kernels
-\cite{2002Kosowsky,2007Gogoberidze}.}
-Squaring \emph{halves the scale},
-\begin{equation}
-  R(r)^2\;\propto\;\frac{\sin^2(r/\ell_0)}{(r/\ell_0)^2}
-  =\frac{1-\cos(2r/\ell_0)}{2\,(r/\ell_0)^2},
-  \label{eq:rs2-square}
-\end{equation}
-so the radiating part of $\Sigma(r)$ oscillates on the halved scale $\ell_0/2$ (the
-constant term is the non-radiating mean). The GW frequency is the inverse of the scale
-it samples, so the spectrum
-$d\rho_{\rm GW}/d\ln\omega\propto\omega^3 P(\omega)|\tilde g(\omega)|^2$ collapses to a
-single line at
-\begin{equation}
-  \boxed{\;
-  \omega_{\rm GW}=\frac{2}{\ell_0}
-  \qquad\bigl(\ell_{\rm GW}=\tfrac12\,\ell_0\bigr).\;}
-  \label{eq:rs2-mono-peak}
-\end{equation}
-The factor of two is thus \emph{derived}: a quadratic (quadrupole) source $v_iv_j$
-radiates on half the scale --- twice the frequency --- of the field that drives it,
-Eq.~\eqref{eq:rs2-square} being that halving written as the identity
-$\sin^2\theta=\tfrac12(1-\cos2\theta)$. There is no infrared $\omega^3$ rise and no
-ultraviolet falloff: the $\omega^3$ phase space and the duration filter
-$|\tilde g(\omega)|^2$ fix only the line's height, so $\omega_{\rm GW}$ is independent
-of both the firing time $t_0$ and the duration $\Delta t$. This is the
-configuration-space image of the GW peak at half the source scale found for the
-monochromatic source in Eq.~\eqref{eq:impulsive-peak}: two velocity features of scale
-$\ell_0$ overlap to produce stress structure on the scale $\ell_0/2$.
-(A strictly single-scale field in
-fact fills all scales $\ge\ell_0/2$ --- the autoconvolution in Eq.~\eqref{eq:rs2-wick}
---- piling up at the $\ell_0/2$ edge as in Sec.~\ref{sec:impulsive}; the $\delta$-line
-keeps only the halved scale.)
-
-\iffalse  % proof-of-concept figure (commented out)
-\begin{figure*}[ht]
-  \centering
-  \includegraphics[width=0.92\textwidth]{impulsive_monochromatic_source}
-  \caption{Single-scale toy of Sec.~\ref{sec:rs2-monochromatic}: the quadrupole factor
-  of two, derived in the length-scale picture. \emph{Left:} the derivation itself
-  (Eqs.~\eqref{eq:rs2-wick}--\eqref{eq:rs2-square}). A fluid coherent at one scale
-  $\ell_0$ has the velocity correlator $R(r)\propto\sin(r/\ell_0)/(r/\ell_0)$ (blue);
-  because the GW source is the quadratic Reynolds stress $\mathcal{S}_{ij}\sim v_iv_j$,
-  the radiating stress correlator is its square $\Sigma\propto R(r)^2$ (orange), which
-  by $\sin^2=\tfrac12(1-\cos2\,\cdot)$ oscillates on the \emph{halved} scale
-  $\ell_0/2$. \emph{Right:} the resulting GW scale is exactly half the fluid scale,
-  $\ell_{\rm GW}=\ell_0/2$ (solid, slope $1/2$; points $\ell_0=0.5,1,2,4$), versus the
-  unhalved $\ell_{\rm GW}=\ell_0$ (dotted) --- equivalently $\omega_{\rm GW}=2/\ell_0$
-  (Eq.~\eqref{eq:rs2-mono-peak}). The line carries no causal $\omega^3$ rise and no
-  ultraviolet decay, and its position is independent of the firing time $t_0$ and
-  duration $\Delta t$. Generated by
-  \texttt{Notebooks/impulsive\_monochromatic\_source.py}.}
-  \label{fig:impulsive-monochromatic}
-\end{figure*}
-\fi
-
-\section{\texorpdfstring{Numerical results: $f_{\rm peak}^{\rm GW}(\tau_\ast, M_0)$}{Numerical results: f\_peak\^GW(tau, M0)}}
-\label{sec:fpeak-numerical}
-
-We scan the peak GW frequency
-$f_{\rm peak}^{\rm GW}=\operatorname{argmax}_\omega[\omega\,\Omega_{\rm GW}(\omega)]/2\pi$
-over the $(\tau_\ast,M_0)$ plane for a delta-shell decaying source evolved with
-the BK2016 self-similar closure and time-integrated over the emission window
-(\texttt{Notebooks/f\_peak\_vs\_tau\_mach.py}). Two temporal-correlation kernels
-are compared through their dimensionless transform
-$\mathcal{G}(q)=\widehat{R^2}(q)$: the random-phase BK2016 form (Model A) and the
-coherent eddy (Model B).
-
-Across all four self-similar classes the ratio
-$f_{\rm peak}^{A}/f_{\rm peak}^{B}$ is \emph{independent of} $(\tau_\ast,M_0)$:
-the self-similar closure makes both the eddy frequency $\omega_e$ and the
-sweeping rate $\eta_0$ scale as $(1+T/\tau_\ast)^{-1}$, so the two kernels inherit
-the same overall frequency scaling and differ only in their fixed dimensionless
-peak position. The model difference therefore collapses to a single per-class
-constant (Fig.~\ref{fig:f_peak_model_ratio}): $f_A/f_B\simeq0.37,\,0.36$ for the
-HD (Loitsiansky, Saffman) classes and $0.83,\,0.78$ for the MHD (nonhelical,
-helical) classes -- Model A always peaks lower. The large HD offset comes from
-the side-peak of the coherent kernel at the eddy frequency ($q\simeq\pm2$, the
-$\cos\sigma$ oscillation of $R_B$), which wins the $\omega\,\Omega_{\rm GW}$
-argmax for the steep-decay HD classes but nearly coincides with the broad
-Model-A peak for MHD. Because the per-model maps differ only by this constant, we
-display the ratio rather than the eight individual heatmaps.
-
-\begin{figure*}[ht]
-  \centering
-  \includegraphics[width=\textwidth]{f_peak_model_difference}
-  \caption{Model A/B ratio of the peak GW frequency,
-  $\log_{10}(f_{\rm peak}^{A}/f_{\rm peak}^{B})$, on the $(\tau_\ast,M_0)$ plane
-  for the four BK2016 self-similar decay classes (HD Loitsiansky $q=2/7$,
-  $\beta=4$; HD Saffman $q=1/3$, $\beta=3$; nonhelical MHD $q=1/2$, $\beta=1$;
-  helical MHD $q=2/3$, $\beta=0$). Each panel is flat: the ratio is independent
-  of $(\tau_\ast,M_0)$, fixed only by the kernel shapes, with the per-class value
-  $\langle f_A/f_B\rangle$ annotated. Model A (random-phase) peaks below Model B
-  (coherent eddy) everywhere; the HD classes show the larger offset.}
-  \label{fig:f_peak_model_ratio}
-\end{figure*}
-
-
-\section{Differences among the models}
-\label{sec:model-differences}
-
-With every kernel of Table~\ref{tab:model-grid} in hand we can now say precisely
-what distinguishes them, and---more usefully---which of the two axes of
-Sec.~\ref{sec:model-space} each difference belongs to. The summary is
-Table~\ref{tab:model-differences}; the reasoning follows. Throughout,
-$\Omega_{\rm GW}(p)\propto p^{3}H[S,T](p,p)$ and all numbers are measured by
-\texttt{Notebooks/model\_grid\_survey.py} at $M=1$, $R=10^{4}$.
-
-\paragraph{The infrared belongs to the spatial axis alone.}
-Every kernel with a spatially extended source gives the causal $k^{3}$, and
-every kernel with a monochromatic source gives $k^{2}$, \emph{irrespective of
-the temporal model}: we measure $3.00$ for $H[S_{\rm K41},T_{\rm sw}]$ and
-$2.97$ for $H[S_{\rm K41},T_{\rm dec}]$, against $2.00$ and $1.97$ for the two
-$\delta k$ kernels and $2.00$ for the impulsive one. This is not a coincidence
-of our kernels but the universal theorem of Sec.~\ref{sec:cps-reproduction}: the
-infrared is fixed by whether the source spectrum has finite width, and a
-$\delta$-function source violates that hypothesis by exactly one power through
-the $1/p$ pole of $\mathcal{K}_{0}(p)/p$. The temporal factor cannot contribute,
-because as $p\to0$ it tends to a constant---$\pi\,\mathcal{C}(0)=6\pi$ for
-$T_{\rm dec}$ by Eq.~\eqref{eq:cosT-limits}, unity for $T_{\rm sw}$---and a
-constant carries no slope. \emph{Corollary:} no choice of UETC can be tuned to
-reproduce the simulated $k^{1}$ of Sec.~\ref{sec:principal-discrepancy}. That
-tension is not resolvable on the temporal axis, which is precisely why it
-survives every treatment in Table~\ref{tab:three-works}.
-
-\paragraph{The ultraviolet belongs to the temporal axis alone.}
-Here the roles reverse, and the discriminant is sharp: it is whether the UETC
-has a \emph{cusp} at zero lag. By Eq.~\eqref{eq:cusp-tail} the temporal factor
-falls as $-2f'(0^{+})/\omega^{2}$, so
-\begin{itemize}\itemsep0pt
-  \item $T_{\rm sw}$ (Gaussian, $f'(0^{+})=0$): no cusp, and the cutoff is
-    super-exponential. Fitting a power law to it is meaningless---the apparent
-    ``slope'' merely records where the fit window was placed, which is why
-    $H[S_{\delta r},T_{\rm sw}]$ returns $-46.6$ and
-    $H[S_{\rm K41},T_{\rm sw}]$ returns $-4.75$ on the same window.
-  \item $T_{\rm dec}$ (power law, $f'(0^{+})=-4/3$): a genuine heavy tail
-    $\propto\omega^{-2}$, with the coefficient $8/3$ of
-    Eq.~\eqref{eq:cosT-limits}. The measured GW slope is mildly $M$-dependent
-    ($-1.65$ at $M=0.05$ rising to $-1.28$ at the formal $M=3$) because the tail
-    sets in only above $q\sim M$.
-  \item $T_{\rm imp}$, $T_{\rm burst}$: white and window-modulated respectively,
-    the latter carrying the $\sin^{2}$ factor of Eq.~\eqref{eq:window-factor}.
-\end{itemize}
-This single dichotomy---cusp or no cusp---is what the caveat of
-Sec.~\ref{sec:decaying-peak} turns on, and it is worth emphasising that it is
-\emph{not} a matter of degree: the two behaviours differ by fourteen orders of
-magnitude by $q=4$.
-
-\paragraph{The peak is where the two axes compete.}
-The peak is the one property neither axis owns outright, which is why it has
-been the most contested quantity in the literature. With $T_{\rm sw}$ the
-spectrum is cut off at the sweeping frequency and the peak sits at
-$p\simeq1.47M$ (measured $1.53$ at $M=1$), \emph{below} the source scale for
-subsonic turbulence. With $T_{\rm dec}$ the heavy tail survives past that
-cutoff, and the peak is instead pinned by the spatial structure at
-$p\simeq2.3$, essentially independent of $M$ (measured $2.32$ for
-$M\le1$, drifting to $2.79$ by the formal $M=3$). The two temporal models therefore
-disagree about the peak by a factor $\sim1/M$, which for the subsonic
-simulations is an order of magnitude---this is exactly the
-Gogoberidze-versus-Roper~Pol tension of Sec.~\ref{sec:peak-location}. Note that
-the $\delta k$ and $\delta r$ kernels have no dynamical peak at all: the former
-is truncated at $p=2$ by the triangle inequality, and the latter, having
-$E\propto k^{2}$, is ultraviolet-dominated and simply rises to the dissipation
-cutoff. Their tabulated ``peaks'' are cutoffs, not physics.
-
-\paragraph{Positivity is a property of the temporal axis, and not automatic.}
-The temporal factor must be non-negative at every frequency, since it is the
-power spectrum of a real correlation; a UETC that fails this yields negative
-gravitational-wave energy. This is not a hypothetical failure mode---it is the
-defect that led Caprini et al.\ to discard a Gaussian straining-time model in
-favour of a top-hat, and that motivates the positive-definite Gibbs kernel of
-\cite{2022Auclair}. Both temporal models used here are safe, and for
-$T_{\rm dec}$ provably so: $(1+s)^{-4/3}$ is completely monotone, hence by
-Bernstein's theorem a superposition of decaying exponentials, whose cosine
-transforms $2a/(a^{2}+\omega^{2})$ are individually positive; products of
-completely monotone functions are completely monotone, so the two-scale factor
-Eq.~\eqref{eq:two-scale-feynman} inherits the property. We verify
-$\mathcal{C}>0$ over $10^{-8}<q<10^{4}$.
-
-\subsection{The Mach exponent of the peak as a regime diagnostic}
-\label{sec:mach-exponent}
-
-The peak's dependence on the Mach number deserves separating out, because it is
-the one place where the two temporal models make a \emph{qualitatively}
-different prediction rather than a quantitatively different one. Measuring
-$d\ln p_{\rm peak}/d\ln M$ at fixed $k_0$ over $M\in[0.1,1.6]$ (the upper end
-formal, $M>1$ being superluminal, but included to pin the exponent) gives
-\begin{center}
-\begin{tabular}{lc}
-\hline
-Temporal model & $d\ln p_{\rm peak}/d\ln M$ \\
-\hline
-$T_{\rm sw}$ (Kraichnan sweeping) & $+0.974$ \\
-$T_{\rm dec}$ (BK2016 power law)  & $+0.048$ \\
-$T_{\rm imp}$ ($\delta$-in-time)  & $\phantom{+}0.000$ \\
-\hline
-\end{tabular}
-\end{center}
-a clean split between unity and zero. The mechanism is transparent: $T_{\rm sw}$
-multiplies the spectrum by $e^{-q^{2}/M^{2}}$, a cutoff at $q\sim M$, so the peak
-simply tracks that cutoff; $T_{\rm dec}$ and $T_{\rm imp}$ impose no such
-frequency scale, so the peak falls back on the spatial structure. Strikingly,
-the integrated energy is nearly \emph{blind} to this distinction---we measure
-$E_{\rm tot}\propto M^{5.8}$ and $M^{5.6}$ for the two---so it is the peak, not
-the amplitude, that carries the information.
-
-\paragraph{What is and is not new here.} Both halves of this contrast are
-already in the literature, and neither is ours. Gogoberidze et al.\
-\cite{2007Gogoberidze} state that the peak frequency scales linearly with the
-characteristic velocity, i.e.\ $f_{\rm peak}\propto Mk_{0}$---our stationary row,
-of which the coefficient $1.47$ of Sec.~\ref{sec:peak-location} is a
-quantitative refinement. Auclair et al.\ \cite{2022Auclair} find instead that the
-peak is pinned to the integral scale independently of the velocity---our
-decaying and impulsive rows. What appears not to have been said is that the two
-sit on a single axis and that the exponent itself is therefore a diagnostic:
-\cite{2022Auclair} in particular does not contrast the velocity dependence
-between decorrelating and coherent sources.
-
-\paragraph{What the diagnostic actually diagnoses.} It is tempting to read the
-table as evidence for the power-law UETC specifically, and that reading is
-wrong. The impulsive kernel contains no $M$ anywhere, so its exponent is
-identically zero while having no heavy tail, no power law, and indeed no
-temporal structure at all; and \cite{2022Auclair} obtain a velocity-independent
-peak while using Kraichnan \emph{sweeping}, because in a freely decaying flow the
-integral scale itself evolves. Velocity-independence of the peak is therefore a
-property of a whole class of sources, not a signature of
-Eq.~\eqref{eq:cosT-closed}. The exponent answers ``does the temporal factor
-impose a cutoff at $q\sim M$?''---not ``which UETC is it?''. Read that way it is
-a genuine diagnostic; read as support for the decaying model in particular it
-proves much less than it appears to, and the peak-based argument of
-Sec.~\ref{sec:decaying-peak} should be weighted accordingly.
-
-\paragraph{The aeroacoustic precedent.} That the Mach scaling is regime-dependent
-is classical, and the relevant distinction is precisely a temporal one.
-Lighthill's eighth-power law \cite{Lighthill1952} ($P\propto U^{8}$, fixed
-velocity and geometry) and Proudman's \cite{Proudman1952}
-($P\propto\rho\varepsilon M^{5}$, isotropic turbulence at fixed dissipation
-rate) differ in what is held fixed---the same ambiguity that flips our own peak
-scaling between $1.47M$ at fixed $k_{0}$ and $1.47/M^{2}$ at fixed $\varepsilon$.
-More pointedly, Proudman's $M^{5}$ rests on \emph{neglecting retarded-time
-differences}, replacing the retarded covariance of the stress by the simultaneous
-one---that is, on treating the source as temporally coherent---and Lilley
-\cite{Lilley1994} later rederived the result retaining them. The coherent versus
-decorrelating axis that separates our two rows is thus the Proudman--Lilley
-question transposed into a cosmological setting, and our integrated
-$M^{5.6}$--$M^{5.8}$ sits near Proudman's $M^{5}$. The contribution here is not
-the existence of a regime dependence but its sharpening into a spectral
-observable: an exponent one reads off the peak rather than off the total power.
-(The two integrated exponents are approximate; the stationary kernel emits
-convergence warnings over this sweep.)
-
-\paragraph{Analytic structure.} Finally, the models differ in what must actually
-be computed, and the reduction is larger than the usual presentation suggests.
-The decaying kernels are conventionally written as frequency convolutions of the
-singular $\hat g$, which is both expensive and numerically treacherous; by
-Eqs.~\eqref{eq:conv-equals-cosT} and \eqref{eq:two-scale-feynman} the
-single-scale case is closed-form and the two-scale case is a single smooth
-Gauss--Jacobi quadrature over the closed form. The decaying kernels are
-therefore no harder than the Gaussian ones.
-
-\begin{table*}[ht]
-  \centering
-  \begin{tabular}{lccccl}
-  \hline
-  Kernel & IR slope & Peak $p$ & UV & Positive & Literature counterpart \\
-  \hline
-  $H[S_{\rm K41},T_{\rm sw}]$   & $3.00$ & $1.47M$ & super-exp & yes & Gogoberidze et al.~\cite{2007Gogoberidze} \\
-  $H[S_{\rm K41},T_{\rm dec}]$  & $2.97$ & $2.32$ & $\omega^{-2}$ & yes & Roper Pol et al.~\cite{2019RoperPol} (peak) \\
-  $H[S_{\delta k},T_{\rm sw}]$  & $2.00$ & cutoff & none & yes & --- \\
-  $H[S_{\delta k},T_{\rm dec}]$ & $1.97$ & cutoff & none & yes & --- \\
-  $H[S_{\delta r},T_{\rm sw}]$  & $3.00$ & cutoff & super-exp & yes & --- \\
-  $H[S_{\delta r},T_{\rm dec}]$ & $2.97$ & cutoff & $\omega^{-2}$ & yes & --- \\
-  $H[S_{\delta k},T_{\rm imp}]$ & $2.00$ & cutoff & none & yes & --- \\
-  \hline
-  \end{tabular}
-  \caption{Systematic comparison of the kernels of Table~\ref{tab:model-grid},
-  measured at $M=1$, $R=10^{4}$ on the diagonal $q=p$ by
-  \texttt{Notebooks/model\_grid\_survey.py}. The infrared slope tracks the
-  \emph{spatial} axis only ($3$ for extended sources, $2$ for monochromatic
-  ones, per Sec.~\ref{sec:cps-reproduction}); the ultraviolet tracks the
-  \emph{temporal} axis only (a power-law tail iff the UETC has a cusp at zero
-  lag, Eq.~\eqref{eq:cusp-tail}); only the peak depends on both. ``cutoff''
-  denotes models with no dynamical peak---the $\delta k$ kernels are truncated
-  at $p=2$ by the triangle inequality and the $\delta r$ kernels are
-  ultraviolet-dominated. ``super-exp'' denotes a Gaussian cutoff, for which no
-  power-law slope exists.}
-  \label{tab:model-differences}
-\end{table*}
-
-\section{Spectrum survey for all derived models}
-\label{sec:spectrum-survey}
-
-In this section we plot, on a common convention, the dimensionless GW
-energy-density spectrum
-\begin{equation}
-  \Omega_{\rm GW}(p) \;\propto\; p^{3}\,H(p,p),
-  \qquad p = k_{\rm GW}/k_0,
-\end{equation}
-along the sound-cone diagonal $q = p$ for every model derived in this paper,
-in the uniform notation $H[S,T]$ of Sec.~\ref{sec:model-space}. The $p^{2}$
-factor relative to the characteristic strain $h_c^{2}(p) = p\,H(p,p)$ is the
-phase-space measure $d^{3}k$; together with causality and a source of finite
-spectral width it predicts $\Omega_{\rm GW}\sim p^{3}$ in the IR, followed by a
-peak and a decay in the UV. A dotted grey line shows the $p^{3}$ reference.
-
-These plots are the graphical form of Table~\ref{tab:model-differences}, and
-should be read with its two organising facts in mind: the infrared slope is
-fixed by the \emph{spatial} model alone and the ultraviolet by the
-\emph{temporal} model alone. In particular the monochromatic panels sit at
-$p^{2}$ rather than $p^{3}$ not because of anything in their temporal treatment
-but because a zero-width source carries a $1/p$ pole,
-$\mathcal{K}_{0}(p)/p$, which is exactly the $\delta$-function exception to the
-universal infrared theorem reproduced in Sec.~\ref{sec:cps-reproduction}. The
-build log of \texttt{Notebooks/all\_spectra.py} flags cases whose IR slope
-departs from $3$ by more than $\pm0.5$; the monochromatic models are expected
-to be flagged, and are not anomalies.
+\paragraph{Mach dependence of each band separately.}
+Repeating both single-band runs over $M=0.03$--$3$ separates the Mach
+dependence from the band decomposition, and the two turn out to be independent
+(Fig.~\ref{fig:band-split-mach}). The infrared exponent is untouched: it stays
+within $2.98$--$3.08$ of the causal value for every $M$ and for both bands, so
+$M$ joins the infrared slope $s$, the bandwidth $R_{\rm IR}$ and the temporal
+model on the list of things that cannot bend it. What $M$ does control is what
+it controls for the full spectrum. The infrared amplitude follows the bare
+$M^3$ prefactor of Eq.~\eqref{eq:Hijij-AppA-dimless}---compensating by $M^{3}$
+flattens it to $13\%$ ($k^4$ band) and $19\%$ ($k^{-5/3}$ band) across two
+decades of $M$---and the peak follows the sweeping law, at
+$p_{\rm peak}\simeq1.5\,M$ for the inertial band, which is the
+$1.47\,M$ of Eq.~\eqref{eq:peak-fit} recovered from that band alone, and at a
+slightly lower $p_{\rm peak}\simeq1.1\,M$ for the Batchelor band.
+
+The two bands part company only where kinematics intervenes. Above $M\simeq1$
+both peaks fall below the sweeping law, and the $k^{4}$ band saturates hardest,
+reaching only $p_{\rm peak}=1.26$ at $M=3$ where $1.1\,M$ would predict $3.3$:
+its support is bounded above by $k_0$, so its convolution cannot place power
+beyond $p=2$ at all [Eq.~\eqref{A:bs-support}], and the sweeping scale runs into
+that ceiling. The inertial band, whose support extends to $k_d$, saturates later
+and less. Note finally that with the temporal factor removed the Mach dependence
+disappears entirely except for the prefactor: at $q=0$ the exponential and the
+erfc of Eq.~\eqref{eq:Hijij-AppA-dimless} are both unity and no $M$ survives in
+the integrand, so the no-correlation spectra are $M^{3}$ times a single
+universal shape. Every $M$-dependent feature in Fig.~\ref{fig:band-split-mach}
+is therefore a property of the sweeping model, not of the source spectrum.
 
 \begin{figure}[ht]
   \centering
-  \begin{minipage}{0.48\columnwidth}
-    \centering
-    \includegraphics[width=\textwidth]{spectrum_kraichnan_kolmogorov}\\
-    \textit{(a) full $H_{pq}$}
-  \end{minipage}\hfill
-  \begin{minipage}{0.48\columnwidth}
-    \centering
-    \includegraphics[width=\textwidth]{spectrum_aeroacoustic_limit}\\
-    \textit{(b) $p\to 0$ limit}
-  \end{minipage}
-  \caption{Kraichnan decorrelation + Kolmogorov spectrum.  Five curves per
-  panel correspond to $M = 0.03,\, 0.1,\, 0.3,\, 1.0,\, 3.0$ at $R=10^{4}$.
-  Panel (a) is the full numerical $H_{pq}$ (Sec.~\ref{sec:kraichnan-k41}); panel (b) is the
-  aeroacoustic $p\to 0$ limit (Kahniashvili et al.\ 2008).  Both give the
-  universal IR slope $\Omega_{\rm GW}\propto p^{3}$.}
-  \label{fig:spectrum_kolmogorov_kraichnan_pair}
+  \includegraphics[width=\columnwidth]{band_split_mach}
+  \caption{Mach dependence of the band-split spectra, at $R=10^4$,
+  $R_{\rm IR}=10^2$, Kraichnan sweeping on the diagonal $q=p$.
+  \emph{(a)},\emph{(b)}~$\Omega_{\rm GW}(p)$ from the Batchelor $k^4$ band alone
+  and from the Kolmogorov $k^{-5/3}$ band alone, at $M=0.03,0.1,0.3,1,3$
+  (increasing shade); dotted line $p^3$. The infrared exponent is
+  $M$-independent for both bands; the amplitude and the peak are not.
+  \emph{(c)}~Peak position against $M$, with the $1.47\,M$ sweeping law of
+  Eq.~\eqref{eq:peak-fit} dotted. The inertial band reproduces it; the
+  Batchelor band tracks a slightly lower $1.1\,M$ and saturates above
+  $M\simeq1$, where the sweeping scale meets the kinematic ceiling $p\le2$ that
+  bounds a convolution of two modes with $k<k_0$.
+  \emph{(d)}~Infrared amplitude at $p=5\times10^{-3}$ against $M$, with the
+  $M^3$ prefactor dotted; both bands follow it to $13\%$ and $19\%$ over two
+  decades of $M$. Produced by \texttt{Notebooks/band\_split\_mach.py}.}
+  \label{fig:band-split-mach}
 \end{figure}
+\section{Outlook: the dissipation microphysics}
+\label{sec:outlook}
 
-\begin{figure}[ht]
-  \centering
-  \begin{minipage}{0.48\columnwidth}
-    \centering
-    \includegraphics[width=\textwidth]{spectrum_delta_k_kraichnan}\\
-    \textit{(a) Kraichnan}
-  \end{minipage}\hfill
-  \begin{minipage}{0.48\columnwidth}
-    \centering
-    \includegraphics[width=\textwidth]{spectrum_delta_k_decay}\\
-    \textit{(b) Decay}
-  \end{minipage}
-  \caption{Monochromatic spectrum $E(k)=E_{0}\delta(k-k_{0})$ (no free
-  parameters at the dimensionless level).  Panel (a): Kraichnan
-  decorrelation, closed form $\Omega_{\rm GW}(p)\propto
-  p^{3}\,K_{0}(p)/p\,\Theta(2-p)\,e^{-p^{2}/(2\pi)}$ with IR slope
-  $\mathbf{2}$ (flagged: $1/p$ pole from the monochromatic source removes
-  one power of $p$ from the universal scaling).  Panel (b): decay temporal
-  factor, Eq.~\eqref{eq:conv-equals-cosT}, IR slope $\mathbf{2}$ --- the
-  \emph{same} slope as panel (a), as it must be, since the temporal factor
-  tends to the constant $\pi\,\mathcal{C}(0)$ as $p\to0$ and so cannot alter
-  the infrared scaling.}
-  \label{fig:spectrum_delta_k_pair}
-\end{figure}
+Everything above concerns the first two inputs of the pipeline, the spatial
+spectrum and the unequal-time correlator. The results are largely negative for the
+first and sharp for the second: no spatial choice moves the infrared, and the
+ultraviolet and the peak are controlled by a single feature of the temporal
+correlator. That leaves the third input, and it is the one the field has treated
+most crudely.
 
-\begin{figure}[ht]
-  \centering
-  \begin{minipage}{0.48\columnwidth}
-    \centering
-    \includegraphics[width=\textwidth]{spectrum_white_kraichnan}\\
-    \textit{(a) Kraichnan}
-  \end{minipage}\hfill
-  \begin{minipage}{0.48\columnwidth}
-    \centering
-    \includegraphics[width=\textwidth]{spectrum_white_decay}\\
-    \textit{(b) Decay}
-  \end{minipage}
-  \caption{White-noise real-space correlations
-  $R_{ij}\propto\delta^{(3)}(\br)$.  Three curves per panel correspond to
-  $R = 10^{3},\, 10^{4},\, 10^{5}$.  Panel (a): Kraichnan decorrelation,
-  matches the universal IR slope $\mathbf{3}$.  Panel (b): decay temporal
-  model, IR slope $\mathbf{3}$ as well, for all three $R$ --- the decaying
-  and Kraichnan models share the universal causal infrared, the temporal
-  factor affecting only the amplitude and the ultraviolet tail.}
-  \label{fig:spectrum_white_pair}
-\end{figure}
+\paragraph{What is currently assumed.} Every analytic treatment of GWs from
+turbulence known to us terminates the cascade with a Navier--Stokes viscosity: a
+single kinematic $\nu$, a Kolmogorov dissipation wavenumber
+$k_d=(\varepsilon/\nu^3)^{1/4}$, and a cutoff whose shape is then argued to be
+immaterial because the inertial range is long. Ref.~\cite{Niksa:2018ofa} states the
+position explicitly, imposing $E(k>k_d)=0$ and noting that ``the precise modeling
+of the cutoff'' should not matter. Ref.~\cite{Auclair:2022jod} goes further and drops
+the dissipation range altogether, with a reason: the bulk of the GW signal is
+produced faster than the turbulence decays, so the dynamics at the viscous scale
+has no time to matter. That argument is sound as far as it goes---it is the same
+separation of timescales that makes the GW spectrum a near-instantaneous photograph
+of the source---but it addresses the \emph{cutoff wavenumber} and the \emph{decay of
+the amplitude}, not the contribution of viscosity to the correlator itself.
 
+On the simulation side the assumption is even more explicit. Ref.~\cite{RoperPol:2019wvy}
+fixes $\nu=\eta$, i.e.\ magnetic Prandtl number ${\rm Pm}=1$, and chooses its value
+``as small as possible, but still large enough'' for the grid; the hydrodynamic
+simulations of Ref.~\cite{Auclair:2022jod} contain no physical viscosity at all, only
+the numerical viscosity of the lattice.
 
-\subsection{All nine kernels side by side}
-\label{sec:kernel-grid}
+\paragraph{What the plasma actually does.} Neither assumption describes the early
+Universe. Two features of the real dissipation physics are well established in the
+primordial-magnetic-field literature and absent from the GW literature.
 
-Figure~\ref{fig:kernel_comparison_grid} places every entry of
-Table~\ref{tab:model-grid} on one figure, at matched parameters, with the
-abscissa in units of the initial-power peak $k_0$ throughout. The comparison is
-organised by a single control common to all nine panels, the source coherence
-time in units of the light-crossing time of the source scale,
-\begin{equation}
-  \hat\tau \;\equiv\; \tau_c\,k_0 ,
-  \qquad
-  \omega\tau_c\big|_{\omega=k}=p\,\hat\tau ,
-  \label{eq:that}
-\end{equation}
-so that the dimensionless temporal argument of every kernel is the same
-function $p\hat\tau$ of the plotted abscissa. For the sweeping models
-$\tau_c=\tau_{k_0}=\sqrt{2\pi}/(Mk_0)$, i.e.\ $M=\sqrt{2\pi}/\hat\tau$; for the
-finite burst $\tau_c=\Delta t$, giving the low-pass $|\tilde
-g|^2=e^{-p^2\hat\tau^2}$ of Eq.~\eqref{eq:rs2-spectrum-dt}. The stationary and
-time-independent kernels ($T_{\rm sw}$, $T_{\rm imp}$) carry a single line at
-$\hat\tau=1$; the time-dependent ones ($T_{\rm dec}$, $T_{\rm burst}$) are shown
-at $\hat\tau=0.01,0.1,1,10,100$.
+First, momentum transport is not always diffusive. When the mean free path of the
+dominant carrier is short compared with the scale of interest the damping is the
+familiar $\nu k^{2}$; when it is long the carrier free-streams and exerts a
+\emph{drag}, with a different wavenumber dependence and a different functional form
+of the cutoff. Both regimes occur, and the system alternates between them as
+species decouple; the damping scales in each were worked out for primordial
+magnetic fields long ago \cite{Jedamzik:1996wp,Banerjee:2004df} and are reviewed
+in Refs.~\cite{Durrer:2013pga,Subramanian:2015lua}. The dissipation range that terminates
+the source spectrum is therefore not a Kolmogorov range at the epochs of interest.
 
-Three things are visible at a glance, and each is the graphical form of a
-statement made analytically above.
+Second, the magnetic Prandtl number is enormous, not unity. The kinematic viscosity
+is set by weakly coupled free-streamers and the resistivity by collisional
+processes, and the resulting ${\rm Pm}$ exceeds unity by many orders of magnitude
+through the radiation era \cite{Banerjee:2004df,Durrer:2013pga}. The consequence is standard
+in the dynamo literature but has no counterpart here: above the kinetic viscous
+scale the velocity field is dead while the magnetic field continues to cascade,
+producing a broad \emph{subviscous} magnetic range \cite{Schekochihin:2020aqu}. Since
+the GW source is the quadratic stress $B_iB_j$ and not the velocity, that range
+radiates. It is present in neither the analytic calculations, which stop at a single
+$k_d$, nor the simulations, which are all at ${\rm Pm}=1$.
 
-\emph{The infrared is set by the spatial model alone.} Every $S_{\rm K41}$,
-$S_{\rm full}$ and $S_{\delta r}$ panel sits on $p^{3}$ ($2.91$--$3.00$
-measured) regardless of which temporal model multiplies it and regardless of
-$\hat\tau$, while every $S_{\delta k}$ panel sits on $p^{2}$ ($1.91$--$2.00$).
-The one power of difference is the $1/p$ pole of $\mathcal{K}_0(p)/p$ carried by
-a zero-width source, the $\delta$-function exception to the universal infrared
-theorem of Sec.~\ref{sec:cps-reproduction}. Changing $\hat\tau$ by four decades
-moves the infrared amplitude but never its slope, which is
-Eq.~\eqref{AR:IR} restated: as $p\to0$ the temporal factor tends to a constant
-[$\mathcal{C}(0)=6$, Eq.~\eqref{A:Climits}] and cannot alter the infrared
-scaling.
+\paragraph{Why this is now the interesting input.} The axis-separation result makes
+the consequence predictable in kind if not in size. Dissipation is a spatial
+modification of the source, so by Sec.~\ref{sec:band-split} it cannot alter the
+infrared slope---a subviscous magnetic tail will radiate its own $k^{3}$ like every
+other band. What it can change is the amplitude and, through the ultraviolet
+support of the convolution, the peak and the high-frequency tail. A subviscous range
+spanning several decades in $k$ is a large amount of stress that the current
+calculations discard, and its contribution is directly computable with the kernel of
+Sec.~\ref{sec:kraichnan-k41}: it amounts to replacing the shape factor
+$\mathcal{S}(k)$ of Eq.~\eqref{eq:full-input-spectrum} by one that continues past
+$k_d$.
 
-\emph{The ultraviolet is set by the temporal model alone.} Only the three
-$T_{\rm dec}$ panels have a power-law tail, inherited from the
-$\bar q^{-2}$ cusp tail of Eq.~\eqref{eq:cosT-limits}; the sweeping and burst
-kernels cut off as Gaussians, for which a fitted log-log slope is a property of
-the fitting window and not of the model, and is therefore reported as
-``Gaussian'' rather than as a number. The monochromatic panels terminate
-at $p=2$ on the triangle inequality $\Theta(2-p)$ instead.
+There is also a temporal consequence, and it interacts with the cusp result of
+Sec.~\ref{sec:decaying-peak}. A viscously damped mode decorrelates as
+$e^{-\nu k^{2}|\tau|}$, whose slope at zero lag is $-\nu k^{2}$, not zero. Viscosity
+therefore \emph{supplies} the kink that Eq.~\eqref{eq:cusp-tail} requires, even for a
+flow whose sweeping correlator is exactly the Gaussian measured in
+Ref.~\cite{Auclair:2022jod}. Evaluated on the sound cone the resulting temporal factor
+tends to the constant $2\nu$, so the prediction is a low but strictly power-law
+floor beneath the Gaussian sweeping cutoff, with amplitude linear in the viscosity.
+Whether that floor is ever large enough to matter is a quantitative question we have
+not settled, and it is the natural next calculation.
 
-\emph{The peak responds to both, and in opposite ways.} At $\hat\tau=1$ the
-peaks cluster at $p_{\rm pk}=2.0$--$3.2$, i.e.\ at the source scale. Lengthening
-the coherence time drives them apart: the $T_{\rm burst}$ peak slides down as
-$p_{\rm pk}\simeq1/\hat\tau$, the duration-limited branch of
-Eq.~\eqref{eq:rs2-fpeak-dt}, whereas the $T_{\rm dec}$ peaks stay pinned near
-the source scale because the heavy $\bar q^{-2}$ tail keeps supplying power at
-$\omega=k$ (Sec.~\ref{sec:decaying-peak}). $H[S_{\delta r},T_{\rm dec}]$ has no
-peak at all in the plotted range: a white spatial source is ultraviolet
-dominated by construction ($E\propto k^{2}$) and its maximum is set by the
-dissipation cutoff $R^{3/4}$, not by any dynamical scale, which is why the
-panel is labelled UV-limited rather than assigned a peak.
+We therefore regard the pipeline as closed on its spatial axis, well constrained on
+its temporal axis, and open on its dissipative one.
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=\columnwidth]{kernel_comparison_grid}
-  \caption{The nine kernels of Table~\ref{tab:model-grid} at matched
-  parameters, $\Omega_{\rm GW}(p)\propto p^{3}H[S,T](p,p)$ on the sound-cone
-  diagonal, $p=k/k_0$, at $R=10^{4}$ (and $R_{\rm IR}=10^{2}$ with a Batchelor
-  infrared band for $S_{\rm full}$). Rows group the temporal model: sweeping
-  (top), decaying (middle), and the full-spectrum, impulsive and burst cases
-  (bottom). Curves are indexed by $\hat\tau=\tau_ck_0$ of Eq.~\eqref{eq:that};
-  stationary and time-independent kernels carry the single reference line
-  $\hat\tau=1$ (equivalently $M=\sqrt{2\pi}=2.51$ for the sweeping panels), the
-  time-dependent ones the five values $\hat\tau=0.01,0.1,1,10,100$
-  (equivalently $M=251,25.1,2.51,0.251,0.0251$; the small-$\hat\tau$ members are
-  formal extrapolations past the luminal limit, retained as in
-  Fig.~\ref{fig:stationary_mach_peak} to expose the scaling). Each panel is
-  normalised by its own maximum over all its curves, since the boxed kernels
-  drop different dimensional prefactors and absolute amplitudes are not
-  comparable between panels; within a panel the $\hat\tau$ dependence of the
-  amplitude is preserved. All nine panels share identical axes, set from the
-  data so that the peak of every curve is on scale: the floor lies four decades
-  below the faintest peak (the $\hat\tau=100$ member of
-  $H[S_{\rm K41},T_{\rm dec}]$, suppressed as $M^{4}$ by
-  Eq.~\eqref{eq:decay-amplitude}), which costs $24$ decades of ordinate. The
-  deep dives of the Gaussian-cutoff kernels leave the frame by design and
-  carry no information: the $\hat\tau=100$ burst reaches $10^{-277}$ before the
-  triangle inequality terminates it. Dots mark peaks, the dotted grey line is
-  the causal $p^{3}$ reference, and the annotations give the measured infrared
-  slope, the ultraviolet behaviour and the peak of the $\hat\tau=1$ curve.
-  Generated by \texttt{Notebooks/kernel\_comparison\_grid.py}.}
-  \label{fig:kernel_comparison_grid}
-\end{figure}
+\section{Summary and conclusions}
+\label{sec:conclusions}
 
-\clearpage
+\begin{enumerate}\itemsep2pt
+  \item The turbulence-to-GW pipeline factorises. The infrared slope of
+  $\Omega_{\rm GW}$ is set by the spatial source model alone, the ultraviolet slope
+  by the temporal model alone, and only the peak responds to both
+  (Sec.~\ref{sec:model-space}, Appendix~\ref{sec:spectrum-survey}).
+
+  \item The causal infrared $\Omega_{\rm GW}\propto k^{3}$ is a property of the
+  quadratic source, not of the fluid spectrum. It is unchanged by the infrared slope
+  of the input, by the infrared bandwidth, by the Mach number, by the choice of
+  temporal model, and by deleting the temporal sector entirely. The band-split
+  experiment of Sec.~\ref{sec:band-split} makes the point at its sharpest: the
+  Kolmogorov band alone, an input with no infrared power at all, radiates
+  $p^{3.01}$.
+
+  \item Consequently the $k^{3}$-versus-$k^{1}$ tension cannot be resolved on the
+  spatial axis. It localises to one assumption, $\Omega_{T}\propto\Omega_{M}$, which
+  the self-convolution of the stress forbids: below the peak the convolution is
+  dominated by antiparallel pairs near the peak and floors at white noise, and this
+  holds for Gaussian fields as well (Sec.~\ref{sec:principal-discrepancy}).
+
+  \item The displacement of the GW peak to the source scale is controlled by a single
+  number, the slope of the source correlator at zero lag. Any source with a hard
+  finite lifetime supplies it; the specific decorrelation model does not matter
+  (Sec.~\ref{sec:decaying-peak}). The question that would overturn the source-scale
+  peak is whether the correlator of decaying turbulence is differentiable at zero
+  lag, not whether it follows any particular power law.
+
+  \item The dissipation input is the one still open, and it is not the one the field
+  assumes: the early Universe is neither Navier--Stokes nor ${\rm Pm}=1$
+  (Sec.~\ref{sec:outlook}).
+\end{enumerate}
+
 \appendix
+
 \section{Table of symbols}
 \label{sec:symbols}
 
@@ -3164,7 +2410,6 @@ $\Phi_{\rm eq}(k,t)$  & Equal-time velocity spectral correlator, $\propto(1+t/\t
 \end{tabular}\par
 
 \endgroup
-
 \section{Consolidated derivation chain}
 \label{sec:chain}
 
@@ -4130,7 +3375,1136 @@ $\Phi_{\rm eq}(k,t)$  & Equal-time velocity spectral correlator, $\propto(1+t/\t
   \texttt{Notebooks/band\_split\_masks.py}.}
   \label{fig:band-split-masks}
 \end{figure}
+\section{Monochromatic and White-Noise Spectra}
+\label{sec:monochromatic-white}
 
+We now consider two alternative models for the turbulence power spectrum and carry out the same GW-kernel derivation in each case. The first model replaces the Kolmogorov spectrum by a monochromatic (delta-function) distribution in wavenumber; the second takes the real-space two-point function to be spatially uncorrelated (delta function in $\br$), which corresponds to a flat (white-noise) spectrum in $k$-space. For each spatial model we work out both the Kraichnan stationary decorrelation and the decaying-turbulence temporal model, giving four cases in total.
+
+The derivation follows the same sequence of steps as in Sec.~\ref{sec:kraichnan-k41}: (i) write $H_{ijij}$ as a double convolution in both $\kb$ and $\omega$, (ii) insert the spectral model, (iii) perform the tensor contractions to get $\mathcal{K}$, (iv) switch to spherical coordinates and the variable $u=|\kb-\kb_1|$, (v) evaluate or simplify the temporal integral, and (vi) introduce dimensionless variables.
+
+\subsection{\texorpdfstring{Monochromatic energy spectrum $E(k)=E_0\delta(k-k_0)$}{Monochromatic energy spectrum E(k)=E0 delta(k-k0)}}
+\label{sec:delta-k}
+
+Set $E(k)=E_0\,\delta(k-k_0)$ so that $A(k) = E_0\,\delta(k-k_0)/(4\pi k^2)$ and the spectral tensor reads
+\begin{equation}
+  \tilde{F}_{ij}(\kb,\omega) = \frac{E_0\,\delta(k-k_0)}{4\pi k^2}\,P_{ij}(\khat)\,\tf(\omega),
+  \qquad \int_0^\infty E(k)\,dk = E_0,
+  \label{eq:Fij-delta-k}
+\end{equation}
+with $\tf(\omega)$ to be specified by the decorrelation model.
+
+Starting from Eq.~\eqref{eq: H-with-P} in spherical coordinates, the radial integral collapses $k_1\to k_0$ via $\delta(k_1-k_0)$, fixing $u=\sqrt{k^2+k_0^2-2kk_0\mu}$. Trading $\mu$ for $u$ (azimuth contributes $2\pi$) and using $\delta(u-k_0)$ from $A(u)$ yields the closed-form spatial reduction
+\begin{equation}
+  2\pi\!\int_{-1}^{1}\!d\mu\,A(u) = \frac{E_0}{2k k_0^2}\,\Theta(2k_0-k),
+  \label{eq:angular-delta}
+\end{equation}
+with the Heaviside factor enforcing the triangle inequality $p \equiv k/k_0 \leq 2$. The geometric kernel at $k_1=u=k_0$ evaluates to
+\begin{equation}
+  \mathcal{K}_0(p) \equiv \mathcal{K}(k,k_0,k_0) = \frac{14}{3} - \frac{p^2}{3} + \frac{p^4}{12}.
+  \label{eq:K0}
+\end{equation}
+% FLAG: 4 pi error in the dimensional prefactor below.
+% int d^3 k_1 A(k_1) A(u) K should give E_0^2 K_0(p) Theta(2-p) / (8 pi k k_0^2).
+% Displayed form below has 1/2 in place of 1/(8 pi) — 4 pi too large. The error
+% propagates through to Eq.~\eqref{eq:H-delta-Kraichnan} (overall 8 pi too
+% large). The boxed mathfrak{H} is unaffected (shape only).
+Substituting Eqs.~\eqref{eq:angular-delta}--\eqref{eq:K0} in Eq.~\eqref{eq: H-with-P},
+\begin{equation}
+  H_{ijij}(\kb,\omega)
+  = \frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,k k_0^2}\;\mathcal{K}_0(p)\;I_\omega(\omega),
+  \qquad
+  I_\omega(\omega)\equiv\!\int\!d\omega_1\,\tf(\omega_1)\tf(\omega-\omega_1).
+  \label{eq:H-delta-k}
+\end{equation}
+All spatial structure has been resolved in closed form; only the temporal convolution $I_\omega$ remains. Because both wavevectors are pinned to $k_0$ by the two $\delta$-functions, there is no leftover wavenumber integration: the only spatial constraint is the $M$-independent triangle inequality $\Theta(2-p)$. The Mach number therefore cannot reshape any spatial integration \emph{bounds} here; it enters solely through the temporal decorrelation rate at the fixed scale $k_0$, which we tie to $M$ via $\eta_{k_0}=\tfrac{M}{\sqrt{2\pi}}k_0$ (cf.\ Eq.~\eqref{eq:appA-dimless}). This contrasts with the white-noise case of Sec.~\ref{sec:white}, where $M$ does enter the surviving wavenumber integral.
+
+\subsubsection{Kraichnan decorrelation}
+\label{sec:delta-kraichnan}
+
+For $\tf(\omega)=(2/\eta_0)e^{-\omega^2/\pi\eta_0^2}$ with $\eta_0\equiv\eta_{k_0}=M k_0/\sqrt{2\pi}$, the Gaussian convolution gives $I_\omega(\omega) = (2\sqrt{2}\pi/\eta_0)e^{-\omega^2/(2\pi\eta_0^2)}$. With $q\equiv\omega/k_0$ the exponent becomes $\omega^2/(2\pi\eta_0^2)=q^2/M^2$, so Eq.~\eqref{eq:H-delta-k} separates into a dimensional prefactor and the boxed dimensionless kernel
+\begin{equation}
+  H_{ijij}(\kb,\omega) = \frac{\sqrt{2}\,E_0^2}{(2\pi)^7\,k k_0^2\,\eta_0}\,\mathcal{K}_0(p)\,\Theta(2-p)\,e^{-q^2/M^2},
+  \qquad
+  \boxed{
+  H[S_{\delta k},T_{\rm sw}](p,q;M)\;\equiv\;\mathfrak{H}^{(\delta k)}_{\rm Kraichnan}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,e^{-q^2/M^2}.
+  }
+  \label{eq:dimless-delta-Kraichnan}
+\end{equation}
+There is no remaining integral. The $p$-shape is fixed; $M$ acts only as the Gaussian width in $q$, so the GW spectrum peaks at $q\sim M$.
+
+\subsubsection{Decay model}
+\label{sec:delta-decay}
+
+For decaying turbulence, $\tf(\omega)=\hat g(\omega\tau_1)$ with $\hat g(\bar q)=e^{-i\bar q}(-i\bar q)^{-1/3}\Gamma(\tfrac{1}{3},-i\bar q)$ and $\tau_1=1/\eta_0=\sqrt{2\pi}/(M k_0)$ the decay time at scale $k_0$. With $q=\omega/k_0$ the natural temporal argument is $\bar q\equiv\omega\tau_1=\sqrt{2\pi}\,q/M$; changing variables in Eq.~\eqref{eq:H-delta-k}, the temporal factor becomes $I_\omega=(1/\tau_1)\!\int dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\hat g(\bar q-q_1)\bigr]$. The real part is essential and not cosmetic: the convolution is genuinely complex (its imaginary part exceeds its real part already at $\bar q\simeq1$), and it is the real part that carries the spectrum. The dimensionless result is
+\begin{equation}
+  \boxed{
+  H[S_{\delta k},T_{\rm dec}](p,q;M)\;\equiv\;\mathfrak{H}^{(\delta k)}_{\rm decay}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,\int_{-\infty}^\infty\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\,\hat g(\bar q-q_1)\bigr],
+  \qquad \bar q=\frac{\sqrt{2\pi}\,q}{M}.
+  }
+  \label{eq:dimless-delta-decay}
+\end{equation}
+The spatial part is fully resolved by the two $\delta$-functions; only a 1-D frequency integral remains, and $M$ enters it solely through the rescaled frequency $\bar q$.
+
+\paragraph{The frequency convolution in closed form.}
+Contrary to what the singular appearance of $\hat g$ suggests, this convolution
+\emph{does} have a closed form, and evaluating it as a written $q_1$ integral is
+both unnecessary and numerically treacherous. The GW source is quadratic in the
+velocity, so under quasi-normal closure the object the spectrum needs is the
+transform of the \emph{squared} two-time correlation,
+\begin{equation}
+  \mathcal{C}(\bar q)\;\equiv\;\int_{-\infty}^{\infty}\!d\tau\,\cos(\bar q\tau)\,
+  \bigl[(1+|\tau|)^{-2/3}\bigr]^{2}
+  \;=\;2\,\mathrm{Re}\Bigl[e^{-i\bar q}(-i\bar q)^{1/3}\,
+        \Gamma\bigl(-\tfrac13,-i\bar q\bigr)\Bigr],
+  \label{eq:cosT-closed}
+\end{equation}
+which is the \emph{same} closed form as $\hat g$ with the power $2/3\to4/3$ --- squaring
+the correlation simply shifts the exponent. Writing $h=f\Theta$ for the one-sided
+correlation $f(s)=(1+s)^{-2/3}$, the convolution theorem gives $(\hat g*\hat g)(\bar q)=2\pi\,\mathcal{F}[h^{2}](\bar q)$,
+whose real part halves into the one-sided cosine integral. Hence the exact identity
+\begin{equation}
+  \int_{-\infty}^{\infty}\!dq_1\,\mathrm{Re}\bigl[\hat g(q_1)\hat g(\bar q-q_1)\bigr]
+  \;=\;\pi\,\mathcal{C}(\bar q).
+  \label{eq:conv-equals-cosT}
+\end{equation}
+Two consequences are worth stating explicitly. First, the one-sided/two-sided
+bookkeeping that distinguishes $\hat g$ from the two-sided kernel enters only as the
+constant $\pi$: it carries \emph{no} shape information and therefore cannot bend a
+spectral slope. Second, the limits of $\mathcal{C}$ are elementary,
+\begin{equation}
+  \mathcal{C}(0)=6,
+  \qquad
+  \mathcal{C}(\bar q)\xrightarrow[\bar q\to0]{}6-3\sqrt{3}\,\Gamma(\tfrac23)\,\bar q^{\,1/3},
+  \qquad
+  \mathcal{C}(\bar q)\xrightarrow[\bar q\to\infty]{}\frac{8}{3\bar q^{\,2}},
+  \label{eq:cosT-limits}
+\end{equation}
+the last following from the cusp of $f^{2}$ at $\tau=0$. This $\bar q^{-2}$ ultraviolet
+tail is the physically decisive one: it is a \emph{heavy power law}, in contrast to the
+Gaussian cutoff of the stationary Kraichnan model, and it is what allows the decaying
+GW spectrum to extend past the sweeping cutoff so that its peak is pinned at the source
+scale (Sec.~\ref{sec:mach-discussion}).
+
+\subsection{Real-space delta-function correlations}
+\label{sec:white}
+
+Take the spatial part of $R_{ij}$ to be a $\delta^{(3)}(\br)$, with velocity variance $v_0^2$ and temporal decorrelation $T(\eta_k,\tau)$:
+\begin{equation}
+  R_{ij}(\br,\tau) = v_0^2\,\delta^{(3)}(\br)\,P_{ij}\,T(\eta_k,\tau),
+  \qquad
+  \tilde F_{ij}(\kb,\omega) = v_0^2\,P_{ij}(\khat)\,\widetilde T(\eta_k,\omega),
+  \label{eq:Fwhite}
+\end{equation}
+so $A(k)=v_0^2$ is $k$-independent (i.e.\ $E(k)\propto k^2$, ultraviolet-dominated); the integrals must be cut off between $k_0$ and $k_d$.
+
+\paragraph{Physical relevance: an uncorrelated magnetic field.}
+This model is not merely a mathematical limit. It is the natural description of a
+\emph{spatially uncorrelated} source---a magnetic field with no correlation beyond a
+microscopic scale, $\langle B_i(\br_1)B_j(\br_2)\rangle\propto\delta^{(3)}(\br_1-\br_2)$,
+which is exactly the kind of field left by an uncorrelated causal process at a phase
+transition. A natural question, and one the user of such a model should confront, is how a
+source that is uncorrelated at large scales can radiate a \emph{correlated} gravitational-wave
+signal there at all. The answer is that the GW source is not $B$ but the \emph{quadratic}
+stress $T_{ij}\sim B_iB_j$, whose two-point function is a \emph{convolution} of two field
+spectra [Eqs.~\eqref{eq: H-after-r}--\eqref{eq: H-convolution}]. The convolution of two
+structureless (white) spectra is not white: as $k\to0$ its value tends to the finite constant
+$\int\!d^3q\,P_B(q)^2$, so the stress---and hence the GW spectrum---is smooth and analytic in
+the infrared even though the field is not. Large-scale correlation of the \emph{signal} is
+manufactured by the quadratic coupling, and its correlation length is set by the convolution,
+not by the (vanishing) correlation length of $B$. This is the same $1/p$ pole and shell--shell
+convolution that governs the universal infrared theorem (Eq.~\eqref{eq:stress-convolution-1d}),
+and it is why a causal (Batchelor $E_M\propto k^4$) magnetic field yields a GW spectrum whose
+stress cannot be steeper than white noise---the mechanism \cite{RoperPol:2019wvy} invoke for the
+flat plateau of their Fig.~1. Read in the opposite direction, the same convolution is what
+forbids the analytic substitution $\Omega_{\rm T}\propto\Omega_{\rm M}$ that
+Sec.~\ref{sec:principal-discrepancy} identifies as the single faulty step behind the
+infrared discrepancy: this subsection is the $k\to0$ limit of that argument, taken with the
+steepest possible field.
+
+Crucially, we adopt the same $k$-dependent sweeping rate as in Sec.~\ref{sec:kraichnan-k41}, $\eta_k=\tfrac{1}{\sqrt{2\pi}}\varepsilon^{1/3}k^{2/3}=\tfrac{M}{\sqrt{2\pi}}k_0^{1/3}k^{2/3}$, so that $\widetilde T$ depends on the wavenumber and the temporal factor no longer decouples from the spatial integral. With $A(k_1)=A(u)=v_0^2$ in Eq.~\eqref{eq: H-after-r} and dimensionless variables $z=k_1/k_0$, $y=u/k_0$, $p=k/k_0$, $q=\omega/k_0$, $R^{3/4}=k_d/k_0$,
+\begin{equation}
+  H_{ijij}(\kb,\omega) = \frac{v_0^4 k_0^2}{(2\pi)^7}\!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,J(\omega;k_1,u),
+  \qquad
+  J(\omega;k_1,u)\equiv\!\int\!d\omega_1\,\widetilde T(\eta_{k_1},\omega_1)\widetilde T(\eta_u,\omega-\omega_1),
+  \label{eq:H-white}
+\end{equation}
+where $\widetilde{\mathcal K}(p,z,y) = \mathcal K(k,k_1,u)|_{k_1=zk_0,u=yk_0}$ and the frequency factor $J$ now carries the $k_1,u$ dependence inherited from $\eta_{k_1},\eta_u$.
+
+\subsubsection{Kraichnan decorrelation}
+
+With $\widetilde T(\eta_k,\omega)=(2/\eta_k)e^{-\omega^2/\pi\eta_k^2}$ the convolution combines two Gaussians of \emph{different} widths $\eta_{k_1},\eta_u$; using $\int d\omega_1\,e^{-a\omega_1^2}e^{-b(\omega-\omega_1)^2}=\sqrt{\pi/(a+b)}\,e^{-ab\omega^2/(a+b)}$ with $a=1/\pi\eta_{k_1}^2$, $b=1/\pi\eta_u^2$, and $\eta_{k_1}^2+\eta_u^2=\tfrac{M^2}{2\pi}k_0^{2/3}(k_1^{4/3}+u^{4/3})$, the frequency factor becomes
+\begin{equation}
+  J(\omega;k_1,u) = \frac{4\pi\sqrt{2\pi}}{M k_0^{1/3}\sqrt{k_1^{4/3}+u^{4/3}}}\,
+  \exp\!\Bigl(-\frac{2\,\omega^2}{M^2 k_0^{2/3}(k_1^{4/3}+u^{4/3})}\Bigr).
+  \label{eq:J-white-Kraichnan}
+\end{equation}
+Inserting this into Eq.~\eqref{eq:H-white} and absorbing the constants into the dimensional prefactor gives the boxed dimensionless kernel
+\begin{equation}
+  \boxed{
+  H[S_{\delta r},T_{\rm sw}](p,q;M,R)\;\equiv\;\mathfrak{H}^{(\delta r)}_{\rm Kraichnan}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,(z^{4/3}+y^{4/3})^{-1/2}\,e^{-2q^2/[M^2(z^{4/3}+y^{4/3})]}.
+  }
+  \label{eq:dimless-white-Kraichnan}
+\end{equation}
+The exponential now acts as an $M$-dependent effective cutoff on the wavenumber integration: contributions require $z^{4/3}+y^{4/3}\gtrsim 2q^2/M^2$, so as $M$ grows the effective wavenumber support widens and the GW spectrum peak shifts. This is precisely the structure of the Gogoberidze exponent $\exp[-2\varepsilon^{-2/3}\omega^2/(k_1^{4/3}+u^{4/3})]$ in Eq.~\eqref{eq:Hijij-AppA}; the $k$-dependent sweeping rate, rather than a fixed $\eta_1$, is what makes $M$ control the integration support.
+
+\subsubsection{Decay model}
+
+For decaying turbulence $\widetilde T(\eta_k,\omega)=\hat g(\omega\tau_k)$ with the same $\hat g(q)=e^{-iq}(-iq)^{-1/3}\Gamma(\tfrac13,-iq)$ as Sec.~\ref{sec:delta-decay}, but now with the $k$-dependent decay time $\tau_k=1/\eta_k=\sqrt{2\pi}/(M k_0^{1/3}k^{2/3})$. The temporal factor is the convolution $J(\omega;k_1,u)=\int d\omega_1\,\mathrm{Re}\bigl[\hat g(\omega_1\tau_{k_1})\hat g((\omega-\omega_1)\tau_u)\bigr]$ which, because $\tau_{k_1},\tau_u$ depend on the wavenumbers, must remain \emph{inside} the spatial integral. Writing $\tilde J(q;z,y,M)$ for this convolution with the per-mode dimensionless frequencies fixed by $\tau_{k_1},\tau_u\propto 1/M$, the boxed result is
+\begin{equation}
+  \boxed{
+  H[S_{\delta r},T_{\rm dec}](p,q;M,R)\;\equiv\;\mathfrak{H}^{(\delta r)}_{\rm decay}(p,q;M,R) = \!\int_{1}^{R^{3/4}}\!\frac{z\,dz}{p}\!\int_{\max(|p-z|,1)}^{\min(p+z,R^{3/4})}\!y\,dy\,\widetilde{\mathcal K}(p,z,y)\,\tilde J(q;z,y,M).
+  }
+  \label{eq:dimless-white-decay}
+\end{equation}
+The decay rates scale as $\eta_k\propto M k_0^{1/3}k^{2/3}$, so $M$ again sets the effective wavenumber support. Unlike the fixed-$\eta_0$ case, the three integrals no longer factorize: the $k$-dependence of the decay rate couples the frequency convolution to the wavenumber integration, mirroring the behavior of Eq.~\eqref{eq:Hijij-AppA}.
+
+\paragraph{Reduction of the two-scale factor.}
+The two-scale convolution $\tilde J$ admits no elementary closed form, but it reduces
+exactly to a one-dimensional integral over the single-scale form
+Eq.~\eqref{eq:cosT-closed}, and it is evaluated that way throughout. By the convolution
+theorem it is first the transform of the time-domain \emph{product},
+Eq.~\eqref{eq:ft-of-product}; a Feynman parameter then collapses the product of two
+$-2/3$ powers onto a single $-4/3$ power,
+\begin{equation}
+  A^{-2/3}B^{-2/3}
+  = \frac{\Gamma(4/3)}{\Gamma(2/3)^{2}}\int_{0}^{1}\!\frac{dt}{[t(1-t)]^{1/3}}\,
+    \bigl[tA+(1-t)B\bigr]^{-4/3},
+  \label{eq:feynman-param}
+\end{equation}
+so that, with $A=1+\tau/\tau_1$, $B=1+\tau/\tau_2$ and
+$1/\tau_\ast(t)=t/\tau_1+(1-t)/\tau_2$,
+\begin{equation}
+  \int_{-\infty}^{\infty}\!d\omega_1\,
+    \mathrm{Re}\bigl[\hat g(\omega_1\tau_1)\hat g((\omega-\omega_1)\tau_2)\bigr]
+  = \frac{\pi}{\tau_1\tau_2}\,\frac{\Gamma(4/3)}{\Gamma(2/3)^{2}}
+    \int_{0}^{1}\!\frac{dt}{[t(1-t)]^{1/3}}\,
+    \tau_\ast(t)\,\mathcal{C}\bigl(\omega\,\tau_\ast(t)\bigr).
+  \label{eq:two-scale-feynman}
+\end{equation}
+The $t$-integrand is smooth and non-oscillatory ($\mathcal{C}$ is positive and
+monotonically decreasing), and its endpoint singularities are exactly the Gauss--Jacobi
+weight, so a fixed $48$-node rule is converged to ten digits; at $\tau_1=\tau_2$ it
+collapses back to Eq.~\eqref{eq:conv-equals-cosT}, since
+$[\Gamma(4/3)/\Gamma(2/3)^{2}]\,B(2/3,2/3)=1$. This matters numerically as well as
+formally: evaluated as a written oscillatory integral the amplitude varies on
+$\tau_1,\tau_2$ while the cosine varies on $1/\omega$, and at small $\omega$ those scales
+are separated by many decades, so standard oscillatory quadratures either fail outright
+or return silently incorrect values. Eq.~\eqref{eq:two-scale-feynman} contains no
+oscillatory quadrature at all.
+
+\subsection*{Summary of the four dimensionless integrals}
+
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Spectrum & Decorrelation & Dimensionless integral \\
+\hline
+$E_0\delta(k-k_0)$ & Kraichnan & Eq.~\eqref{eq:dimless-delta-Kraichnan}: closed form; $M$ in frequency scale only \\
+$E_0\delta(k-k_0)$ & Decay & Eq.~\eqref{eq:dimless-delta-decay}: 1D frequency integral; $M$ in $\bar q$ \\
+$\delta^{(3)}(\br)$ & Kraichnan & Eq.~\eqref{eq:dimless-white-Kraichnan}: 2D wavevector integral; $M$-cutoff in bounds \\
+$\delta^{(3)}(\br)$ & Decay & Eq.~\eqref{eq:dimless-white-decay}: 2D wavevector $\times$ nested 1D frequency; $M$-cutoff \\
+$E_0\delta(k-k_0)$ & Impulsive $\delta(\tau-\tau_s)$ & Eq.~\eqref{eq:dimless-impulsive}: closed form; no $M$ or $q$ dependence \\
+\hline
+\end{tabular}
+\end{center}
+\section{Impulsive ($\delta$-in-Time) Source}
+\label{sec:impulsive}
+
+We now consider a source that fires exactly once: the turbulent stress is active
+only at a single conformal time $\tau=\tau_s$ but remains monochromatic in
+wavenumber, $E(k)=E_0\,\delta(k-k_0)$. This idealisation approximates a
+combustion front, a rapid phase transition, or any process whose active lifetime
+is negligible compared with the GW oscillation period $2\pi/k$. Because the
+temporal part of the UETC is an exact double $\delta$-function, the time
+integrals in the master formula collapse \emph{without approximation}, yielding
+a GW spectrum that is purely spatial in character and entirely free of
+Mach-number or decorrelation-time parameters.
+
+\subsection{Source model and UETC}
+\label{sec:impulsive-uetc}
+
+The stress tensor of the impulsive source factorises as
+\begin{equation}
+  \Pi^{\rm TT}_{ij}(\kb,\tau) = A^{\rm TT}_{ij}(\kb)\,\delta(\tau-\tau_s),
+  \label{eq:impulsive-stress}
+\end{equation}
+where $A^{\rm TT}_{ij}(\kb)$ carries the spatial amplitude of the burst and is
+independent of time. The two-point function of the TT stress defines the UETC
+via
+\begin{equation}
+  \bigl\langle\Pi^{\rm TT}_{ij}(\kb,\tau_1)\,
+  \Pi^{\rm TT\,*}_{ij}(\kb',\tau_2)\bigr\rangle
+  = (2\pi)^3\,\delta^{(3)}(\kb-\kb')\,\Pi(k;\tau_1,\tau_2).
+  \label{eq:uetc-def-impulsive}
+\end{equation}
+Inserting the ansatz \eqref{eq:impulsive-stress} and defining the spatial power
+$P(k)$ through
+$\langle A^{\rm TT}_{ij}(\kb)\,A^{\rm TT\,*}_{ij}(\kb')\rangle
+=(2\pi)^3\delta^{(3)}(\kb-\kb')P(k)$, the UETC becomes
+\begin{equation}
+  \Pi(k;\tau_1,\tau_2) = P(k)\,\delta(\tau_1-\tau_s)\,\delta(\tau_2-\tau_s).
+  \label{eq:uetc-impulsive}
+\end{equation}
+No decorrelation model ($\eta_k$, $\hat g$, or any finite coherence time) is
+needed; the UETC is exact and requires no further closure assumption.
+
+\subsection{Temporal integral and master formula}
+\label{sec:impulsive-temporal}
+
+The Isaacson GW energy density $\rho_{\rm GW}=\langle\dot h_{ij}\dot
+h_{ij}\rangle/(32\pi G)$, together with the retarded solution
+\begin{equation}
+  \dot h_{ij}(\kb,\tau) = 16\pi G\!\int_{\tau_i}^{\tau}\!d\tau'\,
+  \cos[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau'),
+  \label{eq:impulsive-hdot}
+\end{equation}
+and time-averaging the fast-oscillation product
+$\cos[k(\tau-\tau_1)]\cos[k(\tau-\tau_2)]\to\tfrac{1}{2}\cos[k(\tau_1-\tau_2)]$,
+gives the master formula
+\begin{equation}
+  \frac{d\rho_{\rm GW}}{d\ln k}
+  \simeq \frac{2G\,k^3}{\pi}
+  \!\int\!d\tau_1\!\int\!d\tau_2\,
+  \cos[k(\tau_1-\tau_2)]\,\Pi(k;\tau_1,\tau_2).
+  \label{eq:master-impulsive}
+\end{equation}
+Substituting the impulsive UETC \eqref{eq:uetc-impulsive},
+\begin{align}
+  \frac{d\rho_{\rm GW}}{d\ln k}
+  &\;=\; \frac{2G\,k^3}{\pi}
+    \!\int\!d\tau_1\!\int\!d\tau_2\;
+    \cos[k(\tau_1-\tau_2)]\;
+    P(k)\,\delta(\tau_1-\tau_s)\,\delta(\tau_2-\tau_s)
+    \nonumber\\
+  &= \frac{2G\,k^3}{\pi}\,P(k)\,\cos[k(\tau_s-\tau_s)]
+  \;=\; \frac{2G\,k^3}{\pi}\,P(k)\,\cos(0)
+  \;=\; \frac{2G\,k^3}{\pi}\,P(k).
+  \label{eq:impulsive-temporal}
+\end{align}
+The temporal factor is identically unity regardless of $k$, $k_0$, or $\tau_s$:
+both $\delta$-functions collapse to set $\tau_1=\tau_2=\tau_s$, so the cosine
+argument vanishes. No approximation is involved. The GW spectrum is therefore
+determined entirely by the instantaneous spatial power $P(k)$ of the burst,
+with no temporal modulation and no on-shell frequency integral.
+
+\subsection{Spatial reduction for monochromatic $E(k)=E_0\,\delta(k-k_0)$}
+\label{sec:impulsive-spatial}
+
+We now compute $P(k)$ for the monochromatic energy spectrum. Adopting the
+isotropic, incompressible velocity model
+$F_{ij}(\kb)=A(k)P_{ij}(\khat)$ with $P_{ij}(\khat)=\delta_{ij}-\khat_i\khat_j$,
+the spatial power of the TT-projected quadratic source reads
+\begin{equation}
+  P(k) = \frac{1}{(2\pi)^7}\!\int\!d^3k_1\,
+  A(k_1)\,A(u)\,\mathcal{K}(k,k_1,u),
+  \qquad \ub\equiv\kb-\kb_1,\quad u\equiv|\ub|,
+  \label{eq:Pk-impulsive}
+\end{equation}
+with the geometric kernel
+\begin{equation}
+  \mathcal{K}(k,k_1,u) = \frac{27}{6}
+  +\frac{k^4}{12k_1^2u^2}+\frac{k_1^2}{12u^2}+\frac{u^2}{12k_1^2}
+  -\frac{k^2}{6u^2}-\frac{k^2}{6k_1^2}.
+  \label{eq:K-impulsive}
+\end{equation}
+For the monochromatic spectrum $E(k)=E_0\,\delta(k-k_0)$, the amplitude is
+$A(k)=E_0\,\delta(k-k_0)/(4\pi k^2)$. Going to spherical coordinates
+$d^3k_1=k_1^2\,dk_1\,d\phi\,d\mu$ with $\mu=\khat\cdot\khat_1$, the azimuthal
+integral gives $2\pi$; trading $\mu$ for
+$u=\sqrt{k^2+k_1^2-2kk_1\mu}$\,(so $u\,du=kk_1\,d\mu$),
+\begin{equation}
+  P(k) = \frac{1}{(2\pi)^6}\!\int_0^\infty\!\frac{k_1\,dk_1}{k}
+  \!\int_{|k-k_1|}^{k+k_1}\!u\,du\;
+  A(k_1)\,A(u)\,\mathcal{K}(k,k_1,u).
+  \label{eq:Pk-spherical}
+\end{equation}
+Inserting $A(k_1)=E_0\delta(k_1-k_0)/(4\pi k_1^2)$, the $k_1$ integral
+collapses to $k_1=k_0$; inserting $A(u)=E_0\delta(u-k_0)/(4\pi u^2)$, the $u$
+integral collapses to $u=k_0$, which is inside the range $[|k-k_0|,k+k_0]$
+only when $k\leq 2k_0$, i.e.\ $p\leq 2$. The angular residue from
+$\delta(u-k_0)$ is $1/(du/d\mu)|_{u=k_0}=u/(kk_1)|_{u=k_0}=k_0/(kk_0)=1/k$,
+so the two-dimensional integration reduces to
+\begin{equation}
+  \int_0^\infty\!\frac{k_1\,dk_1}{k}\!
+  \int_{|k-k_1|}^{k+k_1}\!u\,du\;
+  \frac{E_0\,\delta(k_1-k_0)}{4\pi k_1^2}\cdot
+  \frac{E_0\,\delta(u-k_0)}{4\pi u^2}
+  = \frac{E_0^2}{16\pi^2}\cdot\frac{1}{k_0^2}\cdot\frac{1}{k}\,\Theta(2k_0-k).
+  \label{eq:angular-collapse}
+\end{equation}
+With both momenta pinned at $k_0$, the geometric kernel evaluates to
+\begin{align}
+  \mathcal{K}(k,k_0,k_0)
+  &= \frac{27}{6}
+    +\frac{k^4}{12k_0^4}+\frac{k_0^2}{12k_0^2}+\frac{k_0^2}{12k_0^2}
+    -\frac{k^2}{6k_0^2}-\frac{k^2}{6k_0^2}
+    \nonumber\\
+  &= \frac{27}{6}+\frac{p^4}{12}+\frac{1}{12}+\frac{1}{12}
+    -\frac{p^2}{6}-\frac{p^2}{6}
+    \nonumber\\
+  &= \frac{27+1+1}{6}+\frac{p^4}{12}-\frac{p^2}{3}
+  \;=\; \frac{14}{3}-\frac{p^2}{3}+\frac{p^4}{12}
+  \;\equiv\; \mathcal{K}_0(p).
+  \label{eq:K0-impulsive}
+\end{align}
+Substituting \eqref{eq:angular-collapse} and \eqref{eq:K0-impulsive} into
+\eqref{eq:Pk-spherical} gives
+\begin{equation}
+  P(k) = \frac{E_0^2\,\mathcal{K}_0(p)}{(2\pi)^6\cdot 16\pi^2\,k\,k_0^2}\,\Theta(2-p).
+  \label{eq:Pk-result}
+\end{equation}
+Inserting into \eqref{eq:impulsive-temporal} and collecting the dimensional
+prefactor into an overall constant, we read off the dimensionless kernel
+\begin{equation}
+  \boxed{
+  \mathfrak{H}^{(\delta\tau,\delta k)}(p) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p),
+  \qquad
+  \mathcal{K}_0(p)=\frac{14}{3}-\frac{p^2}{3}+\frac{p^4}{12}.
+  }
+  \label{eq:dimless-impulsive}
+\end{equation}
+There is no remaining integral, no frequency argument $q$, and no Mach number
+$M$: the kernel is a single algebraic expression in $p$. In $p$-shape it
+coincides with the Kraichnan monochromatic kernel of
+Sec.~\ref{sec:kraichnan-k41} evaluated at $q=0$ — setting $q\to0$ in
+$e^{-q^2/M^2}$ trivially reproduces \eqref{eq:dimless-impulsive} — because the
+impulsive source assigns equal weight to every on-shell frequency.
+
+\subsection{GW spectrum: peak, IR and UV slopes}
+\label{sec:impulsive-result}
+
+Using $\Omega_{\rm GW}(p)\propto p^3\,\mathfrak{H}^{(\delta\tau,\delta k)}(p)$,
+\begin{equation}
+  \Omega_{\rm GW}(p) \;\propto\; p^2\,\mathcal{K}_0(p)\,\Theta(2-p).
+  \label{eq:omega-impulsive}
+\end{equation}
+
+\paragraph{Infrared slope.}
+As $p\to0$, $\mathcal{K}_0(p)=\tfrac{14}{3}+O(p^2)$ is constant, so
+\begin{equation}
+  \Omega_{\rm GW}(p) \;\xrightarrow{p\to0}\; \frac{14}{3}\,p^2.
+\end{equation}
+The infrared slope is $p^2$, not the causal $p^3$ of spatially extended
+sources. The extra power of $1/p$ in $\mathfrak{H}$ traces back to the angular
+residue in \eqref{eq:angular-collapse}: pinning both loop momenta to $k_0$ means
+the phase-space measure for small $k$ grows as $k$ rather than $k^2$, which
+demotes $k^3\to k^2$.
+
+\paragraph{Peak.}
+Define $f(p)\equiv p^2\,\mathcal{K}_0(p)=\tfrac{14}{3}\,p^2-\tfrac{p^4}{3}+\tfrac{p^6}{12}$.
+Its derivative is
+\begin{equation}
+  f'(p) = p\!\left(\frac{28}{3} - \frac{4}{3}\,p^2 + \frac{p^4}{2}\right).
+\end{equation}
+Setting the bracket to zero requires $3p^4-8p^2+56=0$, a quadratic in $p^2$
+with discriminant $\Delta=64-4\cdot3\cdot56=-608<0$: no real roots. Since the
+bracket is $56/3>0$ at $p=0$ and $72>0$ at $p=2$, and has no roots on $(0,2)$,
+$f'(p)>0$ throughout the support. The spectrum is strictly increasing and peaks
+at the triangle-inequality cutoff,
+\begin{equation}
+  p_{\rm peak} = 2 \qquad\Longrightarrow\qquad k_{\rm GW}^{\rm peak} = 2k_0.
+  \label{eq:impulsive-peak}
+\end{equation}
+Geometrically, the maximum GW wavenumber from two modes both at $k_0$ is
+$k_0+k_0=2k_0$; the monotone kernel drives all power to this kinematic limit.
+
+\paragraph{Ultraviolet.}
+The Heaviside factor $\Theta(2-p)$ enforces an exact hard cutoff: $\Omega_{\rm
+GW}(p)\equiv0$ for $p>2$. There is no UV power-law tail, in contrast to the
+smooth Gaussian (Kraichnan) or power-law (decay) falloffs of the stationary
+models.
+
+\subsection{Post-burst free propagation}
+\label{sec:impulsive-propagation}
+
+For $\tau>\tau_s$ the source is off. The retarded Green's function gives
+\begin{equation}
+  h_{ij}(\kb,\tau)
+  = \frac{16\pi G}{k}\!\int_{\tau_i}^{\tau}\!d\tau'\,
+    \sin[k(\tau-\tau')]\,\Pi^{\rm TT}_{ij}(\kb,\tau').
+  \label{eq:greens-impulsive}
+\end{equation}
+Substituting $\Pi^{\rm TT}_{ij}(\kb,\tau')=A^{\rm TT}_{ij}(\kb)\,\delta(\tau'-\tau_s)$,
+\begin{equation}
+  h_{ij}(\kb,\tau) = \frac{16\pi G}{k}\,\sin[k(\tau-\tau_s)]\,A^{\rm TT}_{ij}(\kb),
+  \qquad \tau>\tau_s,
+  \label{eq:impulsive-h}
+\end{equation}
+with time derivative
+$\dot h_{ij}(\kb,\tau)=16\pi G\cos[k(\tau-\tau_s)]\,A^{\rm TT}_{ij}(\kb)$.
+The Isaacson energy density
+\begin{equation}
+  \rho_{\rm GW} = \frac{\langle\dot h_{ij}\dot h_{ij}\rangle}{32\pi G}
+  = \frac{(16\pi G)^2}{32\pi G}\cos^2[k(\tau-\tau_s)]\,P(k)
+  \;\xrightarrow{\langle\cos^2\rangle=1/2}\;
+  \frac{(16\pi G)\,k^3}{2\pi}\,P(k)\,\frac{d\ln k}{1},
+  \label{eq:rho-impulsive}
+\end{equation}
+after integrating over $k$-shells, recovers the frozen spectrum
+\eqref{eq:omega-impulsive} without further time evolution. Each mode oscillates
+on-shell at $\omega=k$ with amplitude set at $\tau_s$; the GW background
+decouples from the source permanently and carries a spectrum that never changes.
+\section{Impulsive source in real space}
+\label{sec:impulsive-realspace}
+
+We keep every space integral in configuration space and transform in time alone. The
+GW spectrum comes out as a single frequency $\omega$ acting on a purely spatial stress
+correlator. With $a=1$,
+\begin{equation}
+  \Box\,h_{ij}=16\pi G\,S_{ij},\quad \Box=\partial_t^2-\nabla^2;
+  \qquad
+  \dot h_{ij}(\br,t)=4G\!\int\! d^3r'\,\frac{\dot S_{ij}(\br',t-|\br-\br'|)}{|\br-\br'|}.
+  \label{eq:rs2-hdot}
+\end{equation}
+Following the standard turbulence--GW formalism \cite{Kosowsky:2001xp,Gogoberidze:2007an},
+introduce the unequal-time GW correlator at lag $\tau$ and its temporal transform,
+\begin{equation}
+  L(\br,\tau)\equiv\frac{1}{32\pi G}\bigl\langle\dot h_{ij}(\br,t)\,\dot h_{ij}(\br,t+\tau)\bigr\rangle,
+  \qquad \rho_{\rm GW}(\br)=L(\br,0),
+  \label{eq:rs2-L}
+\end{equation}
+\begin{equation}
+  I(\br,\omega)\equiv\frac{1}{2\pi}\!\int\! d\tau\,e^{i\omega\tau}\,L(\br,\tau),
+  \qquad \rho_{\rm GW}(\br)=\int\! d\omega\,I(\br,\omega),
+  \label{eq:rs2-I}
+\end{equation}
+so $I(\br,\omega)$ is the spectral energy density of the radiation and
+$d\rho_{\rm GW}/d\ln\omega=\omega\,I(\br,\omega)$ (at $\omega>0$). Inserting the
+retarded field \eqref{eq:rs2-hdot} twice ($(4G)^2/32\pi G=G/2\pi$),
+\begin{equation}
+  L(\br,\tau)=\frac{G}{2\pi}\!\int\!
+  \frac{d^3r_1\,d^3r_2}{|\br-\br_1|\,|\br-\br_2|}\,
+  \bigl\langle\dot S_{ij}(\br_1,t')\,\dot S_{ij}(\br_2,t'')\bigr\rangle,
+  \quad t'=t-|\br-\br_1|,\ \ t''=t+\tau-|\br-\br_2|.
+  \label{eq:rs2-Lret}
+\end{equation}
+For turbulence the stress obeys the identity \cite{Gogoberidze:2007an}
+\begin{equation}
+  \bigl\langle\dot S_{ij}(\br_1,t')\,\dot S_{ij}(\br_2,t'')\bigr\rangle
+  =-\partial_\tau^2\,\bigl\langle S_{ij}(\br_1,t')\,S_{ij}(\br_2,t'')\bigr\rangle,
+  \label{eq:rs2-id}
+\end{equation}
+so under the transform \eqref{eq:rs2-I} the two time-derivatives integrate by parts in
+$\tau$ to a factor $\omega^2$,
+\begin{equation}
+  I(\br,\omega)=\frac{G\,\omega^2}{(2\pi)^2}\!\int\!
+  \frac{d^3r_1\,d^3r_2}{|\br-\br_1|\,|\br-\br_2|}\!\int\! d\tau\,e^{i\omega\tau}\,
+  \bigl\langle S_{ij}(\br_1,t')\,S_{ij}(\br_2,t'')\bigr\rangle.
+  \label{eq:rs2-Iw}
+\end{equation}
+A single burst $S_{ij}=\mathcal{S}_{ij}(\br)\,\delta(t-t_0)$ gives
+$\langle S_{ij}(\br_1,t')S_{ij}(\br_2,t'')\rangle=\Sigma(\br_1,\br_2)\,\delta(t'-t_0)\,\delta(t''-t_0)$
+with $\Sigma(\br_1,\br_2)=\langle\mathcal{S}_{ij}(\br_1)\mathcal{S}_{ij}(\br_2)\rangle$;
+the $\delta$'s fix the retarded shells (so $t_0$ sets only the shell radius, not the
+spectral shape), the $\tau$-integral leaves the phase
+$e^{-i\omega(|\br-\br_1|-|\br-\br_2|)}$, and with $\br=0$ ($|\br-\br_a|=r_a$), the
+isotropic correlator $\Sigma(r)$ ($r=|\br_1-\br_2|$), and the angular average
+$\langle e^{i\boldsymbol{\omega}\cdot\br}\rangle=\sin(\omega r)/(\omega r)$,
+\begin{equation}
+  \boxed{\;
+  \frac{d\rho_{\rm GW}}{d\ln\omega}
+  =8G\,\omega^2\!\int_0^\infty\!dr\,r\,\sin(\omega r)\,\Sigma(r).\;}
+  \label{eq:rs2-spectrum}
+\end{equation}
+The leading $\omega^2$ is exactly the two time-derivatives of the quadrupole source,
+converted by the identity \eqref{eq:rs2-id}.
+
+\subsection{The peak is set by the source, not by \texorpdfstring{$t_0$}{t0}}
+\label{sec:rs2-peak}
+
+The firing time enters \eqref{eq:rs2-Iw} only through the $\delta$'s, which fix the
+radiating shell but leave no $t_0$ in the real spectrum \eqref{eq:rs2-spectrum}:
+\emph{the spectrum is independent of $t_0$}. An instantaneous burst nonetheless radiates a broadband, structured spectrum,
+fixed entirely by the spatial stress correlator
+$\langle\mathcal{S}_{ij}(\br_1)\mathcal{S}_{ij}(\br_2)\rangle$. Let $\ell$ be its
+coherence length (the correlator decays for $|\br_1-\br_2|\gtrsim\ell$). The
+retardation phase $\cos[\omega(r_1-r_2)]$ stays coherent across that volume while
+$\omega\ell\lesssim1$ and averages away above it, so the radial integral is white in
+the infrared and the causal rise $d\rho_{\rm GW}/d\ln\omega\propto\omega^3$ turns over
+at
+\begin{equation}
+  \boxed{\;
+  \omega_{\rm peak}\simeq\frac{1}{\ell}
+  \quad(\text{independent of }t_0),
+  \qquad f_{\rm peak}=\frac{\omega_{\rm peak}}{2\pi}\simeq\frac{1}{2\pi\ell}.\;}
+  \label{eq:rs2-fpeak}
+\end{equation}
+The peak GW frequency is the inverse coherence length of the burst, with no reference
+to when it fired.
+
+\subsection{Burst of finite duration \texorpdfstring{$\Delta t$}{Dt}}
+\label{sec:burst}
+\label{sec:rs2-duration}
+
+Now let the stress switch on over a finite interval rather than an instant,
+$S_{ij}(\br,t)=\mathcal{S}_{ij}(\br)\,g(t-t_0)$, with $g$ a temporal profile of width
+$\Delta t$ (the instantaneous burst is $\Delta t\to0$, $g\to\delta$). The source
+correlator in \eqref{eq:rs2-Iw} now carries $g(t'-t_0)\,g(t''-t_0)$ instead of the two
+$\delta$'s, so the $\tau$-transform multiplies the spectrum by the single temporal
+filter $|\tilde g(\omega)|^2$, $\tilde g(\omega)=\int\!dt\,g(t)e^{i\omega t}$,
+\begin{equation}
+  \boxed{\;
+  \frac{d\rho_{\rm GW}}{d\ln\omega}
+  =8G\,\omega^2\,|\tilde g(\omega)|^2\!
+  \int_0^\infty\!dr\,r\,\sin(\omega r)\,\Sigma(r).\;}
+  \label{eq:rs2-spectrum-dt}
+\end{equation}
+The factor $|\tilde g(\omega)|^2$ is flat for $\omega\Delta t\lesssim1$ and rolls off
+above --- a low-pass at $\omega\sim1/\Delta t$. The spectrum now carries two scales,
+the spatial coherence ($\omega\sim1/\ell$) and the duration ($\omega\sim1/\Delta t$),
+and peaks at the lower of the two,
+\begin{equation}
+  \boxed{\;
+  \omega_{\rm peak}\simeq\min\!\Bigl(\frac{1}{\ell},\,\frac{1}{\Delta t}\Bigr).\;}
+  \label{eq:rs2-fpeak-dt}
+\end{equation}
+A slow burst ($\Delta t\gtrsim\ell$) is duration-limited,
+$\omega_{\rm peak}\simeq1/\Delta t$; a fast burst ($\Delta t\lesssim\ell$) recovers the
+instantaneous, coherence-limited peak $\omega_{\rm peak}\simeq1/\ell$ of
+\eqref{eq:rs2-fpeak}.
+
+\iffalse  % proof-of-concept figure (commented out)
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=0.92\textwidth]{impulsive_realspace_spectrum}
+  \caption{Impulsive-source GW spectrum of Sec.~\ref{sec:impulsive-realspace}.
+  \emph{Plotted quantity.} The curves are the GW energy density per logarithmic
+  frequency, Eq.~\eqref{eq:rs2-spectrum} with the duration filter
+  $|\tilde g(\omega)|^2$ of Eq.~\eqref{eq:rs2-spectrum-dt},
+  $d\rho_{\rm GW}/d\ln\omega=8G\,\omega^2\!\int_0^\infty\! dr\,r\sin(\omega r)\,
+  \Sigma(r)\,|\tilde g(\omega)|^2$.
+  \emph{Source model.} The TT-projected stress two-point function is taken isotropic
+  and Gaussian in real space,
+  $\Sigma(r)=\langle\mathcal{S}_{ij}(\br_1)\mathcal{S}_{ij}(\br_2)\rangle
+  =e^{-r^2/2\ell^2}$ with $|\br_1-\br_2|=r$ and coherence length $\ell$ --- a
+  single-scale stand-in for the contracted correlator
+  $R_{aa}R_{bb}+\tfrac13R_{ab}R_{ab}$ (the absolute amplitude is irrelevant: every
+  curve is normalised to unit peak). Its radial transform
+  $P(\omega)=(4\pi/\omega)\!\int_0^\infty\! r\sin(\omega r)\Sigma\,dr
+  =(2\pi)^{3/2}\ell^3 e^{-\omega^2\ell^2/2}$ is used in closed form (verified against
+  the numerical radial quadrature to $\sim\!10^{-15}$ relative).
+  \emph{Temporal profile.} The burst window is Gaussian of width $\Delta t$, giving
+  the on-shell temporal filter $|\tilde g(\omega)|^2=e^{-\omega^2\Delta t^2}$;
+  $\Delta t=0$ is the instantaneous $\delta(t-t_0)$ limit ($|\tilde g|^2=1$, white in
+  source frequency). \emph{Units.} $G=1$, $\ell=1$; the abscissa is $\omega\ell$.
+  \emph{Left:} instantaneous burst ($\Delta t=0$) for firing times
+  $t_0=0,1,5$ --- the three curves coincide exactly, since $t_0$ enters only as the
+  phase $e^{i\omega t_0}$ that cancels in the modulus (Eq.~\eqref{eq:rs2-spectrum});
+  the dash--dotted line is the causal $\omega^3$ infrared law and the dashed vertical
+  marks the peak $\omega_{\rm peak}=\sqrt{3}/\ell$.
+  \emph{Right:} finite duration $\Delta t/\ell=0,0.5,1,2,4,8,16$; dotted verticals are
+  the analytic peaks $\omega_{\rm peak}=\sqrt{3}/\sqrt{\ell^2+2\Delta t^2}$, sliding
+  from the coherence-limited $\sqrt3/\ell$ (fast burst) to the duration-limited
+  $\sqrt{3/2}/\Delta t$ (slow burst), i.e.\ $\omega_{\rm peak}\simeq\min(1/\ell,1/\Delta t)$.
+  Generated by \texttt{Notebooks/impulsive\_realspace\_spectrum.py}.}
+  \label{fig:impulsive-realspace}
+\end{figure*}
+\fi
+
+\subsection{Single-scale limit: deriving the quadrupole factor of two}
+\label{sec:rs2-monochromatic}
+
+The peak tracks whatever scale the source correlations carry; the cleanest limit is a
+fluid coherent at a single length scale $\ell_0$. Here the factor of two relating the
+GW scale to the fluid scale is not an assumption --- it follows from the source being
+the \emph{quadratic} Reynolds stress $\mathcal{S}_{ij}=w\,v_iv_j$, through Wick's
+theorem. For a Gaussian velocity field the connected stress two-point function is
+quadratic in the velocity correlator
+$R_{ab}(\br)=\langle v_a(\br_1)v_b(\br_2)\rangle$ (the disconnected pairing is the
+constant mean stress $\langle\mathcal{S}_{ij}\rangle^2$ and does not radiate):
+\begin{equation}
+  \Sigma(\br)=\bigl\langle\mathcal{S}_{ij}(\br_1)\mathcal{S}_{ij}(\br_2)\bigr\rangle_{\rm c}
+  = w^2\Bigl[R_{aa}(\br)R_{bb}(\br)+\tfrac13 R_{ab}(\br)R_{ab}(\br)\Bigr]
+  \;\propto\; R(\br)^2,
+  \label{eq:rs2-wick}
+\end{equation}
+the TT-contracted form of Eq.~\eqref{eq: main}; the key feature is that $\Sigma$ is the
+\emph{square} of the velocity correlator. A fluid coherent at the single scale $\ell_0$
+has a velocity correlator that oscillates on that scale: for the isotropic single-scale
+field the trace is $R_{aa}(r)\propto\sin(r/\ell_0)/(r/\ell_0)$.%
+\footnote{This is the standard spectral-tensor result for homogeneous isotropic
+turbulence \cite{Batchelor:1953,Pope:2000,MoninYaglom:1975,Kraichnan:1959}. Incompressibility
+fixes the velocity correlator's tensor structure, leaving its radial part set by a
+single scalar; the trace transforms as
+$R_{aa}(r)=2\int_0^\infty E(k)\,\frac{\sin kr}{kr}\,dk$ with $E$ the energy spectrum, so
+a fluid carrying a single scale ($E$ concentrated at one $1/\ell_0$) gives
+$R_{aa}(r)\propto\sin(r/\ell_0)/(r/\ell_0)$ and $R_{aa}(0)=\langle v^2\rangle$.
+Physically $\sin(r/\ell_0)/(r/\ell_0)$ is the directional average of a plane wave over
+the sphere of fixed scale --- the correlation of a random field built from equal-size
+eddies pointing every way: it first vanishes at $r=\pi\ell_0$ (points half a wavelength
+apart are anti-correlated) and decays as $\ell_0/r$ as the phases wash out. The same
+angular reduction underlies the GW-from-turbulence kernels
+\cite{Kosowsky:2001xp,Gogoberidze:2007an}.}
+Squaring \emph{halves the scale},
+\begin{equation}
+  R(r)^2\;\propto\;\frac{\sin^2(r/\ell_0)}{(r/\ell_0)^2}
+  =\frac{1-\cos(2r/\ell_0)}{2\,(r/\ell_0)^2},
+  \label{eq:rs2-square}
+\end{equation}
+so the radiating part of $\Sigma(r)$ oscillates on the halved scale $\ell_0/2$ (the
+constant term is the non-radiating mean). The GW frequency is the inverse of the scale
+it samples, so the spectrum
+$d\rho_{\rm GW}/d\ln\omega\propto\omega^3 P(\omega)|\tilde g(\omega)|^2$ collapses to a
+single line at
+\begin{equation}
+  \boxed{\;
+  \omega_{\rm GW}=\frac{2}{\ell_0}
+  \qquad\bigl(\ell_{\rm GW}=\tfrac12\,\ell_0\bigr).\;}
+  \label{eq:rs2-mono-peak}
+\end{equation}
+The factor of two is thus \emph{derived}: a quadratic (quadrupole) source $v_iv_j$
+radiates on half the scale --- twice the frequency --- of the field that drives it,
+Eq.~\eqref{eq:rs2-square} being that halving written as the identity
+$\sin^2\theta=\tfrac12(1-\cos2\theta)$. There is no infrared $\omega^3$ rise and no
+ultraviolet falloff: the $\omega^3$ phase space and the duration filter
+$|\tilde g(\omega)|^2$ fix only the line's height, so $\omega_{\rm GW}$ is independent
+of both the firing time $t_0$ and the duration $\Delta t$. This is the
+configuration-space image of the GW peak at half the source scale found for the
+monochromatic source in Eq.~\eqref{eq:impulsive-peak}: two velocity features of scale
+$\ell_0$ overlap to produce stress structure on the scale $\ell_0/2$.
+(A strictly single-scale field in
+fact fills all scales $\ge\ell_0/2$ --- the autoconvolution in Eq.~\eqref{eq:rs2-wick}
+--- piling up at the $\ell_0/2$ edge as in Sec.~\ref{sec:impulsive}; the $\delta$-line
+keeps only the halved scale.)
+
+\iffalse  % proof-of-concept figure (commented out)
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=0.92\textwidth]{impulsive_monochromatic_source}
+  \caption{Single-scale toy of Sec.~\ref{sec:rs2-monochromatic}: the quadrupole factor
+  of two, derived in the length-scale picture. \emph{Left:} the derivation itself
+  (Eqs.~\eqref{eq:rs2-wick}--\eqref{eq:rs2-square}). A fluid coherent at one scale
+  $\ell_0$ has the velocity correlator $R(r)\propto\sin(r/\ell_0)/(r/\ell_0)$ (blue);
+  because the GW source is the quadratic Reynolds stress $\mathcal{S}_{ij}\sim v_iv_j$,
+  the radiating stress correlator is its square $\Sigma\propto R(r)^2$ (orange), which
+  by $\sin^2=\tfrac12(1-\cos2\,\cdot)$ oscillates on the \emph{halved} scale
+  $\ell_0/2$. \emph{Right:} the resulting GW scale is exactly half the fluid scale,
+  $\ell_{\rm GW}=\ell_0/2$ (solid, slope $1/2$; points $\ell_0=0.5,1,2,4$), versus the
+  unhalved $\ell_{\rm GW}=\ell_0$ (dotted) --- equivalently $\omega_{\rm GW}=2/\ell_0$
+  (Eq.~\eqref{eq:rs2-mono-peak}). The line carries no causal $\omega^3$ rise and no
+  ultraviolet decay, and its position is independent of the firing time $t_0$ and
+  duration $\Delta t$. Generated by
+  \texttt{Notebooks/impulsive\_monochromatic\_source.py}.}
+  \label{fig:impulsive-monochromatic}
+\end{figure*}
+\fi
+\section{\texorpdfstring{Numerical results: $f_{\rm peak}^{\rm GW}(\tau_\ast, M_0)$}{Numerical results: f\_peak\^GW(tau, M0)}}
+\label{sec:fpeak-numerical}
+
+We scan the peak GW frequency
+$f_{\rm peak}^{\rm GW}=\operatorname{argmax}_\omega[\omega\,\Omega_{\rm GW}(\omega)]/2\pi$
+over the $(\tau_\ast,M_0)$ plane for a delta-shell decaying source evolved with
+the BK2016 self-similar closure and time-integrated over the emission window
+(\texttt{Notebooks/f\_peak\_vs\_tau\_mach.py}). Two temporal-correlation kernels
+are compared through their dimensionless transform
+$\mathcal{G}(q)=\widehat{R^2}(q)$: the random-phase BK2016 form (Model A) and the
+coherent eddy (Model B).
+
+Across all four self-similar classes the ratio
+$f_{\rm peak}^{A}/f_{\rm peak}^{B}$ is \emph{independent of} $(\tau_\ast,M_0)$:
+the self-similar closure makes both the eddy frequency $\omega_e$ and the
+sweeping rate $\eta_0$ scale as $(1+T/\tau_\ast)^{-1}$, so the two kernels inherit
+the same overall frequency scaling and differ only in their fixed dimensionless
+peak position. The model difference therefore collapses to a single per-class
+constant (Fig.~\ref{fig:f_peak_model_ratio}): $f_A/f_B\simeq0.37,\,0.36$ for the
+HD (Loitsiansky, Saffman) classes and $0.83,\,0.78$ for the MHD (nonhelical,
+helical) classes -- Model A always peaks lower. The large HD offset comes from
+the side-peak of the coherent kernel at the eddy frequency ($q\simeq\pm2$, the
+$\cos\sigma$ oscillation of $R_B$), which wins the $\omega\,\Omega_{\rm GW}$
+argmax for the steep-decay HD classes but nearly coincides with the broad
+Model-A peak for MHD. Because the per-model maps differ only by this constant, we
+display the ratio rather than the eight individual heatmaps.
+
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{f_peak_model_difference}
+  \caption{Model A/B ratio of the peak GW frequency,
+  $\log_{10}(f_{\rm peak}^{A}/f_{\rm peak}^{B})$, on the $(\tau_\ast,M_0)$ plane
+  for the four BK2016 self-similar decay classes (HD Loitsiansky $q=2/7$,
+  $\beta=4$; HD Saffman $q=1/3$, $\beta=3$; nonhelical MHD $q=1/2$, $\beta=1$;
+  helical MHD $q=2/3$, $\beta=0$). Each panel is flat: the ratio is independent
+  of $(\tau_\ast,M_0)$, fixed only by the kernel shapes, with the per-class value
+  $\langle f_A/f_B\rangle$ annotated. Model A (random-phase) peaks below Model B
+  (coherent eddy) everywhere; the HD classes show the larger offset.}
+  \label{fig:f_peak_model_ratio}
+\end{figure*}
+\section{Differences among the models}
+\label{sec:model-differences}
+
+With every kernel of Table~\ref{tab:model-grid} in hand we can now say precisely
+what distinguishes them, and---more usefully---which of the two axes of
+Sec.~\ref{sec:model-space} each difference belongs to. The summary is
+Table~\ref{tab:model-differences}; the reasoning follows. Throughout,
+$\Omega_{\rm GW}(p)\propto p^{3}H[S,T](p,p)$ and all numbers are measured by
+\texttt{Notebooks/model\_grid\_survey.py} at $M=1$, $R=10^{4}$.
+
+\paragraph{The infrared belongs to the spatial axis alone.}
+Every kernel with a spatially extended source gives the causal $k^{3}$, and
+every kernel with a monochromatic source gives $k^{2}$, \emph{irrespective of
+the temporal model}: we measure $3.00$ for $H[S_{\rm K41},T_{\rm sw}]$ and
+$2.97$ for $H[S_{\rm K41},T_{\rm dec}]$, against $2.00$ and $1.97$ for the two
+$\delta k$ kernels and $2.00$ for the impulsive one. This is not a coincidence
+of our kernels but the universal theorem of Sec.~\ref{sec:cps-reproduction}: the
+infrared is fixed by whether the source spectrum has finite width, and a
+$\delta$-function source violates that hypothesis by exactly one power through
+the $1/p$ pole of $\mathcal{K}_{0}(p)/p$. The temporal factor cannot contribute,
+because as $p\to0$ it tends to a constant---$\pi\,\mathcal{C}(0)=6\pi$ for
+$T_{\rm dec}$ by Eq.~\eqref{eq:cosT-limits}, unity for $T_{\rm sw}$---and a
+constant carries no slope. \emph{Corollary:} no choice of UETC can be tuned to
+reproduce the simulated $k^{1}$ of Sec.~\ref{sec:principal-discrepancy}. That
+tension is not resolvable on the temporal axis, which is precisely why it
+survives every treatment in Table~\ref{tab:three-works}.
+
+\paragraph{The ultraviolet belongs to the temporal axis alone.}
+Here the roles reverse, and the discriminant is sharp: it is whether the UETC
+has a \emph{cusp} at zero lag. By Eq.~\eqref{eq:cusp-tail} the temporal factor
+falls as $-2f'(0^{+})/\omega^{2}$, so
+\begin{itemize}\itemsep0pt
+  \item $T_{\rm sw}$ (Gaussian, $f'(0^{+})=0$): no cusp, and the cutoff is
+    super-exponential. Fitting a power law to it is meaningless---the apparent
+    ``slope'' merely records where the fit window was placed, which is why
+    $H[S_{\delta r},T_{\rm sw}]$ returns $-46.6$ and
+    $H[S_{\rm K41},T_{\rm sw}]$ returns $-4.75$ on the same window.
+  \item $T_{\rm dec}$ (power law, $f'(0^{+})=-4/3$): a genuine heavy tail
+    $\propto\omega^{-2}$, with the coefficient $8/3$ of
+    Eq.~\eqref{eq:cosT-limits}. The measured GW slope is mildly $M$-dependent
+    ($-1.65$ at $M=0.05$ rising to $-1.28$ at the formal $M=3$) because the tail
+    sets in only above $q\sim M$.
+  \item $T_{\rm imp}$, $T_{\rm burst}$: white and window-modulated respectively,
+    the latter carrying the $\sin^{2}$ factor of Eq.~\eqref{eq:window-factor}.
+\end{itemize}
+This single dichotomy---cusp or no cusp---is what the caveat of
+Sec.~\ref{sec:decaying-peak} turns on, and it is worth emphasising that it is
+\emph{not} a matter of degree: the two behaviours differ by fourteen orders of
+magnitude by $q=4$.
+
+\paragraph{The peak is where the two axes compete.}
+The peak is the one property neither axis owns outright, which is why it has
+been the most contested quantity in the literature. With $T_{\rm sw}$ the
+spectrum is cut off at the sweeping frequency and the peak sits at
+$p\simeq1.47M$ (measured $1.53$ at $M=1$), \emph{below} the source scale for
+subsonic turbulence. With $T_{\rm dec}$ the heavy tail survives past that
+cutoff, and the peak is instead pinned by the spatial structure at
+$p\simeq2.3$, essentially independent of $M$ (measured $2.32$ for
+$M\le1$, drifting to $2.79$ by the formal $M=3$). The two temporal models therefore
+disagree about the peak by a factor $\sim1/M$, which for the subsonic
+simulations is an order of magnitude---this is exactly the
+Gogoberidze-versus-Roper~Pol tension of Sec.~\ref{sec:peak-location}. Note that
+the $\delta k$ and $\delta r$ kernels have no dynamical peak at all: the former
+is truncated at $p=2$ by the triangle inequality, and the latter, having
+$E\propto k^{2}$, is ultraviolet-dominated and simply rises to the dissipation
+cutoff. Their tabulated ``peaks'' are cutoffs, not physics.
+
+\paragraph{Positivity is a property of the temporal axis, and not automatic.}
+The temporal factor must be non-negative at every frequency, since it is the
+power spectrum of a real correlation; a UETC that fails this yields negative
+gravitational-wave energy. This is not a hypothetical failure mode---it is the
+defect that led Caprini et al.\ to discard a Gaussian straining-time model in
+favour of a top-hat, and that motivates the positive-definite Gibbs kernel of
+\cite{Auclair:2022jod}. Both temporal models used here are safe, and for
+$T_{\rm dec}$ provably so: $(1+s)^{-4/3}$ is completely monotone, hence by
+Bernstein's theorem a superposition of decaying exponentials, whose cosine
+transforms $2a/(a^{2}+\omega^{2})$ are individually positive; products of
+completely monotone functions are completely monotone, so the two-scale factor
+Eq.~\eqref{eq:two-scale-feynman} inherits the property. We verify
+$\mathcal{C}>0$ over $10^{-8}<q<10^{4}$.
+
+\subsection{The Mach exponent of the peak as a regime diagnostic}
+\label{sec:mach-exponent}
+
+The peak's dependence on the Mach number deserves separating out, because it is
+the one place where the two temporal models make a \emph{qualitatively}
+different prediction rather than a quantitatively different one. Measuring
+$d\ln p_{\rm peak}/d\ln M$ at fixed $k_0$ over $M\in[0.1,1.6]$ (the upper end
+formal, $M>1$ being superluminal, but included to pin the exponent) gives
+\begin{center}
+\begin{tabular}{lc}
+\hline
+Temporal model & $d\ln p_{\rm peak}/d\ln M$ \\
+\hline
+$T_{\rm sw}$ (Kraichnan sweeping) & $+0.974$ \\
+$T_{\rm dec}$ (BK2016 power law)  & $+0.048$ \\
+$T_{\rm imp}$ ($\delta$-in-time)  & $\phantom{+}0.000$ \\
+\hline
+\end{tabular}
+\end{center}
+a clean split between unity and zero. The mechanism is transparent: $T_{\rm sw}$
+multiplies the spectrum by $e^{-q^{2}/M^{2}}$, a cutoff at $q\sim M$, so the peak
+simply tracks that cutoff; $T_{\rm dec}$ and $T_{\rm imp}$ impose no such
+frequency scale, so the peak falls back on the spatial structure. Strikingly,
+the integrated energy is nearly \emph{blind} to this distinction---we measure
+$E_{\rm tot}\propto M^{5.8}$ and $M^{5.6}$ for the two---so it is the peak, not
+the amplitude, that carries the information.
+
+\paragraph{What is and is not new here.} Both halves of this contrast are
+already in the literature, and neither is ours. Gogoberidze et al.\
+\cite{Gogoberidze:2007an} state that the peak frequency scales linearly with the
+characteristic velocity, i.e.\ $f_{\rm peak}\propto Mk_{0}$---our stationary row,
+of which the coefficient $1.47$ of Sec.~\ref{sec:peak-location} is a
+quantitative refinement. Auclair et al.\ \cite{Auclair:2022jod} find instead that the
+peak is pinned to the integral scale independently of the velocity---our
+decaying and impulsive rows. What appears not to have been said is that the two
+sit on a single axis and that the exponent itself is therefore a diagnostic:
+\cite{Auclair:2022jod} in particular does not contrast the velocity dependence
+between decorrelating and coherent sources.
+
+\paragraph{What the diagnostic actually diagnoses.} It is tempting to read the
+table as evidence for the power-law UETC specifically, and that reading is
+wrong. The impulsive kernel contains no $M$ anywhere, so its exponent is
+identically zero while having no heavy tail, no power law, and indeed no
+temporal structure at all; and \cite{Auclair:2022jod} obtain a velocity-independent
+peak while using Kraichnan \emph{sweeping}, because in a freely decaying flow the
+integral scale itself evolves. Velocity-independence of the peak is therefore a
+property of a whole class of sources, not a signature of
+Eq.~\eqref{eq:cosT-closed}. The exponent answers ``does the temporal factor
+impose a cutoff at $q\sim M$?''---not ``which UETC is it?''. Read that way it is
+a genuine diagnostic; read as support for the decaying model in particular it
+proves much less than it appears to, and the peak-based argument of
+Sec.~\ref{sec:decaying-peak} should be weighted accordingly.
+
+\paragraph{The aeroacoustic precedent.} That the Mach scaling is regime-dependent
+is classical, and the relevant distinction is precisely a temporal one.
+Lighthill's eighth-power law \cite{Lighthill:1952} ($P\propto U^{8}$, fixed
+velocity and geometry) and Proudman's \cite{Proudman:1952}
+($P\propto\rho\varepsilon M^{5}$, isotropic turbulence at fixed dissipation
+rate) differ in what is held fixed---the same ambiguity that flips our own peak
+scaling between $1.47M$ at fixed $k_{0}$ and $1.47/M^{2}$ at fixed $\varepsilon$.
+More pointedly, Proudman's $M^{5}$ rests on \emph{neglecting retarded-time
+differences}, replacing the retarded covariance of the stress by the simultaneous
+one---that is, on treating the source as temporally coherent---and Lilley
+\cite{Lilley:1994} later rederived the result retaining them. The coherent versus
+decorrelating axis that separates our two rows is thus the Proudman--Lilley
+question transposed into a cosmological setting, and our integrated
+$M^{5.6}$--$M^{5.8}$ sits near Proudman's $M^{5}$. The contribution here is not
+the existence of a regime dependence but its sharpening into a spectral
+observable: an exponent one reads off the peak rather than off the total power.
+(The two integrated exponents are approximate; the stationary kernel emits
+convergence warnings over this sweep.)
+
+\paragraph{Analytic structure.} Finally, the models differ in what must actually
+be computed, and the reduction is larger than the usual presentation suggests.
+The decaying kernels are conventionally written as frequency convolutions of the
+singular $\hat g$, which is both expensive and numerically treacherous; by
+Eqs.~\eqref{eq:conv-equals-cosT} and \eqref{eq:two-scale-feynman} the
+single-scale case is closed-form and the two-scale case is a single smooth
+Gauss--Jacobi quadrature over the closed form. The decaying kernels are
+therefore no harder than the Gaussian ones.
+
+\begin{table*}[ht]
+  \centering
+  \begin{tabular}{lccccl}
+  \hline
+  Kernel & IR slope & Peak $p$ & UV & Positive & Literature counterpart \\
+  \hline
+  $H[S_{\rm K41},T_{\rm sw}]$   & $3.00$ & $1.47M$ & super-exp & yes & Gogoberidze et al.~\cite{Gogoberidze:2007an} \\
+  $H[S_{\rm K41},T_{\rm dec}]$  & $2.97$ & $2.32$ & $\omega^{-2}$ & yes & Roper Pol et al.~\cite{RoperPol:2019wvy} (peak) \\
+  $H[S_{\delta k},T_{\rm sw}]$  & $2.00$ & cutoff & none & yes & --- \\
+  $H[S_{\delta k},T_{\rm dec}]$ & $1.97$ & cutoff & none & yes & --- \\
+  $H[S_{\delta r},T_{\rm sw}]$  & $3.00$ & cutoff & super-exp & yes & --- \\
+  $H[S_{\delta r},T_{\rm dec}]$ & $2.97$ & cutoff & $\omega^{-2}$ & yes & --- \\
+  $H[S_{\delta k},T_{\rm imp}]$ & $2.00$ & cutoff & none & yes & --- \\
+  \hline
+  \end{tabular}
+  \caption{Systematic comparison of the kernels of Table~\ref{tab:model-grid},
+  measured at $M=1$, $R=10^{4}$ on the diagonal $q=p$ by
+  \texttt{Notebooks/model\_grid\_survey.py}. The infrared slope tracks the
+  \emph{spatial} axis only ($3$ for extended sources, $2$ for monochromatic
+  ones, per Sec.~\ref{sec:cps-reproduction}); the ultraviolet tracks the
+  \emph{temporal} axis only (a power-law tail iff the UETC has a cusp at zero
+  lag, Eq.~\eqref{eq:cusp-tail}); only the peak depends on both. ``cutoff''
+  denotes models with no dynamical peak---the $\delta k$ kernels are truncated
+  at $p=2$ by the triangle inequality and the $\delta r$ kernels are
+  ultraviolet-dominated. ``super-exp'' denotes a Gaussian cutoff, for which no
+  power-law slope exists.}
+  \label{tab:model-differences}
+\end{table*}
+\section{Spectrum survey for all derived models}
+\label{sec:spectrum-survey}
+
+In this section we plot, on a common convention, the dimensionless GW
+energy-density spectrum
+\begin{equation}
+  \Omega_{\rm GW}(p) \;\propto\; p^{3}\,H(p,p),
+  \qquad p = k_{\rm GW}/k_0,
+\end{equation}
+along the sound-cone diagonal $q = p$ for every model derived in this paper,
+in the uniform notation $H[S,T]$ of Sec.~\ref{sec:model-space}. The $p^{2}$
+factor relative to the characteristic strain $h_c^{2}(p) = p\,H(p,p)$ is the
+phase-space measure $d^{3}k$; together with causality and a source of finite
+spectral width it predicts $\Omega_{\rm GW}\sim p^{3}$ in the IR, followed by a
+peak and a decay in the UV. A dotted grey line shows the $p^{3}$ reference.
+
+These plots are the graphical form of Table~\ref{tab:model-differences}, and
+should be read with its two organising facts in mind: the infrared slope is
+fixed by the \emph{spatial} model alone and the ultraviolet by the
+\emph{temporal} model alone. In particular the monochromatic panels sit at
+$p^{2}$ rather than $p^{3}$ not because of anything in their temporal treatment
+but because a zero-width source carries a $1/p$ pole,
+$\mathcal{K}_{0}(p)/p$, which is exactly the $\delta$-function exception to the
+universal infrared theorem reproduced in Sec.~\ref{sec:cps-reproduction}. The
+build log of \texttt{Notebooks/all\_spectra.py} flags cases whose IR slope
+departs from $3$ by more than $\pm0.5$; the monochromatic models are expected
+to be flagged, and are not anomalies.
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_kraichnan_kolmogorov}\\
+    \textit{(a) full $H_{pq}$}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_aeroacoustic_limit}\\
+    \textit{(b) $p\to 0$ limit}
+  \end{minipage}
+  \caption{Kraichnan decorrelation + Kolmogorov spectrum.  Five curves per
+  panel correspond to $M = 0.03,\, 0.1,\, 0.3,\, 1.0,\, 3.0$ at $R=10^{4}$.
+  Panel (a) is the full numerical $H_{pq}$ (Sec.~\ref{sec:kraichnan-k41}); panel (b) is the
+  aeroacoustic $p\to 0$ limit (Kahniashvili et al.\ 2008).  Both give the
+  universal IR slope $\Omega_{\rm GW}\propto p^{3}$.}
+  \label{fig:spectrum_kolmogorov_kraichnan_pair}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_delta_k_kraichnan}\\
+    \textit{(a) Kraichnan}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_delta_k_decay}\\
+    \textit{(b) Decay}
+  \end{minipage}
+  \caption{Monochromatic spectrum $E(k)=E_{0}\delta(k-k_{0})$ (no free
+  parameters at the dimensionless level).  Panel (a): Kraichnan
+  decorrelation, closed form $\Omega_{\rm GW}(p)\propto
+  p^{3}\,K_{0}(p)/p\,\Theta(2-p)\,e^{-p^{2}/(2\pi)}$ with IR slope
+  $\mathbf{2}$ (flagged: $1/p$ pole from the monochromatic source removes
+  one power of $p$ from the universal scaling).  Panel (b): decay temporal
+  factor, Eq.~\eqref{eq:conv-equals-cosT}, IR slope $\mathbf{2}$ --- the
+  \emph{same} slope as panel (a), as it must be, since the temporal factor
+  tends to the constant $\pi\,\mathcal{C}(0)$ as $p\to0$ and so cannot alter
+  the infrared scaling.}
+  \label{fig:spectrum_delta_k_pair}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_white_kraichnan}\\
+    \textit{(a) Kraichnan}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{spectrum_white_decay}\\
+    \textit{(b) Decay}
+  \end{minipage}
+  \caption{White-noise real-space correlations
+  $R_{ij}\propto\delta^{(3)}(\br)$.  Three curves per panel correspond to
+  $R = 10^{3},\, 10^{4},\, 10^{5}$.  Panel (a): Kraichnan decorrelation,
+  matches the universal IR slope $\mathbf{3}$.  Panel (b): decay temporal
+  model, IR slope $\mathbf{3}$ as well, for all three $R$ --- the decaying
+  and Kraichnan models share the universal causal infrared, the temporal
+  factor affecting only the amplitude and the ultraviolet tail.}
+  \label{fig:spectrum_white_pair}
+\end{figure}
+
+
+\subsection{All nine kernels side by side}
+\label{sec:kernel-grid}
+
+Figure~\ref{fig:kernel_comparison_grid} places every entry of
+Table~\ref{tab:model-grid} on one figure, at matched parameters, with the
+abscissa in units of the initial-power peak $k_0$ throughout. The comparison is
+organised by a single control common to all nine panels, the source coherence
+time in units of the light-crossing time of the source scale,
+\begin{equation}
+  \hat\tau \;\equiv\; \tau_c\,k_0 ,
+  \qquad
+  \omega\tau_c\big|_{\omega=k}=p\,\hat\tau ,
+  \label{eq:that}
+\end{equation}
+so that the dimensionless temporal argument of every kernel is the same
+function $p\hat\tau$ of the plotted abscissa. For the sweeping models
+$\tau_c=\tau_{k_0}=\sqrt{2\pi}/(Mk_0)$, i.e.\ $M=\sqrt{2\pi}/\hat\tau$; for the
+finite burst $\tau_c=\Delta t$, giving the low-pass $|\tilde
+g|^2=e^{-p^2\hat\tau^2}$ of Eq.~\eqref{eq:rs2-spectrum-dt}. The stationary and
+time-independent kernels ($T_{\rm sw}$, $T_{\rm imp}$) carry a single line at
+$\hat\tau=1$; the time-dependent ones ($T_{\rm dec}$, $T_{\rm burst}$) are shown
+at $\hat\tau=0.01,0.1,1,10,100$.
+
+Three things are visible at a glance, and each is the graphical form of a
+statement made analytically above.
+
+\emph{The infrared is set by the spatial model alone.} Every $S_{\rm K41}$,
+$S_{\rm full}$ and $S_{\delta r}$ panel sits on $p^{3}$ ($2.91$--$3.00$
+measured) regardless of which temporal model multiplies it and regardless of
+$\hat\tau$, while every $S_{\delta k}$ panel sits on $p^{2}$ ($1.91$--$2.00$).
+The one power of difference is the $1/p$ pole of $\mathcal{K}_0(p)/p$ carried by
+a zero-width source, the $\delta$-function exception to the universal infrared
+theorem of Sec.~\ref{sec:cps-reproduction}. Changing $\hat\tau$ by four decades
+moves the infrared amplitude but never its slope, which is
+Eq.~\eqref{AR:IR} restated: as $p\to0$ the temporal factor tends to a constant
+[$\mathcal{C}(0)=6$, Eq.~\eqref{A:Climits}] and cannot alter the infrared
+scaling.
+
+\emph{The ultraviolet is set by the temporal model alone.} Only the three
+$T_{\rm dec}$ panels have a power-law tail, inherited from the
+$\bar q^{-2}$ cusp tail of Eq.~\eqref{eq:cosT-limits}; the sweeping and burst
+kernels cut off as Gaussians, for which a fitted log-log slope is a property of
+the fitting window and not of the model, and is therefore reported as
+``Gaussian'' rather than as a number. The monochromatic panels terminate
+at $p=2$ on the triangle inequality $\Theta(2-p)$ instead.
+
+\emph{The peak responds to both, and in opposite ways.} At $\hat\tau=1$ the
+peaks cluster at $p_{\rm pk}=2.0$--$3.2$, i.e.\ at the source scale. Lengthening
+the coherence time drives them apart: the $T_{\rm burst}$ peak slides down as
+$p_{\rm pk}\simeq1/\hat\tau$, the duration-limited branch of
+Eq.~\eqref{eq:rs2-fpeak-dt}, whereas the $T_{\rm dec}$ peaks stay pinned near
+the source scale because the heavy $\bar q^{-2}$ tail keeps supplying power at
+$\omega=k$ (Sec.~\ref{sec:decaying-peak}). $H[S_{\delta r},T_{\rm dec}]$ has no
+peak at all in the plotted range: a white spatial source is ultraviolet
+dominated by construction ($E\propto k^{2}$) and its maximum is set by the
+dissipation cutoff $R^{3/4}$, not by any dynamical scale, which is why the
+panel is labelled UV-limited rather than assigned a peak.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\columnwidth]{kernel_comparison_grid}
+  \caption{The nine kernels of Table~\ref{tab:model-grid} at matched
+  parameters, $\Omega_{\rm GW}(p)\propto p^{3}H[S,T](p,p)$ on the sound-cone
+  diagonal, $p=k/k_0$, at $R=10^{4}$ (and $R_{\rm IR}=10^{2}$ with a Batchelor
+  infrared band for $S_{\rm full}$). Rows group the temporal model: sweeping
+  (top), decaying (middle), and the full-spectrum, impulsive and burst cases
+  (bottom). Curves are indexed by $\hat\tau=\tau_ck_0$ of Eq.~\eqref{eq:that};
+  stationary and time-independent kernels carry the single reference line
+  $\hat\tau=1$ (equivalently $M=\sqrt{2\pi}=2.51$ for the sweeping panels), the
+  time-dependent ones the five values $\hat\tau=0.01,0.1,1,10,100$
+  (equivalently $M=251,25.1,2.51,0.251,0.0251$; the small-$\hat\tau$ members are
+  formal extrapolations past the luminal limit, retained as in
+  Fig.~\ref{fig:stationary_mach_peak} to expose the scaling). Each panel is
+  normalised by its own maximum over all its curves, since the boxed kernels
+  drop different dimensional prefactors and absolute amplitudes are not
+  comparable between panels; within a panel the $\hat\tau$ dependence of the
+  amplitude is preserved. All nine panels share identical axes, set from the
+  data so that the peak of every curve is on scale: the floor lies four decades
+  below the faintest peak (the $\hat\tau=100$ member of
+  $H[S_{\rm K41},T_{\rm dec}]$, suppressed as $M^{4}$ by
+  Eq.~\eqref{eq:decay-amplitude}), which costs $24$ decades of ordinate. The
+  deep dives of the Gaussian-cutoff kernels leave the frame by design and
+  carry no information: the $\hat\tau=100$ burst reaches $10^{-277}$ before the
+  triangle inequality terminates it. Dots mark peaks, the dotted grey line is
+  the causal $p^{3}$ reference, and the annotations give the measured infrared
+  slope, the ultraviolet behaviour and the peak of the $\hat\tau=1$ curve.
+  Generated by \texttt{Notebooks/kernel\_comparison\_grid.py}.}
+  \label{fig:kernel_comparison_grid}
+\end{figure}
+
+\clearpage
 \bibliography{bib}
 
 \end{document}
