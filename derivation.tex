@@ -107,7 +107,10 @@ simulation of the GW signal uses the correct one.
 A turbulent or magnetically turbulent early Universe radiates gravitational waves,
 and the shape of that background is one of the few observables that carries
 information about the fluid state of the plasma at the electroweak or QCD epoch
-\cite{Kosowsky:2001xp,Gogoberidze:2007an,Kahniashvili:2008pe,Caprini:2018mtu}. The question
+\cite{Kosowsky:2001xp,Gogoberidze:2007an,Kahniashvili:2008pe,Caprini:2018mtu};
+more broadly, a stochastic background is one of the few probes of the first second
+that is not screened by the photon last-scattering surface
+\cite{Maggiore:1999vm,Dent:2024bhi,Roshan:2024qnv}. The question
 has acquired an observational edge: pulsar-timing arrays now report evidence for a
 stochastic background in the nanohertz band \cite{NANOGrav:2023gor}, for which a
 cosmological turbulent source at the QCD epoch is among the candidate
@@ -117,7 +120,9 @@ millihertz band where an electroweak-scale source would peak
 capable of driving such turbulence rests on blazar observations
 \cite{Neronov:2010gir} and is bounded from above by the cosmic microwave background
 \cite{Paoletti:2022gsn}; the generation and subsequent evolution of such fields is
-reviewed in Refs.~\cite{Enqvist:1998fw,Durrer:2013pga,Subramanian:2015lua}.
+reviewed in Refs.~\cite{Enqvist:1998fw,Durrer:2013pga,Subramanian:2015lua}, with
+the QCD crossover a candidate epoch for their production
+\cite{Miniati:2017kah}.
 Turbulence is one of three
 sources a first-order transition is expected to produce, alongside bubble
 collisions and the longer-lived acoustic phase \cite{Hindmarsh:2013xza}; it is
@@ -231,14 +236,19 @@ the Reynolds stress,
   \label{eq:source-tt}
 \end{equation}
 with $w=\bar\rho+\bar p$ the enthalpy density, $P_{ij}=\delta_{ij}-\khat_i\khat_j$,
-and $\Lambda$ the TT projector. The double TT projection together with the
-Gaussian (Wick) reduction of the quartic velocity correlator collapses the
+and $\Lambda$ the TT projector. In the magnetohydrodynamic case the same
+expression holds with the Reynolds stress replaced by, or added to, the Maxwell
+stress $B_iB_j$; the conditions under which the primordial plasma admits an MHD
+description are set out in Ref.~\cite{Son:1998my}. The double TT projection together with the
+Gaussian (Wick) reduction of the quartic velocity correlator, the standard
+quasi-normal closure of homogeneous isotropic turbulence
+\cite{Batchelor:1953,MoninYaglom:1975,Pope:2000}, collapses the
 two-point function of \eqref{eq:source-tt} onto the contracted form
 $R_{ijij}=R_{ii}R_{jj}+\tfrac13 R_{ij}R_{ij}$ that appears in Eq.~\eqref{eq: main}.
 
-Turbulence acts on eddy-turnover times short compared with a Hubble time, so
-over the source lifetime we drop the expansion ($a\approx 1$, friction
-negligible) and Eq.~\eqref{eq:gw-wave} becomes, in Fourier space, a forced
+Turbulence acts on eddy-turnover times short compared with a Hubble time
+\cite{Kosowsky:2001xp,Caprini:2006jb}, so over the source lifetime we drop the
+expansion ($a\approx 1$, friction negligible) and Eq.~\eqref{eq:gw-wave} becomes, in Fourier space, a forced
 oscillator,
 \begin{equation}
   h_{ij}''(\kb,\tau) + k^2 h_{ij}(\kb,\tau) = 16\pi G\,\Pi_{ij}^{\rm TT}(\kb,\tau).
@@ -257,8 +267,9 @@ The retarded solution of Eq.~\eqref{eq:gw-osc} and its time derivative are
   \cos[k(\tau-\tau')]\,\Pi_{ij}^{\rm TT}(\kb,\tau').
   \label{eq:greens}
 \end{equation}
-With the Isaacson energy density $\rho_{\rm GW}=\langle\dot h_{ij}\dot h_{ij}\rangle/(32\pi G)$
-and the unequal-time correlator (UETC) of the TT stress,
+With the Isaacson energy density $\rho_{\rm GW}=\langle\dot h_{ij}\dot h_{ij}\rangle/(32\pi G)$,
+valid for wavelengths short compared with the background curvature scale
+\cite{Maggiore:2007}, and the unequal-time correlator (UETC) of the TT stress,
 \begin{equation}
   \langle\Pi_{ij}^{\rm TT}(\kb,\tau_1)\,\Pi_{ij}^{\rm TT*}(\kb',\tau_2)\rangle
   = (2\pi)^3\,\delta^{(3)}(\kb-\kb')\,\Pi(k;\tau_1,\tau_2),
@@ -267,6 +278,7 @@ and the unequal-time correlator (UETC) of the TT stress,
 inserting \eqref{eq:greens} and averaging the product
 $\cos[k(\tau-\tau_1)]\cos[k(\tau-\tau_2)]\to\tfrac12\cos[k(\tau_1-\tau_2)]$ over
 the fast GW oscillations gives the master formula
+\cite{Kosowsky:2001xp,Caprini:2006jb,Gogoberidze:2007an}
 \begin{equation}
   \frac{d\rho_{\rm GW}}{d\ln k}
   \simeq \frac{2G\,k^3}{\pi}\!\int\! d\tau_1\!\int\! d\tau_2\,
@@ -862,8 +874,9 @@ subsonic flow is $\ll k$ for every $k\gtrsim k_0$. The source therefore has
 negligible temporal power at the frequency $\omega=k$ needed to radiate at
 wavenumber $k$, except at the lowest wavenumbers $k=\omega\lesssim M k_0$, and the
 spectrum is throttled down to $p_{\rm peak}\sim M$. This is the aeroacoustic
-(Lighthill) suppression of slow sources: subsonic turbulence radiates at its
-eddy-turnover frequency $\sim M k_0$, not at its spatial scale $k_0$. Whether the
+(Lighthill) suppression of slow sources \cite{Lighthill:1952,Proudman:1952}:
+subsonic turbulence radiates at its eddy-turnover frequency $\sim M k_0$, not at
+its spatial scale $k_0$. Whether the
 true peak follows this sweeping scale or remains pinned near $k_0$
 (Sec.~\ref{sec:mach-discussion}) is precisely the simulation--analytic tension
 this paper addresses; the stationary kernel commits unambiguously to the sweeping
@@ -1336,8 +1349,8 @@ rapidly-decorrelating (stationary) and slowly-decorrelating (decaying) limits; n
 idealization alone reproduces the inertial-range slope.
 
 \paragraph{Peak location.} The sharper discriminant is the peak. In the
-$\Omega_{\rm GW}=d\rho_{\rm GW}/d\ln k$ convention the simulated GW peak sits at
-$k_{\rm peak}\simeq1.84\,k_0$---\emph{above} the source scale, near $2k_0$, the ``twice
+$\Omega_{\rm GW}=d\rho_{\rm GW}/d\ln k$ convention the simulated GW peak of
+Ref.~\cite{RoperPol:2019wvy} sits at $k_{\rm peak}\simeq1.84\,k_0$---\emph{above} the source scale, near $2k_0$, the ``twice
 the source scale'' value expected when the quadratic stress autocorrelates a source
 peaked at $k_0$. Figure~\ref{fig:gw_peak_vs_mach} plots the GW peak against $M$ for both
 kernels together with the time-resolved simulation track: because the run is
@@ -1378,9 +1391,9 @@ amplitude, as the discriminant.
 
 \paragraph{Steady oscillatory state.} A caveat on what ``the'' spectrum means here. After the
 magnetic source decays, GW \emph{production} stops but the modes do not: each GW mode free-rings
-at its frequency, so the spectrum shown (theirs and ours) is a \emph{late-time time-average}
-over at least one oscillation period, once the energy fluctuates about a steady mean rather than
-growing. Our reanalysis makes this concrete
+at its frequency, so the spectrum shown (theirs \cite{RoperPol:2019wvy} and ours) is a
+\emph{late-time time-average} over at least one oscillation period, once the
+energy fluctuates about a steady mean rather than growing. Our reanalysis makes this concrete
 (Fig.~\ref{fig:roperpol_timeseries}b): $\Omega_{\rm GW,tot}$ becomes steady to $\pm4\%$ for
 $t>1.15$ while $\Omega_{\rm M,tot}$ is still falling. The stationary and decaying kernels of
 this paper both target this time-averaged steady state, not an instantaneous snapshot.
@@ -1609,7 +1622,9 @@ $[0,T_{\rm em}]$ would thus carry a $k^1$ sub-peak band; this is the regime in w
 treated as statistically stationary over a finite duration reproduces the simulated slope.
 
 \paragraph{Freely decaying turbulence does not realise it.} Self-similar decaying turbulence
-fails the coherent-\emph{and}-sustained condition. Its correlation time is the eddy-turnover
+---whose scaling laws in the early-Universe context were established in
+Refs.~\cite{Brandenburg:1996fc,Banerjee:2004df}---fails the
+coherent-\emph{and}-sustained condition. Its correlation time is the eddy-turnover
 (sweeping) time $\tau_c(k)=1/(\varepsilon^{1/3}k^{2/3})\propto1/(Mk^{2/3})$, fixed by the
 velocity and \emph{independent} of the decay time; Kolmogorov consistency
 ($\varepsilon\sim u^3/L\sim u^2/\tau_{\rm st}$) ties the decay time to the outer-scale eddy
