@@ -109,8 +109,8 @@ def main() -> None:
         pk = np.array([P_GRID[np.argmax(np.nan_to_num(data[(band, M)]))] for M in ms])
         ax.loglog(ms, pk, "o-", ms=3.5, lw=1.2, color=BAND_COLOR[band],
                   label=BAND_LABEL[band])
-    ax.loglog(ms, 1.47 * ms, ls=":", color="0.5", lw=1.0)
-    ax.text(1.6, 1.47 * 1.6 * 1.35, r"$1.47\,M$", fontsize=8, color="0.35",
+    ax.loglog(ms, 1.49 * ms, ls=":", color="0.5", lw=1.0)
+    ax.text(1.6, 1.49 * 1.6 * 1.35, r"$1.49\,M$", fontsize=8, color="0.35",
             ha="center")
     ax.set_xlabel(r"$M$")
     ax.set_ylabel(r"$p_{\rm peak}$")

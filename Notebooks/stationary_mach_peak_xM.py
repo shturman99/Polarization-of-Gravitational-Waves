@@ -1,10 +1,10 @@
 """stationary_mach_peak.py with the x-axis normalized by M (first power).
 
 Same two panels -- (a) absolute Omega_GW(p)=p^3 H(p,p), (b) M^3-compensated --
-but plotted against xi = p/M = k/(M k0).  Because p_peak ~ 1.47 M, every curve's
-peak lands at the same xi_* ~ 1.47 (vertical line); the M^3-compensated panel
+but plotted against xi = p/M = k/(M k0).  Because p_peak ~ 1.49 M, every curve's
+peak lands at the same xi_* ~ 1.49 (vertical line); the M^3-compensated panel
 then collapses the whole spectrum onto one universal curve A G(xi).
-A single dot per curve marks the measured peak; they stack on xi_* ~ 1.47.
+A single dot per curve marks the measured peak; they stack on xi_* ~ 1.49.
 """
 
 from __future__ import annotations
@@ -70,10 +70,10 @@ def main(name: str = "stationary_mach_peak_xM"):
         axB.loglog(ppk / M, ompk / M ** 6, "o", color=col, ms=4)
 
     for ax in (axA, axB):
-        ax.axvline(1.47, color="0.4", ls="--", lw=1.0)
+        ax.axvline(1.488, color="0.4", ls="--", lw=1.0)
         ax.set_xlabel(r"$\xi = p/M = k/(M k_0)$")
         apply_max_ticks(ax)
-    axA.text(1.47 * 1.15, 1e-12, r"$\xi_\ast\simeq1.47$", fontsize=8, color="0.3")
+    axA.text(1.488 * 1.15, 1e-12, r"$\xi_\ast\simeq1.49$", fontsize=8, color="0.3")
     axA.set_ylabel(r"$\Omega_{\rm GW}(p)\propto p^{3}H(p,p)$")
     axB.set_ylabel(r"$\Omega_{\rm GW}(p)/M^{6}$")
     axA.set_ylim(1e-13, 5.0 * max(specs[M][0].max() for M in MACH_LIST))

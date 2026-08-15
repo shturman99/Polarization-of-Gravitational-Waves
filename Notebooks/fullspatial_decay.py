@@ -29,7 +29,7 @@ Everything else (the geometric kernel, the x,y substitution, the triangle bounds
 the prefactor) is reused verbatim from core.
 
 MAIN RESULT.  Omega_GW(p) = p^3 H(p,p;M):
-  - stationary Kraichnan (Gaussian sweeping) kernel  -> peak at p = 1.47 M  (sweeping scale);
+  - stationary Kraichnan (Gaussian sweeping) kernel  -> peak at p = 1.49 M  (sweeping scale);
   - decaying BK2016 (power-law) kernel               -> peak at p ~ 2.4    (source scale),
     essentially M- and R-independent.
 The heavy frequency tail of the power-law decorrelation lets the GW spectrum extend
@@ -214,11 +214,11 @@ def _validate():
     for R in (1e3, 1e4, 1e5):
         print(f"    R={R:.0e}: p_peak={_peak(lambda p, M: omega_gw_decay(p, M, R), 1.0):.3f}")
 
-    print("\n(3) decaying (source-scale, M-indep) vs stationary (sweeping, ~1.47 M):")
-    print(f"    {'M':>5}{'p_dec':>9}{'p_stat':>9}{'1.47M':>8}")
+    print("\n(3) decaying (source-scale, M-indep) vs stationary (sweeping, ~1.49 M):")
+    print(f"    {'M':>5}{'p_dec':>9}{'p_stat':>9}{'1.49M':>8}")
     for M in (0.3, 0.5, 1.0, 2.0):
         print(f"    {M:5.1f}{_peak(lambda p, m: omega_gw_decay(p, m), M):9.3f}"
-              f"{_peak(lambda p, m: omega_gw_stat(p, m), M):9.3f}{1.47 * M:8.3f}")
+              f"{_peak(lambda p, m: omega_gw_stat(p, m), M):9.3f}{1.49 * M:8.3f}")
 
 
 def _tail_endpoint(q: float, tau1: float, tau2: float) -> float:
@@ -345,7 +345,7 @@ def _figure(name="fullspatial_decay_peak"):
     pstat = np.array([_peak(lambda p, m: omega_gw_stat(p, m), M) for M in Ms])
     ax1.plot(Ms, pdec, "o-", color=PALETTE[1], lw=1.8, ms=4, label=r"decaying (source scale)")
     ax1.plot(Ms, pstat, "s-", color=PALETTE[0], lw=1.8, ms=4, label=r"stationary (sweeping)")
-    ax1.plot(Ms, 1.47 * Ms, ":", color="0.4", lw=1.3, label=r"$p=1.47\,M$")
+    ax1.plot(Ms, 1.49 * Ms, ":", color="0.4", lw=1.3, label=r"$p=1.49\,M$")
     ax1.set_xlabel(r"Mach number $M$")
     ax1.set_ylabel(r"peak $p_{\rm peak}$")
     ax1.set_title("GW peak: pinned vs.\\ sweeping", fontsize=10)

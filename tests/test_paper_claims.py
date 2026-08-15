@@ -11,7 +11,7 @@ recomputed here.  Coverage:
                               H_full(R_IR=1) == core.H_pq; exact M^4 factorisation.
   * physics interpretation  : causal k^3 infrared of both kernels; data k^1 (not k^3);
                               fluid k^4 -> k^-5/3; GW UV ~ k^-11/3.
-  * Mach dependence         : stationary peak ~1.47 M; decaying peak ~2.4 (M-indep);
+  * Mach dependence         : stationary peak ~1.49 M; decaying peak ~2.4 (M-indep);
                               IR amplitude M^4 (decaying) vs M^3 (stationary);
                               peak amplitude steeper (~M^5.3).
   * data-derived claims     : k0, GW peak ~1.84 k0 (above source), Omega_M, UV bracket,
@@ -203,13 +203,22 @@ def test_coherence_ratio_controls_aeroacoustic_IR_slope():
 # =================================================================================
 # 3. MACH-NUMBER DEPENDENCE
 # =================================================================================
-def test_stationary_peak_scales_as_1p47_M():
+def test_stationary_peak_scales_as_xistar_M():
+    """p_peak = xi_* M with xi_* = 1.488 (Notebooks/stationary_peak_analysis.py).
+
+    The bounds are deliberately tight.  Before the erfc correction to
+    core.integrand_y this constant read 1.47, and the previous bounds
+    (1.30 < A < 1.65) passed at *both* values, so the test could not see the
+    drift.  On this M-grid -- which runs up to M = 1, where the law is already
+    bending over towards the source scale -- the measured prefactor is 1.5256
+    and the exponent 1.0129; the deep-subsonic limit of p_peak/M is 1.482.
+    """
     Ms = np.array([0.3, 0.5, 0.7, 1.0])
     pk = np.array([_peak(lambda p: p ** 3 * stat_H(p, M), 0.05, 4.0) for M in Ms])
     n = _powerlaw_exp(Ms, pk)
     A = float(np.exp(np.polyfit(np.log(Ms), np.log(pk), 1)[1]))
-    assert 0.9 < n < 1.1, f"exponent {n}"
-    assert 1.30 < A < 1.65, f"prefactor {A}"
+    assert 0.98 < n < 1.05, f"exponent {n}"
+    assert 1.49 < A < 1.57, f"prefactor {A}"     # excludes the pre-erfc 1.47/1.48
 
 
 def test_decaying_peak_is_M_independent_near_2p4():

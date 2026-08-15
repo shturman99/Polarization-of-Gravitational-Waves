@@ -21,9 +21,12 @@
 \usepackage[normalem]{ulem}
 \newif\ifreviewmarkup\reviewmarkuptrue
 \ifreviewmarkup
-  \newcommand{\add}[1]{\textcolor{red}{#1}}
-  \newcommand{\del}[1]{\textcolor{red}{\sout{#1}}}
-  \newcommand{\why}[1]{\textcolor{red}{\footnotesize\textsf{[#1]}}}
+  %%% \color rather than \textcolor: \textcolor's argument is not \long, so an
+  %%% \add{...} spanning more than one paragraph (Sec.~\ref{sec:ir-branch} does)
+  %%% aborts the run with "Paragraph ended before \@textcolor was complete".
+  \newcommand{\add}[1]{{\color{red}#1}}
+  \newcommand{\del}[1]{{\color{red}\sout{#1}}}
+  \newcommand{\why}[1]{{\color{red}\footnotesize\textsf{[#1]}}}
 \else
   \newcommand{\add}[1]{#1}
   \newcommand{\del}[1]{}
@@ -874,7 +877,7 @@ $T_{ij}\sim u_i u_j$, and for a velocity field concentrated at the stirring scal
 $k_0$ one expects the stress---and hence the radiation---to peak near $k\sim k_0$,
 with spatial support extending to at most $k=2k_0$ by the triangle inequality. We
 show here that the analytic peak is fixed instead by the \emph{temporal}
-(sweeping) decorrelation, giving $p_{\rm peak}\simeq1.47\,M$, and that the
+(sweeping) decorrelation, giving $p_{\rm peak}\simeq\add{1.49}\,M$, and that the
 ``$k\simeq2k_0$'' expectation is approached only as $M\to1$ (the luminal limit)
 and is never reached for physical subsonic or transonic turbulence.
 
@@ -927,13 +930,19 @@ $\xi_\ast$ independent of $M$. Reading the peak directly from each computed
 spectrum (Fig.~\ref{fig:peak_analysis}c; sub-grid argmax, no model fit) gives a
 location linear in $M$ across the entire physical range,
 \begin{equation}
-  p_{\rm peak}\;=\;1.48\,M^{1.00}\qquad(M\lesssim1),
+  p_{\rm peak}\;=\;1.515\,M^{1.007}\qquad(M\lesssim1),
   \label{eq:peak-fit}
 \end{equation}
-with $\xi_\ast=1.47$ read from the collapsed shape, consistent with
-Eq.~\eqref{eq:peak-condition}. Only as $M\to1$ (the luminal ceiling) does the peak
+with $\xi_\ast=\add{1.488}$ read from the collapsed shape, consistent with
+Eq.~\eqref{eq:peak-condition}.
+\why{the erfc correction to the kernel moves this constant and its whole family:
+$\xi_\ast=1.47\to1.488$, the fit $1.48M^{1.00}\to1.515M^{1.007}$, and the two
+end-points below; every occurrence in the text, the figures and the generating
+scripts has been updated together, and the value is quoted as $1.49\,M$ wherever
+the law rather than the fit is meant}
+Only as $M\to1$ (the luminal ceiling) does the peak
 begin to run into the outer scale and the linear law saturate: $p_{\rm peak}/M$
-falls from $1.49$ at $M=1$ to $0.77$ at the formal $M=3.4$. Reaching the
+falls from $\add{1.53}$ at $M=1$ to $\add{0.744}$ at the formal $M=3.4$. Reaching the
 ``source-scale'' value $p\simeq2$ would require $M\simeq1.4$, i.e.\ $u_0\simeq1.4c$;
 the stationary sweeping peak therefore \emph{never} reaches the source scale for
 any physical (subluminal) turbulence, and is far below it throughout the subsonic
@@ -1002,7 +1011,7 @@ which is entangled with an acknowledged normalisation correction on the simulati
 (Sec.~\ref{sec:roperpol-compare}).
 
 \paragraph{Caveat: stationarity versus the simulated peak.}
-The scaling $p_{\rm peak}\simeq1.47\,M$ derived above is specific to
+The scaling $p_{\rm peak}\simeq\add{1.49}\,M$ derived above is specific to
 \emph{stationary}, continuously stirred turbulence, in which the source at scale
 $k$ carries temporal power only up to its eddy frequency $\eta_k$. Cosmological
 turbulence is not of this kind: it is sourced \emph{impulsively}---e.g.\ at a phase
@@ -1013,7 +1022,7 @@ at the outer scale $k_0$ than at $M k_0$, this broadband component pins the GW p
 near the \emph{spatial} stress scale, $p\sim1$--$2$, almost independently of $M$.
 This is what the direct simulations of \cite{RoperPol:2019wvy} display, and it is the
 spatial-scale picture of Sec.~\ref{sec:mach-discussion}. In the convention
-$M=u_0/c$ the sweeping peak $1.47M$ approaches the spatial band $p\sim1$--$2$ only
+$M=u_0/c$ the sweeping peak $\add{1.49}M$ approaches the spatial band $p\sim1$--$2$ only
 as $u_0\to c$, and would coincide with $p\simeq2$ only at the superluminal
 $M\simeq1.4$; the two predictions therefore \emph{diverge across the entire
 physical range} and converge only formally beyond the luminal limit
@@ -1079,7 +1088,7 @@ $\Omega_{\rm GW}$ by $M^3$) but keep the physical frequency $f\propto p$ on the
 abscissa. From Eq.~\eqref{eq:peak-OmegaHc},
 $h_c\,M^{-3/2}=\sqrt{p\,\widetilde H_{ijij}(p/M)}$, which is $M$-independent
 \emph{only} in the infrared, where $\widetilde H_{ijij}\!\to\!A$: the causal rises
-stack, but the peaks stay at their true frequencies $f_{\rm peak}=f_0\,(1.47\,M)$
+stack, but the peaks stay at their true frequencies $f_{\rm peak}=f_0\,(\add{1.49}\,M)$
 and \emph{slide} with $M$. This is the convention of the published strain plots
 (the $h_c\,M^{-3/2}$ ordinate of \cite{Gogoberidze:2007an}); it preserves the
 observable---where in the band each model peaks---needed to confront a detector.
@@ -1105,7 +1114,7 @@ argument.
 \begin{figure*}[ht]
   \centering
   \includegraphics[width=\textwidth]{stationary_peak_analysis}
-  \caption{Why the stationary GW spectrum peaks at $p\simeq1.47\,M$ rather than at
+  \caption{Why the stationary GW spectrum peaks at $p\simeq\add{1.49}\,M$ rather than at
   the source scale $p\sim2$, computed from
   $\Omega_{\rm GW}(p)=p^3H_{ijij}(p,p;M,R)$ [Eq.~\eqref{eq:Hijij-AppA-dimless},
   $R=10^4$]. (a)~Each spectrum (solid) follows its causal infrared asymptote
@@ -1113,9 +1122,9 @@ argument.
   switches on. (b)~Collapse: $\Omega_{\rm GW}/(M^3p^3)=H_{ijij}(p,p;M)/M^3$ versus
   $\xi=p/M$ falls on the single compensated kernel $\widetilde H_{ijij}(\xi)$ for
   every $M$, proving the cutoff depends only on $p/M$ [Eq.~\eqref{eq:peak-ansatz}];
-  the universal peak position is $\xi_\ast=1.47$.
+  the universal peak position is $\xi_\ast=\add{1.488}$.
   (c)~Peak location read directly from each computed spectrum (points) versus $M$:
-  a power law $p_{\rm peak}=1.48\,M^{1.00}$ (line) [Eq.~\eqref{eq:peak-fit}],
+  a power law $p_{\rm peak}=\add{1.515\,M^{1.007}}$ (line) [Eq.~\eqref{eq:peak-fit}],
   coincident with $\xi_\ast M$ (dashed), that bends below it toward the $p=2$
   source scale (dotted) only as $M\to1$ (the luminal limit; $M>1$ is superluminal).
   Generated by
@@ -1129,7 +1138,7 @@ argument.
   \caption{Single-variable collapse of the stationary spectrum on the
   sweeping-scaled wavenumber $\xi=p/M=k/(M k_0)$, computed from
   $\Omega_{\rm GW}(p)=p^3H_{ijij}(p,p;M,R)$ ($R=10^4$). (a)~Absolute spectra: the
-  peaks of all Mach numbers stack on the vertical line $\xi_\ast\simeq1.47$, only
+  peaks of all Mach numbers stack on the vertical line $\xi_\ast\simeq\add{1.49}$, only
   their amplitudes differ ($\propto M^3$). (b)~$M^{6}$-compensated spectra
   $\Omega_{\rm GW}/M^{6}$ versus $\xi$ collapse onto the single universal curve
   $\xi^3\widetilde H_{ijij}(\xi)$ of Eq.~\eqref{eq:M6-collapse}---infrared rise and
@@ -1201,7 +1210,7 @@ $\Omega_{\rm GW}(p)=p^3 H^{\rm decay}_{ijij}(p,p;M,R)$ peaks at
 essentially independent of both the Mach and the Reynolds number: the peak moves
 only from $2.29$ to $2.56$ as $M$ runs over $0.3$--$2$, and from $2.40$ to $2.60$
 as $R$ runs over $10^3$--$10^5$ (a peak set by the dissipation scale would scale as
-$R^{3/4}$). This is in sharp contrast to the stationary law $p_{\rm peak}=1.47\,M$
+$R^{3/4}$). This is in sharp contrast to the stationary law $p_{\rm peak}=\add{1.49}\,M$
 of Eq.~\eqref{eq:peak-fit}, which tracks the sweeping scale. The two are compared
 in Fig.~\ref{fig:fullspatial_decay}.
 
@@ -1304,7 +1313,7 @@ top-hat's $-0.98$, and $T\omega^{2}\to4.05$ against the $4/(\tau_c\omega^{2})$
 that the cusp of the \emph{squared} tent predicts. The consequence is
 Fig.~\ref{fig:finite-coherence}(d): the peak of the triangle-sourced spectrum
 stays between $p=1.3$ and $2.1$ as $\hat\tau$ runs over four decades, close to
-the $p\simeq2.4$ of the decaying kernel, while the sweeping law $1.47M$ falls
+the $p\simeq2.4$ of the decaying kernel, while the sweeping law $\add{1.49}M$ falls
 through four decades over the same range and predicts $p_{\rm peak}=0.037$ at
 $\hat\tau=100$, a factor $45$ below what is measured.
 
@@ -1335,7 +1344,7 @@ lag.
   inadmissible correlator, shown as a worked example.
   \emph{(c)}~Triangle-sourced spectra, positive at every $p$ and $\hat\tau$.
   \emph{(d)}~Peak position against $\hat\tau$, with the decaying kernel's
-  $p\simeq2.4$ (dotted) and the stationary sweeping law $1.47M=1.47\sqrt{2\pi}/
+  $p\simeq2.4$ (dotted) and the stationary sweeping law $\add{1.49}M=\add{1.49}\sqrt{2\pi}/
   \hat\tau$ (dot-dashed) for comparison. The triangle pins the peak at the source
   scale across four decades of coherence time; the sweeping law does not describe
   it. Produced by \texttt{Notebooks/finite\_coherence\_gw.py}.}
@@ -1369,7 +1378,7 @@ infrared prefactor, while the $M^{5\text{--}6}$ peak and energy steepening follo
 from the source-scale pinning acting on the $p/M$-dependent temporal weight---a
 mechanism already present in the quasi-stationary kernel, distinct from and prior to
 the finite-duration correction. (For reference the stationary peak amplitude scales
-similarly, $\sim M^{5.4}$, because its peak rides outward to $p=1.47M$; the amplitude
+similarly, $\sim M^{5.4}$, because its peak rides outward to $p=\add{1.49}M$; the amplitude
 discriminant between the two pictures is therefore the \emph{infrared} slope,
 $M^4$ versus $M^3$, not the peak height.)
 
@@ -1384,7 +1393,7 @@ $M^4$ versus $M^3$, not the peak height.)
   $p\simeq2$--$2.6$ (shaded) for both $M$, whereas the stationary peaks shift with
   $M$. (b)~Peak location versus $M$: the decaying peak is flat at
   $p_{\rm peak}\simeq2.4$ [Eq.~\eqref{eq:decay-peak}], while the stationary peak
-  follows $p_{\rm peak}=1.47\,M$ (dotted) until it saturates only as $M\to1$
+  follows $p_{\rm peak}=\add{1.49}\,M$ (dotted) until it saturates only as $M\to1$
   (the luminal limit).
   Computed with the full-spatial kernel via the FT-of-product
   Eq.~\eqref{eq:ft-of-product}; generated by
@@ -1445,7 +1454,7 @@ pinned at the source scale ($\simeq2.4\,k_0$) as $M(t)$ sweeps down rather than
 sliding along the sweeping law---a direct, time-domain discriminant between the
 two pictures. The decaying kernel pins the peak at
 $p_{\rm peak}\simeq2.4$ for every $M$ and passes through the simulation point; the
-stationary sweeping kernel instead gives $p_{\rm peak}\simeq1.47\,M$, which at the
+stationary sweeping kernel instead gives $p_{\rm peak}\simeq\add{1.49}\,M$, which at the
 simulation's Mach lies at $\simeq0.07\,k_0$, more than an order of magnitude below both
 the source scale and the data. This conclusion is robust to the uncertain effective
 Mach: across the \emph{entire} subsonic range $M<1$ the sweeping peak never reaches
@@ -1526,11 +1535,11 @@ dissipation-range effect on the GW spectrum.
   fixed. The scatter is the discrete-shell wavenumber resolution
   ($k_0$ at shells $\sim4$--$7$).
   \emph{(b)}~The same peak versus $M$: analytic decaying (source-scale, $\simeq2.4$)
-  and stationary (sweeping, $\simeq1.47\,M$) kernels, with the simulation
+  and stationary (sweeping, $\simeq\add{1.49}\,M$) kernels, with the simulation
   \emph{time-track} (points coloured by time) superposed. As the source decays the
   Mach number sweeps down through $M(t)\simeq0.04\to0.02$, yet the peak stays on the
   decaying branch at $\simeq2.4\,k_0$---roughly two orders of magnitude above the
-  sweeping prediction ($1.47M\sim0.03$) at the same $M$. The time evolution therefore
+  sweeping prediction ($\add{1.49}M\sim0.03$) at the same $M$. The time evolution therefore
   discriminates the two pictures directly: a sweeping peak would slide \emph{down} the
   black curve as $M(t)$ falls, whereas the simulated peak does not move.
   Generated by \texttt{Notebooks/gw\_peak\_vs\_mach.py}.}
@@ -1964,7 +1973,7 @@ asymptote, and none should be read as excluding it.
     \hline
     Gogoberidze 2007 \cite{Gogoberidze:2007an} & Gaussian, $\eta_k\propto k^{2/3}$  & $\sim M k_0$  & $k^3$ & steep ($\sim k^{-9/2}$) \\
     Kahniashvili 2008 \cite{Kahniashvili:2008pe} & Gaussian $+$ helical inverse cascade & $\to f_H$ (Hubble scale) & $k^3$  & Kolmogorov input \\
-    this paper  & Gaussian / power-law / self-similar decay & $1.47Mk_0$ / $2.4k_0$ & $k^3$ (causal)  & $k^{-5}$ / $k^{-8/3}$ \\
+    this paper  & Gaussian / power-law / self-similar decay & $\add{1.49}Mk_0$ / $2.4k_0$ & $k^3$ (causal)  & $k^{-5}$ / $k^{-8/3}$ \\
     Roper Pol 2020 \cite{RoperPol:2019wvy} & freely decaying & $2k_0$ & $k^1$ & $k^{-8/3}$ \\
     \hline\hline
   \end{tabular}
@@ -2168,7 +2177,7 @@ by the energy-containing modes on their respective sides of $k_0$. The cross ter
 is not negligible near the peak, where at $p\simeq0.5$ the full run exceeds the sum
 of the two single-band runs by $46\%$, which is why the full-spectrum peak ($p=0.66$, amplitude
 $4.14\times10^{-4}$) is not the sum of the inertial-only peak ($p=0.74$,
-$2.57\times10^{-4}$, i.e.\ the $1.47M$ sweeping scaling) and the Batchelor-only
+$2.57\times10^{-4}$, i.e.\ the $\add{1.49}M$ sweeping scaling) and the Batchelor-only
 peak ($p=0.47$, $5.16\times10^{-5}$). The practical consequence for
 Sec.~\ref{sec:principal-discrepancy} is a negative one and worth stating plainly:
 no choice of fluid infrared slope, and no widening of the infrared band, can bend
@@ -2252,7 +2261,7 @@ $M^3$ prefactor of Eq.~\eqref{eq:Hijij-AppA-dimless}---compensating by $M^{3}$
 flattens it to $13\%$ ($k^4$ band) and $19\%$ ($k^{-5/3}$ band) across two
 decades of $M$---and the peak follows the sweeping law, at
 $p_{\rm peak}\simeq1.5\,M$ for the inertial band, which is the
-$1.47\,M$ of Eq.~\eqref{eq:peak-fit} recovered from that band alone, and at a
+$\add{1.49}\,M$ of Eq.~\eqref{eq:peak-fit} recovered from that band alone, and at a
 slightly lower $p_{\rm peak}\simeq1.1\,M$ for the Batchelor band.
 
 The two bands part company only where kinematics intervenes. Above $M\simeq1$
@@ -2277,7 +2286,7 @@ is therefore a property of the sweeping model, not of the source spectrum.
   and from the Kolmogorov $k^{-5/3}$ band alone, at $M=0.03,0.1,0.3,1,3$
   (increasing shade); dotted line $p^3$. The infrared exponent is
   $M$-independent for both bands; the amplitude and the peak are not.
-  \emph{(c)}~Peak position against $M$, with the $1.47\,M$ sweeping law of
+  \emph{(c)}~Peak position against $M$, with the $\add{1.49}\,M$ sweeping law of
   Eq.~\eqref{eq:peak-fit} dotted. The inertial band reproduces it; the
   Batchelor band tracks a slightly lower $1.1\,M$ and saturates above
   $M\simeq1$, where the sweeping scale meets the kinematic ceiling $p\le2$ that
@@ -2567,7 +2576,7 @@ Table~\ref{tab:temporal-catalogue} and hence the ultraviolet behaviour follow.
     $T\gtrsim80$~TeV &
     driven, $\tau_{\rm st}\to\infty$ &
     $T_{\rm sw}$ (quasi-stationary) &
-    The one genuinely stationary case; sweeping peak $1.47M$ \\
+    The one genuinely stationary case; sweeping peak $\add{1.49}M$ \\
   PT magnetic fields \cite{Kahniashvili:2009mf} &
     EW, QCD &
     $\tau_A$; single injection &
@@ -3533,7 +3542,7 @@ the uncorrected kernel disagreed with its own limit by up to $8\%$.}
   \label{A:IRK41}
 \end{equation}
 \begin{equation}
-  p_{\rm peak}=1.47\,M
+  p_{\rm peak}=1.49\,M
   \label{A:peakK41}
 \end{equation}
 
@@ -4759,11 +4768,23 @@ display the ratio rather than the eight individual heatmaps.
   \caption{Model A/B ratio of the peak GW frequency,
   $\log_{10}(f_{\rm peak}^{A}/f_{\rm peak}^{B})$, on the $(\tau_\ast,M_0)$ plane
   for the four BK2016 self-similar decay classes (HD Loitsiansky $q=2/7$,
-  $\beta=4$; HD Saffman $q=1/3$, $\beta=3$; nonhelical MHD $q=1/2$, $\beta=1$;
-  helical MHD $q=2/3$, $\beta=0$). Each panel is flat: the ratio is independent
+  $\beta=4$; \add{the HD class realised in the simulations of
+  Ref.~\cite{Brandenburg:2016odr}} $q=1/3$, $\beta=3$; \add{nonhelical MHD
+  $q=4/9$, $\beta=3/2$, the Hosking-integral class}; helical MHD $q=2/3$,
+  $\beta=0$).
+  \del{HD Saffman $q=1/3$, $\beta=3$; nonhelical MHD $q=1/2$, $\beta=1$;}
+  \why{the caption still documented the superseded $q=1/2$, $\beta=1$ magnetic
+  class that the code no longer plots, and named the $\beta=3$ panel ``Saffman'',
+  which it is not ($\beta=2$, $q=2/5$)}
+  Each panel is flat: the ratio is independent
   of $(\tau_\ast,M_0)$, fixed only by the kernel shapes, with the per-class value
   $\langle f_A/f_B\rangle$ annotated. Model A (random-phase) peaks below Model B
-  (coherent eddy) everywhere; the HD classes show the larger offset.}
+  (coherent eddy) everywhere.
+  \add{The offsets group as $0.37$, $0.36$, $0.40$, $0.78$: three classes
+  together and helical MHD apart, not HD against MHD.}
+  \del{; the HD classes show the larger offset}
+  \why{the old clause restated the HD-versus-MHD split that the text two
+  paragraphs above now explicitly retracts}}
   \label{fig:f_peak_model_ratio}
 \end{figure*}
 \section{Differences among the models}
@@ -4833,7 +4854,7 @@ magnitude by $q=4$.
 The peak is the one property neither axis owns outright, which is why it has
 been the most contested quantity in the literature. With $T_{\rm sw}$ the
 spectrum is cut off at the sweeping frequency and the peak sits at
-$p\simeq1.47M$ (measured $1.53$ at $M=1$), \emph{below} the source scale for
+$p\simeq\add{1.49}M$ (measured $1.53$ at $M=1$), \emph{below} the source scale for
 subsonic turbulence. With $T_{\rm dec}$ the heavy tail survives past that
 cutoff, and the peak is instead pinned by the spatial structure at
 $p\simeq2.3$, essentially independent of $M$ (measured $2.32$ for
@@ -4891,7 +4912,7 @@ the amplitude, that carries the information.
 already in the literature, and neither is ours. Gogoberidze et al.\
 \cite{Gogoberidze:2007an} state that the peak frequency scales linearly with the
 characteristic velocity, i.e.\ $f_{\rm peak}\propto Mk_{0}$---our stationary row,
-of which the coefficient $1.47$ of Sec.~\ref{sec:peak-location} is a
+of which the coefficient $\add{1.49}$ of Sec.~\ref{sec:peak-location} is a
 quantitative refinement. Auclair et al.\ \cite{Auclair:2022jod} find instead that the
 peak is pinned to the integral scale independently of the velocity---our
 decaying and impulsive rows. What appears not to have been said is that the two
@@ -4919,7 +4940,7 @@ Lighthill's eighth-power law \cite{Lighthill:1952} ($P\propto U^{8}$, fixed
 velocity and geometry) and Proudman's \cite{Proudman:1952}
 ($P\propto\rho\varepsilon M^{5}$, isotropic turbulence at fixed dissipation
 rate) differ in what is held fixed---the same ambiguity that flips our own peak
-scaling between $1.47M$ at fixed $k_{0}$ and $1.47/M^{2}$ at fixed $\varepsilon$.
+scaling between $\add{1.49}M$ at fixed $k_{0}$ and $\add{1.49}/M^{2}$ at fixed $\varepsilon$.
 More pointedly, Proudman's $M^{5}$ rests on \emph{neglecting retarded-time
 differences}, replacing the retarded covariance of the stress by the simultaneous
 one---that is, on treating the source as temporally coherent---and Lilley
@@ -4947,7 +4968,7 @@ therefore no harder than the Gaussian ones.
   \hline
   Kernel & IR slope & Peak $p$ & UV & Positive & Literature counterpart \\
   \hline
-  $H[S_{\rm K41},T_{\rm sw}]$   & $3.00$ & $1.47M$ & super-exp & yes & Gogoberidze et al.~\cite{Gogoberidze:2007an} \\
+  $H[S_{\rm K41},T_{\rm sw}]$   & $3.00$ & $\add{1.49}M$ & super-exp & yes & Gogoberidze et al.~\cite{Gogoberidze:2007an} \\
   $H[S_{\rm K41},T_{\rm dec}]$  & $2.97$ & $2.32$ & $\omega^{-2}$ & yes & Roper Pol et al.~\cite{RoperPol:2019wvy} (peak) \\
   $H[S_{\delta k},T_{\rm sw}]$  & $2.00$ & cutoff & none & yes & --- \\
   $H[S_{\delta k},T_{\rm dec}]$ & $1.97$ & cutoff & none & yes & --- \\

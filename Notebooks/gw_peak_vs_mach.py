@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 r"""GW spectral peak frequency vs Mach number: Roper Pol (source-scale, ~2 k0) vs
-Gogoberidze (sweeping, ~1.47 M).
+Gogoberidze (sweeping, ~1.49 M).
 
 Omega_GW(p) = p^3 H(p,p) = drho_GW/dln k.  We locate its peak p_peak=k_peak/k0 for
   - decaying (BK2016 power law, fullspatial_decay.H_decay_fast)  -> Roper-Pol picture
@@ -10,7 +10,7 @@ as a function of M.
 RESULT (verified):
   decaying  : p_peak ~ 2.4  (~2x the source scale k0), essentially M-INDEPENDENT
               -> matches the Roper Pol "GW peak at twice the source scale".
-  stationary: p_peak ~ 1.47 M -- RISES with M, staying BELOW the 2k0 (Roper Pol) line
+  stationary: p_peak ~ 1.49 M -- RISES with M, staying BELOW the 2k0 (Roper Pol) line
               for all subsonic M and below the source scale k0 itself for M<0.7
               (the sweeping cutoff p~M suppresses the peak as M drops).
 """
@@ -93,7 +93,7 @@ def main(name="gw_peak_vs_mach"):
     axb.plot(Ms, p_dec, "o-", color=PALETTE[1], lw=1.8, ms=4,
              label=r"decaying kernel ($\simeq2.4$)")
     axb.plot(Ms, p_stat, "s-", color=PALETTE[0], lw=1.8, ms=4,
-             label=r"stationary $\simeq1.47\,M$")
+             label=r"stationary $\simeq1.49\,M$")
     sc = None
     for r in ("ini2", "ini3"):
         t, M, ratio = tracks[r]
@@ -122,8 +122,8 @@ def main(name="gw_peak_vs_mach"):
         t, M, ratio = tracks[r]
         g = M > 5e-3
         print(f"  {r}: M(t) {M[g].min():.3f}-{M[g].max():.3f}, peak/k0 "
-              f"median {np.median(ratio[g]):.2f} (decaying 2.4; sweeping 1.47M="
-              f"{1.47*np.median(M[g]):.2f})")
+              f"median {np.median(ratio[g]):.2f} (decaying 2.4; sweeping 1.49M="
+              f"{1.49*np.median(M[g]):.2f})")
     return out
 
 

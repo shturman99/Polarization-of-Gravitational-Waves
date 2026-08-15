@@ -45,3 +45,8 @@ src/outputs/*.npz
 *.vrb
 Notebooks/roperpol_ini2_data/
 Notebooks/roperpol_runs_data/
+
+# local build/venv artefacts
+.venv/
+.buildlog.*
+build/

@@ -180,8 +180,8 @@ def main() -> None:
               label="top-hat (unphysical)")
     ax.axhline(2.4, color="0.45", ls=":", lw=1.0)
     ax.text(0.02, 2.7, r"decaying kernel, $p\simeq2.4$", fontsize=7.5, color="0.35")
-    ax.loglog(THATS, 1.47 * SQRT2PI / np.array(THATS), ls="-.", color="0.6", lw=0.9)
-    ax.text(0.02, 1.47 * SQRT2PI / 0.02 * 0.25, r"sweeping, $1.47M$",
+    ax.loglog(THATS, 1.49 * SQRT2PI / np.array(THATS), ls="-.", color="0.6", lw=0.9)
+    ax.text(0.02, 1.49 * SQRT2PI / 0.02 * 0.25, r"sweeping, $1.49M$",
             fontsize=7.5, color="0.4")
     ax.set_xlabel(r"$\hat\tau=\tau_ck_0$")
     ax.set_ylabel(r"$p_{\rm peak}$")

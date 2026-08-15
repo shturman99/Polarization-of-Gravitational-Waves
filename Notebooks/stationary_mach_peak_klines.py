@@ -10,7 +10,7 @@ on the p = k/k0 axis:
 It prints, for each M, the peak p_peak and the two ratios
   p_peak / (M^3 k0)   and   p_peak / (M k0),
 so you can read directly which normalization makes the peak M-independent.
-Spoiler from p_peak ~ 1.47 M: /(M^3 k0) = 1.47/M^2 (NOT constant); /(M k0) = 1.47.
+Spoiler from p_peak ~ 1.49 M: /(M^3 k0) = 1.49/M^2 (NOT constant); /(M k0) = 1.49.
 """
 
 from __future__ import annotations

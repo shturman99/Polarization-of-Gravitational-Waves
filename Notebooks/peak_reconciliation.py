@@ -1,7 +1,7 @@
 """Reconciliation: stationary (sweeping) peak vs impulsive (source-scale) peak.
 
 Resolves the apparent contradiction between Gogoberidze (2007) / this work --
-stationary turbulence, GW peak at p ~ 1.48 M, well below the outer scale for
+stationary turbulence, GW peak at p ~ 1.515 M, well below the outer scale for
 subsonic flow -- and the Roper Pol et al. (2020) simulations, whose GW spectrum
 peaks near the source scale (p ~ 1-2), nearly independent of the flow speed.
 
@@ -17,7 +17,7 @@ labelled band so it cannot be mistaken for either our analytic curve or real dat
 
 Convention: M = u0/c (Gogoberidze), so the transonic point u0 = c_s = c/sqrt(3)
 is at M = 1/sqrt(3) ~ 0.58 and the luminal ceiling u0 = c is at M = 1; M > 1 is
-superluminal and unphysical for a relativistic plasma. The sweeping peak 1.47 M
+superluminal and unphysical for a relativistic plasma. The sweeping peak 1.49 M
 enters the source-scale band [1,2] only at M ~ 0.68-1.36, i.e. near or beyond the
 luminal limit, so the two pictures DIVERGE across the entire physical range and
 converge only formally. Current simulations are deeply subsonic (M ~ 0.05), the

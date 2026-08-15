@@ -13,18 +13,18 @@ Re-expressed in an M-independent physical wavenumber kappa = k/eps,
 
     kappa = p k0 / eps = p / M^3            (set eps = 1 as the wavenumber unit)
 
-the kernel peak p_peak = k_peak/k0 = 1.47 M maps to
+the kernel peak p_peak = k_peak/k0 = 1.49 M maps to
 
-    kappa_peak = 1.47 M / M^3 = 1.47 / M^2,
+    kappa_peak = 1.49 M / M^3 = 1.49 / M^2,
 
 i.e. the GW peak moves to LOWER physical frequency as M grows -- the opposite
-direction to the fixed-k0 plot, where it scales as 1.47 M.
+direction to the fixed-k0 plot, where it scales as 1.49 M.
 
 Panels:
   (a) peak-normalized spectra Omega_GW/Omega_peak vs kappa = k/eps = p/M^3;
-      the peaks march to lower kappa (~1.47/M^2) as M increases.
-  (b) the measured peak location vs M in both frames: fixed-eps (1.47/M^2,
-      down) and the old fixed-k0 law (1.47 M, up).
+      the peaks march to lower kappa (~1.49/M^2) as M increases.
+  (b) the measured peak location vs M in both frames: fixed-eps (1.49/M^2,
+      down) and the old fixed-k0 law (1.49 M, up).
 """
 
 from __future__ import annotations
@@ -79,7 +79,7 @@ def main(name: str = "stationary_fixed_epsilon"):
     fig, (axA, axB) = plt.subplots(1, 2, figsize=(8.0, 3.7), constrained_layout=True)
 
     # ---- (a) peak-normalized spectra on the physical axis kappa = k/eps ------
-    print(f"{'M':>8} {'p_peak':>10} {'kappa_peak':>12} {'1.47/M^2':>10}")
+    print(f"{'M':>8} {'p_peak':>10} {'kappa_peak':>12} {'1.49/M^2':>10}")
     for c, M in enumerate(MACH_SPEC):
         col = PALETTE[(c + 1) % len(PALETTE)]
         om = omega_gw(PS, M)
@@ -87,7 +87,7 @@ def main(name: str = "stationary_fixed_epsilon"):
         ppk, ompk = refined_peak(PS, om)
         axA.loglog(kappa, om / ompk, color=col, lw=1.6, label=rf"$M={M:g}$")
         axA.loglog(ppk / M ** 3, 1.0, "o", color=col, ms=4)
-        print(f"{M:8.3f} {ppk:10.4f} {ppk / M ** 3:12.4f} {1.47 / M ** 2:10.4f}")
+        print(f"{M:8.3f} {ppk:10.4f} {ppk / M ** 3:12.4f} {1.49 / M ** 2:10.4f}")
 
     axA.set_xlabel(r"$\kappa = k/\varepsilon = p/M^{3}$")
     axA.set_ylabel(r"$\Omega_{\rm GW}/\Omega_{\rm peak}$")
@@ -110,12 +110,12 @@ def main(name: str = "stationary_fixed_epsilon"):
 
     axB.loglog(scan_M, kappa_peak, "o", color=PALETTE[6], ms=5,
                label=r"fixed $\varepsilon$: $\kappa_{\rm peak}=k_{\rm peak}/\varepsilon$")
-    axB.loglog(mline, 1.47 / mline ** 2, color=PALETTE[6], ls="--", lw=1.2,
-               label=r"$1.47\,M^{-2}$")
+    axB.loglog(mline, 1.49 / mline ** 2, color=PALETTE[6], ls="--", lw=1.2,
+               label=r"$1.49\,M^{-2}$")
     axB.loglog(scan_M, scan_p, "s", color=PALETTE[2], ms=4.5,
                label=r"fixed $k_0$: $k_{\rm peak}/k_0$")
-    axB.loglog(mline, 1.47 * mline, color=PALETTE[2], ls=":", lw=1.2,
-               label=r"$1.47\,M$")
+    axB.loglog(mline, 1.49 * mline, color=PALETTE[2], ls=":", lw=1.2,
+               label=r"$1.49\,M$")
     axB.set_xlabel(r"$M$")
     axB.set_ylabel(r"peak wavenumber")
     axB.set_title(r"(b) opposite trends in the two frames")
