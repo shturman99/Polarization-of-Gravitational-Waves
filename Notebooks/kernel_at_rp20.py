@@ -140,6 +140,32 @@ def _raw_parameters() -> dict:
     eavg = EGk[late].mean(0)
     m = (kk >= 1.0) & (kk <= 6.5) & (eavg > 0)
     ir = float(np.polyfit(np.log(kk[m]), np.log(kk[m] * eavg[m]), 1)[0])
+
+    # Which branch of Eq.(eq:window-factor) is each box mode in?  A mode in the
+    # k*Delta_eta << 1 branch saturates only when the SOURCE dies (a k-independent
+    # time); a mode in the k*Delta_eta >> 1 branch saturates after ~one of its own
+    # oscillations, i.e. at t - t0 ~ 1/k, while the source is still alive.  The
+    # measured saturation times below go as 1/k across the whole box, so every
+    # box mode is in the second branch -- which is the k^1 branch.
+    t0 = tG[0]
+    print("\n  [--raw] mode-by-mode GW saturation in run ini2:")
+    print(f"    {'shell':>6}{'k (Hubble)':>12}{'t_sat(90%)':>12}{'1/k':>10}"
+          f"{'t_sat*k':>10}")
+    for i in range(6):
+        y = EGk[:, i]
+        ts = float(tG[int(np.argmax(y >= 0.9 * np.median(y[late])))] - t0)
+        kh = float(kk[i]) * SHELL_TO_HUBBLE
+        print(f"    {i + 1:6d}{kh:12.0f}{ts:12.4f}{1.0 / kh:10.4f}{ts * kh:10.2f}")
+    print("    -> t_sat ~ 1/k, not a common k-independent time: every mode in the")
+    print("       box completes its oscillations while the source still lives.")
+    # The infrared slope in time: causal at switch-on, k^1 within ~0.02/H_*.
+    print(f"    {'t - t_0':>10}{'IR slope':>10}")
+    for tt in (0.000, 0.002, 0.005, 0.020, 0.100, 0.397):
+        j = int(np.argmin(np.abs(tG - t0 - tt)))
+        mm = (kk >= 1.0) & (kk <= 6.5) & (EGk[j] > 0)
+        s = float(np.polyfit(np.log(kk[mm]), np.log(kk[mm] * EGk[j][mm]), 1)[0])
+        print(f"    {tG[j] - t0:10.4f}{s:+10.3f}")
+
     return dict(
         k_box=float(kk[0]) * SHELL_TO_HUBBLE,
         k_nyq=float(kk[-1]) * SHELL_TO_HUBBLE,
@@ -271,9 +297,8 @@ def figure(par: dict, ps, om, slopes, thats, name="kernel_at_rp20"):
 
     apply_paper_style(grid=False)
     t_lo, t_hi = min(thats), max(thats)
-    col = {t_lo: PALETTE[6], t_hi: PALETTE[5]}
-    for t in thats:
-        col.setdefault(t, PALETTE[3])
+    col = {t: PALETTE[i] for t, i in
+           zip(thats, (6, 1, 3, 5, 2, 7))}
     meas = par["ir_slope_digitized"]
     pb, pn = par["p_box"], par["p_nyq"]
     lo, hi = par["p_fit_lo"], par["p_fit_hi"]
@@ -297,11 +322,13 @@ def figure(par: dict, ps, om, slopes, thats, name="kernel_at_rp20"):
         y = om[("eddy", t)]
         ax1.loglog(ps, y / y.max(), "-", color=col[t], lw=1.5,
                    label=rf"our kernel, $\tau_ck_0={t:.0f}$")
-    for power, span, off in ((3, (0.03, 0.16), 1.2), (1, (0.25, 0.85), 0.9)):
+    yc = om["coherent"] / om["coherent"].max()
+    for power, span, anchor, tpos in ((3, (0.03, 0.15), 2.0 * np.interp(0.03, ps, yc), 3.0),
+                                      (1, (0.25, 0.85), 0.30, 0.45)):
         pp = np.array(span)
-        anchor = np.interp(pp[0], pg, yd / yd.max()) * off
         ax1.loglog(pp, anchor * (pp / pp[0]) ** power, "--", color="0.45", lw=1.0)
-        ax1.text(np.sqrt(pp[0] * pp[1]), anchor * (pp[1] / pp[0]) ** power * 1.5,
+        ax1.text(np.sqrt(pp[0] * pp[1]),
+                 anchor * (np.sqrt(pp[1] / pp[0])) ** power * tpos,
                  rf"$p^{{{power}}}$", color="0.35", fontsize=11, ha="center")
     ax1.set_xlim(P_LO, 1.2 * pn)
     ax1.set_ylim(1e-8, 8.0)
@@ -319,27 +346,27 @@ def figure(par: dict, ps, om, slopes, thats, name="kernel_at_rp20"):
     ax2.axhline(meas, color=PALETTE[7], lw=1.6,
                 label=rf"measured $k^{{{meas:+.2f}}}$ (RP20 \texttt{{ini2}})")
     sd = _data_local_slope(kg, og)
-    ax2.semilogx(pg, sd, "-", color="0.0", lw=1.0, alpha=0.55,
+    ax2.semilogx(pg, sd, "-", color="0.0", lw=1.1, alpha=0.6,
                  label=r"local slope of the data")
-    ax2.semilogx(ps, slopes["coherent"], ":", color=PALETTE[1], lw=1.6,
+    ax2.semilogx(ps, slopes["coherent"], ":", color="0.35", lw=1.7,
                  label=r"no window (control) $\to p^{3}$")
     for t in thats:
-        ax2.semilogx(ps, slopes[("eddy", t)], "-", color=col[t], lw=1.5,
-                     label=rf"eddy lifetime, $\tau_ck_0={t:.0f}$")
+        ax2.semilogx(ps, slopes[("eddy", t)], "-", color=col[t], lw=1.4,
+                     label=rf"eddy $\tau$, $\tau_ck_0={t:.0f}$")
         ax2.axvline(np.pi / t, color=col[t], lw=0.9, ls="--", alpha=0.7)
     ax2.semilogx(ps, slopes[("global", t_lo)], "-.", color=col[t_lo], lw=1.0,
-                 alpha=0.8, label=rf"hard global lifetime, $\tau_ck_0={t_lo:.0f}$")
-    ax2.text(np.pi / t_hi * 1.06, -1.35, r"$p_{\rm break}=\pi/\tau_c$", fontsize=7.5,
+                 alpha=0.75, label=rf"hard global $\tau$, $\tau_ck_0={t_lo:.0f}$")
+    ax2.text(np.pi / t_hi * 1.10, -1.45, r"$p_{\rm break}=\pi/\tau_c$", fontsize=7.5,
              color="0.3", rotation=90, va="bottom")
-    ax2.set_xlim(P_LO, 1.2 * pn)
-    ax2.set_ylim(-1.5, 3.7)
+    ax2.set_xlim(P_LO, 20.0)
+    ax2.set_ylim(-1.6, 5.3)
     ax2.set_xlabel(r"$p=k/k_0$")
     ax2.set_ylabel(r"$d\ln\Omega_{\rm GW}/d\ln p$")
     ax2.set_title(r"(b) local slope; shaded = the box, dark = the fit band",
                   fontsize=11)
-    ax2.legend(frameon=False, fontsize=7.0, loc="lower left", ncol=2,
-               columnspacing=0.9)
-    apply_max_ticks(ax2, n=6)
+    ax2.legend(frameon=False, fontsize=7.0, loc="upper left", ncol=2,
+               columnspacing=1.0, handlelength=1.9)
+    ax2.set_yticks([-1.5, 0.0, 1.0, 2.0, 3.0])
 
     out = save_figure(fig, name)
     plt.close(fig)

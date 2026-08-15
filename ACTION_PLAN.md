@@ -182,7 +182,7 @@ days with a tool that is already written, and it does three things at once:
 
 | # | Task | Status |
 |---|---|---|
-| 0.11 | **ξ\* = 1.47 → 1.488**, and p_peak = 1.48 M^1.00 → **1.515 M^1.007** | **TODO — do first** |
+| 0.11 | **ξ\* = 1.47 → 1.488**, and p_peak = 1.48 M^1.00 → **1.515 M^1.007** | **DONE 2026-08-15** |
 
 The erfc correction moves the paper's most-quoted number. Scope: ~26 occurrences in
 `derivation.tex`, plus hardcoded guide lines in `stationary_fixed_epsilon.py`,
@@ -228,3 +228,55 @@ catch this drift.
 - Cross-reference each change against `REVIEW_2026-08-14.md`; do not re-introduce a claim
   a referee showed to be pre-empted (esp. Ω_T ∝ Ω_M, and "we show" for the white-noise floor).
 - Do **not** push to `main`. Commit to a branch `review-round-2` and open a PR.
+
+---
+
+## Round 2 — automated follow-up run, 2026-08-15 (branch `review-round-2`)
+
+Abort check passed: `REVIEW_2026-08-14.md` present, `bib.bib` at 88 entries.
+
+### Closed
+
+| # | Outcome |
+|---|---|
+| 0.11 | **ξ\* = 1.488**, fit **1.515 M^1.007**, 1.53 at M=1, 0.744 at M=3.37. 29 sites in `derivation.tex` (each inspected, none replaced blind) plus 8 scripts. Test renamed and tightened to `1.49 < A < 1.57` (measured 1.5256), which the old bounds could not catch. **Departure from the plan:** the fixed-ε form is **1.49/M²**, not the 1.53/M² predicted — 1.53 is the M=1 value, where the law has already begun to saturate; measured coefficient is 1.482–1.501 over M = 0.03–0.3. |
+| 1.12 | New paragraph in §V separating the two accounts: the build-up test measures the sharpness of the switch-**on**, the branch of `eq:window-factor` depends on the **length** of the window, and a source may do both. Explicitly does **not** claim to settle the coherence question — the build-up bound still points the other way, and that is stated. |
+| 1.13 | The plan's entry was itself stale: the prose had already been fixed and no live `0.83` survived. The real residual was the **figure caption**, which still documented the superseded q=1/2, β=1 class and mislabelled the β=3 panel "Saffman". Fixed, plus the closing clause that restated the retracted HD-vs-MHD split. |
+| 2.3 | New §`sec:k-break-hz`. **f_break = f_H / (2 τ̂_c)** — γ cancels. LISA Ω-minimum recomputed at **2.520 mHz**, factor-2 window **1.042–4.604 mHz** (strain minimum separately at 7.257 mHz), independently reproducing the earlier session's 2.52 mHz. Verdict: the break lies below LISA's window for an EW source in every corner but one. New `Notebooks/k_break_frequency.py`. |
+| 2.4 | Figure `ir_resolution` **does** test its caption: T_em = 40, T_em/τ_c = 40–4000, ωT_em = 2.4–18 across the fit band, which lies **above** the window break π/T_em = 0.079. It lies **below** the decorrelation break π/τ_c = 3.1, and that is the mechanism behind the null result — so the figure bounds the decorrelation time, not the duration. Both now reported in the text. |
+| 2.5 | New §`sec:kernel-at-rp20`, `Notebooks/kernel_at_rp20.py`. Parameters taken from their own Zenodo data (k_0 = 673, k_box = 129, R = 158, M = 0.043–0.060; GW peak 1.836 k_0 vs the 1.84 in §`sec:roperpol-compare`; IR slope +1.295 raw vs +1.298 digitised). **Honest result:** the kernel spans +0.57 to +1.59 over their fit band and the measured +1.30 is inside that span, but the manuscript's own lifetime closure gives **+0.70**, i.e. 0.6 too shallow. The residual is diagnosed as our *spatial* factor rolling over inside a fit band only 0.66 decades wide (the coherent control reads +2.709, and 1 − 0.291 = 0.709 reproduces the band slope to three decimals) — **not** the temporal model. Two clean results survive: the causal +3 is absent from the box even for an infinitely coherent source, and the break sits at or below the box floor. |
+
+### Partially closed
+
+| # | Outcome |
+|---|---|
+| 2.2 | **The paper's coefficient was wrong.** The two-leg rule (quadratic source ⇒ transform of the *squared* correlator, the same rule §`sec:ir-branch` applies correctly to the tent) gives f₂′(0⁺) = −2νk², hence **T → 4ν, not 2ν**. In the paper's variables the floor is **T̂ → 4M/R**, constant in p, reproduced to <0.5%. **This inverts the framing:** on the cone the sweeping factor is exp(−p^{2/3}/M²), so a p-independent floor does not sit *beneath* the cutoff — it replaces it, and the crossover falls *below* the sweeping peak for M ≲ 0.1, the regime cosmological flows occupy. Stated in the text with its limit made explicit: this is the temporal factor alone, and the full two-wavevector kernel is still not evaluated. `Notebooks/viscous_cusp_floor.py`. |
+
+### Defects found in the round-1 state
+
+1. **The committed manuscript did not build.** `\add{}` was defined through `\textcolor`, whose argument is not `\long`, so the multi-paragraph `\add{}` wrapping §V.A aborted `pdflatex` with *"Paragraph ended before `\@textcolor` was complete"*. Redefined via `\color`.
+2. **`Kraichnan:1959` was undefined** under a single bibtex pass: `derivationNotes.bib` stores footnote text containing `\cite`, so citations inside notes reach the `.aux` only after the `.bbl` has been typeset once. `build_derivation.sh` now runs bibtex twice and reports errors / undefined refs / undefined citations.
+3. **`bib.bib` carried a stray JSON error blob** — `{"message": "PIDDoesNotExistRESTError…", "status": 404}` — left between entries by round 1's automated bibliography tooling. Removed.
+4. **§V.A was inserted mid-way through a run of `\paragraph`s** belonging to §V's introduction, so seven of them ended up nested inside it, and the branch diagram answered a question posed three lines *after* it. Moved.
+5. **The abstract and Conclusion 5 still said the Pm omission was "acknowledged"** in `RoperPol:2025lgc` — the exact over-claim round 1's citation verification retracted and corrected in §VII only.
+6. **The introduction still asserted the Ω_T ∝ Ω_M localisation as ours**, and still carried the unqualified factorisation claim, after both had been dropped from the abstract and the conclusions.
+7. **Two different coefficients for the same break** (1/Δt in §`sec:cps-reproduction`, π/τ_c in §`sec:ir-branch`) with nothing relating them.
+
+### Numbers corrected (each reproduced from the generating script before applying)
+
+−4.75→**−4.73**; +0.974→**+0.970** (Mach exponent only — the +0.974 in `tab:ir-branch` is a different quantity); 1.9→**2.0**; 1.4→**1.49**; 0.67–1.35→**0.66–1.32**; 2.98–3.08→**2.99–3.06**; 13%/19%→**16.6%/14.0%** (ordering also inverts); band-split peak amplitudes 4.14/2.57/5.16→**3.96/2.43/5.48**; inertial-only IR slope 3.01→**3.00**; δ-control peaks 1.26/2.13→**1.37/2.50**; Batchelor peak at M=3 1.26→**1.33**.
+
+Two of the plan's "pre-existing inconsistencies" were **mis-diagnoses**: the 0.47/0.74 peaks are correct (they are the *sweeping* values; their δ-in-time partners were the stale ones), and "peak from 1.5 k₀ to k₀" is not reproducible in any single convention — it took its two ends from *different* conventions (1.55 is p³H, 1.01 is p²H). Also, the round-1 log's band-split slopes `+2.9963/+2.9979/+3.0073` do **not** reproduce; `band_split_gw.py` at its documented defaults gives **+3.005/+3.005/+3.016**.
+
+`tab:ir-branch` was re-verified in full and stands exactly (+3.000 IR; band +0.974/+0.995 global and +0.965/+0.996 eddy; coefficients 3.072 and 3.175 against π).
+
+### Not done
+
+- **3.1, 3.2, 3.3, 0.7, 0.8** — authorial, untouched. `main.tex` not edited, as instructed.
+- **2.6** (magnetic UETC from RP20 Zenodo data) — 1–3 weeks; not attempted.
+- **2.2 full-kernel evaluation** — see above.
+- **LISA noise-model citation.** Egress to `inspirehep.net` and `arxiv.org` is blocked by network policy on the machine this ran on, so a new bibliography entry could not be verified against a primary source. The noise model is written out in full in `Notebooks/k_break_frequency.py` and a `\why{}` note in §`sec:k-break-hz` asks the authors to add the reference. **Flagged rather than guessed.**
+- Two Tier-2 subagents were killed part-way by an org monthly spend limit; 2.2 and 2.4 were finished directly instead, which is why 2.2 is partial.
+
+**Build:** 73 pp, 0 errors, 0 undefined references, 0 undefined citations (`./build_derivation.sh`).
+**Tests:** 68 passed.
