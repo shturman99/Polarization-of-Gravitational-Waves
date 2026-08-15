@@ -110,6 +110,11 @@ from scipy import integrate, interpolate, special
 
 from .mpi import gather_grid, get_mpi_context, split_row_indices
 
+# NumPy 2.0 renamed ``np.trapz`` -> ``np.trapezoid`` and REMOVED the old name,
+# while the pinned requirements.txt version (1.26.4) only has ``np.trapz``.
+# Bind once so the module works on both.
+_trapz = getattr(np, "trapezoid", None) or np.trapz
+
 
 def _emit_status(status, message: str, *, force: bool = False) -> None:
     if status is None:
@@ -167,7 +172,11 @@ def integrand_y(y: float, x: float, p: float, q: float, M: float) -> float:
     pref = y**0.75 * s**(-0.5) * x**0.75
     bracket = kernel_bracket(p, x, y)
     expo = np.exp(-2.0 * x * y / s * q**2 / M**2)
-    erfc_factor = special.erfc(-np.sqrt(2.0) * q / (M * np.sqrt(s)))
+    # erfc argument carries the factor y = u^{-4/3}: without it the argument is
+    # dimensionally k^{4/3} rather than dimensionless.  Matches Eq.(A:AppA) of
+    # derivation.tex; the main-text Eq.(eq:Hijij-AppA) previously printed the
+    # unfactored form.  Fixed 2026-08-14 (task 0.5).
+    erfc_factor = special.erfc(-np.sqrt(2.0) * q * y / (M * np.sqrt(s)))
     return pref * bracket * expo * erfc_factor
 
 
@@ -361,7 +370,7 @@ def inner_integral_decaying(
                 for yy in y_values
             ]
         )
-        return float(np.trapz(values, y_values))
+        return float(_trapz(values, y_values))
     value, _ = integrate.quad(
         integrand_y_decaying,
         y_min,
@@ -451,7 +460,7 @@ def H_pq_decaying(
                 status,
                 f"  x-step {index + 1}/{len(x_values)} for p={p:.3e}, q={q:.3e}",
             )
-        value = float(np.trapz(x_integrand, x_values))
+        value = float(_trapz(x_integrand, x_values))
     else:
         value, _ = integrate.quad(outer_x, x_lo, x_hi, epsabs=epsabs, epsrel=epsrel, limit=80)
     result = _h_prefactor(p_floor, M, k0) * value

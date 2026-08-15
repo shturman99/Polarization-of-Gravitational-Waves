@@ -82,8 +82,11 @@ class DecayClass:
 
 CLASSES = [
     DecayClass("HD Loitsiansky",  beta=4.0, q=2.0 / 7.0),
-    DecayClass("HD Saffman",      beta=3.0, q=1.0 / 3.0),
-    DecayClass("nonhelical MHD",  beta=1.0, q=1.0 / 2.0),
+    # BK2016's simulated HD class; true Saffman scaling is beta=2, q=2/5.
+    DecayClass("HD (BK2016 obs.)", beta=3.0, q=1.0 / 3.0),
+    # Hosking-integral (Saffman helicity) class supersedes the <A_2D^2> class
+    # (beta=1, q=1/2) of BK2016; see Hosking & Schekochihin PRX 11 041005.
+    DecayClass("nonhelical MHD (Hosking)", beta=1.5, q=4.0 / 9.0),
     DecayClass("helical MHD",     beta=0.0, q=2.0 / 3.0),
 ]
 

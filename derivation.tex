@@ -11,6 +11,25 @@
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{comment}
+
+%%% ---- review-response markup (2026-08-14) -------------------------------
+%%% \add{...}  text added in response to the referee reports (red)
+%%% \del{...}  text removed in response to the reports (red, struck out)
+%%% \why{...}  short margin-free note naming the reviewer point addressed
+%%% Set \reviewmarkupfalse to compile a clean copy with all markup resolved.
+\usepackage{multirow}
+\usepackage[normalem]{ulem}
+\newif\ifreviewmarkup\reviewmarkuptrue
+\ifreviewmarkup
+  \newcommand{\add}[1]{\textcolor{red}{#1}}
+  \newcommand{\del}[1]{\textcolor{red}{\sout{#1}}}
+  \newcommand{\why}[1]{\textcolor{red}{\footnotesize\textsf{[#1]}}}
+\else
+  \newcommand{\add}[1]{#1}
+  \newcommand{\del}[1]{}
+  \newcommand{\why}[1]{}
+\fi
+%%% ------------------------------------------------------------------------
 % hyperref must be loaded last so it can patch the other packages cleanly.
 \usepackage{hyperref}
 
@@ -76,25 +95,48 @@ The gravitational-wave (GW) background sourced by turbulence in the early
 Universe is computed from three inputs: the spatial spectrum of the fluid, the
 unequal-time correlator (UETC) of the source, and the dissipation physics that
 terminates the cascade. We show that these three inputs are not on an equal
-footing, and that the pipeline separates cleanly: the infrared slope is fixed by
-the spatial model alone, the ultraviolet by the temporal model alone, and only
-the peak responds to both. Two consequences follow. First, the causal infrared
+footing, and that the pipeline separates in its \emph{asymptotes}: the strict
+$k\to0$ infrared slope is fixed by the spatial model alone, the ultraviolet by the
+temporal model alone, and every intermediate feature---the peak and the break
+alike---responds to both. Two consequences follow. First, the causal infrared
 $\Omega_{\rm GW}\propto k^{3}$ is a property of the \emph{quadratic} source and
 not of the fluid spectrum: it survives changing the infrared slope of the input,
-its bandwidth, the Mach number, the choice of temporal model, and the removal of
-the temporal sector altogether. We demonstrate this with a band-split experiment
-in which the Kolmogorov range alone---an input with identically zero infrared
-power---still radiates a clean $k^{3}$. The long-standing $k^{3}$-versus-$k^{1}$
-tension between analytic predictions and simulations therefore cannot be resolved
-on the spatial axis, and we localise it instead to a single assumption,
-$\Omega_{T}\propto\Omega_{M}$, which the self-convolution of the stress forbids.
+its bandwidth, the Mach number, the choice of stationary temporal model, and the
+removal of the temporal sector altogether. That the stress self-convolution floors at white
+noise is known \cite{Caprini:2006jb,Caprini:2009fx,Brandenburg:2019uzj}; we verify
+it \add{through the gravitational-wave kernel rather than the estimate
+$\Omega_{\rm GW}\propto F(k)/k^{2}$, and with the temporal sector retained, which
+Ref.~\cite{Brandenburg:2019uzj} explicitly sets aside}, by a band-split experiment in
+which the Kolmogorov range alone---an input with identically zero infrared
+power---still radiates a clean $k^{3}$.
+\del{by a sharper test,} The $k^{3}$-versus-$k^{1}$ tension between analytic predictions and
+simulations therefore cannot be resolved on the spatial axis.
+\del{We localise it instead to a single assumption, $\Omega_{T}\propto\Omega_{M}$,
+which the self-convolution of the stress forbids.}
+\why{removed: pre-empted by RoperPol:2019wvy/Sharma:2022ysf and retracted by our own
+Sec.~V; replaced with the band statement below}
+\add{It is not a
+disagreement about physics but about band: $k^{3}$ is the asymptotic law and
+$k^{1}$ the finite-duration regime above the break $k_{\rm br}\simeq1/\delta t$
+\cite{Caprini:2009fx,RoperPol:2022iel,RoperPol:2023dzg} \add{(for a source shorter than
+a Hubble time; for a longer one the linear regime begins at $\mathcal{H}_\ast$ and the
+transition is logarithmic)}, and every accessible band lies on the $k^{1}$ side.}
 Second, the displacement of the GW peak to the source scale requires only that the
 source correlator have a kink at zero time lag, a condition met by any source with
-a finite lifetime and not specific to any decorrelation model. We close by arguing
+a finite lifetime and not specific to any decorrelation model; all cusped
+correlators collapse onto a single prediction, so the only question is
+differentiability at zero lag. This is conditional on a measurement not yet made:
+the hydrodynamic UETC is Gaussian \cite{Auclair:2022jod}, and the magnetic
+\emph{anisotropic-stress} UETC of a decaying, magnetically dominated cosmological source
+has not been measured. Eulerian space--time correlations of forced MHD turbulence
+\emph{have} been measured \cite{Perez:2020}, and they favour sweeping---which would
+give $f'(0^{+})=0$ and hence tell against the cusp. We close by arguing
 that the remaining freedom in the pipeline lies almost entirely in the third
 input: the dissipation microphysics of the early Universe is neither
 Navier--Stokes nor unit magnetic Prandtl number, and no existing calculation or
-simulation of the GW signal uses the correct one.
+simulation of the GW signal uses the correct one---an omission acknowledged in the
+field's own review of the relevant magnetohydrodynamics \cite{RoperPol:2025lgc}. We
+identify that gap and set out how to close it, but do not close it here.
 \end{abstract}
 
 \maketitle
@@ -135,7 +177,7 @@ that sets where the cascade terminates. The literature has treated these three
 very unequally: the spatial spectrum is argued over in detail, the temporal
 correlator has been modelled by a coherent (separable) kernel
 \cite{Caprini:2006jb,Caprini:2009yp}, by Kraichnan's random-sweeping
-approximation \cite{Kraichnan:1959,Kraichnan:1965,Kraichnan:1977,Gogoberidze:2007an},
+approximation \cite{Kraichnan:1964,Tennekes:1975,He:2017,Gogoberidze:2007an},
 and most recently measured directly in simulations \cite{Auclair:2022jod}; whereas
 dissipation is almost universally reduced to a single number $\nu$ entering
 through a cutoff wavenumber whose precise form is then argued to be unimportant
@@ -359,13 +401,47 @@ function is taken to be. We use four:
   \item $T_{\rm sw}$: Kraichnan sweeping, a \emph{Gaussian} in the time
     difference, $f(\tau)=\exp(-\tfrac{\pi}{4}\eta_k^2\tau^2)$ with
     $\eta_k\propto\varepsilon^{1/3}k^{2/3}$;
-  \item $T_{\rm dec}$: BK2016 decaying turbulence, a \emph{power law}
+  \item $T_{\rm dec}$: decaying turbulence following Brandenburg \&
+    Kahniashvili (BK2016) \cite{Brandenburg:2016odr}, a \emph{power law}
     $f(\tau)=(1+|\tau|/\tau_k)^{-2/3}$;
   \item $T_{\rm imp}$: impulsive, $\delta$-correlated in time
     (Sec.~\ref{sec:impulsive});
-  \item $T_{\rm burst}$: a source of finite duration $\Delta t$
-    (Sec.~\ref{sec:burst}).
+  \item $T_{\rm burst}$: \add{a finite memory time $\Delta t$, independent of $k$
+    ---equivalently a source held coherent over a window of that length---with the
+    triangular lag correlator
+    $f(\tau)=(1-|\tau|/\Delta t)\Theta(\Delta t-|\tau|)$} (Sec.~\ref{sec:burst}).
 \end{itemize}
+
+\add{\paragraph{What the two axes do \emph{not} contain: the emission window.}
+Both axes describe the source \emph{field}---$S$ its equal-time spatial correlator,
+$T$ its dependence on the time \emph{lag}---and neither says how long the source acts.
+The standard formulation keeps the two apart: the unequal-time correlator is an
+envelope in the mean time multiplying a stationary correlator in the lag, and the
+duration enters only as the limits of the double time integral
+\cite{Caprini:2009fx,RoperPol:2022iel,RoperPol:2023dzg,Stomberg:2025kxf}. Duration is
+therefore a third specification, not a third value of $T$.
+We nevertheless keep $T_{\rm burst}$ on the temporal axis, because in the one case
+where duration acts alone---a fixed spatial pattern switched on for a time $\Delta
+t$---the two descriptions coincide identically:
+\begin{equation}
+  2\!\int_{0}^{\infty}\!\!d\tau\,\cos(\omega\tau)
+  \Bigl(1-\frac{|\tau|}{\Delta t}\Bigr)\Theta(\Delta t-|\tau|)
+  =\frac{4\sin^{2}(\omega\Delta t/2)}{\Delta t\,\omega^{2}}
+  =\frac{1}{\Delta t}\Bigl|\int_{0}^{\Delta t}\!\!d\eta\,e^{i\omega\eta}\Bigr|^{2}.
+  \label{eq:burst-equals-triangle}
+\end{equation}
+The window factor Eq.~\eqref{eq:window-factor} \emph{is} the temporal factor of an
+admissible stationary correlator of memory $\Delta t$---admissible because the triangle
+is the autocorrelation of the switched-on box---up to the normalisation $\Delta t$,
+which belongs to the amplitude. Two consequences follow. First, the two powers a finite
+window removes are a \emph{band} effect, not a change of the infrared asymptote: the
+left-hand side tends to the constant $\Delta t$ as $\omega\to0$ and reaches
+$2/(\Delta t\,\omega^{2})$ only for $\omega\Delta t\gg1$. Second, the window is not a new
+mechanism: by Eq.~\eqref{eq:cusp-tail} it is the universal $-2f'(0^{+})/\omega^{2}$ tail
+with $f'(0^{+})=-1/\Delta t$, and all that distinguishes $T_{\rm burst}$ from
+$T_{\rm dec}$ is that its coherence time is independent of $k$
+(Table~\ref{tab:timescales}).}
+\why{Referee C: duration filed as a UETC made the grid look self-contradictory}
 
 \paragraph{Notation.} We write the resulting dimensionless kernel as
 \begin{equation}
@@ -500,7 +576,8 @@ Using the Gaussian-erfc identity (Eq.~A.1 of \cite{Gogoberidze:2007an}, $\int_0^
   \int_{\max(|k_1-k|,k_0)}^{\min(k_1+k,k_d)}\!\!du\,u^{-10/3}\,(k_1^{-4/3}+u^{-4/3})^{-1/2}\nonumber\\
   &\quad\times\Bigl[27-\tfrac{k^2}{k_1^2}-\tfrac{k^2}{u^2}+\tfrac{k^4}{2k_1^2u^2}+\tfrac{k_1^2}{2u^2}+\tfrac{u^2}{2k_1^2}\Bigr]
   \exp\!\Bigl(-\tfrac{2\varepsilon^{-2/3}\omega^2}{k_1^{4/3}+u^{4/3}}\Bigr)
-  \operatorname{erfc}\!\Bigl(-\tfrac{\sqrt{2}\,\varepsilon^{-1/3}\omega}{(k_1^{-4/3}+u^{-4/3})^{1/2}}\Bigr).
+  \operatorname{erfc}\!\Bigl(-\tfrac{\sqrt{2}\,\varepsilon^{-1/3}\omega\,
+  \add{u^{-4/3}}}{(k_1^{-4/3}+u^{-4/3})^{1/2}}\Bigr).
   \label{eq:Hijij-AppA}
 \end{align}
 $k_0$ is the outer scale and $k_d$ the dissipation scale; the integration window collapses near the boundaries of the inertial range. This integral is finite as $k\to 0$.
@@ -1186,7 +1263,14 @@ Eq.~\eqref{eq:cusp-tail} poses: does the true unequal-time correlator of a freel
 decaying, genuinely non-stationary flow carry a $|\tau|$ kink at zero lag? The sweeping
 literature says no for the short-lag Eulerian correlation; whether the secular decay of
 the amplitude contributes one is, to our knowledge, unsettled, and the source-scale peak
-of Sec.~\ref{sec:decaying-peak} should be read as conditional on it.
+of Sec.~\ref{sec:decaying-peak} should be read as conditional on it. Two qualifications
+cut the other way, and both favour the cusp. Ref.~\cite{Auclair:2022jod} reports that its
+simulated spectra are reproduced by a source held constant in time and switched off
+abruptly after a few turnover times---a hard finite lifetime, which is precisely the
+mechanism of the next paragraph; and Ref.~\cite{RoperPol:2022iel} obtains the
+source-scale peak from exactly that constant-in-time assumption. The measurement that
+would settle it is of the \emph{magnetic} UETC, which has not been made:
+Ref.~\cite{Auclair:2022jod} measures the hydrodynamic one.
 
 \paragraph{A hard finite lifetime supplies the same cusp---and the same peak.}
 The condition Eq.~\eqref{eq:cusp-tail} imposes is weaker than the BK2016 power
@@ -1195,7 +1279,9 @@ source that is simply coherent for a time $\tau_c$ and gone afterwards. The
 na\"ive encoding, a top-hat $f(\tau)=\Theta(\tau_c-|\tau|)$, is not admissible:
 being idempotent it is its own square, and its transform
 $T(\omega)=2\sin(\omega\tau_c)/\omega$ changes sign, so it violates Bochner's
-theorem---a correlation function must have a non-negative transform---and
+theorem \cite{MoninYaglom:1975}---a correlation function must have a non-negative
+transform; positive-definiteness of the UETC as a modelling constraint, and the
+Gibbs kernel as an admissible choice, are due to Ref.~\cite{Auclair:2022jod}---and
 delivers a \emph{negative} gravitational-wave energy density over part of the
 spectrum, together with exact nulls at $\omega\tau_c=n\pi$. Measured on
 $\omega\tau_c\in(0,40]$ it is negative on $47\%$ of the axis, and the sourced
@@ -1598,9 +1684,100 @@ $k_0\sim10^2\,\mathcal H_\ast$ there is a band lying \emph{above} the analytic p
 $\sim Mk_0$ and \emph{below} the simulated peak $\simeq2k_0$---roughly
 $0.15$--$3\,$mHz---in which the analytic spectrum is already falling while the simulated one
 is still rising as $f^1$. The two predictions there have opposite \emph{sign} of slope, not
-merely different normalisations, and that decade is where LISA is most sensitive. (The rate
+merely different normalisations. That decade \add{overlaps LISA's region of best
+\emph{energy-density} sensitivity: with the standard instrument noise the minimum of
+$\Omega_{\rm sens}(f)$ lies near $2.5\,$mHz and stays within a factor of two of that
+minimum over $1.0$--$4.6\,$mHz. (The often-quoted $3$--$10\,$mHz is the minimum of the
+\emph{strain} sensitivity; the $f^{3}$ weighting moves the $\Omega$ minimum down.) The
+slope difference therefore bears on detectability and on reconstruction alike.} The
+stake is higher still for pulsar timing, whose band lies below the peak---by up to about
+two decades, though for the largest processed eddies it sits immediately below it
+\cite{RoperPol:2022iel}---and which therefore measures little but this tail.
+\why{Referee A said 3--10\,mHz; that is the strain minimum. Recomputed: $\Omega$ min
+$=2.52\,$mHz.}
+\del{That decade sits just below LISA's sensitivity minimum, which lies at 3--10 mHz, so
+the slope difference bears more on parameter reconstruction than on raw detectability.} (The rate
 at which the analytic prediction falls above its peak is model-dependent and is quoted
 inconsistently in the literature; only the sign of the slope is needed for the point.)
+
+\add{\subsection{The infrared branch diagram}
+\label{sec:ir-branch}
+
+The two branches can be exhibited directly rather than inferred. We evaluate the
+kernel with the triangular correlator
+$f(\tau)=(1-|\tau|/\tau_c)\Theta(\tau_c-|\tau|)$---the autocorrelation of a source
+switched on for a window $\tau_c$, and the admissible replacement for the top-hat---and
+measure the \emph{local} logarithmic slope $d\ln\Omega_{\rm GW}/d\ln p$ across eight
+decades of $p$, so that the predicted break is straddled on both sides.
+
+Because the stress is quadratic, the two-leg temporal factor is the transform of the
+\emph{squared} tent, whose one-sided slope at zero lag is $f'(0^{+})=-2/\tau_c$. The
+cusp theorem Eq.~\eqref{eq:cusp-tail} then gives $T\to4/(\tau_c\omega^{2})$ against
+$T(0)=2\tau_c/3$, so the two asymptotes cross at $\omega\tau_c=\sqrt{6}$, and the local
+slope passes through its midpoint where $1+\cos u=2\sin u/u$, i.e.\ at $u=\pi$ exactly.
+The break therefore sits at
+\begin{equation}
+  k_{\rm break}=\pi/\tau_c,
+  \label{eq:k-break-pi}
+\end{equation}
+a factor $\pi$ above the naive $1/\tau_c$. Table~\ref{tab:ir-branch} bears this out:
+the measured coefficient converges to $3.07$ for a hard global lifetime and $3.17$ for
+the scale-dependent eddy lifetime, against $\pi=3.1416$.
+
+The infrared slope is $+3.000$ in every case, and the intermediate slope is $+0.974$ and
+$+0.995$ for $\hat\tau=10^{3}$ and $10^{4}$ ($+0.977$, $+0.996$ with the spatial factor
+divided out). Two caveats are worth stating plainly. The linear band is only
+\emph{resolved} once $\hat\tau\gtrsim10^{3}$: below that the break has not separated
+from the source-scale roll-over, and the fitted coefficient is contaminated by the peak.
+And the band is not a clean power law---the $\sin^{2}$ ringing of
+Eq.~\eqref{eq:window-factor} makes the local slope oscillate between $0.90$ and $1.25$
+about its mean. The peak itself stays at $p\simeq1.1$--$2.2$ throughout, confirming that
+this is the same mechanism as the source-scale pinning of
+Sec.~\ref{sec:decaying-peak}: one finite lifetime produces both.
+
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{@{}lccccc@{}}
+  \hline\hline
+  & $\hat\tau$ & IR slope & band slope & $p_{\rm break}\tau_c$ & peak \\
+  \hline
+  \multirow{3}{*}{global}
+    & $10^{2}$ & $+3.000$ & --- & $3.065$ & $1.29$ \\
+    & $10^{3}$ & $+3.000$ & $+0.974$ & $3.072$ & $1.28$ \\
+    & $10^{4}$ & $+3.000$ & $+0.995$ & $3.072$ & $1.29$ \\
+  \hline
+  \multirow{3}{*}{eddy}
+    & $10^{2}$ & $+3.000$ & --- & $3.150$ & $1.62$ \\
+    & $10^{3}$ & $+3.000$ & $+0.965$ & $3.172$ & $1.71$ \\
+    & $10^{4}$ & $+3.000$ & $+0.996$ & $3.175$ & $1.63$ \\
+  \hline\hline
+  \end{tabular}
+  \caption{Infrared branch diagram for a hard finite lifetime, from
+  \texttt{Notebooks/ir\_branch\_diagram.py}. ``global'' is
+  $\tau_1=\tau_2=\tau_c$, a scale-independent lifetime; ``eddy'' is
+  $\tau_i=\sqrt{x_i}/M$, the scale-dependent lifetime of
+  Sec.~\ref{sec:decaying-peak}. The band slope is quoted only where the break is
+  separated from the source scale by more than a decade. $p_{\rm break}\tau_c$ is to be
+  compared with $\pi=3.1416$, Eq.~\eqref{eq:k-break-pi}.}
+  \label{tab:ir-branch}
+\end{table}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\columnwidth]{ir_branch_diagram}
+  \caption{Local logarithmic slope of $\Omega_{\rm GW}$ against $p=k/k_0$ for the
+  triangular (finite-lifetime) correlator, at several $\hat\tau=\tau_ck_0$. The slope
+  sits at $3$ in the infrared and falls to $1$ above the break
+  Eq.~\eqref{eq:k-break-pi}; the residual oscillation about the linear band is the
+  $\sin^{2}$ ringing of the finite window, not noise. The linear band is resolved only
+  for $\hat\tau\gtrsim10^{3}$.}
+  \label{fig:ir-branch}
+\end{figure}
+
+This settles, in a controlled and reproducible way, what the retracted
+$\Omega_T\propto\Omega_M$ argument was reaching for: a temporal history \emph{can}
+produce $k^{1}$, over a band, without touching the $k\to0$ asymptote.}
+\why{Task 2.1 --- the figure both referees asked for}
 
 \paragraph{What finite duration can and cannot do.} The causal $k^3$ of
 Eq.~\eqref{eq:ir-causal} is the strict $k\to0$ asymptote and is unavoidable: the equal-time
@@ -1643,7 +1820,9 @@ $2.57$, $2.51$ for $\varepsilon_0=0,\,1,\,4$ [Fig.~\ref{fig:ir_resolution}]. The
 duration of a decaying source does not flatten the infrared.
 
 \paragraph{Roper Pol's own explanation, and a time-domain reconciliation.}
-The white-noise stress floor established above is exactly the explanation
+The white-noise stress floor established above---derived for stress spectra in
+Ref.~\cite{Brandenburg:2019uzj} and modelled through the stress evolution in
+Ref.~\cite{Sharma:2022ysf}---is exactly the explanation
 \cite{RoperPol:2019wvy} themselves give---the spectrum of $B^2$ ``can never be steeper than that
 of white noise''---and it accounts for the stress but not, by itself, for the gravitational
 waves: with $\Omega_{\rm T}\propto k^3$ the two response branches of
@@ -1900,8 +2079,13 @@ inertial range, a dynamic range of $10^{4}$--$10^{6}$ per dimension. The univers
 \cite{Cai:2019cdl} must accordingly be imported analytically and never expected from a
 measurement, and a simulated infrared slope should never be quoted as contradicting it: the
 two statements are made in disjoint bands of $k$, separated by
-Eq.~\eqref{eq:k-break}. (The estimate of $k_{\rm break}$ relative to $k_1$ is ours, from the
-published run parameters; it is not stated in \cite{RoperPol:2019wvy}.)
+Eq.~\eqref{eq:k-break}. (The break itself is not ours: Ref.~\cite{RoperPol:2022iel}
+derives $k_{\rm br}=1/\delta t_{\rm fin}$ and confirms it in simulations, and
+Ref.~\cite{RoperPol:2023dzg} obtains the same causal-to-linear transition in the
+sound-shell context. What we add is its numerical value \emph{relative to the box
+fundamental} for the runs of Ref.~\cite{RoperPol:2019wvy}, computed from the published
+run parameters, and the consequent observation that the causal band is absent from the
+box rather than merely under-resolved.)
 
 \begin{figure}[ht]
   \centering
@@ -1989,8 +2173,11 @@ peak ($p=0.47$, $5.16\times10^{-5}$). The practical consequence for
 Sec.~\ref{sec:principal-discrepancy} is a negative one and worth stating plainly:
 no choice of fluid infrared slope, and no widening of the infrared band, can bend
 the analytic $k^3$ towards the simulated $k^1$. The causal slope is a property of
-the quadratic source, and the discrepancy must be resolved on the temporal axis,
-not the spatial one.
+the quadratic source, and the discrepancy must be resolved through the source's
+\emph{temporal history}---specifically its finite duration, Eq.~\eqref{eq:window-factor}
+\cite{RoperPol:2022iel,RoperPol:2023dzg}---and not on the spatial axis. Note that
+duration is not a choice of stationary UETC; on that point see the corollary of
+Appendix~\ref{sec:model-differences}.
 
 \paragraph{The same two bands with the source fired at a single epoch.}
 Replace the sweeping correlation by a source that acts at one instant,
@@ -2100,6 +2287,329 @@ is therefore a property of the sweeping model, not of the source spectrum.
   decades of $M$. Produced by \texttt{Notebooks/band\_split\_mach.py}.}
   \label{fig:band-split-mach}
 \end{figure}
+\section{Temporal models for decaying turbulence: timescale regimes and cosmological relevance}
+\label{sec:temporal-regimes}
+
+The spatial axis is closed: no choice of $S$ moves the infrared
+(Sec.~\ref{sec:band-split}). Everything that distinguishes one predicted spectrum
+from another above the infrared therefore lives on the temporal axis. This section
+sets out, as a method rather than as a single model, how the temporal factor of a
+freely decaying, statistically homogeneous and isotropic source is constructed;
+classifies the possibilities by \emph{which physical timescale controls the
+decorrelation}; and asks which regime each early-Universe process actually
+realises. The four models $T_{\rm sw},T_{\rm dec},T_{\rm imp},T_{\rm burst}$ of
+Sec.~\ref{sec:model-space} are four entries in the resulting catalogue, not an
+exhaustive list.
+
+\subsection{Two-time structure of a decaying source}
+\label{sec:two-time}
+
+A decaying source is not stationary, so its UETC is not a function of the lag
+alone. Write the two times as a mean and a lag,
+$\bar t=\tfrac12(t_1+t_2)$, $\tau=t_1-t_2$, and split the correlator into an
+\emph{amplitude} and a \emph{decorrelation},
+\begin{equation}
+  \Pi(k;t_1,t_2)=\sqrt{P(k,t_1)\,P(k,t_2)}\;f(k;\bar t,\tau),
+  \qquad f(k;\bar t,0)=1 .
+  \label{eq:uetc-split}
+\end{equation}
+The two factors answer different questions: $P$ says how much stress there is at
+each instant, $f$ says how long it remembers itself. Only $f$ enters the temporal
+factor; $P$ sets the amplitude and the emission window.
+
+For self-similar decay the amplitude is carried by a single length and a single
+velocity,
+\begin{equation}
+  P(k,t)=u^{4}(t)L^{3}(t)\,\mathfrak{P}\!\left(kL(t)\right),\quad
+  L\propto(1+t/\tau_{\rm st})^{n_L},\quad
+  u\propto(1+t/\tau_{\rm st})^{-n_u},
+  \label{eq:selfsimilar-envelope}
+\end{equation}
+with $\tau_{\rm st}$ the decay time of the envelope. The exponents $n_L,n_u$ are
+not free: they are fixed by whichever integral invariant the decay conserves ---
+Loitsyansky \cite{Batchelor:1953}, Saffman \cite{Saffman:1967}, or, for
+non-helical MHD, the Hosking integral \cite{Hosking:2020wom,Hosking:2022umv},
+which supersedes the earlier $q=1/2$ magnetic class and is the invariant behind
+the resistively controlled decay of Ref.~\cite{Brandenburg:2024tyi}. The split Eq.~\eqref{eq:uetc-split} and the locally stationary approximation that
+follows are standard in this literature
+\cite{Caprini:2009yp,Auclair:2022jod,Stomberg:2025kxf}; we restate them only to fix
+notation. The kernels of Table~\ref{tab:model-grid} all assume the fast and slow
+times separate,
+\begin{equation}
+  \varepsilon_0(k)\equiv\frac{\tau_c(k)}{\tau_{\rm st}}\ll1
+  \;\Longrightarrow\;
+  f(k;\bar t,\tau)\simeq f(k;\tau),
+  \label{eq:quasi-stationary}
+\end{equation}
+so that the source is \emph{locally} stationary and the whole $\bar t$ dependence
+sits in the amplitude. Equation~\eqref{eq:quasi-stationary} is comfortably
+satisfied deep in the inertial range, where $\tau_c\propto k^{-2/3}$ falls while
+$\tau_{\rm st}$ is fixed, and is \emph{marginal at the outer scale}, where
+$\varepsilon_0=O(1)$: the energy-containing eddies decorrelate on the same
+timescale as the decay itself. This is the one place where the quasi-stationary
+construction is not controlled, and it is also the scale that sets the peak.
+
+Given $f$, the temporal factor is
+\begin{equation}
+  T(k,\omega)=2\!\int_{0}^{\infty}\!\!d\tau\,\cos(\omega\tau)\,f(k;\tau),
+  \label{eq:T-general}
+\end{equation}
+evaluated on the light cone $\omega=k$, and combined across the two legs of the
+convolution by the product rule of Eq.~\eqref{eq:ft-of-product}. The single
+structural fact that organises everything below is the cusp theorem
+Eq.~\eqref{eq:cusp-tail}: the large-$\omega$ behaviour of
+Eq.~\eqref{eq:T-general} is fixed by $f'(0^{+})$ alone, so a correlator that is
+smooth at zero lag is suppressed faster than any power, while any correlator with
+a kink there gives $T\to-2f'(0^{+})/\omega^{2}$.
+
+\subsection{The competing timescales}
+\label{sec:timescales}
+
+Which $\tau_c$ appears in Eq.~\eqref{eq:T-general} is a physical question, not a
+modelling convention. Table~\ref{tab:timescales} collects the candidates.
+
+\begin{table*}[ht]
+  \centering
+  \begin{tabular}{@{}p{0.11\textwidth} p{0.30\textwidth} p{0.10\textwidth} p{0.41\textwidth}@{}}
+  \hline\hline
+  Timescale & Definition & $k$-scaling & Physical origin \\
+  \hline
+  $\tau_{\rm sw}(k)$   & $1/(u_{\rm rms}k)$ & $k^{-1}$ &
+    Advection of a $k$-eddy past the observer by the energy-containing flow
+    \cite{Kraichnan:1964,Tennekes:1975,He:2017} \\
+  $\tau_{\rm eddy}(k)$ & $1/(k\,u_k)=\varepsilon^{-1/3}k^{-2/3}$ & $k^{-2/3}$ &
+    Local nonlinear turnover (Kolmogorov) \cite{Pope:2000,MoninYaglom:1975} \\
+  $\tau_A(k)$          & $1/(k\,v_A)$ & $k^{-1}$ &
+    Alfv\'en crossing; MHD counterpart of sweeping
+    \cite{Kraichnan:1965ik,Goldreich:1994zz,Schekochihin:2020aqu} \\
+  $\tau_\nu(k)$        & $1/(\nu k^{2})$ & $k^{-2}$ &
+    Diffusive momentum transport (short mean free path) \\
+  $\tau_\eta(k)$       & $1/(\eta k^{2})$ & $k^{-2}$ &
+    Resistive diffusion \\
+  $\tau_{\rm drag}$    & $1/\alpha_{\rm fs}$ & $k^{0}$ &
+    Free-streaming drag (long mean free path); \emph{not} diffusive
+    \cite{Jedamzik:1996wp,Subramanian:1997gi,Banerjee:2004df} \\
+  $\tau_{\rm st}$      & $L/u$ & $k^{0}$ &
+    Self-similar decay of the envelope, Eq.~\eqref{eq:selfsimilar-envelope} \\
+  $T_{\rm em}$         & Duration of active emission & $k^{0}$ &
+    Driving lifetime, or a Hubble time, whichever is shorter \\
+  $1/\omega$           & $1/k$ on the light cone & $k^{-1}$ &
+    The period the gravitational wave is sensitive to \\
+  \hline\hline
+  \end{tabular}
+  \caption{Candidate decorrelation timescales for a homogeneous isotropic source.
+  The $k$-scaling column is the discriminator: two mechanisms with the same value
+  at the outer scale but different exponents predict different ultraviolet
+  spectra. Note in particular that sweeping ($k^{-1}$) and turnover ($k^{-2/3}$)
+  are \emph{not} the same rate. The kernel of Sec.~\ref{sec:kraichnan-k41}
+  follows Ref.~\cite{Gogoberidze:2007an} in using
+  $\eta_k=\varepsilon^{1/3}k^{2/3}/\sqrt{2\pi}$, which is the turnover rate,
+  under the name ``sweeping''; the distinction is nominal only if one never
+  compares ultraviolet slopes. Ref.~\cite{Niksa:2018ofa} makes the same objection
+  and adopts the Eulerian $k^{-1}$ time for this reason.}
+  \label{tab:timescales}
+\end{table*}
+
+\subsection{Catalogue of temporal models}
+\label{sec:temporal-catalogue}
+
+Table~\ref{tab:temporal-catalogue} lists each decorrelation model together with
+the one number that fixes its ultraviolet behaviour. The pattern is uniform: the
+models divide into those with $f'(0^{+})=0$, which cut off super-polynomially,
+and those with a cusp, which all give the \emph{same} $\omega^{-2}$ tail and
+differ only in its coefficient.
+
+\begin{table*}[ht]
+  \centering
+  \begin{tabular}{@{}p{0.15\textwidth} p{0.21\textwidth} p{0.10\textwidth} p{0.10\textwidth} p{0.16\textwidth} p{0.20\textwidth}@{}}
+  \hline\hline
+  Model & $f(\tau)$ & $\tau_c$ & $f'(0^{+})$ & $T(\omega)$ & Status / where \\
+  \hline
+  Impulsive $T_{\rm imp}$ &
+    $\tau_0\,\delta(\tau)$ & $0$ & --- &
+    $\tau_0$ (const) &
+    Sec.~\ref{sec:impulsive} \\
+  Short-correlated (white) &
+    any, with $\omega\tau_c\ll1$ & $\tau_c(k)$ & --- &
+    $2\tau_c(k)$ &
+    Limit of every row below \\
+  Sweeping $T_{\rm sw}$ &
+    $\exp(-\tfrac{\pi}{4}\eta_k^{2}\tau^{2})$ & $1/\eta_k$ & $0$ &
+    $\tfrac{2}{\eta_k}e^{-\omega^{2}/\pi\eta_k^{2}}$ &
+    Gaussian cutoff; Sec.~\ref{sec:kraichnan-k41} \\
+  Exponential (Lagrangian) &
+    $e^{-|\tau|/\tau_e}$ & $\tau_e$ & $-1/\tau_e$ &
+    $\tfrac{2\tau_e}{1+\omega^{2}\tau_e^{2}}\to\tfrac{2}{\tau_e\omega^{2}}$ &
+    Cusped; not used above \\
+  Power law $T_{\rm dec}$ &
+    $(1+|\tau|/\tau_k)^{-2/3}$ & $\tau_k$ & $-\tfrac{2}{3\tau_k}$ &
+    $\to\tfrac{4}{3\tau_k\omega^{2}}$ &
+    BK2016; Sec.~\ref{sec:decaying-peak} \\
+  Finite lifetime $T_{\rm burst}$ &
+    $(1-|\tau|/\tau_c)\Theta(\tau_c-|\tau|)$ & $\tau_c$ & $-1/\tau_c$ &
+    $\to\tfrac{2}{\tau_c\omega^{2}}$ &
+    Autocorrelation of a box; Sec.~\ref{sec:burst} \\
+  Alfv\'enic &
+    $e^{-|\tau|/\tau_A}$, $\tau_A=1/(kv_A)$ & $1/(kv_A)$ & $-kv_A$ &
+    $\to\tfrac{2kv_A}{\omega^{2}}$ &
+    Cusped, but $\tau_c\propto k^{-1}$ \\
+  Hard cutoff (top hat) &
+    $\Theta(\tau_c-|\tau|)$ & $\tau_c$ & $0$ &
+    $2\sin(\omega\tau_c)/\omega$ &
+    \textbf{Inadmissible}: changes sign \\
+  Resistive envelope &
+    unchanged; acts on $P$, not $f$ & --- & --- & --- &
+    $\tau_{\rm st}\simeq{\rm Lu}^{1/4}\tau_A$ \cite{Brandenburg:2024tyi} \\
+  \hline\hline
+  \end{tabular}
+  \caption{Temporal models for a decaying homogeneous isotropic source. The
+  $f'(0^{+})$ column determines the ultraviolet by Eq.~\eqref{eq:cusp-tail} and
+  nothing else does: every cusped model gives $\omega^{-2}$, and the three
+  distinct-looking decaying models differ only in the coefficient. The top-hat
+  row is included because it is the intuitive way to say ``the source switches
+  off'', and it is not a correlation function: its transform changes sign, in
+  violation of Bochner's theorem \cite{MoninYaglom:1975}, giving negative GW energy
+  over roughly half the spectrum; positive-definiteness of the UETC was imposed as
+  a modelling constraint by Ref.~\cite{Auclair:2022jod}. Its admissible replacement is the triangle in the row above, which is
+  the autocorrelation of the switched-on box. The last row is not a
+  decorrelation model at all --- resistivity controls the decay of the
+  \emph{amplitude} $P$, so it changes the emission window and the normalisation
+  while leaving $T(\omega)$ untouched.}
+  \label{tab:temporal-catalogue}
+\end{table*}
+
+\subsection{Regime classification}
+\label{sec:temporal-regimes-class}
+
+Two dimensionless ratios sort the catalogue. The first is the number of source
+coherence times per gravitational-wave period, evaluated on the light cone,
+\begin{equation}
+  \mathcal{N}_\omega(k)\equiv\omega\tau_c(k)\big|_{\omega=k}=k\,\tau_c(k),
+  \label{eq:coherence-number}
+\end{equation}
+and the second is the number of independent samples the emission window contains,
+$\mathcal{N}_{\rm em}(k)\equiv T_{\rm em}/\tau_c(k)$. Then:
+
+\begin{itemize}\itemsep1pt
+  \item $\mathcal{N}_\omega\ll1$ (\emph{incoherent}). The source forgets itself
+    many times per wave period; $T\to2\tau_c(k)$ and all memory of the shape of
+    $f$ is lost. Only the $k$-dependence of $\tau_c$ survives, so
+    Table~\ref{tab:timescales} --- not Table~\ref{tab:temporal-catalogue} --- is
+    what matters in this regime.
+  \item $\mathcal{N}_\omega\sim1$ (\emph{transition}). The peak of
+    $\Omega_{\rm GW}$ sits here. Both axes contribute, which is why the peak is
+    the one feature that is not cleanly attributable to either.
+  \item $\mathcal{N}_\omega\gg1$ (\emph{coherent}). The wave resolves the
+    internal dynamics of the source and the cusp theorem takes over: smooth $f$
+    is exponentially suppressed, cusped $f$ leaves the universal
+    $\omega^{-2}$.
+\end{itemize}
+
+For $k\lesssim1/T_{\rm em}$ the quasi-stationary construction fails outright:
+the source cannot be resolved as stationary over a window shorter than the wave
+period, and the window itself, not $f$, shapes the response. Two cautions belong
+here. First, this is a \emph{band} effect confined to $k\lesssim1/T_{\rm em}$;
+the strict $k\to0$ limit remains the causal $k^{3}$ of
+Sec.~\ref{sec:cps-reproduction} for any admissible source, as it must
+\cite{Cai:2019cdl}. Second, whether the energy-containing modes actually stay
+coherent over $T_{\rm em}$ --- which is what would populate such an intermediate
+band --- is a dynamical question we have \emph{not} answered; imposing it as a
+free parameter is circular, and no calculation in this paper establishes it.
+
+\subsection{Relevance to early-Universe processes}
+\label{sec:cosmo-relevance}
+
+Table~\ref{tab:cosmo-relevance} maps the catalogue onto the processes that are
+actually invoked as GW sources. The column that does the work is the third: once
+the controlling timescale is identified, the row of
+Table~\ref{tab:temporal-catalogue} and hence the ultraviolet behaviour follow.
+
+\begin{table*}[ht]
+  \centering
+  \begin{tabular}{@{}p{0.17\textwidth} p{0.14\textwidth} p{0.19\textwidth} p{0.16\textwidth} p{0.28\textwidth}@{}}
+  \hline\hline
+  Process & Epoch & Controlling timescale & Temporal model & GW consequence and caveat \\
+  \hline
+  Preheating / parametric resonance \cite{Khlebnikov:1997di} &
+    end of inflation &
+    $T_{\rm em}\ll\tau_{\rm st}$; explosive, broadband &
+    $T_{\rm imp}$, $T_{\rm burst}$ &
+    Source-scale peak; ultraviolet inherited from the spatial spectrum \\
+  Bubble collisions, first-order PT \cite{Caprini:2018mtu,Huber:2008hg,Cutting:2018tjt} &
+    EW, QCD &
+    single crossing time $R_*/v_w$ &
+    $T_{\rm burst}$ &
+    Cusp supplied by the finite window; $\omega^{-2}$. \emph{In tension with}
+    the envelope-approximation $f^{-1}$ of Ref.~\cite{Huber:2008hg} \\
+  Sound waves \cite{Hindmarsh:2013xza,Hindmarsh:2017gnf,RoperPol:2023dzg} &
+    EW &
+    long-lived, but only where shocks form late \cite{Ellis:2020awk} &
+    coherent, $\mathcal{N}_\omega\gg1$ &
+    Longest-lived source; coherence is the whole amplitude story \\
+  Freely decaying HD turbulence \cite{Auclair:2022jod,Brandenburg:2016odr,Dahl:2024eup} &
+    post-PT &
+    $\tau_{\rm eddy}$, with $\varepsilon_0=O(1)$ &
+    $T_{\rm dec}$ &
+    Peak pinned at $p\simeq2.4$; Eq.~\eqref{eq:quasi-stationary} marginal.
+    Ref.~\cite{Auclair:2022jod} instead measures Gaussian sweeping \\
+  Decaying non-helical MHD \cite{Hosking:2020wom,Hosking:2022umv,Brandenburg:2024tyi} &
+    radiation era &
+    $\tau_A$ for $f$; ${\rm Lu}^{1/4}\tau_A$ for $P$, ${\rm Lu}=v_AL/\eta$ &
+    Alfv\'enic $+$ resistive envelope &
+    $\tau_c\propto k^{-1}$, not $k^{-2/3}$: a different ultraviolet \\
+  Helical MHD, inverse transfer
+    \cite{Christensson:2000sp,Brandenburg:2014mwa,Kahniashvili:2008pe} &
+    radiation era &
+    $\tau_A$ at a growing $L(t)$ &
+    $T_{\rm dec}$ with drifting $k_0$ &
+    Peak migrates with the source scale; coherence at $k_0$ \emph{unresolved} \\
+  Chiral plasma instability \cite{Joyce:1997uy,Brandenburg:1996fc} &
+    $T\gtrsim80$~TeV &
+    driven, $\tau_{\rm st}\to\infty$ &
+    $T_{\rm sw}$ (quasi-stationary) &
+    The one genuinely stationary case; sweeping peak $1.47M$ \\
+  PT magnetic fields \cite{Kahniashvili:2009mf} &
+    EW, QCD &
+    $\tau_A$; single injection &
+    $T_{\rm burst}\to T_{\rm dec}$ &
+    Burst then self-similar decay; two regimes in one history \\
+  Free-streaming epochs \cite{Jedamzik:1996wp,Banerjee:2004df} &
+    $\nu$, $\gamma$ decoupling &
+    $\tau_{\rm drag}\propto k^{0}$ &
+    modifies $\tau_c(k)$ &
+    Damping rate loses its $k$-dependence; cutoff is not Kolmogorov \\
+  \hline\hline
+  \end{tabular}
+  \caption{Early-Universe processes and the temporal regime each realises. Two
+  entries are worth isolating. The chiral instability is the only process in the
+  list that is genuinely \emph{driven} and therefore the only one for which the
+  stationary sweeping kernel of Sec.~\ref{sec:kraichnan-k41} is the appropriate
+  model rather than an approximation. Conversely, decaying MHD is the case most
+  often computed with that kernel and the one where it is least justified: the
+  Alfv\'enic correlation time scales as $k^{-1}$ rather than the $k^{-2/3}$
+  built into $\eta_k$, so the ultraviolet slope of a magnetically sourced
+  spectrum should not be read off the hydrodynamic kernel. Propagation-side
+  damping of the waves themselves \cite{Dent:2013asa} is a separate effect and is
+  not included in any row.}
+  \label{tab:cosmo-relevance}
+\end{table*}
+
+Three conclusions follow from the tables that are not visible from any single
+model. None is a new calculation; the tables are an organising device, and their
+value is in what the juxtaposition makes obvious. First, the ultraviolet slope is not a prediction of ``turbulence'' but of
+a choice between two exponents, $\tau_c\propto k^{-2/3}$ (hydrodynamic turnover)
+and $\tau_c\propto k^{-1}$ (sweeping, Alfv\'enic); most of the literature adopts
+the first even when modelling magnetic sources
+\cite{Gogoberidze:2007an,Kahniashvili:2008pe,Kahniashvili:2009mf}. The objection is
+not new---Ref.~\cite{Niksa:2018ofa} raises it and adopts the Eulerian $k^{-1}$ time
+for this reason---but it has not been acted on since. Second, all cusped models
+collapse onto one prediction, so effort spent discriminating among decaying
+correlators is misdirected --- the question that matters is only whether the
+correlator is differentiable at zero lag. Third, resistivity and viscosity enter
+this axis through the \emph{amplitude}, not the decorrelation, and therefore
+cannot affect the infrared at all; that is the subject of
+Sec.~\ref{sec:outlook}.
+
 \section{Outlook: the dissipation microphysics}
 \label{sec:outlook}
 
@@ -2150,10 +2660,22 @@ processes, and the resulting ${\rm Pm}$ exceeds unity by many orders of magnitud
 through the radiation era \cite{Banerjee:2004df,Durrer:2013pga}. The consequence is standard
 in the dynamo literature but has no counterpart here: above the kinetic viscous
 scale the velocity field is dead while the magnetic field continues to cascade,
-producing a broad \emph{subviscous} magnetic range \cite{Schekochihin:2020aqu}. Since
+producing a broad \emph{subviscous} magnetic range
+\cite{Kulsrud:1992rk,Schekochihin:2002xf,Schekochihin:2003bg,Schekochihin:2020aqu}. Since
 the GW source is the quadratic stress $B_iB_j$ and not the velocity, that range
 radiates. It is present in neither the analytic calculations, which stop at a single
-$k_d$, nor the simulations, which are all at ${\rm Pm}=1$.
+$k_d$, nor the \emph{gravitational-wave} simulations, which are all at
+${\rm Pm}=1$; high-${\rm Pm}$ MHD simulations exist
+\add{---Ref.~\cite{Schekochihin:2003bg} reaches ${\rm Pm}\simeq2500$ in three
+dimensions, while Ref.~\cite{Brandenburg:2024tyi} spans ${\rm Pm}\le5$ in 3D and
+${\rm Pm}\le100$ in 2D---}but have never been coupled to a GW calculation.
+\add{Free-streaming, separately, is explicitly set aside in the field's own review of
+the relevant magnetohydrodynamics \cite{RoperPol:2025lgc}, which notes that its effect
+on MHD has been studied elsewhere; that review does not treat the magnetic Prandtl
+number at all.}
+\del{The omission is acknowledged in the field's own review of the relevant
+magnetohydrodynamics.}
+\why{the review is declaring its scope, not conceding a gap, and has no Pm content}
 
 \paragraph{Why this is now the interesting input.} The axis-separation result makes
 the consequence predictable in kind if not in size. Dissipation is a spatial
@@ -2161,11 +2683,25 @@ modification of the source, so by Sec.~\ref{sec:band-split} it cannot alter the
 infrared slope---a subviscous magnetic tail will radiate its own $k^{3}$ like every
 other band. What it can change is the amplitude and, through the ultraviolet
 support of the convolution, the peak and the high-frequency tail. A subviscous range
-spanning several decades in $k$ is a large amount of stress that the current
+spanning several decades in $k$ is, on dimensional grounds, a large amount of stress
+that the current
 calculations discard, and its contribution is directly computable with the kernel of
 Sec.~\ref{sec:kraichnan-k41}: it amounts to replacing the shape factor
 $\mathcal{S}(k)$ of Eq.~\eqref{eq:full-input-spectrum} by one that continues past
-$k_d$.
+$k_d$. We stress that we have not performed that calculation, and one caution
+applies. \add{In the Kulsrud--Anderson picture \cite{Kulsrud:1992rk} the subviscous
+spectrum $M(k)\propto k^{3/2}K_0(k/k_\eta)$ places the bulk of the magnetic energy at
+the \emph{resistive} scale \cite{Schekochihin:2003bg}---far above $k_d$---so the
+additional stress enters the convolution in the deep ultraviolet, where the
+gravitational-wave response is smallest, rather than near the peak. That picture is
+moreover a velocity-driven dynamo regime, not the magnetically dominated decay relevant
+here, so the extrapolation is not automatic.} ``Several decades of $k$'' is a statement
+about bandwidth, not about energy, and the two must not be conflated until the integral
+is done.
+\del{the subviscous magnetic energy is concentrated near the resistive scale and is a
+modest fraction of the total, so the contribution could be small;}
+\why{corrected: the bulk of the magnetic energy IS subviscous, so the old caution was
+self-defeating}
 
 There is also a temporal consequence, and it interacts with the cusp result of
 Sec.~\ref{sec:decaying-peak}. A viscously damped mode decorrelates as
@@ -2185,35 +2721,70 @@ its temporal axis, and open on its dissipative one.
 \label{sec:conclusions}
 
 \begin{enumerate}\itemsep2pt
-  \item The turbulence-to-GW pipeline factorises. The infrared slope of
-  $\Omega_{\rm GW}$ is set by the spatial source model alone, the ultraviolet slope
-  by the temporal model alone, and only the peak responds to both
+  \item The turbulence-to-GW pipeline factorises \emph{asymptotically}. The strict
+  $k\to0$ infrared slope is set by the spatial source model alone---this is the
+  universal theorem of Ref.~\cite{Cai:2019cdl}, not a result of ours---and the
+  ultraviolet asymptote by the temporal model alone, a statement whose aeroacoustic
+  form predates the cosmological literature \cite{Zhou:1996,Rubinstein:2000}. Every
+  intermediate feature, the peak and the break alike, responds to both. The
+  factorisation is \emph{not} a statement about the observable band: a source of
+  finite duration moves the infrared by two powers
+  \cite{RoperPol:2022iel,RoperPol:2023dzg}, and duration belongs to neither axis
   (Sec.~\ref{sec:model-space}, Appendix~\ref{sec:spectrum-survey}).
 
   \item The causal infrared $\Omega_{\rm GW}\propto k^{3}$ is a property of the
-  quadratic source, not of the fluid spectrum. It is unchanged by the infrared slope
-  of the input, by the infrared bandwidth, by the Mach number, by the choice of
-  temporal model, and by deleting the temporal sector entirely. The band-split
-  experiment of Sec.~\ref{sec:band-split} makes the point at its sharpest: the
-  Kolmogorov band alone, an input with no infrared power at all, radiates
-  $p^{3.01}$.
+  quadratic source, not of the fluid spectrum. That the stress self-convolution
+  floors at white noise regardless of how blue the input is was established by
+  Refs.~\cite{Caprini:2006jb,Caprini:2009fx} and, for stress spectra specifically,
+  by Ref.~\cite{Brandenburg:2019uzj}; our contribution is a sharper test of it. The
+  band-split experiment of Sec.~\ref{sec:band-split} takes the limit those papers do
+  not, deleting the infrared band outright: the Kolmogorov range alone, an input
+  with \emph{identically zero} infrared power, still radiates $p^{3.01}$, and it
+  continues to do so with the temporal sector removed entirely.
 
   \item Consequently the $k^{3}$-versus-$k^{1}$ tension cannot be resolved on the
-  spatial axis. It localises to one assumption, $\Omega_{T}\propto\Omega_{M}$, which
-  the self-convolution of the stress forbids: below the peak the convolution is
-  dominated by antiparallel pairs near the peak and floors at white noise, and this
-  holds for Gaussian fields as well (Sec.~\ref{sec:principal-discrepancy}).
+  spatial axis.
+  \del{It localises to one assumption, $\Omega_{T}\propto\Omega_{M}$, which the
+  self-convolution of the stress forbids.}
+  \why{removed, same reason as in the abstract}
+  \add{It is not in fact a disagreement about physics.} The two slopes
+  are the two branches of one finite-duration response, in disjoint bands separated
+  by $k_{\rm br}\simeq1/\delta t$: $k^{3}$ is the asymptotic law and $k^{1}$ the
+  finite-duration regime \cite{RoperPol:2022iel,RoperPol:2023dzg}. The break lies
+  below every observationally accessible band \emph{and} below the fundamental mode
+  of every published simulation box, so no simulation of this class can exhibit the
+  causal asymptote and none should be read as excluding it
+  (Sec.~\ref{sec:principal-discrepancy}). What remains genuinely open is whether
+  real MHD sources stay coherent long enough to populate the $k^{1}$ band; we have
+  not established that, and assuming it is circular.
 
   \item The displacement of the GW peak to the source scale is controlled by a single
-  number, the slope of the source correlator at zero lag. Any source with a hard
-  finite lifetime supplies it; the specific decorrelation model does not matter
-  (Sec.~\ref{sec:decaying-peak}). The question that would overturn the source-scale
-  peak is whether the correlator of decaying turbulence is differentiable at zero
-  lag, not whether it follows any particular power law.
+  number, the slope of the source correlator at zero lag. That a cusp gives an
+  $\omega^{-2}$ tail is the standard Abelian theorem for Fourier integrals, and its
+  consequences for GW spectra---including for the \emph{peak location}---were already
+  drawn by Ref.~\cite{Caprini:2009fx}, which states that the differentiability of the
+  source envelope moves the peak from the inverse duration to the inverse correlation
+  scale. What is new here is the object to which the argument is applied: their
+  regularity sits at the switch-on and switch-off endpoints of a deterministic,
+  separable envelope $g(t)$, whereas ours sits at zero lag of a \emph{stationary,
+  decorrelating} UETC. The consequence is that all cusped decorrelation models collapse
+  onto a single prediction, so the specific decorrelation law does not matter
+  (Sec.~\ref{sec:decaying-peak}).
+  \why{Referee-verification found Caprini+2009 already links regularity to the peak} The
+  question that would overturn the source-scale peak is therefore whether the
+  correlator of decaying turbulence is differentiable at zero lag, not whether it
+  follows any particular power law. Ref.~\cite{Auclair:2022jod} measures a Gaussian
+  hydrodynamic UETC, for which it is; the corresponding \emph{magnetic} measurement
+  has not been made, and this conclusion is conditional on it.
 
-  \item The dissipation input is the one still open, and it is not the one the field
-  assumes: the early Universe is neither Navier--Stokes nor ${\rm Pm}=1$
-  (Sec.~\ref{sec:outlook}).
+  \item The dissipation input is the one still open, and it is the only claim here
+  for which we could find no prior art: the early Universe is neither
+  Navier--Stokes nor ${\rm Pm}=1$, and the resulting subviscous magnetic range
+  radiates because the source is $B_iB_j$ rather than the velocity
+  (Sec.~\ref{sec:outlook}). The omission is acknowledged in the field's own review
+  of the relevant magnetohydrodynamics \cite{RoperPol:2025lgc}. We identify the gap
+  here but do not close it; the size of the discarded contribution is not yet
+  computed, and until it is, this is a programme rather than a result.
 \end{enumerate}
 
 \appendix
@@ -2421,6 +2992,23 @@ $\tau_{\rm st}$       & Self-similar decay time, $\tau_{\rm st}\sim L/u$ & Sec.~
 $\tau_{\rm eddy}$     & Outer-scale eddy turnover time & Sec.~\ref{sec:principal-discrepancy}\\
 $\varepsilon_0$       & Dimensionless decay rate, $\varepsilon_0=\tau_{\rm eddy}/\tau_{\rm st}=O(1)$ & Sec.~\ref{sec:principal-discrepancy}\\
 $\Phi_{\rm eq}(k,t)$  & Equal-time velocity spectral correlator, $\propto(1+t/\tau_{\rm st})^{-34/21}$ & Sec.~\ref{sec:principal-discrepancy}\\
+$\tau_{\rm sw}(k)$    & Sweeping time, $1/(u_{\rm rms}k)$; scales as $k^{-1}$, unlike $\tau_{\rm eddy}\propto k^{-2/3}$ & Table~\ref{tab:timescales}\\
+$\tau_A(k)$           & Alfv\'en crossing time, $1/(k v_A)$ & Table~\ref{tab:timescales}\\
+$v_A$                 & Alfv\'en speed & Table~\ref{tab:timescales}\\
+$\tau_\nu(k)$         & Viscous time, $1/(\nu k^{2})$ & Table~\ref{tab:timescales}\\
+$\tau_\eta(k)$        & Resistive time, $1/(\eta k^{2})$ & Table~\ref{tab:timescales}\\
+$\tau_{\rm drag}$     & Free-streaming drag time, $1/\alpha_{\rm fs}$; independent of $k$ & Table~\ref{tab:timescales}\\
+$\alpha_{\rm fs}$     & Free-streaming drag rate & Table~\ref{tab:timescales}\\
+$\tau_e$              & Correlation time of the exponential (Lagrangian) model & Table~\ref{tab:temporal-catalogue}\\
+$\tau_0$              & Normalisation of the impulsive correlator, $f=\tau_0\delta(\tau)$ & Table~\ref{tab:temporal-catalogue}\\
+${\rm Lu}$            & Lundquist number, ${\rm Lu}=v_AL/\eta$; sets $\tau_{\rm st}\simeq{\rm Lu}^{1/4}\tau_A$ \cite{Brandenburg:2024tyi} & Table~\ref{tab:temporal-catalogue}\\
+$P(k,t)$              & Equal-time source power in the amplitude--decorrelation split & \eqref{eq:uetc-split}\\
+$\mathfrak{P}$        & Self-similar scaling function of the source power & \eqref{eq:selfsimilar-envelope}\\
+$L(t)$, $u(t)$        & Self-similar length and velocity of the decaying envelope & \eqref{eq:selfsimilar-envelope}\\
+$n_L$, $n_u$          & Self-similar growth/decay exponents of $L$ and $u$ & \eqref{eq:selfsimilar-envelope}\\
+$\bar t$              & Mean time $\tfrac12(t_1+t_2)$ of the two-time correlator & \eqref{eq:uetc-split}\\
+$\mathcal{N}_\omega$  & Coherence number, $\omega\tau_c$ on the light cone $=k\tau_c(k)$ & \eqref{eq:coherence-number}\\
+$\mathcal{N}_{\rm em}$ & Sampling number, $T_{\rm em}/\tau_c(k)$ & Sec.~\ref{sec:temporal-regimes-class}\\
 \hline\hline
 \end{tabular}\par
 
@@ -2860,6 +3448,20 @@ $\Phi_{\rm eq}(k,t)$  & Equal-time velocity spectral correlator, $\propto(1+t/\t
   \operatorname{erfc}\!\left[-\frac{Bx}{\sqrt{A+B}}\right]
   \label{A:erfcid}
 \end{equation}
+\add{\noindent\emph{Note (corrected 2026-08-14).} The factor $u^{-4/3}$ in the erfc
+argument is required: without it the argument carries $L^{-4/3}$ rather than being
+dimensionless. It follows from the Gaussian--erfc identity Eq.~\eqref{A:erfcid} with
+$A=1/(\pi\eta_{k_1}^{2})$, $B=1/(\pi\eta_u^{2})$, $x=\omega$. The main-text
+Eq.~\eqref{eq:Hijij-AppA} and the code (\texttt{core.py:integrand\_y},
+\texttt{\_fullspectrum\_kernel.py}, \texttt{band\_split\_gw.py}) have been brought into
+line. The numerical effect is $\lesssim10\%$ on the diagonal and moves no slope: the
+band-split infrared slopes are $+2.996$, $+2.998$, $+3.007$ after the correction
+(stable to four decimals against grid refinement). An independent check fixes the sign of
+the error: the closed-form aeroacoustic limit $H(p\to0,q)$, derived separately and never
+edited, is reproduced by the corrected kernel to $1.00000$ at every $q$ tested, whereas
+the uncorrected kernel disagreed with its own limit by up to $8\%$.}
+\why{Referee C: the same equation was printed in two different forms}
+
 % FLAG: the erfc argument below CORRECTS Eq.~\eqref{eq:Hijij-AppA} of the main
 % text, which reads -sqrt2 eps^{-1/3} w /(k1^{-4/3}+u^{-4/3})^{1/2} and is
 % dimensionally inconsistent (that ratio carries L^{-4/3}, not L^0).  Applying
@@ -3003,7 +3605,7 @@ $\Phi_{\rm eq}(k,t)$  & Equal-time velocity spectral correlator, $\propto(1+t/\t
   \label{A:K0}
 \end{align}
 \begin{equation}
-  H_{ijij}(\kb,\omega)=\frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,k\,k_0^2}\,\mathcal{K}_0(p)\,I_\omega(\omega),
+  H_{ijij}(\kb,\omega)=\frac{E_0^2\,\Theta(2k_0-k)}{\add{8\pi}(2\pi)^8\,k\,k_0^2}\,\mathcal{K}_0(p)\,I_\omega(\omega),
   \qquad
   I_\omega(\omega)\equiv\!\int\!d\omega_1\,\tf(\omega_1)\tf(\omega-\omega_1)
   \label{A:Hdeltak}
@@ -3418,6 +4020,20 @@ with the Heaviside factor enforcing the triangle inequality $p \equiv k/k_0 \leq
   \mathcal{K}_0(p) \equiv \mathcal{K}(k,k_0,k_0) = \frac{14}{3} - \frac{p^2}{3} + \frac{p^4}{12}.
   \label{eq:K0}
 \end{equation}
+\add{\noindent\emph{Normalisation (corrected 2026-08-14).} The radial collapse
+contributes $\int_0^\infty k_1^2dk_1\,A(k_1)=E_0/(4\pi)$, which was previously applied
+as $\times E_0$; the displayed prefactor below was therefore $4\pi$ too large. A second,
+independent factor of $2$ was lost when substituting into
+Eq.~\eqref{eq:dimless-delta-Kraichnan}, making that equation $8\pi$ too large. Both are
+now corrected. The result
+$\int d^3k_1\,A(k_1)A(u)\,\mathcal{K}=E_0^2\mathcal{K}_0(p)\Theta(2k_0-k)/(8\pi k k_0^2)$
+agrees with the independent collapse of Eq.~\eqref{eq:angular-collapse}, which was right
+all along---the two displays had disagreed with each other. The boxed $\mathfrak{H}$ is a
+shape and carries no part of this normalisation, so no slope, peak, edge, Mach scaling,
+figure or line of code changes; only the \emph{absolute} amplitude of the monochromatic
+branch, which matters as soon as a detector forecast is attempted.}
+\why{Referee A wants a LISA/PTA forecast, which needs absolute amplitudes}
+
 % FLAG: 4 pi error in the dimensional prefactor below.
 % int d^3 k_1 A(k_1) A(u) K should give E_0^2 K_0(p) Theta(2-p) / (8 pi k k_0^2).
 % Displayed form below has 1/2 in place of 1/(8 pi) — 4 pi too large. The error
@@ -3426,7 +4042,7 @@ with the Heaviside factor enforcing the triangle inequality $p \equiv k/k_0 \leq
 Substituting Eqs.~\eqref{eq:angular-delta}--\eqref{eq:K0} in Eq.~\eqref{eq: H-with-P},
 \begin{equation}
   H_{ijij}(\kb,\omega)
-  = \frac{E_0^2\,\Theta(2k_0-k)}{2(2\pi)^8\,k k_0^2}\;\mathcal{K}_0(p)\;I_\omega(\omega),
+  = \frac{E_0^2\,\Theta(2k_0-k)}{\add{8\pi}(2\pi)^8\,k k_0^2}\;\mathcal{K}_0(p)\;I_\omega(\omega),
   \qquad
   I_\omega(\omega)\equiv\!\int\!d\omega_1\,\tf(\omega_1)\tf(\omega-\omega_1).
   \label{eq:H-delta-k}
@@ -3438,7 +4054,7 @@ All spatial structure has been resolved in closed form; only the temporal convol
 
 For $\tf(\omega)=(2/\eta_0)e^{-\omega^2/\pi\eta_0^2}$ with $\eta_0\equiv\eta_{k_0}=M k_0/\sqrt{2\pi}$, the Gaussian convolution gives $I_\omega(\omega) = (2\sqrt{2}\pi/\eta_0)e^{-\omega^2/(2\pi\eta_0^2)}$. With $q\equiv\omega/k_0$ the exponent becomes $\omega^2/(2\pi\eta_0^2)=q^2/M^2$, so Eq.~\eqref{eq:H-delta-k} separates into a dimensional prefactor and the boxed dimensionless kernel
 \begin{equation}
-  H_{ijij}(\kb,\omega) = \frac{\sqrt{2}\,E_0^2}{(2\pi)^7\,k k_0^2\,\eta_0}\,\mathcal{K}_0(p)\,\Theta(2-p)\,e^{-q^2/M^2},
+  H_{ijij}(\kb,\omega) = \frac{\sqrt{2}\,E_0^2}{\add{8\pi}(2\pi)^7\,k k_0^2\,\eta_0}\,\mathcal{K}_0(p)\,\Theta(2-p)\,e^{-q^2/M^2},
   \qquad
   \boxed{
   H[S_{\delta k},T_{\rm sw}](p,q;M)\;\equiv\;\mathfrak{H}^{(\delta k)}_{\rm Kraichnan}(p,q;M) = \frac{\mathcal{K}_0(p)}{p}\,\Theta(2-p)\,e^{-q^2/M^2}.
@@ -4121,13 +4737,20 @@ the self-similar closure makes both the eddy frequency $\omega_e$ and the
 sweeping rate $\eta_0$ scale as $(1+T/\tau_\ast)^{-1}$, so the two kernels inherit
 the same overall frequency scaling and differ only in their fixed dimensionless
 peak position. The model difference therefore collapses to a single per-class
-constant (Fig.~\ref{fig:f_peak_model_ratio}): $f_A/f_B\simeq0.37,\,0.36$ for the
-HD (Loitsiansky, Saffman) classes and $0.83,\,0.78$ for the MHD (nonhelical,
-helical) classes -- Model A always peaks lower. The large HD offset comes from
-the side-peak of the coherent kernel at the eddy frequency ($q\simeq\pm2$, the
-$\cos\sigma$ oscillation of $R_B$), which wins the $\omega\,\Omega_{\rm GW}$
-argmax for the steep-decay HD classes but nearly coincides with the broad
-Model-A peak for MHD. Because the per-model maps differ only by this constant, we
+constant (Fig.~\ref{fig:f_peak_model_ratio}): \add{$f_A/f_B\simeq0.37,\,0.36$ for the
+two HD classes (Loitsiansky; the class realised in the simulations of
+Ref.~\cite{Brandenburg:2016odr}), $0.40$ for non-helical MHD governed by the Hosking
+integral, and $0.78$ for helical MHD}---Model A always peaks lower.
+\del{$0.83,\,0.78$ for the MHD (nonhelical, helical) classes}
+\why{recomputed after the Hosking swap: the old $0.83$ belonged to the superseded
+$\beta=1$, $q=1/2$ class}
+\add{The offset comes from the side-peak of the coherent kernel at the eddy frequency
+($q\simeq\pm2$, the $\cos\sigma$ oscillation of $R_B$), which wins the
+$\omega\,\Omega_{\rm GW}$ argmax for the steeper-decay classes but nearly coincides with
+the broad Model-A peak for helical MHD. Note that with the Hosking class in place the
+split is no longer HD-versus-MHD: at $0.40$ the non-helical MHD class is
+indistinguishable from the two HD classes, and it is \emph{helical} MHD alone that
+stands apart.} Because the per-model maps differ only by this constant, we
 display the ratio rather than the eight individual heatmaps.
 
 \begin{figure*}[ht]
@@ -4165,12 +4788,25 @@ $\delta$-function source violates that hypothesis by exactly one power through
 the $1/p$ pole of $\mathcal{K}_{0}(p)/p$. The temporal factor cannot contribute,
 because as $p\to0$ it tends to a constant---$\pi\,\mathcal{C}(0)=6\pi$ for
 $T_{\rm dec}$ by Eq.~\eqref{eq:cosT-limits}, unity for $T_{\rm sw}$---and a
-constant carries no slope. \emph{Corollary:} no choice of UETC can be tuned to
-reproduce the simulated $k^{1}$ of Sec.~\ref{sec:principal-discrepancy}. That
-tension is not resolvable on the temporal axis, which is precisely why it
-survives every treatment in Table~\ref{tab:three-works}.
+constant carries no slope. \emph{Corollary:} \add{the temporal axis cannot move the
+\emph{asymptotic} infrared slope. For a stationary UETC this is immediate from the
+constant $p\to0$ limit just quoted; for a source of finite duration it follows from
+Eq.~\eqref{eq:burst-equals-triangle}, whose temporal factor is likewise flat below
+$1/\Delta t$; and in general it is the causality theorem of \cite{Cai:2019cdl}. This is
+why the simulated $k^{1}$ of Sec.~\ref{sec:principal-discrepancy} survives every
+treatment in Table~\ref{tab:three-works}. What the temporal history \emph{does} change
+is the intermediate band: a finite duration $\Delta t$ contributes
+$4\sin^{2}(k\Delta t/2)/(\Delta t\,k^{2})$, flat below $1/\Delta t$ and falling as
+$2/(\Delta t\,k^{2})$ above it, so two powers are lost in $1/\Delta t\ll k\ll k_{0}$ and
+none in the limit \cite{Caprini:2009fx,RoperPol:2022iel,RoperPol:2023dzg}. The simulated
+$k^{1}$ lies in that band, not in the limit.}
 
-\paragraph{The ultraviolet belongs to the temporal axis alone.}
+\paragraph{The ultraviolet belongs to the temporal axis alone.} This is not new
+with us. It is the central result of the aeroacoustic analysis of
+Refs.~\cite{Zhou:1996,Rubinstein:2000}, where the frequency spectrum of sound
+radiated by isotropic turbulence is shown to be fixed by the Eulerian space--time
+correlation rather than by the energy spectrum, and it is applied to the
+cosmological problem in Ref.~\cite{Niksa:2018ofa}.
 Here the roles reverse, and the discriminant is sharp: it is whether the UETC
 has a \emph{cusp} at zero lag. By Eq.~\eqref{eq:cusp-tail} the temporal factor
 falls as $-2f'(0^{+})/\omega^{2}$, so

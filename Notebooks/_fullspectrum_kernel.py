@@ -75,7 +75,10 @@ def H_full(p: float, q: float, M: float = 1.0, R: float = 1e4,
         ss = x + ys
         geom = ys ** 0.75 * ss ** (-0.5) * x ** 0.75 * kernel_bracket(p, x, ys)
         expo = np.exp(-2.0 * x * ys / ss * q ** 2 / M ** 2)
-        erfc = special.erfc(-np.sqrt(2.0) * q / (M * np.sqrt(ss)))
+  # erfc argument carries y = u^{-4/3}; without it the argument is
+        # dimensionally k^{4/3}, not dimensionless.  See derivation.tex
+        # Eq.(A:AppA).  Fixed 2026-08-14 (task 0.5).
+        erfc = special.erfc(-np.sqrt(2.0) * q * ys / (M * np.sqrt(ss)))
         vals = geom * expo * erfc * _shape(tk1, ir_exp) * _shape(tus, ir_exp)
         x_integrand[i] = np.trapezoid(vals, ys)
     return _h_prefactor(p, M, 1.0) * float(np.trapezoid(x_integrand, xs))

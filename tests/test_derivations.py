@@ -11,6 +11,10 @@ from scipy import integrate, special
 from src.gw_turbulence import g_decaying
 from src.gw_turbulence.core import _conv_intervals, _cosine_grid, _temporal_conv_decay
 
+# NumPy 2.0 renamed ``np.trapz`` -> ``np.trapezoid`` and removed the old name;
+# requirements.txt pins 1.26.4, which only has ``np.trapz``.  Support both.
+_trapz = getattr(np, "trapezoid", None) or np.trapz
+
 
 class TestDerivationIdentities(unittest.TestCase):
     def test_projection_trace_and_double_contraction(self):
@@ -105,7 +109,7 @@ class TestDecayingExtensionKernel(unittest.TestCase):
             if lower >= upper:
                 continue
             grid = _cosine_grid(lower, upper, 1500)
-            direct += np.trapz((g_decaying(grid) * g_decaying(q - grid)).real, grid)
+            direct += _trapz((g_decaying(grid) * g_decaying(q - grid)).real, grid)
         self.assertAlmostEqual(direct / _temporal_conv_decay(q), 1.0, delta=5e-3)
 
         # ...and that the negative-q1 half is a necessary part of that value: a
@@ -113,7 +117,7 @@ class TestDecayingExtensionKernel(unittest.TestCase):
         positive_only = 0.0
         for lower, upper in ((0.01, 0.99), (1.01, 5.0)):
             grid = _cosine_grid(lower, upper, 200)
-            positive_only += np.trapz((g_decaying(grid) * g_decaying(q - grid)).real, grid)
+            positive_only += _trapz((g_decaying(grid) * g_decaying(q - grid)).real, grid)
         self.assertGreater(abs(_temporal_conv_decay(q) - positive_only), 1e-2)
 
     def test_decaying_kernel_is_finite_and_conjugate_symmetric(self):
@@ -182,7 +186,7 @@ class TestDeltaSpectrumKraichnan(unittest.TestCase):
             mu_grid = np.linspace(-1.0, 1.0, 4001)
             u = np.sqrt(k**2 + k1**2 - 2.0 * k * k1 * mu_grid)
             integrand = _smeared_delta(u - k0, sigma) / u**2 * _kernel_K(k, k1, u)
-            return np.trapz(integrand, mu_grid)
+            return _trapz(integrand, mu_grid)
 
         # Tight window around the k_1 = k_0 peak; the Gaussian is negligible past +/- 6 sigma
         k1_lo = max(1e-6, k0 - 6.0 * sigma)
@@ -191,7 +195,7 @@ class TestDeltaSpectrumKraichnan(unittest.TestCase):
         outer = np.array([
             _smeared_delta(k1 - k0, sigma) * inner_mu(k1) for k1 in k1_grid
         ])
-        return (E0**2 / (8.0 * np.pi)) * np.trapz(outer, k1_grid)
+        return (E0**2 / (8.0 * np.pi)) * _trapz(outer, k1_grid)
 
     def test_spatial_prefactor_for_p_below_triangle(self):
         """Verify  int d^3k_1 A(k_1) A(u) K  =  E_0^2 K_0(p) / (8 pi k k_0^2)  for p<2."""

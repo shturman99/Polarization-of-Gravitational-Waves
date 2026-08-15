@@ -18,6 +18,10 @@ from src.gw_turbulence.core import (
     kernel_bracket,
 )
 
+# NumPy 2.0 renamed ``np.trapz`` -> ``np.trapezoid`` and removed the old name;
+# requirements.txt pins 1.26.4, which only has ``np.trapz``.  Support both.
+_trapz = getattr(np, "trapezoid", None) or np.trapz
+
 
 class TestCoreHelpers(unittest.TestCase):
     def test_kernel_bracket_is_symmetric_in_x_and_y(self):
@@ -84,7 +88,7 @@ class TestCoreHelpers(unittest.TestCase):
         tau = np.linspace(-4000.0, 4000.0, 8_000_001)
         squared = (1.0 + np.abs(tau)) ** (-4.0 / 3.0)
         for q in (0.3, 1.0, 4.0, 8.0, 16.0, 32.0):
-            reference = np.pi * float(np.trapz(squared * np.cos(q * tau), tau))
+            reference = np.pi * float(_trapz(squared * np.cos(q * tau), tau))
             value = float(core._temporal_conv_decay(q))
             self.assertAlmostEqual(value / reference, 1.0, delta=2e-3, msg=f"q={q}")
             self.assertGreater(value, 0.0, msg=f"q={q} must stay positive")
@@ -135,7 +139,7 @@ class TestCoreHelpers(unittest.TestCase):
         for q, a, b in ((1.0, 1.0, 2.0), (0.3, 0.05, 4.0), (7.0, 1.0, 2.0)):
             s = np.linspace(0.0, 2.0e4, 4_000_001)
             amp = (1.0 + s / a) ** (-2.0 / 3.0) * (1.0 + s / b) ** (-2.0 / 3.0)
-            head = 2.0 * float(np.trapz(np.cos(q * s) * amp, s))
+            head = 2.0 * float(_trapz(np.cos(q * s) * amp, s))
             self.assertAlmostEqual(
                 core.ft_product_decay(q, a, b) / head, 1.0, delta=5e-3,
                 msg=f"q={q} a={a} b={b}",

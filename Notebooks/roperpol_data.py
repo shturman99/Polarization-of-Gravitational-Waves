@@ -17,6 +17,10 @@ from pathlib import Path
 
 import numpy as np
 
+# NumPy 2.0 renamed ``np.trapz`` -> ``np.trapezoid`` and removed the old name;
+# requirements.txt pins 1.26.4, which only has ``np.trapz``.  Support both.
+_trapz = getattr(np, "trapezoid", None) or np.trapz
+
 _DIR = Path(__file__).resolve().parent
 
 
@@ -61,7 +65,7 @@ def gw_peak_ratio() -> float:
 def energy_fraction() -> float:
     """Turbulent energy fraction Omega_M = int (Omega_M/k) dk from the fluid curve."""
     kf, of = load("fluid")
-    return float(np.trapz(of, kf))
+    return float(_trapz(of, kf))
 
 
 def effective_mach() -> tuple[float, float]:
