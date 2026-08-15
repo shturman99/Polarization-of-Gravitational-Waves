@@ -1754,85 +1754,6 @@ the slope difference bears more on parameter reconstruction than on raw detectab
 at which the analytic prediction falls above its peak is model-dependent and is quoted
 inconsistently in the literature; only the sign of the slope is needed for the point.)
 
-\add{\subsection{The infrared branch diagram}
-\label{sec:ir-branch}
-
-The two branches can be exhibited directly rather than inferred. We evaluate the
-kernel with the triangular correlator
-$f(\tau)=(1-|\tau|/\tau_c)\Theta(\tau_c-|\tau|)$---the autocorrelation of a source
-switched on for a window $\tau_c$, and the admissible replacement for the top-hat---and
-measure the \emph{local} logarithmic slope $d\ln\Omega_{\rm GW}/d\ln p$ across eight
-decades of $p$, so that the predicted break is straddled on both sides.
-
-Because the stress is quadratic, the two-leg temporal factor is the transform of the
-\emph{squared} tent, whose one-sided slope at zero lag is $f'(0^{+})=-2/\tau_c$. The
-cusp theorem Eq.~\eqref{eq:cusp-tail} then gives $T\to4/(\tau_c\omega^{2})$ against
-$T(0)=2\tau_c/3$, so the two asymptotes cross at $\omega\tau_c=\sqrt{6}$, and the local
-slope passes through its midpoint where $1+\cos u=2\sin u/u$, i.e.\ at $u=\pi$ exactly.
-The break therefore sits at
-\begin{equation}
-  k_{\rm break}=\pi/\tau_c,
-  \label{eq:k-break-pi}
-\end{equation}
-a factor $\pi$ above the naive $1/\tau_c$. Table~\ref{tab:ir-branch} bears this out:
-the measured coefficient converges to $3.07$ for a hard global lifetime and $3.17$ for
-the scale-dependent eddy lifetime, against $\pi=3.1416$.
-
-The infrared slope is $+3.000$ in every case, and the intermediate slope is $+0.974$ and
-$+0.995$ for $\hat\tau=10^{3}$ and $10^{4}$ ($+0.977$, $+0.996$ with the spatial factor
-divided out). Two caveats are worth stating plainly. The linear band is only
-\emph{resolved} once $\hat\tau\gtrsim10^{3}$: below that the break has not separated
-from the source-scale roll-over, and the fitted coefficient is contaminated by the peak.
-And the band is not a clean power law---the $\sin^{2}$ ringing of
-Eq.~\eqref{eq:window-factor} makes the local slope oscillate between $0.90$ and $1.25$
-about its mean. The peak itself stays at $p\simeq1.1$--$2.2$ throughout, confirming that
-this is the same mechanism as the source-scale pinning of
-Sec.~\ref{sec:decaying-peak}: one finite lifetime produces both.
-
-\begin{table}[ht]
-  \centering
-  \begin{tabular}{@{}lccccc@{}}
-  \hline\hline
-  & $\hat\tau$ & IR slope & band slope & $p_{\rm break}\tau_c$ & peak \\
-  \hline
-  \multirow{3}{*}{global}
-    & $10^{2}$ & $+3.000$ & --- & $3.065$ & $1.29$ \\
-    & $10^{3}$ & $+3.000$ & $+0.974$ & $3.072$ & $1.28$ \\
-    & $10^{4}$ & $+3.000$ & $+0.995$ & $3.072$ & $1.29$ \\
-  \hline
-  \multirow{3}{*}{eddy}
-    & $10^{2}$ & $+3.000$ & --- & $3.150$ & $1.62$ \\
-    & $10^{3}$ & $+3.000$ & $+0.965$ & $3.172$ & $1.71$ \\
-    & $10^{4}$ & $+3.000$ & $+0.996$ & $3.175$ & $1.63$ \\
-  \hline\hline
-  \end{tabular}
-  \caption{Infrared branch diagram for a hard finite lifetime, from
-  \texttt{Notebooks/ir\_branch\_diagram.py}. ``global'' is
-  $\tau_1=\tau_2=\tau_c$, a scale-independent lifetime; ``eddy'' is
-  $\tau_i=\sqrt{x_i}/M$, the scale-dependent lifetime of
-  Sec.~\ref{sec:decaying-peak}. The band slope is quoted only where the break is
-  separated from the source scale by more than a decade. $p_{\rm break}\tau_c$ is to be
-  compared with $\pi=3.1416$, Eq.~\eqref{eq:k-break-pi}.}
-  \label{tab:ir-branch}
-\end{table}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=\columnwidth]{ir_branch_diagram}
-  \caption{Local logarithmic slope of $\Omega_{\rm GW}$ against $p=k/k_0$ for the
-  triangular (finite-lifetime) correlator, at several $\hat\tau=\tau_ck_0$. The slope
-  sits at $3$ in the infrared and falls to $1$ above the break
-  Eq.~\eqref{eq:k-break-pi}; the residual oscillation about the linear band is the
-  $\sin^{2}$ ringing of the finite window, not noise. The linear band is resolved only
-  for $\hat\tau\gtrsim10^{3}$.}
-  \label{fig:ir-branch}
-\end{figure}
-
-This settles, in a controlled and reproducible way, what the retracted
-$\Omega_T\propto\Omega_M$ argument was reaching for: a temporal history \emph{can}
-produce $k^{1}$, over a band, without touching the $k\to0$ asymptote.}
-\why{Task 2.1 --- the figure both referees asked for}
-
 \paragraph{What finite duration can and cannot do.} The causal $k^3$ of
 Eq.~\eqref{eq:ir-causal} is the strict $k\to0$ asymptote and is unavoidable: the equal-time
 stress of a spatially compact source is analytic (white) at $k\to0$, and our quasi-stationary
@@ -1997,9 +1918,11 @@ causal $k^3$ of our quasi-stationary and self-similar kernels is not contradicte
 simulation: it is the early-time transient, and the discrepancy with the simulated $k^1$ is a
 comparison of an \emph{asymptotic} analytic slope with a \emph{time-saturated} simulated one
 (the same axis mismatch anticipated for the finite-window band, Sec.~\ref{sec:cps-reproduction}).
-Two ingredients set the saturated slope---the white-noise ceiling of the quadratic stress, and
-the sustained coherence of the inverse-transferred magnetic field visible in
-Fig.~\ref{fig:roperpol_timeseries}---neither of which is captured by a single-time
+Two ingredients set the saturated slope: the white-noise ceiling of the quadratic stress,
+which is established, and \add{a source that remains correlated with itself across the
+emission window, which is not---the inverse transfer visible in
+Fig.~\ref{fig:roperpol_timeseries} is suggestive of it and the build-up test above tells
+against it}. \add{Neither} is captured by a single-time
 hydrodynamic kernel. The honest statement is therefore weaker than a genuine failure of
 causality and stronger than a mere convention: our kernels give the correct transient
 infrared, and reproducing the stationary $k^1$ requires following the source through its
@@ -2077,6 +2000,90 @@ asymptote, and none should be read as excluding it.
   convention.}
   \label{tab:three-works}
 \end{table*}
+
+\add{\subsection{The infrared branch diagram}
+\label{sec:ir-branch}
+
+Everything above has been an argument about which branch of
+Eq.~\eqref{eq:window-factor} a given band lies in, conducted without ever displaying
+the two branches together. They can be exhibited directly rather than inferred, and
+doing so settles the question the preceding paragraphs keep deferring: whether any
+temporal history at all produces $k^{1}$ over a band while leaving the $k\to0$
+asymptote alone. We evaluate the
+kernel with the triangular correlator
+$f(\tau)=(1-|\tau|/\tau_c)\Theta(\tau_c-|\tau|)$---the autocorrelation of a source
+switched on for a window $\tau_c$, and the admissible replacement for the top-hat---and
+measure the \emph{local} logarithmic slope $d\ln\Omega_{\rm GW}/d\ln p$ across eight
+decades of $p$, so that the predicted break is straddled on both sides.
+
+Because the stress is quadratic, the two-leg temporal factor is the transform of the
+\emph{squared} tent, whose one-sided slope at zero lag is $f'(0^{+})=-2/\tau_c$. The
+cusp theorem Eq.~\eqref{eq:cusp-tail} then gives $T\to4/(\tau_c\omega^{2})$ against
+$T(0)=2\tau_c/3$, so the two asymptotes cross at $\omega\tau_c=\sqrt{6}$, and the local
+slope passes through its midpoint where $1+\cos u=2\sin u/u$, i.e.\ at $u=\pi$ exactly.
+The break therefore sits at
+\begin{equation}
+  k_{\rm break}=\pi/\tau_c,
+  \label{eq:k-break-pi}
+\end{equation}
+a factor $\pi$ above the naive $1/\tau_c$. Table~\ref{tab:ir-branch} bears this out:
+the measured coefficient converges to $3.07$ for a hard global lifetime and $3.17$ for
+the scale-dependent eddy lifetime, against $\pi=3.1416$.
+
+The infrared slope is $+3.000$ in every case, and the intermediate slope is $+0.974$ and
+$+0.995$ for $\hat\tau=10^{3}$ and $10^{4}$ ($+0.977$, $+0.996$ with the spatial factor
+divided out). Two caveats are worth stating plainly. The linear band is only
+\emph{resolved} once $\hat\tau\gtrsim10^{3}$: below that the break has not separated
+from the source-scale roll-over, and the fitted coefficient is contaminated by the peak.
+And the band is not a clean power law---the $\sin^{2}$ ringing of
+Eq.~\eqref{eq:window-factor} makes the local slope oscillate between $0.90$ and $1.25$
+about its mean. The peak itself stays at $p\simeq1.1$--$2.2$ throughout, confirming that
+this is the same mechanism as the source-scale pinning of
+Sec.~\ref{sec:decaying-peak}: one finite lifetime produces both.
+
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{@{}lccccc@{}}
+  \hline\hline
+  & $\hat\tau$ & IR slope & band slope & $p_{\rm break}\tau_c$ & peak \\
+  \hline
+  \multirow{3}{*}{global}
+    & $10^{2}$ & $+3.000$ & --- & $3.065$ & $1.29$ \\
+    & $10^{3}$ & $+3.000$ & $+0.974$ & $3.072$ & $1.28$ \\
+    & $10^{4}$ & $+3.000$ & $+0.995$ & $3.072$ & $1.29$ \\
+  \hline
+  \multirow{3}{*}{eddy}
+    & $10^{2}$ & $+3.000$ & --- & $3.150$ & $1.62$ \\
+    & $10^{3}$ & $+3.000$ & $+0.965$ & $3.172$ & $1.71$ \\
+    & $10^{4}$ & $+3.000$ & $+0.996$ & $3.175$ & $1.63$ \\
+  \hline\hline
+  \end{tabular}
+  \caption{Infrared branch diagram for a hard finite lifetime, from
+  \texttt{Notebooks/ir\_branch\_diagram.py}. ``global'' is
+  $\tau_1=\tau_2=\tau_c$, a scale-independent lifetime; ``eddy'' is
+  $\tau_i=\sqrt{x_i}/M$, the scale-dependent lifetime of
+  Sec.~\ref{sec:decaying-peak}. The band slope is quoted only where the break is
+  separated from the source scale by more than a decade. $p_{\rm break}\tau_c$ is to be
+  compared with $\pi=3.1416$, Eq.~\eqref{eq:k-break-pi}.}
+  \label{tab:ir-branch}
+\end{table}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\columnwidth]{ir_branch_diagram}
+  \caption{Local logarithmic slope of $\Omega_{\rm GW}$ against $p=k/k_0$ for the
+  triangular (finite-lifetime) correlator, at several $\hat\tau=\tau_ck_0$. The slope
+  sits at $3$ in the infrared and falls to $1$ above the break
+  Eq.~\eqref{eq:k-break-pi}; the residual oscillation about the linear band is the
+  $\sin^{2}$ ringing of the finite window, not noise. The linear band is resolved only
+  for $\hat\tau\gtrsim10^{3}$.}
+  \label{fig:ir-branch}
+\end{figure}
+
+This settles, in a controlled and reproducible way, what the retracted
+$\Omega_T\propto\Omega_M$ argument was reaching for: a temporal history \emph{can}
+produce $k^{1}$, over a band, without touching the $k\to0$ asymptote.}
+\why{Task 2.1 --- the figure both referees asked for}
 
 \subsection{Reproduction of the universal infrared theorem}
 \label{sec:cps-reproduction}
@@ -2969,7 +2976,15 @@ its temporal axis, and open on its dissipative one.
   below every observationally accessible band \emph{and} below the fundamental mode
   of every published simulation box, so no simulation of this class can exhibit the
   causal asymptote and none should be read as excluding it
-  (Sec.~\ref{sec:principal-discrepancy}). What remains genuinely open is whether
+  (Sec.~\ref{sec:principal-discrepancy}).
+  \add{Both halves of that statement are now quantified. In observed frequency
+  $f_{\rm break}=f_H/2\hat\tau_c$ (Sec.~\ref{sec:k-break-hz}): for an electroweak
+  source it runs $5\,\mu$Hz--$15\,$mHz against LISA's energy-density window
+  $1.0$--$4.6\,$mHz, so LISA observes on the $k^{1}$ side in every corner of the
+  parameter space but one, and that one puts the break at the spectral knee where it
+  is not separable from the peak. The value itself moves by two to three decades with
+  the source lifetime and eddy size and should not be quoted as a number; the
+  ordering of break and band is what is robust.} What remains genuinely open is whether
   real MHD sources stay coherent long enough to populate the $k^{1}$ band; we have
   not established that, and assuming it is circular.
 
