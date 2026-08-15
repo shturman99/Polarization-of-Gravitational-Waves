@@ -50,3 +50,6 @@ Notebooks/roperpol_runs_data/
 .venv/
 .buildlog.*
 build/
+
+# git bundles used for out-of-band delivery
+*.bundle
