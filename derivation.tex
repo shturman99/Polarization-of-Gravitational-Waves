@@ -189,12 +189,21 @@ through a cutoff wavenumber whose precise form is then argued to be unimportant
 This paper is an attempt to say precisely which features of the GW spectrum each
 input controls, and---more usefully---which features no choice of input can
 change. The organising result, developed in Sec.~\ref{sec:model-space} and
-verified model by model throughout, is that the pipeline factorises: the infrared
-slope is determined by the spatial model alone, the ultraviolet slope by the
-temporal model alone, and the peak is the only feature that responds to both. That
+verified model by model throughout, is that the pipeline factorises \add{in its
+\emph{asymptotes}}: the \add{strict $k\to0$} infrared
+slope is determined by the spatial model alone, the \add{far} ultraviolet by the
+temporal model alone, and \add{every intermediate feature---the peak and the break
+alike---responds to both}. That
 statement is not a modelling convenience but a consequence of the source being
 quadratic in the fields, and it converts several open disagreements in the
-literature into questions with definite answers.
+literature into questions with definite answers. \add{The qualification matters and
+is not a hedge: a source of finite duration moves the infrared by two powers over a
+band \cite{Caprini:2009fx,RoperPol:2022iel,RoperPol:2023dzg}, and every accessible
+band lies inside it, so the factorisation is a statement about limits rather than
+about what a detector sees.}
+\del{and the peak is the only feature that responds to both}
+\why{the abstract and the conclusions were qualified to asymptotes in the first
+pass; the introduction still carried the unqualified form}
 
 The most prominent of those disagreements is the infrared slope. Analytic
 treatments give a causal $\Omega_{\rm GW}\propto k^{3}$ below the peak, a slope
@@ -204,9 +213,24 @@ is in that sense model-independent
 Ref.~\cite{RoperPol:2019wvy} reports a much flatter $k^{1}$. We show in
 Sec.~\ref{sec:principal-discrepancy} that both sides in fact use the same relation
 between the GW and the stress spectrum, so the disagreement cannot be about the
-gravitational-wave step at all; it is about the stress, and it reduces to a single
+gravitational-wave step at all; it is about the stress.
+\add{That the stress cannot inherit a spectrum steeper than white noise, because it
+is a self-convolution of the fluid spectrum, is not new: it is the explanation
+Ref.~\cite{RoperPol:2019wvy} themselves give, it is derived for stress spectra in
+Ref.~\cite{Brandenburg:2019uzj} and modelled through the stress evolution in
+Ref.~\cite{Sharma:2022ysf}, and it is already implicit in
+Refs.~\cite{Caprini:2006jb,Caprini:2009fx}. What we add is a sharper test of it
+(Sec.~\ref{sec:band-split}) and the observation that it settles the stress without
+settling the gravitational waves: from the \emph{same} white-noise stress the two
+branches of the finite-duration response give $k^{3}$ and $k^{1}$, so what is
+actually in dispute is which branch the observed band lies in.}
+\del{and it reduces to a single
 assumption, $\Omega_{T}\propto\Omega_{M}$, which is inconsistent with the stress
-being a self-convolution of the fluid spectrum. The convolution floors at white
+being a self-convolution of the fluid spectrum.}
+\why{pre-empted (RoperPol:2019wvy, Brandenburg:2019uzj, Sharma:2022ysf) and
+retracted in Sec.~\ref{sec:principal-discrepancy}; the abstract and Conclusion~3
+dropped this localisation in the first pass and the introduction did not}
+The convolution floors at white
 noise below the peak no matter how steep the fluid infrared is, and it does so
 even for a Gaussian field.
 
@@ -722,9 +746,12 @@ The GW spectrum rises with the causal slope $\Omega_{\rm GW}\propto k^3$
 steeper fluid $k^4$ band, because the GW infrared is fixed by the analyticity of the
 stress rather than by the input spectrum. \emph{(ii)~The infrared band lifts the
 amplitude, not the inertial range.} Feeding the band raises the GW amplitude near and
-below the peak by a factor $\simeq1.9$ and shifts the peak from $k\simeq1.5\,k_0$ to
-$k\simeq k_0$, a change that depends only weakly on the infrared slope (a further
-$\simeq1.4$ between Batchelor $k^4$ and Saffman $k^2$) and leaves the inertial range
+below the peak by a factor $\add{\simeq2.0}$ and shifts the peak from
+$\add{k\simeq1.18\,k_0}$ to $\add{k\simeq1.01\,k_0}$
+\add{(both in this figure's $\Omega_{\rm GW}/k=p^{2}H$ convention; the two ends had been
+quoted in different conventions, $1.55$ being the $p^{3}H$ value)},
+a change that depends only weakly on the infrared slope (a further
+$\add{\simeq1.49}$ between Batchelor $k^4$ and Saffman $k^2$) and leaves the inertial range
 untouched. \emph{(iii)~The ultraviolet tension is robust.} Above the peak the
 spectrum steepens \emph{continuously}, and at $M=1$ far more steeply than either
 reference: the measured post-peak slope is $\simeq k^{-5.0}$---steeper than both
@@ -1162,7 +1189,7 @@ argument.
   radiates at the stress scale independently of $M$
   (Roper Pol et al.~\cite{RoperPol:2019wvy}; Caprini et al.~\cite{Caprini:2018mtu})---a
   schematic, \emph{not} computed here and not data. In the convention $M=u_0/c$
-  the sweeping law enters the source band only at $M\simeq0.67$--$1.35$ (grey
+  the sweeping law enters the source band only at $M\simeq\add{0.66}$--$\add{1.32}$ (grey
   strip), i.e.\ near or beyond the luminal ceiling $M=1$ (dash-dotted; $M>1$ is
   superluminal, shaded); the transonic point $u_0=c_s$ is at $M=1/\sqrt3\simeq0.58$
   (dotted). The two pictures therefore diverge across the whole physical range.
@@ -1634,8 +1661,15 @@ disagreeing about the gravitational-wave step at all. What they disagree about i
 $\Omega_{\rm T}\propto\Omega_{\rm M}\propto k^5$, the simulation finds
 $\Omega_{\rm T}\propto k^3$, white noise.
 
-\paragraph{The single assumption at fault.} That one substitution is the whole
-discrepancy, and it cannot hold for a quadratic source. Because $T_{ij}\sim B_iB_j$ is
+\paragraph{\add{Why the stress cannot be the whole story.}}
+\del{The single assumption at fault. That one substitution is the whole
+discrepancy, and it}
+\why{demoted: this substitution is pre-empted as an explanation
+(Refs.~\cite{RoperPol:2019wvy,Brandenburg:2019uzj,Sharma:2022ysf}) and, as the
+subsection on the branch diagram then shows, identifying it does not by itself resolve
+the gravitational-wave slope --- so it is no longer presented as ``the whole
+discrepancy''}
+\add{That substitution} cannot hold for a quadratic source. Because $T_{ij}\sim B_iB_j$ is
 quadratic in the field, its spectrum is the magnetic spectrum \emph{convolved with itself},
 $P_{\rm T}(\kb)=\int d^3q\,P_{\rm M}(\mathbf{q})P_{\rm M}(\kb-\mathbf{q})$. For $k$ below the
 field peak that integral is dominated by pairs $\mathbf{q}_1\simeq-\mathbf{q}_2$ sitting
@@ -1652,11 +1686,22 @@ The point worth stressing is that this is purely kinematic and survives every cl
 assumption in the analytic chain. It holds in particular for a perfectly Gaussian field,
 since Wick's theorem gives $\langle B^2B^2\rangle=2\langle BB\rangle^2$, which \emph{is} that
 self-convolution. Gaussianity, the sweeping ansatz, and stationarity are therefore all
-innocent of the infrared discrepancy; the lone bad step is $\Omega_{\rm T}\propto
-\Omega_{\rm M}$. Our own kernels do not take it---they carry the double convolution
+innocent of the infrared discrepancy \add{on the stress}. Our own kernels do not take the
+substitution---they carry the double convolution
 explicitly [Eqs.~\eqref{eq: H-after-r}--\eqref{eq: H-convolution}] and so reproduce the
 white-noise stress floor---which is why the residual gap must be, and below is shown to be,
 a statement about the \emph{temporal} response rather than about the stress.
+\add{None of this is new, and it should not be read as a localisation of the
+discrepancy. The white-noise floor is the explanation Ref.~\cite{RoperPol:2019wvy}
+give themselves, it is derived for stress spectra in Ref.~\cite{Brandenburg:2019uzj}
+and carried through the stress evolution in Ref.~\cite{Sharma:2022ysf}; we restate it
+because the bookkeeping of Table~\ref{tab:slope-bookkeeping} shows exactly where it
+enters, and because it is what makes the \emph{next} step necessary. Once the stress
+is white noise on both sides, the same stress feeds both branches of
+Eq.~\eqref{eq:window-factor}, and the surviving question is entirely about the
+source's temporal history---which is what Sec.~\ref{sec:ir-branch} then computes.}
+\why{Referee B and the prior-art sweep: presented as ours, this is claim~3 of the
+report, published and subsequently retracted in this very section}
 
 \begin{table}[ht]
   \centering
@@ -2016,11 +2061,16 @@ asymptote, and none should be read as excluding it.
   causal $k^3$ (Fig.~\ref{fig:ir_resolution})---yet is contradicted by the simulation
   ($k^1$). Restoring the finite duration of a freely decaying source does \emph{not} flatten
   the infrared: the growing eddy coherence is cancelled by the faster amplitude decay, so the
-  hydrodynamic infrared stays causal for every decay rate. The tension is therefore genuine,
-  and Sec.~\ref{sec:principal-discrepancy} localizes it to two identifiable steps: on the
-  analytic side the substitution $\Omega_{\rm T}\propto\Omega_{\rm M}$, which a quadratic
-  source forbids, and on both sides the question of which branch of the finite-duration
-  response Eq.~\eqref{eq:window-factor} the observed band of $k$ lies in.
+  hydrodynamic infrared stays causal for every decay rate. \add{The rows nevertheless
+  disagree about a band rather than about physics: once the stress is recognised as
+  white noise below the peak---which is Ref.~\cite{RoperPol:2019wvy}'s own explanation,
+  derived in Ref.~\cite{Brandenburg:2019uzj}---the same stress feeds both branches of
+  Eq.~\eqref{eq:window-factor}, and what separates the $k^{3}$ and $k^{1}$ entries is
+  only which branch the tabulated band of $k$ lies in.}
+  \del{The tension is therefore genuine, and Sec.~V localizes it to two identifiable
+  steps: on the analytic side the substitution $\Omega_{\rm T}\propto\Omega_{\rm M}$,
+  which a quadratic source forbids, and on both sides the question of which branch of the
+  finite-duration response the observed band of $k$ lies in.}
   The infrared slope is not quoted explicitly by
   \cite{Kahniashvili:2008pe} but is the generic causal value of their aeroacoustic
   Gaussian-closure framework. Slopes are in the $\Omega_{\rm GW}=d\rho_{\rm GW}/d\ln k$
@@ -2098,7 +2148,16 @@ This locates the $k^{1}\!\to\!k^{3}$ break precisely,
   k_{\rm break}\;\simeq\;1/\Delta t_{s},
   \label{eq:k-break}
 \end{equation}
-and the same white-noise stress $\Omega_{\rm T}\propto k^{3}$ feeds \emph{both} sides of it:
+\add{which is the order-of-magnitude form. It is refined by a factor $\pi$ in
+Sec.~\ref{sec:ir-branch}, where the break is read off the \emph{two-leg} temporal
+factor---the transform of the squared window rather than of the window---and located at
+$k_{\rm break}=\pi/\tau_c$, Eq.~\eqref{eq:k-break-pi}. Eq.~\eqref{eq:k-break} is used
+below only where a factor of a few does not matter, namely in comparing the break with
+the box fundamental; the placement against the observing bands in
+Sec.~\ref{sec:k-break-hz} uses the refined form.}
+\why{the manuscript quoted two different coefficients for the same break in two
+sections without ever relating them}
+And the same white-noise stress $\Omega_{\rm T}\propto k^{3}$ feeds \emph{both} sides of it:
 what changes across $k_{\rm break}$ is only whether a mode completes oscillations while the
 source lives, i.e.\ which branch of Eq.~\eqref{eq:window-factor} applies. It is worth
 inserting the numbers for the published runs. In units where the Hubble rate at generation is
@@ -2292,7 +2351,7 @@ resulting spectra at $M=0.5$, $R=10^4$, $R_{\rm IR}=10^2$.
 
 All three gravitational-wave spectra rise with the causal slope. Fitted over the
 decade $2\times10^{-3}\le p\le2\times10^{-2}$, more than a decade and a half below
-every peak, the slopes are $p^{3.00}$ (Batchelor band alone), $p^{3.01}$ (inertial
+every peak, the slopes are $p^{3.00}$ (Batchelor band alone), $\add{p^{3.00}}$ (inertial
 range alone) and $p^{3.02}$ (full spectrum); over the lower decade
 $10^{-3}\le p\le10^{-2}$ they tighten to $3.001$, $3.005$ and $3.008$. The
 inertial-range-only run is the sharpest test, and it is decisive: that input has
@@ -2323,9 +2382,9 @@ both are bounded by $k_0$; they contribute comparably because both are dominated
 by the energy-containing modes on their respective sides of $k_0$. The cross term
 is not negligible near the peak, where at $p\simeq0.5$ the full run exceeds the sum
 of the two single-band runs by $46\%$, which is why the full-spectrum peak ($p=0.66$, amplitude
-$4.14\times10^{-4}$) is not the sum of the inertial-only peak ($p=0.74$,
-$2.57\times10^{-4}$, i.e.\ the $\add{1.49}M$ sweeping scaling) and the Batchelor-only
-peak ($p=0.47$, $5.16\times10^{-5}$). The practical consequence for
+$\add{3.96}\times10^{-4}$) is not the sum of the inertial-only peak ($p=0.75$,
+$\add{2.43}\times10^{-4}$, i.e.\ the $\add{1.49}M$ sweeping scaling) and the Batchelor-only
+peak ($p=0.47$, $\add{5.48}\times10^{-5}$). The practical consequence for
 Sec.~\ref{sec:principal-discrepancy} is a negative one and worth stating plainly:
 no choice of fluid infrared slope, and no widening of the infrared band, can bend
 the analytic $k^3$ towards the simulated $k^1$. The causal slope is a property of
@@ -2358,7 +2417,7 @@ $2.99$ for the same two bands fired impulsively: neither the band nor the
 presence of a temporal model at all moves it, which is
 Eq.~\eqref{A:bs-floor} in its strongest form---the causal slope survives the
 deletion of the entire temporal sector. Everything else moves. The peak slides
-outward from $p=0.47$ to $1.26$ for the $k^4$ band and from $0.74$ to $2.13$ for
+outward from $p=0.47$ to $\add{1.37}$ for the $k^4$ band and from $0.75$ to $\add{2.50}$ for
 the inertial band, because the sweeping factor was the only thing cutting the
 source off at $p\gtrsim M$; and the inertial band's ultraviolet tail flattens
 from $p^{-4.5}$ to $p^{-1.4}$, leaving only the fall-off of the spatial
@@ -2400,12 +2459,12 @@ can move.
 Repeating both single-band runs over $M=0.03$--$3$ separates the Mach
 dependence from the band decomposition, and the two turn out to be independent
 (Fig.~\ref{fig:band-split-mach}). The infrared exponent is untouched: it stays
-within $2.98$--$3.08$ of the causal value for every $M$ and for both bands, so
+within $\add{2.99}$--$\add{3.06}$ of the causal value for every $M$ and for both bands, so
 $M$ joins the infrared slope $s$, the bandwidth $R_{\rm IR}$ and the temporal
 model on the list of things that cannot bend it. What $M$ does control is what
 it controls for the full spectrum. The infrared amplitude follows the bare
 $M^3$ prefactor of Eq.~\eqref{eq:Hijij-AppA-dimless}---compensating by $M^{3}$
-flattens it to $13\%$ ($k^4$ band) and $19\%$ ($k^{-5/3}$ band) across two
+flattens it to $\add{16.6\%}$ ($k^4$ band) and $\add{14.0\%}$ ($k^{-5/3}$ band) across two
 decades of $M$---and the peak follows the sweeping law, at
 $p_{\rm peak}\simeq1.5\,M$ for the inertial band, which is the
 $\add{1.49}\,M$ of Eq.~\eqref{eq:peak-fit} recovered from that band alone, and at a
@@ -2413,7 +2472,7 @@ slightly lower $p_{\rm peak}\simeq1.1\,M$ for the Batchelor band.
 
 The two bands part company only where kinematics intervenes. Above $M\simeq1$
 both peaks fall below the sweeping law, and the $k^{4}$ band saturates hardest,
-reaching only $p_{\rm peak}=1.26$ at $M=3$ where $1.1\,M$ would predict $3.3$:
+reaching only $p_{\rm peak}=\add{1.33}$ at $M=3$ where $1.1\,M$ would predict $3.3$:
 its support is bounded above by $k_0$, so its convolution cannot place power
 beyond $p=2$ at all [Eq.~\eqref{A:bs-support}], and the sweeping scale runs into
 that ceiling. The inertial band, whose support extends to $k_d$, saturates later
@@ -2439,7 +2498,7 @@ is therefore a property of the sweeping model, not of the source spectrum.
   $M\simeq1$, where the sweeping scale meets the kinematic ceiling $p\le2$ that
   bounds a convolution of two modes with $k<k_0$.
   \emph{(d)}~Infrared amplitude at $p=5\times10^{-3}$ against $M$, with the
-  $M^3$ prefactor dotted; both bands follow it to $13\%$ and $19\%$ over two
+  $M^3$ prefactor dotted; both bands follow it to $\add{16.6\%}$ and $\add{14.0\%}$ over two
   decades of $M$. Produced by \texttt{Notebooks/band\_split\_mach.py}.}
   \label{fig:band-split-mach}
 \end{figure}
@@ -2895,7 +2954,7 @@ its temporal axis, and open on its dissipative one.
   by Ref.~\cite{Brandenburg:2019uzj}; our contribution is a sharper test of it. The
   band-split experiment of Sec.~\ref{sec:band-split} takes the limit those papers do
   not, deleting the infrared band outright: the Kolmogorov range alone, an input
-  with \emph{identically zero} infrared power, still radiates $p^{3.01}$, and it
+  with \emph{identically zero} infrared power, still radiates $\add{p^{3.00}}$, and it
   continues to do so with the temporal sector removed entirely.
 
   \item Consequently the $k^{3}$-versus-$k^{1}$ tension cannot be resolved on the
@@ -4983,7 +5042,7 @@ falls as $-2f'(0^{+})/\omega^{2}$, so
     super-exponential. Fitting a power law to it is meaningless---the apparent
     ``slope'' merely records where the fit window was placed, which is why
     $H[S_{\delta r},T_{\rm sw}]$ returns $-46.6$ and
-    $H[S_{\rm K41},T_{\rm sw}]$ returns $-4.75$ on the same window.
+    $H[S_{\rm K41},T_{\rm sw}]$ returns $\add{-4.73}$ on the same window.
   \item $T_{\rm dec}$ (power law, $f'(0^{+})=-4/3$): a genuine heavy tail
     $\propto\omega^{-2}$, with the coefficient $8/3$ of
     Eq.~\eqref{eq:cosT-limits}. The measured GW slope is mildly $M$-dependent
@@ -5004,8 +5063,16 @@ spectrum is cut off at the sweeping frequency and the peak sits at
 $p\simeq\add{1.49}M$ (measured $1.53$ at $M=1$), \emph{below} the source scale for
 subsonic turbulence. With $T_{\rm dec}$ the heavy tail survives past that
 cutoff, and the peak is instead pinned by the spatial structure at
-$p\simeq2.3$, essentially independent of $M$ (measured $2.32$ for
-$M\le1$, drifting to $2.79$ by the formal $M=3$). The two temporal models therefore
+$p\simeq2.3$, essentially independent of $M$ \add{(measured $2.27$, $2.27$, $2.31$,
+$2.31$ at $M=0.1$--$0.8$, drifting to $2.66$ by the formal $M=1.6$)}.
+\del{(measured $2.32$ for $M\le1$, drifting to $2.79$ by the formal $M=3$)}
+\why{the quoted end-points are not produced by the cited script, whose Mach sweep
+stops at $M=1.6$; replaced by the values it does produce}
+\add{The coarse survey grid used for Table~\ref{tab:model-differences} resolves a
+peak only to about $15\%$ and returns $2.70$ at $M=1$, consistent with the finer
+sweep and with the $2.4$ of Eq.~\eqref{eq:decay-peak} at that resolution; the peak of
+this kernel should not be read to three digits from any of them.}
+The two temporal models therefore
 disagree about the peak by a factor $\sim1/M$, which for the subsonic
 simulations is an order of magnitude---this is exactly the
 Gogoberidze-versus-Roper~Pol tension of Sec.~\ref{sec:peak-location}. Note that
@@ -5041,7 +5108,7 @@ formal, $M>1$ being superluminal, but included to pin the exponent) gives
 \hline
 Temporal model & $d\ln p_{\rm peak}/d\ln M$ \\
 \hline
-$T_{\rm sw}$ (Kraichnan sweeping) & $+0.974$ \\
+$T_{\rm sw}$ (Kraichnan sweeping) & $\add{+0.970}$ \\
 $T_{\rm dec}$ (BK2016 power law)  & $+0.048$ \\
 $T_{\rm imp}$ ($\delta$-in-time)  & $\phantom{+}0.000$ \\
 \hline
@@ -5116,7 +5183,7 @@ therefore no harder than the Gaussian ones.
   Kernel & IR slope & Peak $p$ & UV & Positive & Literature counterpart \\
   \hline
   $H[S_{\rm K41},T_{\rm sw}]$   & $3.00$ & $\add{1.49}M$ & super-exp & yes & Gogoberidze et al.~\cite{Gogoberidze:2007an} \\
-  $H[S_{\rm K41},T_{\rm dec}]$  & $2.97$ & $2.32$ & $\omega^{-2}$ & yes & Roper Pol et al.~\cite{RoperPol:2019wvy} (peak) \\
+  $H[S_{\rm K41},T_{\rm dec}]$  & $2.97$ & $\add{\simeq2.4}$ & $\omega^{-2}$ & yes & Roper Pol et al.~\cite{RoperPol:2019wvy} (peak) \\
   $H[S_{\delta k},T_{\rm sw}]$  & $2.00$ & cutoff & none & yes & --- \\
   $H[S_{\delta k},T_{\rm dec}]$ & $1.97$ & cutoff & none & yes & --- \\
   $H[S_{\delta r},T_{\rm sw}]$  & $3.00$ & cutoff & super-exp & yes & --- \\
