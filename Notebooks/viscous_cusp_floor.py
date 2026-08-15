@@ -115,9 +115,11 @@ def T_closed(omega, a, b):
 
 def T_quad(omega, a, b):
     value, _ = integrate.quad(
-        lambda t: 2.0 * np.cos(omega * t) * np.exp(-a * t**2 - b * t),
+        lambda t: 2.0 * np.exp(-a * t**2 - b * t),
         0.0,
         np.inf,
+        weight="cos",
+        wvar=omega,
         limit=400,
     )
     return value
@@ -262,21 +264,30 @@ def c_eff(p, M, R):
 # --------------------------------------------------------------------------
 # 4.  Crossover and floor/peak
 # --------------------------------------------------------------------------
-def crossover_p(M, R, p_lo=1.0, p_hi=None):
+def crossover_p(M, R, p_lo=1.0, p_hi=None, n=32):
     """Smallest p where the viscous floor exceeds the Gaussian sweeping curve."""
     if p_hi is None:
-        p_hi = 2.0 * R**0.75
+        p_hi = R**0.75  # stay inside the source's own support, k < k_d
 
     def diff(lp):
         p = np.exp(lp)
-        return np.log(omega_gw(p, M, R, "floor")) - np.log(omega_gw(p, M, R, "gauss"))
+        g = omega_gw(p, M, R, "gauss")
+        f = omega_gw(p, M, R, "floor")
+        if f <= 0.0:
+            return -np.inf
+        if g <= 0.0:
+            return np.inf
+        return np.log(f) - np.log(g)
 
-    lo, hi = np.log(p_lo), np.log(p_hi)
-    if diff(lo) > 0:  # already dominated at p_lo
-        return p_lo
-    if diff(hi) < 0:
-        return np.nan
-    root = optimize.brentq(diff, lo, hi, xtol=1e-6)
+    grid = np.linspace(np.log(p_lo), np.log(p_hi), n)
+    vals = np.array([diff(t) for t in grid])
+    sign_change = np.where((vals[:-1] < 0) & (vals[1:] > 0))[0]
+    if vals[0] > 0:
+        return float(p_lo)
+    if sign_change.size == 0:
+        return float("nan")
+    i = int(sign_change[0])
+    root = optimize.brentq(diff, grid[i], grid[i + 1], xtol=1e-5)
     return float(np.exp(root))
 
 

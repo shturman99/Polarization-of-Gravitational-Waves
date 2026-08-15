@@ -123,7 +123,10 @@ disagreement about physics but about band: $k^{3}$ is the asymptotic law and
 $k^{1}$ the finite-duration regime above the break $k_{\rm br}\simeq1/\delta t$
 \cite{Caprini:2009fx,RoperPol:2022iel,RoperPol:2023dzg} \add{(for a source shorter than
 a Hubble time; for a longer one the linear regime begins at $\mathcal{H}_\ast$ and the
-transition is logarithmic)}, and every accessible band lies on the $k^{1}$ side.}
+transition is logarithmic)}, and every accessible band lies on the $k^{1}$ side---
+\add{in observed frequency the break falls below LISA's energy-density window for an
+electroweak source across essentially the whole parameter space, so the causal
+asymptote sits below the instrument as well as below every simulation box}.}
 Second, the displacement of the GW peak to the source scale requires only that the
 source correlator have a kink at zero time lag, a condition met by any source with
 a finite lifetime and not specific to any decorrelation model; all cusped
@@ -137,9 +140,16 @@ give $f'(0^{+})=0$ and hence tell against the cusp. We close by arguing
 that the remaining freedom in the pipeline lies almost entirely in the third
 input: the dissipation microphysics of the early Universe is neither
 Navier--Stokes nor unit magnetic Prandtl number, and no existing calculation or
-simulation of the GW signal uses the correct one---an omission acknowledged in the
-field's own review of the relevant magnetohydrodynamics \cite{RoperPol:2025lgc}. We
-identify that gap and set out how to close it, but do not close it here.
+simulation of the GW signal uses the correct one.
+\add{The field's own review of the relevant magnetohydrodynamics
+\cite{RoperPol:2025lgc} sets free-streaming aside explicitly and does not treat the
+magnetic Prandtl number at all.}
+\del{---an omission acknowledged in the field's own review of the relevant
+magnetohydrodynamics.}
+\why{the abstract still said ``acknowledged''; citation verification established that
+the review is declaring its scope rather than conceding a gap, and has no Pm content ---
+Sec.~\ref{sec:outlook} was corrected in the first pass and the abstract was not}
+We identify that gap and set out how to close it, but do not close it here.
 \end{abstract}
 
 \maketitle
@@ -1767,7 +1777,12 @@ the stationary frequency factor by the finite-duration kernel
   \;\xrightarrow[\;\rm ens.\,avg\;]{\;\omega T_{\rm em}\gg1\;}\;\frac{2}{\omega^2},
   \label{eq:duration-kernel}
 \end{equation}
-which tends to $T_{\rm em}^2$ (a constant, giving $k^3$) for $\omega T_{\rm em}\ll1$ but to
+\add{This object appears three times in this paper and it is worth saying once that it is
+the same object each time: as Eq.~\eqref{eq:burst-equals-triangle} it is the temporal
+factor of the triangular correlator $T_{\rm burst}$, here it is the finite-window
+kernel, and as Eq.~\eqref{eq:window-factor} it is condition~(II) of the universal
+infrared theorem. One formula, read in three contexts.}
+It tends to $T_{\rm em}^2$ (a constant, giving $k^3$) for $\omega T_{\rm em}\ll1$ but to
 $2/\omega^2$ (giving $k^1$) for $\omega T_{\rm em}\gg1$---\emph{provided the source stays
 coherent across the window}. A source that is both coherent and sustained over
 $[0,T_{\rm em}]$ would thus carry a $k^1$ sub-peak band; this is the regime in which a source
@@ -3011,8 +3026,15 @@ its temporal axis, and open on its dissipative one.
   for which we could find no prior art: the early Universe is neither
   Navier--Stokes nor ${\rm Pm}=1$, and the resulting subviscous magnetic range
   radiates because the source is $B_iB_j$ rather than the velocity
-  (Sec.~\ref{sec:outlook}). The omission is acknowledged in the field's own review
-  of the relevant magnetohydrodynamics \cite{RoperPol:2025lgc}. We identify the gap
+  (Sec.~\ref{sec:outlook}). \add{The field's own review of the relevant
+  magnetohydrodynamics \cite{RoperPol:2025lgc} sets free-streaming aside explicitly
+  and does not treat the magnetic Prandtl number at all---a declaration of scope, which
+  is weaker than a concession but still locates the gap.}
+  \del{The omission is acknowledged in the field's own review
+  of the relevant magnetohydrodynamics.}
+  \why{same over-claim as in the abstract; Sec.~\ref{sec:outlook} was corrected in the
+  first pass, this conclusion and the abstract were not}
+  We identify the gap
   here but do not close it; the size of the discarded contribution is not yet
   computed, and until it is, this is a programme rather than a result.
 \end{enumerate}
