@@ -50,7 +50,7 @@ preamble.
 | 2.3 | k_break in Hz vs LISA/PTA sensitivity curves | Referee A/C | 1 d | **DONE** (overnight) |
 | 2.4 | Report ωT_em and T_em/τ_c for Fig. `ir_resolution`, or re-run | Referee C | 2 d–1 wk | **DONE** (overnight) |
 | 2.5 | Run our kernel at RP20's own T_em, τ_c, k-range and show k^1.x | Referee C | 3 d | **DONE** (overnight) |
-| 2.6 | Measure the **magnetic** UETC from RP20 Zenodo data | Referee A/C | 1–3 wk | **IN PROGRESS** — last open substantive item |
+| 2.6 | Measure the **magnetic** UETC from RP20 Zenodo data | Referee A/C | 1–3 wk | **DONE — result is negative for our cusp** |
 
 ## Tier 3 — scope
 
@@ -280,3 +280,34 @@ Two of the plan's "pre-existing inconsistencies" were **mis-diagnoses**: the 0.4
 
 **Build:** 73 pp, 0 errors, 0 undefined references, 0 undefined citations (`./build_derivation.sh`).
 **Tests:** 68 passed.
+
+- **2026-08-15, task 2.6 — DONE, and the answer goes against us.** A direct UETC
+  measurement is **impossible** from the public release: dump cadence is Δt = 1e-3 in
+  Hubble units while the cusp lives at τ ~ 1/k ≈ 8e-4 at the GW peak, so any time-domain
+  correlation would be one lag bin wide. But a **parameter-free forward model** is
+  possible — the simulation does the short-lag integral itself at its own timestep, and
+  Π(k,t) and v_A(t) are both measured, so E_GW at the end of the run is a *prediction*
+  for each candidate correlator. Over p = 1.5–30:
+
+  | correlator | E_model / E_data |
+  |---|---|
+  | coherent, f = 1 | 0.35 – 1.19 |
+  | Gaussian sweeping | 0.90 – 1.14 |
+  | cusped, exp(−k v_A \|τ\|) | **19.5 – 97.8** |
+  | BK2016 power law | **13.0 – 64.0** |
+
+  **Cuspless correlators reproduce the data; cusped ones overpredict by 1–2 orders of
+  magnitude.** Stable against grid padding and against v_A taken at start/mean/end.
+  So f′(0⁺) ≃ 0 for the magnetic stress too, as for Auclair's hydrodynamic case.
+  **The source-scale peak survives, but via duration, not decorrelation** — the spectrum
+  is laid down by the switch-on, and a cusp would add sustained radiation for which
+  there is no room. This *strengthens* the T_burst/window result of
+  `eq:burst-equals-triangle` and *retires* the T_dec/cusp route as the explanation.
+  Tool: `Notebooks/magnetic_uetc.py`, Fig. `magnetic_uetc`.
+
+### Working practice (revised after two spend-limit losses)
+
+Commit after **every** completed task, not at the end of a batch. Two runs have now been
+cut off mid-flight; the first lost 7 commits to an unpushed branch, the second lost
+nothing only because its script and figure happened to be on disk. Artefacts on disk are
+not progress — committed artefacts are.
