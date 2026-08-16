@@ -70,7 +70,13 @@ def T_hat(p: float, M: float, R: float, viscous: bool = True) -> float:
     e2 = eta_hat(p, M) ** 2
     nr = nu_rate(p, M, R) if viscous else 0.0
     f2 = lambda t: np.exp(-0.5 * np.pi * e2 * t ** 2 - 2.0 * nr * np.abs(t))
-    val, _ = integrate.quad(lambda t: np.cos(p * t) * f2(t), 0.0, 2000.0,
+    # Use scipy's oscillatory weight rather than folding cos(p t) into the
+    # integrand.  With cos() inside, the quadrature cancels catastrophically once
+    # p t oscillates many times across the support: at M=0.5, R=1e4, p=100 the
+    # naive form returned 1.1e-11 against an exact 2.0e-04, and at M=0.1, R=1e4,
+    # p=1000 it returned a NEGATIVE value.  Harmless at the p used by main(),
+    # but the function is public.  Fixed 2026-08-16.
+    val, _ = integrate.quad(f2, 0.0, 2000.0, weight="cos", wvar=p,
                             limit=2000, epsabs=1e-300, epsrel=1e-12)
     return 2.0 * val
 
