@@ -1819,7 +1819,23 @@ the stationary frequency factor by the finite-duration kernel
 the same object each time: as Eq.~\eqref{eq:burst-equals-triangle} it is the temporal
 factor of the triangular correlator $T_{\rm burst}$, here it is the finite-window
 kernel, and as Eq.~\eqref{eq:window-factor} it is condition~(II) of the universal
-infrared theorem. One formula, read in three contexts.}
+infrared theorem. One formula, read in three contexts.
+
+One distinction must be kept, because the numerical coefficient of the break depends on
+it, and the two readings differ by more than a third. Equation~\eqref{eq:duration-kernel}
+is written at the level of the \emph{stress}: $T_{\rm em}$ is the time over which the
+source term $S$ itself stays correlated. Solving
+$d\ln T/d\ln\omega=-1$ for that form gives the midpoint of the crossover at
+$\omega T_{\rm em}=2.3311$, i.e.\ $k_{\rm break}=2.33/T_{\rm em}$. The catalogue of
+Table~\ref{tab:temporal-catalogue}, by contrast, lists correlators of the \emph{field},
+one per leg; because the source is quadratic, the stress carries their product, so a
+per-leg memory $\tau_c$ produces the \emph{squared} tent, and the same condition then
+gives $\omega\tau_c=\pi$ exactly, which is Eq.~\eqref{eq:k-break-pi}. Both coefficients
+are right for their own object; quoting either against the other is what would be
+wrong. Where a lifetime is imposed on the stress we use $2.33$, and where it is a
+property of the field we use $\pi$.}
+\why{readiness audit: Eq.~\eqref{eq:burst-equals-triangle} and
+Sec.~\ref{sec:ir-branch} appeared to disagree about whether the tent is squared}
 It tends to $T_{\rm em}^2$ (a constant, giving $k^3$) for $\omega T_{\rm em}\ll1$ but to
 $2/\omega^2$ (giving $k^1$) for $\omega T_{\rm em}\gg1$---\emph{provided the source stays
 coherent across the window}. A source that is both coherent and sustained over
