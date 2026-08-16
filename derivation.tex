@@ -16,7 +16,7 @@
 %%% \add{...}  text added in response to the referee reports (red)
 %%% \del{...}  text removed in response to the reports (red, struck out)
 %%% \why{...}  short margin-free note naming the reviewer point addressed
-%%% Set \reviewmarkupfalse to compile a clean copy with all markup resolved.
+%%% Set \reviewmarkuptrue to compile a clean copy with all markup resolved.
 \usepackage{multirow}
 \usepackage[normalem]{ulem}
 \newif\ifreviewmarkup\reviewmarkuptrue
@@ -77,11 +77,6 @@
 \title{Gravitational Waves from Primordial Turbulence:\\
        What the Source Determines, and What It Does Not}
 
-\author{Titus Brock}
-\email{tbrock@andrew.cmu.edu}
-\affiliation{McWilliams Center for Cosmology and Department of Physics,
-Carnegie Mellon University, Pittsburgh, PA 15213, USA}
-
 \author{Murman Gurgenidze}
 \email{mgurgeni@andrew.cmu.edu}
 \affiliation{McWilliams Center for Cosmology and Department of Physics,
@@ -94,63 +89,49 @@ Carnegie Mellon University, Pittsburgh, PA 15213, USA}
 \affiliation{School of Natural Sciences and Medicine, Ilia State University, 0194 Tbilisi, Georgia}
 \affiliation{Abastumani Astrophysical Observatory, Tbilisi, GE-0179, Georgia}
 \begin{abstract}
-The gravitational-wave (GW) background sourced by turbulence in the early
-Universe is computed from three inputs: the spatial spectrum of the fluid, the
-unequal-time correlator (UETC) of the source, and the dissipation physics that
-terminates the cascade. We show that these three inputs are not on an equal
-footing, and that the pipeline separates in its \emph{asymptotes}: the strict
-$k\to0$ infrared slope is fixed by the spatial model alone, the ultraviolet by the
-temporal model alone, and every intermediate feature---the peak and the break
-alike---responds to both. Two consequences follow. First, the causal infrared
-$\Omega_{\rm GW}\propto k^{3}$ is a property of the \emph{quadratic} source and
-not of the fluid spectrum: it survives changing the infrared slope of the input,
-its bandwidth, the Mach number, the choice of stationary temporal model, and the
-removal of the temporal sector altogether. That the stress self-convolution floors at white
-noise is known \cite{Caprini:2006jb,Caprini:2009fx,Brandenburg:2019uzj}; we verify
-it \add{through the gravitational-wave kernel rather than the estimate
-$\Omega_{\rm GW}\propto F(k)/k^{2}$, and with the temporal sector retained, which
-Ref.~\cite{Brandenburg:2019uzj} explicitly sets aside}, by a band-split experiment in
-which the Kolmogorov range alone---an input with identically zero infrared
-power---still radiates a clean $k^{3}$.
-\del{by a sharper test,} The $k^{3}$-versus-$k^{1}$ tension between analytic predictions and
-simulations therefore cannot be resolved on the spatial axis.
-\del{We localise it instead to a single assumption, $\Omega_{T}\propto\Omega_{M}$,
-which the self-convolution of the stress forbids.}
-\why{removed: pre-empted by RoperPol:2019wvy/Sharma:2022ysf and retracted by our own
-Sec.~V; replaced with the band statement below}
-\add{It is not a
-disagreement about physics but about band: $k^{3}$ is the asymptotic law and
-$k^{1}$ the finite-duration regime above the break $k_{\rm br}\simeq1/\delta t$
-\cite{Caprini:2009fx,RoperPol:2022iel,RoperPol:2023dzg} \add{(for a source shorter than
-a Hubble time; for a longer one the linear regime begins at $\mathcal{H}_\ast$ and the
-transition is logarithmic)}, and every accessible band lies on the $k^{1}$ side---
-\add{in observed frequency the break falls below LISA's energy-density window for an
-electroweak source across essentially the whole parameter space, so the causal
-asymptote sits below the instrument as well as below every simulation box}.}
-Second, the displacement of the GW peak to the source scale requires only that the
-source correlator have a kink at zero time lag, a condition met by any source with
-a finite lifetime and not specific to any decorrelation model; all cusped
-correlators collapse onto a single prediction, so the only question is
-differentiability at zero lag. This is conditional on a measurement not yet made:
-the hydrodynamic UETC is Gaussian \cite{Auclair:2022jod}, and the magnetic
-\emph{anisotropic-stress} UETC of a decaying, magnetically dominated cosmological source
-has not been measured. Eulerian space--time correlations of forced MHD turbulence
-\emph{have} been measured \cite{Perez:2020}, and they favour sweeping---which would
-give $f'(0^{+})=0$ and hence tell against the cusp. We close by arguing
-that the remaining freedom in the pipeline lies almost entirely in the third
-input: the dissipation microphysics of the early Universe is neither
-Navier--Stokes nor unit magnetic Prandtl number, and no existing calculation or
-simulation of the GW signal uses the correct one.
-\add{The field's own review of the relevant magnetohydrodynamics
-\cite{RoperPol:2025lgc} sets free-streaming aside explicitly and does not treat the
-magnetic Prandtl number at all.}
-\del{---an omission acknowledged in the field's own review of the relevant
-magnetohydrodynamics.}
-\why{the abstract still said ``acknowledged''; citation verification established that
-the review is declaring its scope rather than conceding a gap, and has no Pm content ---
-Sec.~\ref{sec:outlook} was corrected in the first pass and the abstract was not}
-We identify that gap and set out how to close it, but do not close it here.
+The gravitational-wave (GW) background sourced by turbulence in the early Universe is
+computed from three inputs: the spatial spectrum of the fluid, the unequal-time
+correlator (UETC) of the source, and the dissipation physics that terminates the
+cascade. These inputs are not on an equal footing, and the pipeline separates in its
+\emph{asymptotes}: the strict $k\to0$ infrared slope is fixed by the spatial model
+alone---a known causality theorem---and the ultraviolet by the temporal model alone, in
+a form whose aeroacoustic original predates the cosmological literature. What we add is
+the demarcation: every intermediate feature, the peak and the break alike, responds to
+both, and the observable band is intermediate. Two
+consequences follow. First, the causal infrared $\Omega_{\rm GW}\propto k^{3}$ is a
+property of the \emph{quadratic} source and not of the fluid spectrum: it survives
+changing the infrared slope of the input, its bandwidth, the Mach number, the choice of
+stationary temporal model, and the removal of the temporal sector altogether. That the
+stress self-convolution floors at white noise is already established; we verify it
+through the GW kernel rather than through a spectral estimate, and with the temporal
+sector retained, by a band-split experiment in which the Kolmogorov range
+alone---an input with identically zero infrared power---still radiates a clean
+$k^{3}$. The $k^{3}$-versus-$k^{1}$ tension between analytic predictions and
+simulations therefore cannot be resolved on the spatial axis. It is not a disagreement
+about physics but about band: $k^{3}$ is the asymptotic law and $k^{1}$ the
+finite-duration regime above a break at the inverse source duration, a structure also
+obtained in the sound-shell and constant-source treatments. In observed frequency that
+break falls below LISA's energy-density window for an electroweak source over most of
+the parameter space, so that the causal asymptote usually lies below the instrument as
+well as below every simulation box; the exception is short-lived, small-scale sources,
+for which the break rises above the window and the causal side becomes the observable. Second, the displacement of the GW
+peak to the source scale requires only that the source correlator have a kink at zero
+time lag---a condition met by any source of finite lifetime and specific to no
+decorrelation model, since all cusped correlators collapse onto a single prediction.
+That the transform of a cusped correlator decays as $\omega^{-2}$ is a standard
+Abelian result, and its consequences for GW spectra, including for the peak, have been
+drawn before for coherent envelopes; what is new here is that the same argument
+applies at zero lag of a stationary, decorrelating UETC. This remains conditional on a
+measurement not yet made: the hydrodynamic UETC is Gaussian, and the magnetic
+anisotropic-stress UETC of a decaying, magnetically dominated cosmological source has
+not been measured. We close by arguing that the remaining freedom lies almost entirely
+in the third input: the dissipation microphysics of the early Universe is neither
+Navier--Stokes nor of unit magnetic Prandtl number, and no existing calculation or
+simulation of the GW signal uses the correct one. We identify that gap and set out how
+to close it, but do not close it here.
 \end{abstract}
+\why{abstract rewritten: citations moved to the introduction per PRD style (task 0.8);
+priority concessions retained in words. Change history in ACTION\_PLAN.md and git.}
 
 \maketitle
 
@@ -2402,18 +2383,30 @@ Three things follow, and the first is a caution about the second. Across the adm
 parameter ranges $f_{\rm break}$ moves by two to three and a half decades, so no single
 value should be quoted; what is robust is the \emph{ordering} of the break and the
 observing bands. Second, for an electroweak source the break lies below LISA's window in
-every corner but one. Recomputing the LISA energy-density sensitivity from the
-SciRD analytic noise model gives a minimum of $\Omega_{\rm sens}$ at
+\add{most of the parameter space, but not all of it}. Recomputing the LISA
+energy-density sensitivity from the SciRD analytic noise model
+\add{\cite{Robson:2018ifk}} gives a minimum of $\Omega_{\rm sens}$ at
 $2.52\,$mHz and a factor-of-two window $1.04$--$4.60\,$mHz (the strain minimum, and the
 origin of the often-quoted $3$--$10\,$mHz, is separately at $7.26\,$mHz; the $f^{3}$
 weighting moves the $\Omega$ minimum down). Against that, the global-lifetime break runs
-$8\,\mu$Hz--$0.8\,$mHz and the eddy-lifetime break $5\,\mu$Hz--$15\,$mHz. LISA therefore
-observes on the $k^{1}$ side of the break, and the causal $k^{3}$ asymptote lies below the
-instrument---the same conclusion Sec.~\ref{sec:cps-reproduction} reaches for the
-simulation box, reached independently for the detector. The single corner that pushes the
-break into the LISA window, $\gamma\sim10^{-3}$ with $u_0\sim0.3$, puts
-$p_{\rm break}=0.94$ at the spectral knee itself, where the break is not separable from
-the peak. Third, for a QCD source the break spans $5.5\,$nHz--$17\,\mu$Hz and so overlaps
+$8\,\mu$Hz--$0.8\,$mHz and the eddy-lifetime break $5\,\mu$Hz--$15\,$mHz.
+\add{Of the nine eddy-closure corners of Table~\ref{tab:k-break-hz}, six put the break
+below the window---LISA then observes on the $k^{1}$ side, and the causal $k^{3}$
+asymptote lies below the instrument, the same conclusion
+Sec.~\ref{sec:cps-reproduction} reaches for the simulation box. One corner,
+$\gamma\sim10^{-2}$ with $u_0\sim0.3$, puts the break at $1.5\,$mHz, inside the window
+and at $p_{\rm break}=0.94$, i.e.\ at the spectral knee where it is not separable from
+the peak. The remaining two, $\gamma\sim10^{-3}$ with $u_0\sim0.1$ and $0.3$, push it to
+$5.0$ and $15.1\,$mHz---\emph{above} the window, so that LISA would observe the causal
+side instead. Short-lived, small-scale sources are therefore the one case in which the
+$k^{3}$ asymptote is the observable rather than an inaccessible limit, and the ordering
+we emphasise elsewhere is reversed.}
+\del{LISA therefore observes on the $k^{1}$ side of the break, and the causal $k^{3}$
+asymptote lies below the instrument. The single corner that pushes the break into the
+LISA window, $\gamma\sim10^{-3}$ with $u_0\sim0.3$, puts $p_{\rm break}=0.94$ at the
+spectral knee itself.}
+\why{re-run of \texttt{k\_break\_frequency.py}: the grid gives 6 below / 1 inside / 2
+above, and the corner named as ``inside'' is in fact above} Third, for a QCD source the break spans $5.5\,$nHz--$17\,\mu$Hz and so overlaps
 the pulsar-timing band, $1.6\,$nHz to a few $\times10^{-7}\,$Hz, but only in the
 long-lived corner; at mid-range parameters it sits above the band, so pulsar timing reads
 the causal tail rather than the break.
@@ -2429,10 +2422,7 @@ Eq.~\eqref{eq:k-break-pi}, which the quadratic source supplies, and the placemen
 result against the two instruments.
 \why{Task 2.3. The LISA numbers use the standard SciRD analytic fit
 ($L=2.5\times10^{9}\,$m, optical-metrology and acceleration noise terms, written out in
-\texttt{Notebooks/k\_break\_frequency.py}); the primary reference for that fit still
-needs a bibliography entry, which could not be added in this pass because the literature
-databases were unreachable from the machine the revision was prepared on. AUTHORS: please
-add it}
+\texttt{Notebooks/k\_break\_frequency.py}), following Ref.~\cite{Robson:2018ifk}}
 
 \begin{table}[ht]
   \centering
@@ -2667,7 +2657,7 @@ is therefore a property of the sweeping model, not of the source spectrum.
 \section{Temporal models for decaying turbulence: timescale regimes and cosmological relevance}
 \label{sec:temporal-regimes}
 
-The spatial axis is closed: no choice of $S$ moves the infrared
+The spatial axis is closed: no choice of $S$ moves the \add{asymptotic} infrared
 (Sec.~\ref{sec:band-split}). Everything that distinguishes one predicted spectrum
 from another above the infrared therefore lives on the temporal axis. This section
 sets out, as a method rather than as a single model, how the temporal factor of a
@@ -3103,8 +3093,11 @@ dimensionless viscous rate is $M p^{2}/R$ and
   \hat T\;\longrightarrow\;\frac{4M}{R},
   \label{eq:viscous-floor}
 \end{equation}
-a constant \emph{independent of $p$}. We reproduce it to better than $0.5\%$ at every
-$p$ tested and for $M=0.05$--$0.5$, $R=10^{3}$--$10^{4}$.
+a constant \emph{independent of $p$}. \add{For $M\lesssim0.1$ we reproduce it to better
+than $1\%$; the agreement degrades to a few per cent by $M=0.5$, the residual being the
+next cusp term $\propto\omega^{-4}$ carried by the sweeping rate.} \del{We reproduce it
+to better than $0.5\%$ at every $p$ tested and for $M=0.05$--$0.5$,
+$R=10^{3}$--$10^{4}$.}
 
 The consequence is not the one the paragraph above anticipates, and it runs in the
 uncomfortable direction. On the cone the two-leg sweeping factor is
@@ -3188,8 +3181,10 @@ its temporal axis, and open on its dissipative one.
   are the two branches of one finite-duration response, in disjoint bands separated
   by $k_{\rm br}\simeq1/\delta t$: $k^{3}$ is the asymptotic law and $k^{1}$ the
   finite-duration regime \cite{RoperPol:2022iel,RoperPol:2023dzg}. The break lies
-  below every observationally accessible band \emph{and} below the fundamental mode
-  of every published simulation box, so no simulation of this class can exhibit the
+  below \add{most} observationally accessible band\add{s} \emph{and} below the
+  fundamental mode of every published simulation box\add{---though not universally:
+  for a short-lived, small-scale electroweak source it rises above the LISA window
+  (Sec.~\ref{sec:k-break-hz})}--- so no simulation of this class can exhibit the
   causal asymptote and none should be read as excluding it
   (Sec.~\ref{sec:principal-discrepancy}).
   \add{Both halves of that statement are now quantified. In observed frequency
@@ -3228,7 +3223,13 @@ its temporal axis, and open on its dissipative one.
   correlator of decaying turbulence is differentiable at zero lag, not whether it
   follows any particular power law. Ref.~\cite{Auclair:2022jod} measures a Gaussian
   hydrodynamic UETC, for which it is; the corresponding \emph{magnetic} measurement
-  has not been made, and this conclusion is conditional on it.
+  has not been made, and this conclusion is conditional on it. \add{The nearest
+  available evidence does not favour us: Eulerian space--time correlations measured in
+  forced MHD turbulence \cite{Perez:2020} are consistent with sweeping by the
+  energy-containing motions, which would give $f'(0^{+})=0$ and remove the cusp. That
+  measurement is of a forced, hydrodynamically swept field rather than of the
+  anisotropic stress of a decaying, magnetically dominated one, so it does not settle
+  the case---but it is the outcome to beat.}
 
   \item The dissipation input is the one still open, and it is the only claim here
   for which we could find no prior art: the early Universe is neither
@@ -5113,6 +5114,9 @@ the TT-contracted form of Eq.~\eqref{eq: main}; the key feature is that $\Sigma$
 \emph{square} of the velocity correlator. A fluid coherent at the single scale $\ell_0$
 has a velocity correlator that oscillates on that scale: for the isotropic single-scale
 field the trace is $R_{aa}(r)\propto\sin(r/\ell_0)/(r/\ell_0)$.%
+% Kraichnan:1959 is cited only inside the footnote below; revtex moves footnotes
+% into the bibliography, so bibtex never registers that \cite. \nocite fixes it.
+\nocite{Kraichnan:1959}%
 \footnote{This is the standard spectral-tensor result for homogeneous isotropic
 turbulence \cite{Batchelor:1953,Pope:2000,MoninYaglom:1975,Kraichnan:1959}. Incompressibility
 fixes the velocity correlator's tensor structure, leaving its radial part set by a
@@ -5248,7 +5252,7 @@ Table~\ref{tab:model-differences}; the reasoning follows. Throughout,
 $\Omega_{\rm GW}(p)\propto p^{3}H[S,T](p,p)$ and all numbers are measured by
 \texttt{Notebooks/model\_grid\_survey.py} at $M=1$, $R=10^{4}$.
 
-\paragraph{The infrared belongs to the spatial axis alone.}
+\paragraph{The infrared \add{asymptote} belongs to the spatial axis alone.}
 Every kernel with a spatially extended source gives the causal $k^{3}$, and
 every kernel with a monochromatic source gives $k^{2}$, \emph{irrespective of
 the temporal model}: we measure $3.00$ for $H[S_{\rm K41},T_{\rm sw}]$ and
@@ -5265,8 +5269,8 @@ constant carries no slope. \emph{Corollary:} \add{the temporal axis cannot move 
 constant $p\to0$ limit just quoted; for a source of finite duration it follows from
 Eq.~\eqref{eq:burst-equals-triangle}, whose temporal factor is likewise flat below
 $1/\Delta t$; and in general it is the causality theorem of \cite{Cai:2019cdl}. This is
-why the simulated $k^{1}$ of Sec.~\ref{sec:principal-discrepancy} survives every
-treatment in Table~\ref{tab:three-works}. What the temporal history \emph{does} change
+why \add{no treatment in Table~\ref{tab:three-works} reproduces} the simulated
+$k^{1}$ of Sec.~\ref{sec:principal-discrepancy}. What the temporal history \emph{does} change
 is the intermediate band: a finite duration $\Delta t$ contributes
 $4\sin^{2}(k\Delta t/2)/(\Delta t\,k^{2})$, flat below $1/\Delta t$ and falling as
 $2/(\Delta t\,k^{2})$ above it, so two powers are lost in $1/\Delta t\ll k\ll k_{0}$ and
@@ -5442,7 +5446,9 @@ therefore no harder than the Gaussian ones.
   \emph{spatial} axis only ($3$ for extended sources, $2$ for monochromatic
   ones, per Sec.~\ref{sec:cps-reproduction}); the ultraviolet tracks the
   \emph{temporal} axis only (a power-law tail iff the UETC has a cusp at zero
-  lag, Eq.~\eqref{eq:cusp-tail}); only the peak depends on both. ``cutoff''
+  lag, Eq.~\eqref{eq:cusp-tail}); \add{both statements are about the asymptotes, and
+  every intermediate feature, the peak included, depends on both}.
+  \del{only the peak depends on both.} ``cutoff''
   denotes models with no dynamical peak---the $\delta k$ kernels are truncated
   at $p=2$ by the triangle inequality and the $\delta r$ kernels are
   ultraviolet-dominated. ``super-exp'' denotes a Gaussian cutoff, for which no

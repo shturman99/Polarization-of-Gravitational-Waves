@@ -38,19 +38,19 @@ preamble.
 | 1.9 | Credit `Niksa:2018ofa` for the k⁻¹-vs-k⁻²ᐟ³ objection | prior-art | — | **DONE** |
 | 1.10 | §VII: state that the subviscous calculation is not performed | prior-art | — | **DONE** |
 | 1.11 | **Reclassify `T_burst`** — duration is a third ingredient, not a UETC | Referee C | 2 h | **DONE** |
-| 1.12 | Reconcile impulsive-onset vs sustained-coherent in §V | Referee C | 1 d | **TODO** |
-| 1.13 | Replace pre-Hosking q=1/2 magnetic decay class | citation audit C6 | 3 h | **CODE+FIGS DONE**, caption number pending |
+| 1.12 | Reconcile impulsive-onset vs sustained-coherent in §V | Referee C | 1 d | **DONE** (overnight) |
+| 1.13 | Replace pre-Hosking q=1/2 magnetic decay class | citation audit C6 | 3 h | **DONE** (overnight) |
 
 ## Tier 2 — calculations that change the paper's standing
 
 | # | Task | Source | Effort | Status |
 |---|---|---|---|---|
 | 2.1 | **Branch diagram**: IR slope 3→1 | **both referees, converged** | 1–2 d | **DONE** |
-| 2.2 | Viscous-cusp floor in §VII — turn the one novel claim into a result | Referee B, prior-art | 3–5 d | **TODO** |
-| 2.3 | k_break in Hz vs LISA/PTA sensitivity curves | Referee A/C | 1 d | **TODO** |
-| 2.4 | Report ωT_em and T_em/τ_c for Fig. `ir_resolution`, or re-run | Referee C | 2 d–1 wk | **TODO** |
-| 2.5 | Run our kernel at RP20's own T_em, τ_c, k-range and show k^1.x | Referee C | 3 d | **TODO** |
-| 2.6 | Measure the **magnetic** UETC from RP20 Zenodo data | Referee A/C | 1–3 wk | **TODO** |
+| 2.2 | Viscous-cusp floor in §VII — turn the one novel claim into a result | Referee B, prior-art | 3–5 d | **DONE** (overnight; coefficient corrected) |
+| 2.3 | k_break in Hz vs LISA/PTA sensitivity curves | Referee A/C | 1 d | **DONE** (overnight) |
+| 2.4 | Report ωT_em and T_em/τ_c for Fig. `ir_resolution`, or re-run | Referee C | 2 d–1 wk | **DONE** (overnight) |
+| 2.5 | Run our kernel at RP20's own T_em, τ_c, k-range and show k^1.x | Referee C | 3 d | **DONE** (overnight) |
+| 2.6 | Measure the **magnetic** UETC from RP20 Zenodo data | Referee A/C | 1–3 wk | **IN PROGRESS** — last open substantive item |
 
 ## Tier 3 — scope
 
