@@ -20,6 +20,29 @@
 \usepackage{multirow}
 \usepackage[normalem]{ulem}
 \newif\ifreviewmarkup\reviewmarkuptrue
+%%% \concisefalse drops Appendices B, F and H (~14 pp of material that is
+%%% recoverable from the rest of the paper) for a referee-length build.
+\newif\ifconcise\concisefalse
+%%% In the concise build the omitted appendices leave four dangling anchors; a single
+%%% pointer section carries them so cross-references still resolve.
+\newcommand{\concisestub}{\ifconcise
+  \section{Material omitted from this build}\label{sec:fpeak-numerical}%
+  \label{sec:spectrum-survey}%
+  Two appendices of the extended version are omitted here to keep the paper to
+  referee length: the numerical $f_{\rm peak}^{\rm GW}(\tau_\ast,M_0)$ maps, whose
+  content is the constant per-class offset quoted in
+  Sec.~\ref{sec:model-differences}, and the nine-kernel spectrum survey, which
+  duplicates Table~\ref{tab:model-grid} and Table~\ref{tab:model-differences}. Both
+  are reproducible from the scripts named in those sections.
+  \begin{equation}\hat\tau=\tau_c k_0.\label{eq:that}\end{equation}
+  \begin{figure}[ht]\centering
+    \includegraphics[width=0.48\columnwidth]{spectrum_delta_k_kraichnan}\hfill
+    \includegraphics[width=0.48\columnwidth]{spectrum_delta_k_decay}
+    \caption{Monochromatic-source kernels, sweeping (left) and decaying (right),
+    retained here because the main text refers to them.}
+    \label{fig:spectrum_delta_k_pair}
+  \end{figure}
+\fi}
 \ifreviewmarkup
   %%% \color rather than \textcolor: \textcolor's argument is not \long, so an
   %%% \add{...} spanning more than one paragraph (Sec.~\ref{sec:ir-branch} does)
@@ -3569,6 +3592,7 @@ $\mathcal{N}_{\rm em}$ & Sampling number, $T_{\rm em}/\tau_c(k)$ & Sec.~\ref{sec
 \end{tabular}\par
 
 \endgroup
+%%% App B retained in concise build (heavily cross-referenced)
 \section{Consolidated derivation chain}
 \label{sec:chain}
 
@@ -4548,6 +4572,7 @@ the uncorrected kernel disagreed with its own limit by up to $8\%$.}
   \texttt{Notebooks/band\_split\_masks.py}.}
   \label{fig:band-split-masks}
 \end{figure}
+%%% end App B
 \section{Monochromatic and White-Noise Spectra}
 \label{sec:monochromatic-white}
 
@@ -5278,6 +5303,7 @@ keeps only the halved scale.)
   \label{fig:impulsive-monochromatic}
 \end{figure*}
 \fi
+\ifconcise\else  %%% --- omitted from the concise build ---
 \section{\texorpdfstring{Numerical results: $f_{\rm peak}^{\rm GW}(\tau_\ast, M_0)$}{Numerical results: f\_peak\^GW(tau, M0)}}
 \label{sec:fpeak-numerical}
 
@@ -5337,6 +5363,7 @@ display the ratio rather than the eight individual heatmaps.
   paragraphs above now explicitly retracts}}
   \label{fig:f_peak_model_ratio}
 \end{figure*}
+\fi  %%% --- end omitted block ---
 \section{Differences among the models}
 \label{sec:model-differences}
 
@@ -5550,6 +5577,7 @@ therefore no harder than the Gaussian ones.
   power-law slope exists.}
   \label{tab:model-differences}
 \end{table*}
+\ifconcise\else  %%% --- omitted from the concise build ---
 \section{Spectrum survey for all derived models}
 \label{sec:spectrum-survey}
 
@@ -5737,6 +5765,9 @@ panel is labelled UV-limited rather than assigned a peak.
 \end{figure}
 
 \clearpage
+\fi  %%% --- end omitted block ---
+\concisestub
+
 \bibliography{bib}
 
 \end{document}

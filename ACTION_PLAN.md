@@ -311,3 +311,25 @@ Commit after **every** completed task, not at the end of a batch. Two runs have 
 cut off mid-flight; the first lost 7 commits to an unpushed branch, the second lost
 nothing only because its script and figure happened to be on disk. Artefacts on disk are
 not progress — committed artefacts are.
+
+---
+
+## Build variants (added 2026-08-15)
+
+`derivation.tex` now carries two independent switches in the preamble:
+
+| switch | effect | pages |
+|---|---|---|
+| `\reviewmarkuptrue` (default) | red `\add` / struck `\del` / `\why` notes visible | — |
+| `\reviewmarkupfalse` | clean copy, all markup resolved | −1 |
+| `\concisefalse` (default) | full paper | **75** |
+| `\concisetrue` | drops Appendices F and H, substituting a pointer section | **70** |
+
+Four combinations, all verified: 0 errors, 0 undefined references, 0 undefined
+citations. `\concisetrue` + `\reviewmarkupfalse` = **69 pp**, the referee build.
+
+**Why only F and H.** Cutting Appendix B as well reaches ~61 pp but leaves **38 dangling
+cross-references** — the main text depends on the consolidated derivation chain far more
+than the audit's page count suggested. F and H cost six anchors, which the
+`\concisestub` carries. Further reduction needs prose rewriting, not conditional
+inclusion, and should not be done mechanically.
