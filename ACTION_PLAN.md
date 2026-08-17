@@ -377,3 +377,49 @@ the preamble comment claims `\concisetrue` drops Appendix B (it does not).
 **Correctly done, per the same referee:** the viscous two-leg coefficient 4ν (not 2ν),
 the erfc fix in all three call sites, and the priority attributions — "no remaining
 unattributed claim found".
+
+---
+
+## 2026-08-17 — referee changes applied; and why the paper cannot be halved by a toggle
+
+**Blocking defect resolved.** The π/2.33 rule was keyed to the wrong discriminant. The
+correct one is **idempotency of the window**: for a hard lifetime R = 1 inside the
+window, so the stress carries R² = R, the two-leg factor is the *un-squared* tent, and
+the break is **2.33/W**. The squared tent and its π describe a stationary triangular lag
+memory — a different source. Every closure in the paper imposes a lifetime, so 2.33
+applies throughout.
+
+`k_break_frequency.py` now carries `BREAK_COEFF` (window 2.3311 / triangle π) and
+defaults to the window value. Every f_break falls by 1.348, and **the LISA corner
+counting changes from 6 below / 1 inside / 2 above to 6 / 2 / 1**: the corner at
+γ=10⁻³, u₀=0.1 moves from 5.03 mHz (above the window) to 3.73 mHz (inside it).
+Sec. V.C now claims the coefficient 2.33 rather than π. The `ir_resolution` "straddle" is
+reverted — with 2.33/T_em = 0.058 the sentence originally struck was correct.
+
+**Contradictions closed:** the "decorrelation shape, not the onset" heading is struck;
+Conclusion 3 now reports 6/2/1 instead of "every corner but one"; Conclusion 4 no longer
+says the magnetic measurement has not been made.
+
+### Halving: not achievable by conditional inclusion
+
+Tested directly. Cutting appendices under `\concisetrue`:
+
+| cut | pages | dangling refs |
+|---|---|---|
+| F + H (current) | **71** | 0 |
+| + D/E (impulsive) | 67 | 19 |
+| + B (derivation chain) | 58 | **51** |
+
+The big appendices are the load-bearing ones: the main text depends on Appendix B for 51
+cross-references and on D/E for 19. **Getting to ~38 pp requires rewriting the main text
+so it no longer depends on them, not hiding them behind a switch.** Concretely that means:
+
+1. Fold the results of App. B into the sections that use them, and delete the chain (−8 pp).
+2. Merge App. D and E into one impulsive appendix (−3 pp).
+3. Halve §III, which largely re-derives Gogoberidze (−4 pp).
+4. Compress §VI to one table (−2 pp).
+5. Trim the symbol table to one page (−3 pp).
+
+That is prose surgery of a few days, and it is the point at which the **split** both
+referees recommend becomes the cheaper route: the letter (task 2.6) needs almost none of
+this material, and the companion can stay long.
