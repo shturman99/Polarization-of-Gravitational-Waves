@@ -1381,7 +1381,16 @@ window---the switch-on---and a cusp would add sustained radiation on top of it, 
 the data leave no room. The source-scale peak therefore survives, but it is the
 \emph{duration} result of Eq.~\eqref{eq:burst-equals-triangle} and not the decorrelation
 result: what displaces the peak here is that the source starts and stops, not that its
-correlator is non-differentiable.}
+correlator is non-differentiable.
+
+Three limits of the test should be stated. It is not closure-free: propagating
+$\Pi(k,t)$ forward uses the same Gaussian (random-phase) closure as the rest of this
+paper. It discriminates \emph{asymmetrically}---the coherent and Gaussian-sweeping
+columns are not separated from one another, so the test excludes a cusp but does not
+measure the correlator. And it is a single run, at ${\rm Pm}=1$ and $R=158$, with an
+\emph{imposed} initial field, so the switch-on whose window sets the spectrum is a
+feature of the setup rather than of a physical transition; carrying the conclusion to a
+phase transition needs either an argument or a second run, and we have neither.}
 \why{Task 2.6. Referees A and C asked for the magnetic UETC; the direct measurement is
 impossible from the public release, and the parameter-free forward model disfavours our
 own cusp mechanism}
@@ -1567,7 +1576,15 @@ kernels together with the time-resolved simulation track: because the run is
 pinned at the source scale ($\simeq2.4\,k_0$) as $M(t)$ sweeps down rather than
 sliding along the sweeping law---a direct, time-domain discriminant between the
 two pictures. The decaying kernel pins the peak at
-$p_{\rm peak}\simeq2.4$ for every $M$ and passes through the simulation point; the
+$p_{\rm peak}\simeq2.4$ for every $M$ and passes through the simulation point\add{---in
+\emph{shape}. That must be squared with Sec.~\ref{sec:decaying-peak}, which finds the same
+cusped kernel overpredicting the radiated \emph{energy} of the same run by one to two
+orders of magnitude. The two are compatible only because they measure different things:
+Fig.~\ref{fig:gw_peak_vs_mach} compares peak positions with the total energy normalised
+away, and that normalisation is precisely what the forward model tests. The cusped kernel
+puts the peak in the right place for the wrong reason, so what survives here is the
+negative half---the sweeping law is excluded by an order of magnitude---and not the
+positive attribution to decorrelation}; the
 stationary sweeping kernel instead gives $p_{\rm peak}\simeq\add{1.49}\,M$, which at the
 simulation's Mach lies at $\simeq0.07\,k_0$, more than an order of magnitude below both
 the source scale and the data. This conclusion is robust to the uncertain effective
