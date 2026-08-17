@@ -333,3 +333,47 @@ cross-references** — the main text depends on the consolidated derivation chai
 than the audit's page count suggested. F and H cost six anchors, which the
 `\concisestub` carries. Further reduction needs prose rewriting, not conditional
 inclusion, and should not be done mechanically.
+
+---
+
+## ROUND-2 REFEREE: BLOCKING DEFECT — the π/2.33 rule is wrong (2026-08-17)
+
+**Do not submit until this is resolved.** The discriminant I wrote into
+`sec:duration-kernel` on 2026-08-15 —
+
+> "Where a lifetime is imposed on the stress we use 2.33, and where it is a property of
+> the field we use π."
+
+— **is not the correct rule**, and the correctness referee is right. The discriminant is
+**idempotency of the window**, not stress-level versus field-level.
+
+For a hard finite lifetime the field correlator is R = 1 inside the window, so the stress
+carries R² = **R**: squaring does nothing, the two-leg factor is the *un-squared* tent
+`4sin²(ωW/2)/ω²`, and the break is at **2.33/W**. Verified numerically: |∫₀^W e^{iωt}dt|²
+equals `4sin²(ωW/2)/ω²` to ratio 1.000000, and R² − R = 0 identically. The *squared* tent
+(break π/τ_c) is correct only for a **stationary field with triangular lag memory** —
+a different source, which should not then be called a lifetime or a duration.
+
+**What propagates.** All of this is arithmetically fine but physically mislabelled:
+
+| item | consequence |
+|---|---|
+| `tab:k-break-hz`, Fig. `k_break_frequency` | every entry high by π/2.33 = **1.35** |
+| corner counting in §V.D | 5.03 mHz → **3.7 mHz**, i.e. *inside* the LISA window, not above |
+| abstract's exception clause | rests on a 9% margin against a coefficient 35% in dispute |
+| §V.C "what is added here is the factor π" | the paper's one claimed novelty in §V |
+| `tab:ir-branch` caption | the computation stands; its physical caption does not |
+| `tab:temporal-catalogue` | lists T_burst with the *un-squared* value while §V.B calls the table per-leg |
+| the π/T_em straddle at `ir_resolution` | with 2.33/T_em = 0.058 the sentence I struck was **right** |
+
+**Also required** (referee's list): delete or rewrite "The decorrelation shape, not the
+onset" (it asserts the negation of §III.B's new conclusion); Conclusion 3's second half
+still carries text deleted from §V.D; Conclusion 4 and §V still say the magnetic
+measurement "has not been made" though 2.6 made it; "+0.70 to +0.77" quotes eddy rows
+only and omits the +0.570 global row; band-split slope printed as 3.00 in one place and
+3.01 in another; "1.49 M of Eq. (peak-fit)" cites an equation that reads 1.515 M^1.007;
+the preamble comment claims `\concisetrue` drops Appendix B (it does not).
+
+**Correctly done, per the same referee:** the viscous two-leg coefficient 4ν (not 2ν),
+the erfc fix in all three call sites, and the priority attributions — "no remaining
+unattributed claim found".
