@@ -1305,7 +1305,7 @@ contradiction with the low Gogoberidze peak dissolves once one recognises that t
 two correspond to opposite limits of the temporal correlation---Gaussian (rapidly
 decorrelating, stationary) versus power law (slowly decorrelating, decaying).
 
-\paragraph{The decorrelation shape, not the onset.}
+\paragraph{\add{What the caveat does and does not establish.}}\del{The decorrelation shape, not the onset.}
 \rev{This heading asserts the negation of what the forward-model paragraph of this
 same section now concludes---that the peak is displaced by the source starting and
 stopping, not by the shape of the decorrelation. Delete or rewrite; it carries no
@@ -1909,7 +1909,14 @@ one per leg; because the source is quadratic, the stress carries their product, 
 per-leg memory $\tau_c$ produces the \emph{squared} tent, and the same condition then
 gives $\omega\tau_c=\pi$ exactly, which is Eq.~\eqref{eq:k-break-pi}. Both coefficients
 are right for their own object; quoting either against the other is what would be
-wrong. Where a lifetime is imposed on the stress we use $2.33$, and where it is a
+wrong. \add{The discriminant is \emph{idempotency of the window}, not the level at
+which the memory is imposed. For a hard lifetime the field correlator is $R=1$ inside the
+window, so the stress carries $R^{2}=R$---squaring does nothing---and the two-leg factor
+is the un-squared tent, break $2.33/W$. The squared tent and its $\pi$ describe a
+stationary triangular \emph{lag memory}, a different source that should not be called a
+lifetime. Every closure in this paper imposes a lifetime, so $2.33$ is the coefficient
+throughout and Eq.~\eqref{eq:burst-equals-triangle} governs.}
+\del{Where a lifetime is imposed on the stress we use $2.33$, and where it is a property of the field we use $\pi$.}
 \revX{This rule is \emph{wrong}, and it is load-bearing. The discriminant is
 idempotency of the window, not stress- versus field-level memory. For a hard lifetime the
 field correlator is $R=1$ inside the window, so the stress carries $R^{2}=R$: squaring
@@ -1961,13 +1968,7 @@ dimensionless frequency is $\omega T_{\rm em}=2.4$--$18$. The band therefore lie
 window \emph{would} have shown the linear branch here, and the measurement is that the
 decaying source does not. The test is a real one.
 
-What it does not test is equally worth stating. \add{The band straddles the window
-\rev{This straddle is manufactured by the wrong coefficient. With $2.33/T_{\rm em}=0.058$
-the struck sentence (``the band lies above the window break'') was correct. Revert once the
-blocking comment is resolved.}
-break rather than sitting wholly above it---its lowest point, $p=0.06$, is just below
-$\pi/T_{\rm em}=0.079$, and the remaining five of six fit points are above---and it lies}
-\del{The band lies above the window break but}
+What it does not test is equally worth stating. The band lies above the window break \add{$2.33/T_{\rm em}=0.058$} but
 \emph{below} the decorrelation break $p=\pi/\tau_c=3.1$ at the outer scale, and it is the
 shorter of the two memories that controls: the source forgets itself long before the
 window closes, so the effective coherence is $\tau_c$ and not $T_{\rm em}$, and the band
@@ -2566,14 +2567,12 @@ $8\,\mu$Hz--$0.8\,$mHz and the eddy-lifetime break $5\,\mu$Hz--$15\,$mHz.
 \add{Of the nine eddy-closure corners of Table~\ref{tab:k-break-hz}, six put the break
 below the window---LISA then observes on the $k^{1}$ side, and the causal $k^{3}$
 asymptote lies below the instrument, the same conclusion
-Sec.~\ref{sec:cps-reproduction} reaches for the simulation box. One corner,
-$\gamma\sim10^{-2}$ with $u_0\sim0.3$, puts the break at $1.5\,$mHz, inside the window
-and at $p_{\rm break}=0.94$, i.e.\ at the spectral knee where it is not separable from
-the peak. The remaining two, $\gamma\sim10^{-3}$ with $u_0\sim0.1$ and $0.3$, push it to
-$5.0$ and $15.1\,$mHz---\emph{above} the window, so that LISA would observe the causal
-side instead. Short-lived, small-scale sources are therefore the one case in which the
-$k^{3}$ asymptote is the observable rather than an inaccessible limit, and the ordering
-we emphasise elsewhere is reversed.}
+Sec.~\ref{sec:cps-reproduction} reaches for the simulation box. Two corners,
+$\gamma\sim10^{-2}$ with $u_0\sim0.3$ and $\gamma\sim10^{-3}$ with $u_0\sim0.1$, put the
+break at $1.1$ and $3.7\,$mHz, inside the window. Only one,
+$\gamma\sim10^{-3}$ with $u_0\sim0.3$, pushes it to $11.2\,$mHz, above the window, so
+that LISA would observe the causal side instead. That single corner is the one case in
+which the $k^{3}$ asymptote is the observable rather than an inaccessible limit.}
 \del{LISA therefore observes on the $k^{1}$ side of the break, and the causal $k^{3}$
 asymptote lies below the instrument. The single corner that pushes the break into the
 LISA window, $\gamma\sim10^{-3}$ with $u_0\sim0.3$, puts $p_{\rm break}=0.94$ at the
@@ -2590,7 +2589,7 @@ $\hat\tau=1/u_0\le10^{2}$ for any $u_0\ge0.01$, and $p_{\rm break}=\pi u_0$ is n
 than about $1.5$ decades below the peak, so the linear band is narrow and not cleanly
 resolved; a wide one needs the global closure with $\epsilon/\gamma\gtrsim160$. None of
 this is a claim on the break itself, which is Ref.~\cite{RoperPol:2022iel}'s
-$k_{\rm br}=1/\delta t_{\rm fin}$; what is added here is the factor $\pi$ of
+$k_{\rm br}=1/\delta t_{\rm fin}$; what is added here is the coefficient $2.33$ of
 \revX{This is the sentence that makes the blocking comment fatal rather than cosmetic:
 the paper's one claimed novelty in this section \emph{is} the disputed coefficient.}
 Eq.~\eqref{eq:k-break-pi}, which the quadratic source supplies, and the placement of the
@@ -3423,7 +3422,10 @@ before quoting any of it.}
   correlator of decaying turbulence is differentiable at zero lag, not whether it
   follows any particular power law. Ref.~\cite{Auclair:2022jod} measures a Gaussian
   hydrodynamic UETC, for which it is; the corresponding \emph{magnetic} measurement
-  has not been made, and this conclusion is conditional on it. \add{The nearest
+  \add{has now been made, indirectly: the parameter-free forward model of
+  Sec.~\ref{sec:decaying-peak} excludes a usable cusp in the magnetic stress correlator
+  for the one published run it can address, so the peak there is a window effect.}
+  \del{has not been made, and this conclusion is conditional on it.} \add{The nearest
 \rev{Stale: Sec.~\ref{sec:decaying-peak} now reports the parameter-free forward model,
 which the abstract elevates to ``we decide it against the decorrelation route''. This
 conclusion still says the measurement has not been made, and does not mention it.}

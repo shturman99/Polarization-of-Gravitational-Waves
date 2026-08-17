@@ -126,9 +126,26 @@ def f_hubble(T_star_GeV: float, g_star: float) -> float:
     return 1.6e-5 * (g_star / 100.0) ** (1.0 / 6.0) * (T_star_GeV / 100.0)
 
 
+# Break coefficient u_* solving d ln T/d ln u = -1.  WHICH ONE APPLIES depends on
+# whether the finite lifetime is a WINDOW or a stationary triangular lag memory:
+#
+#   window (hard lifetime): the field correlator is R = 1 inside the window, so the
+#       stress carries R^2 = R -- squaring does nothing -- and the two-leg factor is
+#       the UN-squared tent 4 sin^2(uW/2)/u^2, giving u_* = 2.3311.
+#   triangular lag memory:  the stress carries the SQUARED tent, u_* = pi exactly.
+#
+# Every closure in this script imposes a source LIFETIME, so the window value is the
+# correct one.  Corrected 2026-08-17; the script previously used pi throughout, which
+# made every f_break high by pi/2.3311 = 1.348.
+BREAK_COEFF_WINDOW = 2.3311223
+BREAK_COEFF_TRIANGLE = np.pi
+BREAK_COEFF = BREAK_COEFF_WINDOW
+
+
 def f_break_from_tauhat(tauhat_c: float, T_star_GeV: float, g_star: float) -> float:
-    """f_break = f_H / (2 tauhat_c), from k_break = pi/tau_c and f = khat f_H/(2 pi)."""
-    return f_hubble(T_star_GeV, g_star) / (2.0 * tauhat_c)
+    """f_break = BREAK_COEFF f_H / (2 pi tauhat_c), from k_break = BREAK_COEFF/tau_c
+    and f = khat f_H/(2 pi)."""
+    return BREAK_COEFF * f_hubble(T_star_GeV, g_star) / (2.0 * np.pi * tauhat_c)
 
 
 def tauhat_eddy(gamma: float, u0: float) -> float:
@@ -222,7 +239,7 @@ def scan() -> dict:
             for u0 in U0_GRID:
                 th = tauhat_eddy(gam, u0)
                 fb = f_break_from_tauhat(th, T, g)
-                p_br = np.pi * u0
+                p_br = BREAK_COEFF * u0
                 tk0 = 1.0 / u0
                 resolved = "yes" if tk0 >= 1.0e3 else "no"
                 print(f"{label:6s}{gam:9.3g}{u0:8.3g}{th:11.4g}{fb:13.4g}"
