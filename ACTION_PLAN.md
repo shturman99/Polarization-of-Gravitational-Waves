@@ -429,8 +429,18 @@ this material, and the companion can stay long.
 | R4c | "1.49 M of Eq. (peak-fit)" — that equation reads 1.515 M^1.007 | correctness | **DONE** |
 | R5 | viscous-floor caveat must cover leg-wavenumber ambiguity; Fig (a) incommensurable | correctness | **DONE** |
 | R6 | two remaining "proposed as future work" passages, stale re 2.6 | correctness | **DONE** |
-| R7 | Move task 2.6 to its own section; rebuild abstract around it | significance | **TODO** |
-| R8 | §V.B "spatial model wrong near the peak" tension | significance | **TODO** |
-| R9 | Split: letter = 2.6, companion = the rest | both | **AUTHORIAL** |
+| R7 | Move task 2.6 to its own section; rebuild abstract around it | significance | **DONE** |
+| R8 | §V.B "spatial model wrong near the peak" tension | significance | **DONE** |
+| R9 | Split: letter = 2.6, companion = the rest | both | **STARTED** — `letter.tex` skeleton builds; sections are outlined, prose not written |
 | R10 | Parameter-reconstruction forecast (NANOGrav + LISA bias) | significance | **TODO, 1–2 wk** |
 | R11 | Is ini2's own viscosity consistent with the 2.6 f'(0+) bound? | significance | **TODO, 1 d** |
+
+- **2026-08-17, R7/R8/R9.** R7: task 2.6 promoted to `sec:magnetic-uetc`, its own
+  section before the discrepancy section. (Note: a `\add{}` cannot go in a section
+  title — the heading is uppercased for the running head and xcolor then rejects `RED`.)
+  R8: the spatial-axis claim is now stated at its true width — no spatial choice moves
+  the *asymptotic* infrared, which says nothing about the peak, where the k^0.7-vs-k^1.3
+  deficit lives. R9: `letter.tex` created — title, authors, full abstract, the results
+  table, and a section skeleton with per-section notes on what to lift from the
+  companion. **The prose is not written**; that is an authorial job, and the abstract is
+  the part worth reading first because it commits the letter's claim.

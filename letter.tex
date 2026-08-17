@@ -1,0 +1,103 @@
+\documentclass[prd,twocolumn,aps,nobibnotes,superscriptaddress,preprintnumbers,floatfix]{revtex4-1}
+\bibliographystyle{apsrev4-1}
+\usepackage{graphicx,bm,amsmath,amssymb,xcolor}
+\usepackage{hyperref}
+\graphicspath{{./images/}}
+
+%%% R9: the letter recommended by both round-2 referees. Its scientific content is
+%%% Sec.~\ref{sec:magnetic-uetc} of derivation.tex (the companion), which supplies the
+%%% derivation chain, the kernel definitions and every cross-check quoted here.
+
+\begin{document}
+
+\title{No usable cusp in the magnetic stress correlator:\\
+       the turbulent gravitational-wave peak is a window effect}
+
+\author{Murman Gurgenidze}
+\email{mgurgeni@andrew.cmu.edu}
+\affiliation{McWilliams Center for Cosmology and Department of Physics,
+Carnegie Mellon University, Pittsburgh, PA 15213, USA}
+
+\author{Tina Kahniashvili}
+\email{tinatin@andrew.cmu.edu}
+\affiliation{McWilliams Center for Cosmology and Department of Physics,
+Carnegie Mellon University, Pittsburgh, PA 15213, USA}
+\affiliation{School of Natural Sciences and Medicine, Ilia State University, 0194 Tbilisi, Georgia}
+\affiliation{Abastumani Astrophysical Observatory, Tbilisi, GE-0179, Georgia}
+
+\begin{abstract}
+The gravitational-wave spectrum radiated by primordial turbulence is fixed, at fixed
+spatial source, by the unequal-time correlator (UETC) of the anisotropic stress. Whether
+that correlator is differentiable at zero time lag decides the shape of the spectrum
+above its peak: a cusp gives a heavy $\omega^{-2}$ tail and displaces the peak to the
+source scale, while a smooth correlator does neither. The velocity UETC of hydrodynamic
+turbulence has been measured and is Gaussian, hence cuspless; the corresponding magnetic
+\emph{stress} correlator, which is what actually sources the waves, has not been. We show
+that it can be constrained without any two-time data. In a magnetohydrodynamic simulation
+started from rest, the gravitational-wave field is itself a running cosine transform of
+the stress UETC evaluated on the light cone, so the radiated energy at the end of the run
+is a parameter-free \emph{prediction} for each candidate correlator once the stress and
+the Alfv\'en speed are read off. Applied to a published run, cuspless correlators
+reproduce the radiated energy while cusped ones overpredict it by one to two orders of
+magnitude. The magnetic stress correlator is therefore no more cusped than the
+hydrodynamic one, the $\omega^{-2}$ tail is excluded for this class of source, and the
+source-scale peak seen in simulations is produced by the finite emission window rather
+than by decorrelation. The method needs only quantities such simulations already write to
+disk.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+%%% ~1 pp. From derivation.tex Sec. I, compressed: the three inputs; that the temporal
+%%% input is the least constrained; that the cusp/no-cusp question is binary and decides
+%%% the UV and the peak. Cite Kraichnan:1964, Gogoberidze:2007an, Caprini:2006jb,
+%%% Caprini:2009fx, Niksa:2018ofa, Auclair:2022jod, RoperPol:2019wvy, RoperPol:2022iel.
+%%% State plainly what is already known and what is new: the Abelian tail result and its
+%%% peak consequence are Caprini:2009fx's; what is new is the measurement.
+
+\section{The criterion}
+%%% ~0.75 pp. eq:cusp-tail, the two-leg rule (quadratic source carries the SQUARED
+%%% correlator), and the collapse: every cusped model gives the same omega^-2, so the
+%%% question is binary. Note the window/lag-memory distinction and the coefficients
+%%% 2.33/W vs pi/tau_c -- see companion Sec. V.B.
+
+\section{The measurement}
+\label{sec:letter-measurement}
+%%% ~1.5 pp -- the core. From derivation.tex Sec. sec:magnetic-uetc verbatim:
+%%%  (a) why a direct UETC is impossible from published data: cadence 1e-3 vs the lag
+%%%      1/k ~ 8e-4 at the GW peak;
+%%%  (b) the identity that rescues it: with h = hdot = 0, ghat(k,t) = int cos(k(t-t')) S;
+%%%  (c) the parameter-free forward model and its table;
+%%%  (d) robustness: zero-padding, v_A at start/mean/end;
+%%%  (e) the three limits -- Gaussian closure, asymmetric discrimination (coherent and
+%%%      Gaussian sweeping are not separated), one Pm=1 run with an imposed initial field.
+\begin{table}[b]
+  \centering
+  \begin{tabular}{@{}lc@{}}
+  \hline\hline
+  correlator & $E_{\rm model}/E_{\rm data}$ \\
+  \hline
+  coherent, $f=1$ & $0.35$--$1.19$ \\
+  Gaussian sweeping, $f=e^{-(kv_A\tau)^2/2}$ & $0.90$--$1.14$ \\
+  cusped, $f=e^{-kv_A|\tau|}$ & $19.5$--$97.8$ \\
+  BK2016, $f=(1+kv_A\tau)^{-2/3}$ & $13.0$--$64.0$ \\
+  \hline\hline
+  \end{tabular}
+  \caption{Parameter-free forward models of the radiated energy over $p=1.5$--$30$.}
+  \label{tab:letter-uetc}
+\end{table}
+
+\section{Consequences}
+%%% ~1 pp.
+%%%  - for templates: drop power-law decorrelation from turbulence templates;
+%%%  - for the peak: it is a window effect, so it is RoperPol:2022iel's constant-source
+%%%    mechanism, and we say so;
+%%%  - what would overturn this: a second run, a driven rather than imposed field, Pm != 1.
+
+\section{Summary}
+%%% ~0.25 pp. Point at the companion for the kernel compendium, the branch diagram, the
+%%% break in Hz, and the dissipation outlook.
+
+\bibliography{bib}
+\end{document}
