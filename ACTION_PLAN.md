@@ -20,8 +20,8 @@ preamble.
 | 0.4 | erfc printed in two forms — correct the main-text equation | Referee C | — | **DONE** |
 | 0.5 | **erfc in `core.py:integrand_y`** — last home of the defect | Referee C | 1 h | **DONE** |
 | 0.6 | §V LISA-sensitivity sentence is factually wrong | Referee A | 1 h | **DONE** |
-| 0.7 | Reconcile author lists between `main.tex` and `derivation.tex` | Referee C | 5 min | **AUTHORIAL** |
-| 0.8 | Decide whether citations belong in the abstract (PRD style) | — | 5 min | **AUTHORIAL** |
+| 0.7 | Reconcile author lists | Referee C | 5 min | **DONE** — Brock removed, both files agree |
+| 0.8 | Citations in the abstract | — | 5 min | **DONE** — stripped, credit moved to intro/body |
 
 ## Tier 1 — framing corrections (protect priority; no new computation)
 
@@ -151,15 +151,6 @@ days with a tool that is already written, and it does three things at once:
   (arXiv:2004.11458), an MHD Eulerian UETC measurement that favours sweeping and
   therefore cuts *against* the cusp.
 
-### Remaining
-
-| # | Task | Status |
-|---|---|---|
-| 1.13 caption | Re-read ⟨f_A/f_B⟩ for the regenerated nonhelical (Hosking) panel; caption still says 0.83 | audit agent running |
-| 1.12 | Reconcile impulsive-onset vs sustained-coherent in §V | TODO |
-| 2.2 | Viscous-cusp floor calculation | TODO |
-| 2.3 | k_break in Hz vs LISA/PTA — now more valuable, since the band overlaps LISA's best sensitivity | TODO |
-| 2.4–2.6 | ir_resolution branch parameters; kernel at RP20 parameters; magnetic UETC | TODO |
 
 - **2026-08-14, numerical audit (resumed).** Three outcomes.
   1. **`f_peak` caption corrected.** The Hosking swap moves the non-helical MHD ratio
@@ -423,3 +414,23 @@ so it no longer depends on them, not hiding them behind a switch.** Concretely t
 That is prose surgery of a few days, and it is the point at which the **split** both
 referees recommend becomes the cheaper route: the letter (task 2.6) needs almost none of
 this material, and the companion can stay long.
+
+---
+
+## Round-2 referee tasks (2026-08-17)
+
+| # | Task | Source | Status |
+|---|---|---|---|
+| R1 | π/2.33 rule + everything downstream | correctness, BLOCKING | **DONE** |
+| R2 | "decorrelation shape, not the onset" heading | correctness | **DONE** |
+| R3 | Conclusion 3 second half; Conclusion 4 stale re 2.6 | correctness | **DONE** |
+| R4a | "+0.70 to +0.77" quotes eddy rows only, omits +0.570 | correctness | **DONE** |
+| R4b | band-split slope printed 3.00 in one place, 3.01 in another | correctness | **DONE** |
+| R4c | "1.49 M of Eq. (peak-fit)" — that equation reads 1.515 M^1.007 | correctness | **DONE** |
+| R5 | viscous-floor caveat must cover leg-wavenumber ambiguity; Fig (a) incommensurable | correctness | **DONE** |
+| R6 | two remaining "proposed as future work" passages, stale re 2.6 | correctness | **DONE** |
+| R7 | Move task 2.6 to its own section; rebuild abstract around it | significance | **TODO** |
+| R8 | §V.B "spatial model wrong near the peak" tension | significance | **TODO** |
+| R9 | Split: letter = 2.6, companion = the rest | both | **AUTHORIAL** |
+| R10 | Parameter-reconstruction forecast (NANOGrav + LISA bias) | significance | **TODO, 1–2 wk** |
+| R11 | Is ini2's own viscosity consistent with the 2.6 f'(0+) bound? | significance | **TODO, 1 d** |

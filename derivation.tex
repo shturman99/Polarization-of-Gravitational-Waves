@@ -2063,7 +2063,9 @@ readings---an onset sharper than the coherent model allows, or a source that is 
 coherent over $T_{\rm em}$ at all---and the time series quoted here does not separate them.
 That is the same open question raised in Sec.~\ref{sec:temporal-regimes-class} and restated
 in Conclusion~3; no calculation in this paper closes it, and the measurement that would is
-the magnetic unequal-time correlator proposed in the next paragraph.}
+the magnetic unequal-time correlator\add{, which
+Sec.~\ref{sec:decaying-peak} now constrains indirectly through a parameter-free forward
+model}.}
 \why{Referee C: Sec.~V inferred an impulsive onset in one paragraph and appealed to
 sustained coherence in another, without ever setting the two beside each other}
 
@@ -2096,7 +2098,11 @@ S_+(\kb,t_1)S_+^\ast(\kb,t_2)+S_\times(\kb,t_1)S_\times^\ast(\kb,t_2)\rangle$ wo
 directly the one object that every analytic treatment in this paper is obliged to assume. We
 are not aware of such a measurement in the literature. Since the peak discrepancy of
 Sec.~\ref{sec:peak-location} turns on precisely that assumption, it is the sharpest single
-test available, and we propose it here as the natural next step.
+test available. \add{We carry it out in Sec.~\ref{sec:decaying-peak}: a direct
+time-domain measurement is beyond the published cadence, but the simulation's own GW
+field supplies the transform at $\omega=k$, and the resulting bound excludes a usable
+cusp.}
+\del{, and we propose it here as the natural next step.}
 
 \paragraph{What the discrepancy points to.} This reframes the tension considerably. The
 causal $k^3$ of our quasi-stationary and self-similar kernels is not contradicted by the
@@ -2303,7 +2309,9 @@ reproduces the measurement, $\hat\tau=8.0$, is also the closure for which the br
 $p_{\rm break}=\pi/\tau_c=0.39$ falls \emph{inside} the fit band; there the local slope
 sweeps from $+2.70$ to $0.00$ across the band, so $+1.59$ is a crossover average over a
 region that is not a power law at all. The three longer-lifetime closures---including the
-manuscript's own---sit on the asymptotic branch and give $+0.70$ to $+0.77$, which is
+manuscript's own---sit on the asymptotic branch and give $+0.57$ to $+0.77$ \add{(the eddy rows alone give $+0.70$--$+0.77$; the global
+$\hat\tau=16.6$ closure, which lies inside our own $\tau_c$ range, is the shallowest at
+$+0.570$)}, which is
 $0.5$--$0.6$ \emph{shallower} than measured.
 
 That residual is diagnosed, and it is not temporal. On the asymptotic branch the temporal
@@ -2690,7 +2698,7 @@ each band that supplies the floor. First, the infrared amplitude of the
 Batchelor-only run is independent of the bandwidth: increasing $R_{\rm IR}$ from
 $10$ to $300$ changes $\Omega_{\rm GW}(p=5\times10^{-3})$ by $0.4\%$, so the
 $k^{4}$ band's own long-wavelength modes contribute essentially nothing. Second,
-replacing Batchelor $k^4$ by Saffman $k^2$ leaves the slope at $p^{3.01}$ and
+replacing Batchelor $k^4$ by Saffman $k^2$ leaves the slope at \add{$p^{3.00}$} and
 moves the amplitude by a factor of only $2.7$, although the input spectra differ
 by four decades at the bottom of the band. As a kinematic consistency check, the
 Batchelor-only spectrum terminates exactly at $p=2$, the largest wavenumber two
@@ -2793,7 +2801,8 @@ $M^3$ prefactor of Eq.~\eqref{eq:Hijij-AppA-dimless}---compensating by $M^{3}$
 flattens it to $\add{16.6\%}$ ($k^4$ band) and $\add{14.0\%}$ ($k^{-5/3}$ band) across two
 decades of $M$---and the peak follows the sweeping law, at
 $p_{\rm peak}\simeq1.5\,M$ for the inertial band, which is the
-$\add{1.49}\,M$ of Eq.~\eqref{eq:peak-fit} recovered from that band alone, and at a
+$\xi_\ast M$ with $\xi_\ast=\add{1.488}$ (Eq.~\eqref{eq:peak-condition}; the fit
+Eq.~\eqref{eq:peak-fit} reads $1.515\,M^{1.007}$) recovered from that band alone, and at a
 slightly lower $p_{\rm peak}\simeq1.1\,M$ for the Batchelor band.
 
 The two bands part company only where kinematics intervenes. Above $M\simeq1$
@@ -3248,7 +3257,9 @@ applies. \add{In the Kulsrud--Anderson picture \cite{Kulsrud:1992rk} the subvisc
 compares a $p$-independent floor against a sweeping factor evaluated for legs at $k$,
 while the peak plotted on the same axes comes from legs at the outer scale. Outer-scale
 legs give $\hat T\to4M/(Rp^{2})$, not a constant---so the $p$-scaling, not just the
-crossover, is undetermined until the full kernel is done.}
+crossover, is undetermined until the full kernel is done. Fig.~\ref{fig:viscous-cusp-floor}(a)
+should be read with that in mind: the floor and the sweeping cutoff drawn there are
+evaluated for legs at different wavenumbers and are not strictly commensurable.}
 spectrum $M(k)\propto k^{3/2}K_0(k/k_\eta)$ places the bulk of the magnetic energy at
 the \emph{resistive} scale \cite{Schekochihin:2003bg}---far above $k_d$---so the
 additional stress enters the convolution in the deep ultraviolet, where the
