@@ -23,6 +23,23 @@
 %%% \concisefalse drops Appendices B, F and H (~14 pp of material that is
 %%% recoverable from the rest of the paper) for a referee-length build.
 \newif\ifconcise\concisefalse
+%%% ---- round-2 referee comments (2026-08-17) ------------------------------
+%%% \rev{...}   a referee comment, rendered in blue and boxed
+%%% \revX{...}  a BLOCKING referee comment, rendered in a red-ruled box
+%%% Set \refcommentstrue to hide them all.
+\usepackage[most]{tcolorbox}
+\newif\ifrefcomments\refcommentstrue
+\ifrefcomments
+  \newcommand{\rev}[1]{\par\noindent\begin{tcolorbox}[colback=blue!4,colframe=blue!55,
+    boxrule=0.5pt,left=3pt,right=3pt,top=2pt,bottom=2pt,breakable]
+    \footnotesize\textcolor{blue!65!black}{\textbf{[Referee, round 2]} #1}\end{tcolorbox}\par}
+  \newcommand{\revX}[1]{\par\noindent\begin{tcolorbox}[colback=red!5,colframe=red!70!black,
+    boxrule=1pt,left=3pt,right=3pt,top=2pt,bottom=2pt,breakable]
+    \footnotesize\textcolor{red!70!black}{\textbf{[Referee, round 2 --- BLOCKING]} #1}\end{tcolorbox}\par}
+\else
+  \newcommand{\rev}[1]{}\newcommand{\revX}[1]{}
+\fi
+%%% ------------------------------------------------------------------------
 %%% In the concise build the omitted appendices leave four dangling anchors; a single
 %%% pointer section carries them so cross-references still resolve.
 \newcommand{\concisestub}{\ifconcise
@@ -1289,6 +1306,10 @@ two correspond to opposite limits of the temporal correlation---Gaussian (rapidl
 decorrelating, stationary) versus power law (slowly decorrelating, decaying).
 
 \paragraph{The decorrelation shape, not the onset.}
+\rev{This heading asserts the negation of what the forward-model paragraph of this
+same section now concludes---that the peak is displaced by the source starting and
+stopping, not by the shape of the decorrelation. Delete or rewrite; it carries no
+\texttt{\textbackslash del}.}
 This pinning is already present in the \emph{quasi-stationary} decaying kernel used
 here, in which the two-time correlation is taken at a single emission epoch and
 there is no impulsive switch-on. It is therefore the \emph{shape} of the temporal
@@ -1889,6 +1910,17 @@ per-leg memory $\tau_c$ produces the \emph{squared} tent, and the same condition
 gives $\omega\tau_c=\pi$ exactly, which is Eq.~\eqref{eq:k-break-pi}. Both coefficients
 are right for their own object; quoting either against the other is what would be
 wrong. Where a lifetime is imposed on the stress we use $2.33$, and where it is a
+\revX{This rule is \emph{wrong}, and it is load-bearing. The discriminant is
+idempotency of the window, not stress- versus field-level memory. For a hard lifetime the
+field correlator is $R=1$ inside the window, so the stress carries $R^{2}=R$: squaring
+does nothing, the two-leg factor is the \emph{un-squared} tent, and the break is
+$2.33/W$. (Checked: $|\int_0^W e^{i\omega t}dt|^{2}=4\sin^{2}(\omega W/2)/\omega^{2}$ to
+ratio $1.000000$.) The squared tent and its $\pi$ belong to a \emph{stationary triangular
+lag memory}---a different source, which must not then be called a lifetime. Consequences:
+Table~\ref{tab:k-break-hz} is high by $\pi/2.33=1.35$ throughout; the corner counting in
+Sec.~\ref{sec:k-break-hz} reverses for one corner ($5.03\to3.7\,$mHz, \emph{inside} the
+LISA window); the abstract's exception clause rests on a $9\%$ margin against a $35\%$
+dispute; and the factor $\pi$ is the one novelty that section claims for itself.}
 property of the field we use $\pi$.}
 \why{readiness audit: Eq.~\eqref{eq:burst-equals-triangle} and
 Sec.~\ref{sec:ir-branch} appeared to disagree about whether the tent is squared}
@@ -1930,6 +1962,9 @@ window \emph{would} have shown the linear branch here, and the measurement is th
 decaying source does not. The test is a real one.
 
 What it does not test is equally worth stating. \add{The band straddles the window
+\rev{This straddle is manufactured by the wrong coefficient. With $2.33/T_{\rm em}=0.058$
+the struck sentence (``the band lies above the window break'') was correct. Revert once the
+blocking comment is resolved.}
 break rather than sitting wholly above it---its lowest point, $p=0.06$, is just below
 $\pi/T_{\rm em}=0.079$, and the remaining five of six fit points are above---and it lies}
 \del{The band lies above the window break but}
@@ -2283,6 +2318,9 @@ simulated spectrum stays straighter below its peak than ours does.
 
 \paragraph{What this does establish.} Two things, and neither needs a fitted parameter.
 First, \emph{the causal $+3$ is not in the box}\add{---or more precisely, not cleanly:
+\rev{Reproduces. But ``$+0.70$ to $+0.77$'' elsewhere in this section quotes the eddy
+rows only and omits the global $\hat\tau=16.6$ closure at $+0.570$, which lies inside the
+manuscript's own $\tau_c$ range; residuals are $-0.526$ to $-0.728$.}
 the control reads $+2.92$ at the box fundamental and only band-averages to $+2.71$}: the
 infinitely coherent control, which
 has no finite window and no temporal suppression whatever, already reads only $+2.71$
@@ -2553,6 +2591,8 @@ than about $1.5$ decades below the peak, so the linear band is narrow and not cl
 resolved; a wide one needs the global closure with $\epsilon/\gamma\gtrsim160$. None of
 this is a claim on the break itself, which is Ref.~\cite{RoperPol:2022iel}'s
 $k_{\rm br}=1/\delta t_{\rm fin}$; what is added here is the factor $\pi$ of
+\revX{This is the sentence that makes the blocking comment fatal rather than cosmetic:
+the paper's one claimed novelty in this section \emph{is} the disputed coefficient.}
 Eq.~\eqref{eq:k-break-pi}, which the quadratic source supplies, and the placement of the
 result against the two instruments.
 \why{Task 2.3. The LISA numbers use the standard SciRD analytic fit
@@ -3205,6 +3245,11 @@ Sec.~\ref{sec:kraichnan-k41}: it amounts to replacing the shape factor
 $\mathcal{S}(k)$ of Eq.~\eqref{eq:full-input-spectrum} by one that continues past
 $k_d$. We stress that we have not performed that calculation, and one caution
 applies. \add{In the Kulsrud--Anderson picture \cite{Kulsrud:1992rk} the subviscous
+\rev{The caveat should also cover the leg-wavenumber ambiguity: the crossover figure
+compares a $p$-independent floor against a sweeping factor evaluated for legs at $k$,
+while the peak plotted on the same axes comes from legs at the outer scale. Outer-scale
+legs give $\hat T\to4M/(Rp^{2})$, not a constant---so the $p$-scaling, not just the
+crossover, is undetermined until the full kernel is done.}
 spectrum $M(k)\propto k^{3/2}K_0(k/k_\eta)$ places the bulk of the magnetic energy at
 the \emph{resistive} scale \cite{Schekochihin:2003bg}---far above $k_d$---so the
 additional stress enters the convolution in the deep ultraviolet, where the
@@ -3330,6 +3375,10 @@ its temporal axis, and open on its dissipative one.
   by $k_{\rm br}\simeq1/\delta t$: $k^{3}$ is the asymptotic law and $k^{1}$ the
   finite-duration regime \cite{RoperPol:2022iel,RoperPol:2023dzg}. The break lies
   below \add{most} observationally accessible band\add{s} \emph{and} below the
+\rev{The second half of this item still carries the sentence deleted from
+Sec.~\ref{sec:k-break-hz} (``every corner but one''). The grid gives 6 below / 1 inside /
+2 above. Round one's ``abstract contradicted by Appendix~G'' recurring inside a single
+conclusion.}
   fundamental mode of every published simulation box\add{---though not universally:
   for a short-lived, small-scale electroweak source it rises above the LISA window
   (Sec.~\ref{sec:k-break-hz})}--- so no simulation of this class can exhibit the
@@ -3342,6 +3391,9 @@ its temporal axis, and open on its dissipative one.
   parameter space but one, and that one puts the break at the spectral knee where it
   is not separable from the peak. The value itself moves by two to three decades with
   the source lifetime and eddy size and should not be quoted as a number; the
+\rev{Every $f_{\rm break}$ here inherits the $\pi$ of the blocking comment above and
+is high by $1.35$ if the source is a window rather than a triangular memory. Recompute
+before quoting any of it.}
   ordering of break and band is what is robust.}
   \add{Run at the simulation's own parameters
   (Sec.~\ref{sec:kernel-at-rp20}) the kernel produces a linear band rather than a causal
@@ -3372,6 +3424,9 @@ its temporal axis, and open on its dissipative one.
   follows any particular power law. Ref.~\cite{Auclair:2022jod} measures a Gaussian
   hydrodynamic UETC, for which it is; the corresponding \emph{magnetic} measurement
   has not been made, and this conclusion is conditional on it. \add{The nearest
+\rev{Stale: Sec.~\ref{sec:decaying-peak} now reports the parameter-free forward model,
+which the abstract elevates to ``we decide it against the decorrelation route''. This
+conclusion still says the measurement has not been made, and does not mention it.}
   available evidence does not favour us: Eulerian space--time correlations measured in
   forced MHD turbulence \cite{Perez:2020} are consistent with sweeping by the
   energy-containing motions, which would give $f'(0^{+})=0$ and remove the cusp. That
