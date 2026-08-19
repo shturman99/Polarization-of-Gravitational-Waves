@@ -3265,7 +3265,62 @@ that the current
 calculations discard, and its contribution is directly computable with the kernel of
 Sec.~\ref{sec:kraichnan-k41}: it amounts to replacing the shape factor
 $\mathcal{S}(k)$ of Eq.~\eqref{eq:full-input-spectrum} by one that continues past
-$k_d$. We stress that we have not performed that calculation, and one caution
+$k_d$. \add{We have now performed that calculation, and the answer is a clean
+negative for observability.
+
+\paragraph{\add{The subviscous range radiates, but only in the far ultraviolet.}}
+Take the magnetic spectrum to follow Kolmogorov on $k_0<k<k_\nu$ and the
+Kulsrud--Anderson form $E_M\propto k^{3/2}K_0(k/k_\eta)$ on $k_\nu<k<k_\eta$, with
+$k_\eta=k_\nu\sqrt{\rm Pm}$ \cite{Kulsrud:1992rk,Schekochihin:2002xf,Schekochihin:2003bg},
+matched continuously at $k_\nu$, and feed it through the kernel of
+Sec.~\ref{sec:kraichnan-k41} with the source ceiling moved from $k_d$ to $k_\eta$.
+Holding the large-scale field fixed and adding the tail,
+Fig.~\ref{fig:subviscous-gw}(a) shows the contribution appearing only above
+$p\simeq2k_\nu/k_0$: at $p=0.01$ and $p=0.1$ the truncated and ${\rm Pm}=10^{8}$
+spectra agree to two to three per cent, while by $p\sim2k_\eta/k_0$ the subviscous
+spectrum exceeds the truncated one by many orders of magnitude. That is what a
+convolution must do---two legs near $k_\nu$ can only make gravitational waves at
+$k\lesssim2k_\nu$---but it settles the question the previous paragraph left open:
+\emph{the discarded stress is discarded from a band no detector observes.}
+
+\paragraph{\add{And the viscous cusp does not rival the sweeping cutoff.}}
+The temporal half must be done with the correct leg wavenumbers. Both legs damp,
+so $f_2=f_{\rm sw}(k_1)f_{\rm sw}(k_2)e^{-\nu(k_1^{2}+k_2^{2})|\tau|}$ and
+$f_2'(0^{+})=-\nu(k_1^{2}+k_2^{2})$, giving
+$T\to2\nu(k_1^{2}+k_2^{2})/\omega^{2}$---not the $4\nu$ of the estimate above, which
+puts both legs at the \emph{gravitational-wave} wavenumber. In the infrared the legs
+sit near the dissipation scale, so the ratio of the two is
+$(k_1^{2}+k_2^{2})/2k^{2}$, nominally $10^{6}$ at $p=10^{-2}$. That number is
+misleading, and the correction runs the other way: the $\omega^{-2}$ branch is the
+\emph{large}-$\omega$ asymptote of the cusp, valid only for $\omega\tau_c\gg1$.
+Computing $T$ rather than extrapolating it, Fig.~\ref{fig:subviscous-gw}(b),
+$T$ is \emph{flat} below $1/\tau_c\simeq20$---$0.1034$ at $p=10^{-2}$, $10^{-1}$ and
+$1$ alike---and reaches the asymptote only by $p\sim10^{3}$. A flat temporal factor
+carries no power of $k$, so the causal $k^{3}$ stands and the floor never replaces
+the sweeping cutoff in the observable band.
+
+The two halves agree, and they agree on a negative: the ${\rm Pm}\gg1$ physics is
+real, is absent from every existing calculation, and lives entirely in the far
+ultraviolet. Whoever wants it for a detector will not find it there. Validated in
+\texttt{Notebooks/subviscous\_gw.py}: the spectrum is continuous at $k_\nu$, the
+${\rm Pm}\to1$ limit reproduces the truncated kernel exactly, the fixed-energy
+normalisation holds to $10^{-8}$, the two-leg asymptote is recovered to better than
+$0.4\%$, and the kernel is converged to $0.1\%$ against grid refinement.}
+\why{R-viscous: Sec.~VII promised this calculation and did not perform it; both
+round-2 referees noted that the one unpre-emptable claim was uncomputed}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\columnwidth]{subviscous_gw}
+  \caption{\add{(a) Adding a ${\rm Pm}\gg1$ subviscous magnetic range to a fixed
+  large-scale field changes $\Omega_{\rm GW}$ only above $p\simeq2k_\nu/k_0$; the
+  infrared is untouched. (b) The two-leg viscous temporal factor, computed rather
+  than extrapolated: flat below $1/\tau_c$, so it adds no power of $k$ where the
+  observations are.}}
+  \label{fig:subviscous-gw}
+\end{figure}
+
+\add{One caution}
 applies. \add{In the Kulsrud--Anderson picture \cite{Kulsrud:1992rk} the subviscous
 \rev{The caveat should also cover the leg-wavenumber ambiguity: the crossover figure
 compares a $p$-independent floor against a sweeping factor evaluated for legs at $k$,
@@ -3473,9 +3528,18 @@ conclusion still says the measurement has not been made, and does not mention it
   of the relevant magnetohydrodynamics.}
   \why{same over-claim as in the abstract; Sec.~\ref{sec:outlook} was corrected in the
   first pass, this conclusion and the abstract were not}
-  We identify the gap
-  here but do not close it; the size of the discarded contribution is not yet
-  computed, and until it is, this is a programme rather than a result.
+  \add{We close the gap here rather than merely identifying it, and the answer is
+  negative for observability: the subviscous stress radiates only above
+  $p\simeq2k_\nu/k_0$, leaving the infrared untouched to a few per cent even at
+  ${\rm Pm}=10^{8}$, and the viscous temporal factor is flat below $1/\tau_c$ so it
+  adds no power of $k$ where the detectors look
+  (Sec.~\ref{sec:outlook}, Fig.~\ref{fig:subviscous-gw}). The ${\rm Pm}\gg1$ physics is
+  real and is missing from every existing calculation; it is also, on this
+  calculation, unobservable. That is a weaker claim than we expected to make, and it
+  is the one the calculation supports.}
+  \del{We identify the gap here but do not close it; the size of the discarded
+  contribution is not yet computed, and until it is, this is a programme rather than
+  a result.}
 \end{enumerate}
 
 \appendix
