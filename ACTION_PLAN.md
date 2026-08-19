@@ -431,7 +431,7 @@ this material, and the companion can stay long.
 | R6 | two remaining "proposed as future work" passages, stale re 2.6 | correctness | **DONE** |
 | R7 | Move task 2.6 to its own section; rebuild abstract around it | significance | **DONE** |
 | R8 | §V.B "spatial model wrong near the peak" tension | significance | **DONE** |
-| R9 | Split: letter = 2.6, companion = the rest | both | **STARTED** — `letter.tex` skeleton builds; sections are outlined, prose not written |
+| R9 | Split: letter = 2.6, companion = the rest (incl. the now-closed dissipation result) | both | **DECIDED** — letter is the magnetic-UETC result; dissipation goes in the companion |
 | R10 | Parameter-reconstruction forecast (NANOGrav + LISA bias) | significance | **TODO, 1–2 wk** |
 | R11 | Is ini2's own viscosity consistent with the 2.6 f'(0+) bound? | significance | **TODO, 1 d** |
 
@@ -444,3 +444,31 @@ this material, and the companion can stay long.
   table, and a section skeleton with per-section notes on what to lift from the
   companion. **The prose is not written**; that is an authorial job, and the abstract is
   the part worth reading first because it commits the letter's claim.
+
+- **2026-08-17, the subviscous calculation — DONE, and it decides R9.**
+  `Notebooks/subviscous_gw.py`, Fig. `subviscous_gw`, written into §VII and Conclusion 5.
+  **Spatial:** Kolmogorov joined continuously to Kulsrud–Anderson k^(3/2)K₀(k/k_η),
+  k_η = k_ν√Pm, ceiling moved from k_d to k_η. Holding the large-scale field fixed, the
+  tail changes Ω_GW only above p ≈ 2k_ν/k₀; at p = 0.01 and 0.1 the truncated and
+  Pm=10⁸ spectra agree to **2–3%**.
+  **Temporal:** the correct two-leg factor is T → 2ν(k₁²+k₂²)/ω², not 4ν — but that is
+  the *large*-ω asymptote. Computed rather than extrapolated, **T is flat below
+  1/τ_c ≈ 20** (0.1034 at p = 0.01, 0.1 and 1 alike), reaching the asymptote only near
+  p ~ 10³. No extra power of k, so the causal k³ stands.
+  **Validated:** continuity 1.00000000; Pm→1 reproduces the truncated kernel to 0.00e+00;
+  fixed-energy normalisation 1.4e−08; two-leg asymptote to 0.03–0.4%; grid convergence
+  0.11%. The script refuses to print results on a failed validation.
+  **Consequence for R9:** the dissipation gap is now a *closed, negative* result — real
+  physics, missing from every calculation, and unobservable. It can no longer carry a
+  letter on detection grounds. **Letter = the magnetic-UETC forward model; companion =
+  everything else including this.** The abstract now reports the closed gap rather than
+  promising to close it.
+
+### Remaining after this
+
+| # | Task | Status |
+|---|---|---|
+| R9 | Write the letter prose around `letter.tex`'s abstract | **AUTHORIAL** |
+| R10 | Parameter-reconstruction forecast (NANOGrav + LISA bias) | **TODO, 1–2 wk** |
+| R11 | ini2 viscosity vs the 2.6 f'(0⁺) bound | **TODO, 1 d** |
+| — | Push (20 commits local) | **AUTHORIAL** |

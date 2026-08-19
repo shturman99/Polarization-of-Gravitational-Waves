@@ -49,9 +49,10 @@ correct direction.
   radiated energy of the one run we can address; cusped ones overpredict by 1–2 orders of
   magnitude. The source-scale peak survives but is a **window** effect, not a
   decorrelation effect.
-- **Still uncomputed:** the Pm ≫ 1 subviscous range. This is the only claim no one can
-  pre-empt (INSPIRE full-text for *Prandtl* ∧ *gravitational wave* still returns zero) and
-  the paper says plainly it is "a programme rather than a result".
+- **Now computed, and negative:** the Pm ≫ 1 subviscous range. It radiates only above
+  p ≈ 2k_ν/k₀ — the infrared is unchanged to 2–3% even at Pm = 10⁸ — and the viscous
+  temporal factor is flat below 1/τ_c, so it adds no power of k. Real physics, missing
+  from every calculation, and **unobservable**. Five validations pass.
 
 ---
 
