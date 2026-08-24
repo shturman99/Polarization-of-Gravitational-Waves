@@ -4,7 +4,7 @@
 \setlength{\topmargin}{-14mm}
 \usepackage{graphicx,bm,color,braket,amsmath}
 \usepackage{hyperref}
-\graphicspath{{./fig/}{./png/}}
+\graphicspath{{./images/}{./fig/}{./png/}}
 \def\red{\textcolor{red}}
 \def\blue{\textcolor{blue}}
 \usepackage{subcaption}
@@ -23,6 +23,10 @@
 %\usepackage{nicefrac}
 \usepackage{comment}
 
+\usepackage{soul}
+%%% \flag{...} marks text for MG to look at; delete the macro call to accept as-is.
+\sethlcolor{yellow}
+\newcommand{\flag}[1]{\hl{#1}}
 \def \ul{\underline}
 \def \vp{\varphi}
 
@@ -127,27 +131,142 @@ A similar hierarchy holds at the QCD phase transition ($T\sim150\,\mathrm{MeV}$)
 again implying $\mathrm{Pm}\gg1$
 \cite{Son:1998my,Jedamzik:1996wp,Banerjee:2004df,Durrer:2013pga,Subramanian:2015lua}.
 
-It should be highlighted that neither the Reynolds number nor the magnetic Reynolds number is a fundamental parameter. Both depend on the characteristic velocity and length scale of the flow. The values quoted above correspond to motions on the energy-containing (stirring) scale, typically assumed to be a fraction of the Hubble radius at the corresponding epoch. While the precise numerical values therefore depend on the plasma properties, it is safe to assume that both Reynolds numbers are overwhelmingly larger than unity throughout the radiation era. nonlinear advection dominates over viscous dissipation, leading magnetic fields remain effectively frozen into the plasma, and ideal magnetohydrodynamic (MHD) turbulence laws apply, including inverse transfer and inverse cascade processes for helical fields.  Obviously,  direct numerical simulations (DNS) cannot reproduce the realistic physical parameters and instead rely on scaling laws to extrapolate from accessible Reynolds numbers
+It should be highlighted that neither the Reynolds number nor the magnetic Reynolds number is a fundamental parameter. Both depend on the characteristic velocity and length scale of the flow. The values quoted above correspond to motions on the energy-containing (stirring) scale, typically assumed to be a fraction of the Hubble radius at the corresponding epoch. While the precise numerical values therefore depend on the plasma properties, it is safe to assume that both Reynolds numbers are overwhelmingly larger than unity \flag{throughout the radiation era. nonlinear advection dominates over viscous dissipation, leading magnetic fields remain effectively frozen into the plasma,}\tb{[the connective was lost here: the sentence breaks after ``radiation era.'' and ``leading'' has no verb. Reads as though it should be ``\ldots\ throughout the radiation era, so that nonlinear advection dominates over viscous dissipation, leaving magnetic fields effectively frozen into the plasma\ldots''} and ideal magnetohydrodynamic (MHD) turbulence laws apply, including inverse transfer and inverse cascade processes for helical fields.  Obviously,  direct numerical simulations (DNS) cannot reproduce the realistic physical parameters and instead rely on scaling laws to extrapolate from accessible Reynolds numbers
 \cite{RoperPol:2019wvy,Kahniashvili:2020jgm,Auclair:2022jod,Schekochihin:2020aqu}.
 
 
 \section{Methods}
 
-\mg{Ideas to expand upon
-\begin{itemize}
-    \item process is fast and we don't need dissipation
-    \item process is slow and we need conformal coordinates to follow the flow.
-    \item Write down plasma physics stuff
-    \item Critique Krichnan non application to the decaying case.
-    \item Write down time dynamics of the pick
-    \itme Effects of temperate on the viscosity 
-\end{itemize}
-For High temperature before neutrino decoupling in thermal equilibrium -- Reynolds does not really change anything it is always large.
-After neutrino decapling and thar free stinging we get the increase in viscosity, so from QCD to EW viscosity increases (both conformal and physicals).
-Initial conditions: Before established KL41 spectrum the transition processes also produces GWs.
-Qustions: is there KL41 spectra from the beginnig and what is trasition time to this 
-This is a summert of all the apprachies to the formulation 
-}
+\tb{Draft for MG to rewrite. Each subsection is either imported from the companion
+(numbers already computed and validated there) or flagged NEW, meaning it still has to
+be written from scratch. Kept deliberately terse.}
+
+\subsection{The three inputs}
+
+The GW spectrum from a turbulent source is fixed by three things: the equal-time spatial
+spectrum of the fluid, the unequal-time correlator (UETC) of the anisotropic stress, and
+the dissipation physics that terminates the cascade. They are not on an equal footing.
+The strict $k\to0$ infrared slope follows from the spatial model alone by causality
+\cite{Cai:2019cdl}; the ultraviolet asymptote from the temporal model alone
+\cite{Zhou:1996,Rubinstein:2000}; the peak and the break from both. The observable band
+is intermediate, so both matter.
+
+\subsection{Dissipation: when it can be dropped, and why}
+
+It is usually argued that the dissipation range is immaterial because the bulk of the GW
+signal is produced faster than the turbulence decays \cite{Auclair:2022jod}. That is
+correct but incomplete: it addresses the cutoff wavenumber, not the stress the
+dissipation range carries. At $\mathrm{Pm}\gg1$ the field cascades past the viscous scale
+$k_\nu$ to the resistive scale $k_\eta=k_\nu\sqrt{\mathrm{Pm}}$, and because the source
+is $B_iB_j$ that range radiates. Feeding the Kulsrud--Anderson spectrum
+\cite{Kulsrud:1992rk,Schekochihin:2003bg} through the kernel shows the contribution
+appears only above $p\simeq2k_\nu/k_0$: the infrared is unchanged to two or three per
+cent even at $\mathrm{Pm}=10^{8}$. The viscous contribution to the correlator is flat
+below the inverse decorrelation time and adds no power of $k$. Dissipation may therefore
+be dropped in the observable band --- as a conclusion, not an assumption.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.86\textwidth]{subviscous_gw}
+  \caption{The $\mathrm{Pm}\gg1$ dissipation range and the gravitational-wave band.
+  (a)~Adding a subviscous magnetic range to a fixed large-scale field changes
+  $\Omega_{\rm GW}$ only above $p\simeq2k_\nu/k_0$ (dotted line); the infrared is
+  unchanged to two or three per cent even at $\mathrm{Pm}=10^{8}$, because two stress
+  legs near $k_\nu$ can only radiate at $k\lesssim2k_\nu$. (b)~The two-leg viscous
+  temporal factor, computed rather than extrapolated from its large-$\omega$ asymptote
+  (dashed): it is flat below the inverse decorrelation time and so contributes no power
+  of $k$ where the detectors look. The missing physics is real and lives in the far
+  ultraviolet.}
+  \label{fig:subviscous}
+\end{figure*}
+
+\subsection{Transport coefficients and their temperature dependence}
+
+\tb{NEW --- not in the companion; references are in the bibliography and uncited.}
+The kinematic viscosity is set by the dominant weakly-interacting species and the
+resistivity by collisional processes, so $\nu$ and $\eta$ scale differently with $T$
+\cite{Arnold:2000dr,Baym:1997gq}. Two regimes matter. While a species is coupled the
+damping is diffusive, $\propto\nu k^{2}$; once it free-streams the damping becomes a drag
+with a $k$-independent rate
+\cite{Jedamzik:1996wp,Subramanian:1997gi,Banerjee:2004df}. Before neutrino decoupling
+$\mathrm{Re}$ is large whatever the details, so the distinction does not bite. After
+decoupling the free-streaming neutrinos raise the effective viscosity, so $\nu$ grows
+between the QCD and electroweak epochs in both conformal and physical variables.
+\tb{TODO: numbers --- $\nu(T)$, $\eta(T)$ and the resulting $\mathrm{Pm}(T)$ across the
+two transitions. This is the one part of Methods that is genuinely new work.}
+
+\subsection{Why Kraichnan sweeping does not transfer to the decaying case}
+
+Two objections, of different weight. First, the decorrelation rate: random sweeping gives
+$\tau_c\propto k^{-1}$ while the Kolmogorov turnover gives $k^{-2/3}$, and the GW problem
+is posed in the Eulerian frame, where the former applies
+\cite{Kraichnan:1964,Niksa:2018ofa}. Most treatments nevertheless adopt the turnover
+time, including for magnetic sources. Second, and stronger: the shape of the correlator
+at zero lag decides the ultraviolet, and it is measurable. Hydrodynamic simulations give
+a Gaussian velocity UETC \cite{Auclair:2022jod}, hence no cusp. For the magnetic stress,
+a parameter-free forward model of a published run reproduces the radiated energy for
+cuspless correlators and overpredicts it by one to two orders of magnitude for cusped
+ones. Power-law decorrelation of the BK2016 type \cite{Brandenburg:2016odr} is therefore
+excluded for this class of source.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{magnetic_uetc}
+  \caption{Constraining the magnetic stress correlator without two-time data. Because
+  the simulation starts from rest, its gravitational-wave field is a running cosine
+  transform of the stress correlator evaluated on the light cone, so the radiated energy
+  at the end of the run is a prediction for each candidate correlator once the stress and
+  the Alfv\'en speed are read off --- nothing is fitted. Cuspless correlators reproduce
+  the measured energy; cusped ones overpredict it by one to two orders of magnitude.}
+  \label{fig:magnetic-uetc}
+\end{figure}
+
+\subsection{Where the peak sits, and what moves it}
+
+For a statistically stationary source decorrelating by sweeping, the peak is at
+$p_{\rm peak}=\xi_\ast M$ with $\xi_\ast=1.488$ --- far below the source scale for
+subsonic $M$. For a source of finite lifetime it sits at the source scale instead. The
+mechanism is the emission \emph{window}, not the decorrelation: a source that starts and
+stops carries a break at $2.33/W$, and that is what displaces the peak. Since the
+magnetic correlator has no usable cusp, this is the operative case.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.94\textwidth]{stationary_peak_analysis}
+  \caption{The peak of the stationary sweeping kernel. Spectra at different Mach number
+  collapse onto a single curve in the sweeping variable $\xi=p/M$, so the peak is at a
+  fixed $\xi_\ast=1.488$ and therefore at $p_{\rm peak}\simeq1.5\,M$ --- far below the
+  source scale for subsonic $M$. A source of finite lifetime places it at the source
+  scale instead; the displacement is caused by the emission window, not by the shape of
+  the decorrelation.}
+  \label{fig:peak}
+\end{figure*}
+
+\subsection{Initial conditions and the onset}
+
+\tb{NEW --- partly open.} The spectrum is laid down while the source switches on, not by
+sustained radiation from a developed cascade: in the run we analyse, the GW energy
+saturates within a fraction of a sweeping time at every $k$. Two questions follow that we
+cannot yet answer. Is a Kolmogorov spectrum present from the outset, or does the
+transition itself radiate while the cascade establishes? And what is the transition time?
+Both bear on how far the preceding result generalises, since that run starts from an
+\emph{imposed} field rather than a physical transition.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{roperpol_timeseries}
+  \caption{The onset, resolved in time. The gravitational-wave spectrum is laid down
+  while the source switches on rather than by sustained radiation from a developed
+  cascade: the causal slope is a transient at switch-on and saturates within a fraction
+  of a sweeping time at every wavenumber in the box. Whether a Kolmogorov spectrum is
+  present from the outset, and how long the transition takes, remain open.}
+  \label{fig:onset}
+\end{figure}
+
+\mg{Residual checklist. Covered above: fast-vs-slow dissipation; Kraichnan critique; peak
+dynamics; plasma parameters (in the introduction); onset. Still to write: temperature
+dependence of $\nu$ and $\eta$ with numbers; whether K41 holds from the start and the
+transition time; conformal coordinates for the slow case.}
 
 \bibliographystyle{apsrev4-1}
 \bibliography{bib}
